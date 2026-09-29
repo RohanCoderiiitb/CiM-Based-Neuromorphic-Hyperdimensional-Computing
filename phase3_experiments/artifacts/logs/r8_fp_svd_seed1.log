@@ -1,0 +1,14 @@
+[r8_fp_svd_seed1] rank=8 mode=fp init=svd bits=9600 subtrain=769 val=210 v_thresh_init=15.4855
+[r8_fp_svd_seed1] epoch 20/200 loss=1.3081 train_acc=0.6237 val_acc=0.4571 (802s)
+[r8_fp_svd_seed1] epoch 40/200 loss=1.8935 train_acc=0.6120 val_acc=0.6190 (1581s)
+[r8_fp_svd_seed1] epoch 60/200 loss=1.7946 train_acc=0.6146 val_acc=0.5429 (2365s)
+[r8_fp_svd_seed1] epoch 80/200 loss=2.0830 train_acc=0.6224 val_acc=0.5762 (3156s)
+[r8_fp_svd_seed1] epoch 100/200 loss=1.1932 train_acc=0.7135 val_acc=0.6190 (3944s)
+[r8_fp_svd_seed1] epoch 120/200 loss=1.0073 train_acc=0.7474 val_acc=0.6333 (4724s)
+[r8_fp_svd_seed1] epoch 140/200 loss=0.8400 train_acc=0.7630 val_acc=0.6667 (5505s)
+[r8_fp_svd_seed1] epoch 160/200 loss=0.7788 train_acc=0.7865 val_acc=0.6571 (6291s)
+[r8_fp_svd_seed1] epoch 180/200 loss=0.5825 train_acc=0.8099 val_acc=0.6667 (7079s)
+[r8_fp_svd_seed1] epoch 200/200 loss=0.3707 train_acc=0.8919 val_acc=0.7095 (7761s)
+[r8_fp_svd_seed1] BEST val_acc=0.7286 @ epoch 145
+[r8_fp_svd_seed1] TEST test_acc=0.7083
+[r8_fp_svd_seed1] wrote /home/ihs24/Desktop/CiM-HDC/phase3_experiments/artifacts/tables/r8_fp_svd_seed1.json

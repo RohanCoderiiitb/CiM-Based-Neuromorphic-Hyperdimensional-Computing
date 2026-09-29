@@ -1,0 +1,52 @@
+============================================================================
+1. ANALOG INTEGRATION LEAK BUDGET  (Idea A: V_mem on the column)
+============================================================================
+events/sample=407,124   N_e=4,071 events/timestep
+
+  timestep duration, chip-rate, 1 event/cycle @100MHz: 40.7 us
+    C=  50fF Ileak=  1pA -> droop       0.81 mV   OK
+    C= 100fF Ileak=  1pA -> droop       0.41 mV   OK
+    C= 100fF Ileak= 10pA -> droop       4.07 mV   OK
+    C= 500fF Ileak= 10pA -> droop       0.81 mV   OK
+
+  timestep duration, chip-rate @1GHz: 4.1 us
+    C=  50fF Ileak=  1pA -> droop       0.08 mV   OK
+    C= 100fF Ileak=  1pA -> droop       0.04 mV   OK
+    C= 100fF Ileak= 10pA -> droop       0.41 mV   OK
+    C= 500fF Ileak= 10pA -> droop       0.08 mV   OK
+
+  timestep duration, sensor real-time (~6 s/sample): 60,000.0 us
+    C=  50fF Ileak=  1pA -> droop    1200.00 mV   FAILS
+    C= 100fF Ileak=  1pA -> droop     600.00 mV   FAILS
+    C= 100fF Ileak= 10pA -> droop    6000.00 mV   FAILS
+    C= 500fF Ileak= 10pA -> droop    1200.00 mV   FAILS
+
+  (fails if droop is a large fraction of a ~0.2-0.5 V signal swing)
+
+============================================================================
+2. BURST-ACCUMULATE HYBRID: conversions vs burst size B
+============================================================================
+  B (events/burst)   conv/sample    vs 8.14M SRAM reads   burst dur @100MHz
+                 1     8,142,478                     1x              0.01 us
+                16       508,905                    16x              0.16 us
+                64       127,226                    64x              0.64 us
+               256        31,807                   256x              2.56 us
+             1,024         7,952                 1,024x             10.24 us
+             4,070         2,001                 4,070x             40.70 us
+
+============================================================================
+3. ARRAY SHAPES AND UTILIZATION (128x128 macro assumed)
+============================================================================
+  SNN weights  W_s (int8 -> 8 cells/weight)    512 x  160  -> 4x2 macro(s), util  62.5%
+  SNN weights  W_s (1 cell/weight, MLC)        512 x   20  -> 4x1 macro(s), util  15.6%
+  Class HV  time-unrolled                     2000 x   10  -> 16x1 macro(s), util   7.6%
+  Class HV  time-unrolled, ASL-DVS            2000 x   24  -> 16x1 macro(s), util  18.3%
+  Class HV  FACTORIZED (Idea C): f + g         120 x   10  -> 1x1 macro(s), util   7.3%
+
+  Class-HV storage: full 20,000 bits  vs factorized 1,200 bits -> 16.7x smaller
+
+============================================================================
+4. ROW UTILIZATION PER ACCESS IN THE QUERY ARRAY
+============================================================================
+  per timestep: 20 of 2000 rows addressable = 1.0%; spike-gated -> 7.5 rows = 0.38%
+  whole-sample analog accumulation: 751 of 2000 rows = 37.5% -> 10 conversions instead of 1,000

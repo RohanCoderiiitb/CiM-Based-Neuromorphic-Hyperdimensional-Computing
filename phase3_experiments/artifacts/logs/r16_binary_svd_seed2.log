@@ -1,0 +1,14 @@
+[r16_binary_svd_seed2] rank=16 mode=binary init=svd bits=19200 subtrain=769 val=210 v_thresh_init=12.4011
+[r16_binary_svd_seed2] epoch 20/200 loss=0.4456 train_acc=0.8411 val_acc=0.6667 (792s)
+[r16_binary_svd_seed2] epoch 40/200 loss=0.2179 train_acc=0.9323 val_acc=0.6714 (1558s)
+[r16_binary_svd_seed2] epoch 60/200 loss=0.1555 train_acc=0.9609 val_acc=0.7143 (2330s)
+[r16_binary_svd_seed2] epoch 80/200 loss=0.0802 train_acc=0.9766 val_acc=0.8286 (3091s)
+[r16_binary_svd_seed2] epoch 100/200 loss=0.0357 train_acc=0.9961 val_acc=0.8333 (3854s)
+[r16_binary_svd_seed2] epoch 120/200 loss=0.0167 train_acc=0.9987 val_acc=0.8238 (4645s)
+[r16_binary_svd_seed2] epoch 140/200 loss=0.0143 train_acc=1.0000 val_acc=0.7952 (5410s)
+[r16_binary_svd_seed2] epoch 160/200 loss=0.0102 train_acc=1.0000 val_acc=0.7857 (6190s)
+[r16_binary_svd_seed2] epoch 180/200 loss=0.0079 train_acc=1.0000 val_acc=0.7952 (6973s)
+[r16_binary_svd_seed2] epoch 200/200 loss=0.0096 train_acc=0.9987 val_acc=0.8000 (7719s)
+[r16_binary_svd_seed2] BEST val_acc=0.8476 @ epoch 125
+[r16_binary_svd_seed2] TEST test_acc=0.8458
+[r16_binary_svd_seed2] wrote /home/ihs24/Desktop/CiM-HDC/phase3_experiments/artifacts/tables/r16_binary_svd_seed2.json

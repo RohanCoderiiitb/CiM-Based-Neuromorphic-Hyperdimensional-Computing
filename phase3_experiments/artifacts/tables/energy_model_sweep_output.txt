@@ -1,0 +1,36 @@
+==============================================================================
+LAYOUT COMPARISON UNDER A PARAMETRIC ACCESS-ENERGY MODEL
+E_access = E_fix + E_bit * width.  alpha = E_fix/E_bit = per-access overhead
+==============================================================================
+
+### DVS-Gesture s0: r=0.3755, frac_active_neurons=0.7725, spikes/sample=750.9
+layout                                         acc  width | a=0     a=5     a=20    a=50    a=200  
+A dense timestep-major (NeuroHDC ASIC)       100.0     20 |  1.00x  1.00x  1.00x  1.00x  1.00x
+B per-spike indexed bit access               750.9      1 |  0.38x  1.80x  3.94x  5.47x  6.86x
+C neuron-major, skip all-silent rows          15.4    100 |  0.77x  0.65x  0.46x  0.33x  0.21x
+D neuron-major, dense (no skip)               20.0    100 |  1.00x  0.84x  0.60x  0.43x  0.27x
+E timestep-major + mask-gated bitline        100.0     20 |  0.38x  0.50x  0.69x  0.82x  0.94x
+                                                          | (relative to layout A; <1.00 = better)
+
+### N-MNIST: r=0.1869, frac_active_neurons=0.8483, spikes/sample=373.9
+layout                                         acc  width | a=0     a=5     a=20    a=50    a=200  
+A dense timestep-major (NeuroHDC ASIC)       100.0     20 |  1.00x  1.00x  1.00x  1.00x  1.00x
+B per-spike indexed bit access               373.9      1 |  0.19x  0.90x  1.96x  2.72x  3.42x
+C neuron-major, skip all-silent rows          17.0    100 |  0.85x  0.71x  0.51x  0.36x  0.23x
+D neuron-major, dense (no skip)               20.0    100 |  1.00x  0.84x  0.60x  0.43x  0.27x
+E timestep-major + mask-gated bitline        100.0     20 |  0.19x  0.35x  0.59x  0.77x  0.93x
+                                                          | (relative to layout A; <1.00 = better)
+
+==============================================================================
+BREAK-EVEN: at what per-access overhead alpha does each layout beat dense-A?
+==============================================================================
+
+DVS-Gesture s0:
+  B (per-spike bit access) beats A only if alpha < 1.92  -> needs near-zero per-access overhead
+  C (neuron-major+skip)   : denominator -84.5 (negative) -> beats A for ALL alpha > -5.38
+     i.e. C wins whenever alpha > 0.0; at alpha=20 -> 0.463x of A
+
+N-MNIST:
+  B (per-spike bit access) beats A only if alpha < 5.94  -> needs near-zero per-access overhead
+  C (neuron-major+skip)   : denominator -83.0 (negative) -> beats A for ALL alpha > -3.65
+     i.e. C wins whenever alpha > 0.0; at alpha=20 -> 0.509x of A

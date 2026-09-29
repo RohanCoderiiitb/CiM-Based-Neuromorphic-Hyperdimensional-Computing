@@ -1,0 +1,35 @@
+==========================================================================
+WHERE DOES NEUROHDC'S MEMORY TRAFFIC ACTUALLY GO? (per sample)
+==========================================================================
+
+### DVS-Gesture:  407,124 events/sample
+  SNN weight reads :      8,142,478 accesses       65,139,820 bits
+  Class-HV reads   :          1,000 accesses           20,000 bits
+  ---> SNN side is     8,142x the ACCESSES,     3,257x the BITS
+  ---> query is 0.0307% of total memory traffic
+  ---> eliminating 100% of query traffic saves 0.0307% of total;
+       the 62.5% sparsity exploit saves 0.0192% of total
+
+### N-MNIST:  4,204 events/sample
+  SNN weight reads :         84,072 accesses          672,577 bits
+  Class-HV reads   :          1,000 accesses           20,000 bits
+  ---> SNN side is        84x the ACCESSES,        34x the BITS
+  ---> query is 2.8878% of total memory traffic
+  ---> eliminating 100% of query traffic saves 2.8878% of total;
+       the 62.5% sparsity exploit saves 1.8049% of total
+
+==========================================================================
+CROSSBAR: does the ADC floor cap the sparsity win?  (A1, per inference)
+==========================================================================
+Per-timestep scheme  : 100 steps x 10 cols = 1,000 ADC conversions
+   rows activated    : 7.5 of 20 per step  -> array energy scales 0.375x
+   ADC energy        : scales 1.000x  (conversion count independent of sparsity)
+   if ADC = 30% of read energy -> total saving = 43.7%  (not 62.5%)
+   if ADC = 50% of read energy -> total saving = 31.2%  (not 62.5%)
+   if ADC = 60% of read energy -> total saving = 25.0%  (not 62.5%)
+   if ADC = 70% of read energy -> total saving = 18.7%  (not 62.5%)
+
+Buffered whole-vector scheme (one 2000-row MVM at the end):
+   ADC conversions   : 10 (one per class)  -> 100x fewer
+   rows activated    : 751 of 2000 (37.5%)
+   BUT dynamic range : 0..751 -> ~10-bit ADC, analog sum over 751 devices

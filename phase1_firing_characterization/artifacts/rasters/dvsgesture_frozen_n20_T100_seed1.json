@@ -1,0 +1,31 @@
+{
+  "dataset": "dvsgesture_frozen",
+  "split": "test",
+  "n": 20,
+  "T": 100,
+  "status": "CURRENT -- supersedes dvsgesture_n20_T100_seed0 (58-60% accuracy, provisional)",
+  "n_test": 240,
+  "n_classes": 10,
+  "frozen_config": {
+    "input_scaling": "raw",
+    "weight_decay": 0.0001,
+    "event_dropout": 0.1,
+    "lr_schedule": "cosine",
+    "grad_clip": 0.5,
+    "lr": 0.001,
+    "batch_size": 32,
+    "epochs": 200,
+    "calibrate_threshold": true,
+    "quantization": "per_channel int8"
+  },
+  "v_thresh_final": 13.494115829467773,
+  "seed": 1,
+  "test_accuracy": 0.8291666666666667,
+  "best_val_acc": 0.8380952380952381,
+  "best_epoch": 200,
+  "n_subtrain": 769,
+  "n_val": 210,
+  "paper_reported_accuracy": 0.875,
+  "torch_version": "2.14.0+cu130",
+  "device": "cuda"
+}

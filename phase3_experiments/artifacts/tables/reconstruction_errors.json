@@ -1,0 +1,182 @@
+{
+  "r16_binary_svd_seed0": {
+    "rank": 16,
+    "factor_mode": "binary",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.3862
+  },
+  "r16_binary_svd_seed1": {
+    "rank": 16,
+    "factor_mode": "binary",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.43245
+  },
+  "r16_binary_svd_seed2": {
+    "rank": 16,
+    "factor_mode": "binary",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.38145
+  },
+  "r16_fp_svd_seed0": {
+    "rank": 16,
+    "factor_mode": "fp",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.35325
+  },
+  "r16_fp_svd_seed1": {
+    "rank": 16,
+    "factor_mode": "fp",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.36075
+  },
+  "r16_fp_svd_seed2": {
+    "rank": 16,
+    "factor_mode": "fp",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.34885
+  },
+  "r1_binary_svd_seed0": {
+    "rank": 1,
+    "factor_mode": "binary",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.31115
+  },
+  "r1_binary_svd_seed1": {
+    "rank": 1,
+    "factor_mode": "binary",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.35165
+  },
+  "r1_binary_svd_seed2": {
+    "rank": 1,
+    "factor_mode": "binary",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.3487
+  },
+  "r1_fp_svd_seed0": {
+    "rank": 1,
+    "factor_mode": "fp",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.3307
+  },
+  "r1_fp_svd_seed1": {
+    "rank": 1,
+    "factor_mode": "fp",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.4352
+  },
+  "r1_fp_svd_seed2": {
+    "rank": 1,
+    "factor_mode": "fp",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.30745
+  },
+  "r2_binary_svd_seed0": {
+    "rank": 2,
+    "factor_mode": "binary",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.3665
+  },
+  "r2_binary_svd_seed1": {
+    "rank": 2,
+    "factor_mode": "binary",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.3863
+  },
+  "r2_binary_svd_seed2": {
+    "rank": 2,
+    "factor_mode": "binary",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.34315
+  },
+  "r2_fp_svd_seed0": {
+    "rank": 2,
+    "factor_mode": "fp",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.2981
+  },
+  "r2_fp_svd_seed1": {
+    "rank": 2,
+    "factor_mode": "fp",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.3797
+  },
+  "r2_fp_svd_seed2": {
+    "rank": 2,
+    "factor_mode": "fp",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.3456
+  },
+  "r4_binary_svd_seed0": {
+    "rank": 4,
+    "factor_mode": "binary",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.34055
+  },
+  "r4_binary_svd_seed1": {
+    "rank": 4,
+    "factor_mode": "binary",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.36115
+  },
+  "r4_binary_svd_seed2": {
+    "rank": 4,
+    "factor_mode": "binary",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.34825
+  },
+  "r4_fp_svd_seed0": {
+    "rank": 4,
+    "factor_mode": "fp",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.3255
+  },
+  "r4_fp_svd_seed1": {
+    "rank": 4,
+    "factor_mode": "fp",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.3523
+  },
+  "r4_fp_svd_seed2": {
+    "rank": 4,
+    "factor_mode": "fp",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.32735
+  },
+  "r8_binary_svd_seed0": {
+    "rank": 8,
+    "factor_mode": "binary",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.37735
+  },
+  "r8_binary_svd_seed1": {
+    "rank": 8,
+    "factor_mode": "binary",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.3991
+  },
+  "r8_binary_svd_seed2": {
+    "rank": 8,
+    "factor_mode": "binary",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.37445
+  },
+  "r8_fp_svd_seed0": {
+    "rank": 8,
+    "factor_mode": "fp",
+    "baseline_seed": 0,
+    "reconstruction_error": 0.33925
+  },
+  "r8_fp_svd_seed1": {
+    "rank": 8,
+    "factor_mode": "fp",
+    "baseline_seed": 1,
+    "reconstruction_error": 0.40465
+  },
+  "r8_fp_svd_seed2": {
+    "rank": 8,
+    "factor_mode": "fp",
+    "baseline_seed": 2,
+    "reconstruction_error": 0.3439
+  }
+}

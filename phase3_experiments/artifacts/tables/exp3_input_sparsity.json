@@ -1,0 +1,84 @@
+{
+  "dvsgesture": {
+    "dataset": "dvsgesture",
+    "n_samples": 240,
+    "T": 100,
+    "n_addresses": 512,
+    "active_address_fraction": {
+      "mean": 0.5096249186197916,
+      "median": 0.51171875,
+      "std": 0.11802903574051421,
+      "p10": 0.35546875,
+      "p50": 0.51171875,
+      "p90": 0.66015625
+    },
+    "per_address_nonzero_count": {
+      "mean": 15.644794464111328,
+      "median": 3.0,
+      "std": 43.05989074707031,
+      "max": 839.0,
+      "p50": 3.0,
+      "p90": 34.0,
+      "p99": 230.0
+    },
+    "addresses_for_50pct_of_events": {
+      "mean": 15.041875,
+      "median": 14.0,
+      "p10": 8.0,
+      "p90": 23.0
+    },
+    "addresses_for_90pct_of_events": {
+      "mean": 91.46520833333334,
+      "median": 89.0,
+      "p10": 52.0,
+      "p90": 133.0
+    },
+    "consecutive_timestep_active_set_overlap_jaccard": {
+      "mean": 0.5452915956172997,
+      "median": 0.5377906976744186,
+      "p10": 0.4153846153846154,
+      "p90": 0.6836461126005362
+    }
+  },
+  "nmnist": {
+    "dataset": "nmnist",
+    "n_samples": 10000,
+    "T": 100,
+    "n_addresses": 512,
+    "active_address_fraction": {
+      "mean": 0.057686634765625,
+      "median": 0.05859375,
+      "std": 0.015011803840009047,
+      "p10": 0.037109375,
+      "p50": 0.05859375,
+      "p90": 0.076171875
+    },
+    "per_address_nonzero_count": {
+      "mean": 1.422042727470398,
+      "median": 1.0,
+      "std": 0.6802822351455688,
+      "max": 8.0,
+      "p50": 1.0,
+      "p90": 2.0,
+      "p99": 4.0
+    },
+    "addresses_for_50pct_of_events": {
+      "mean": 10.101544,
+      "median": 10.0,
+      "p10": 7.0,
+      "p90": 13.0
+    },
+    "addresses_for_90pct_of_events": {
+      "mean": 25.785783,
+      "median": 26.0,
+      "p10": 17.0,
+      "p90": 34.0
+    },
+    "consecutive_timestep_active_set_overlap_jaccard": {
+      "mean": 0.35941191985411974,
+      "median": 0.36363636363636365,
+      "p10": 0.23529411764705882,
+      "p90": 0.47619047619047616
+    }
+  }
+}

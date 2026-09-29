@@ -1,0 +1,14 @@
+[r4_binary_random_seed2] rank=4 mode=binary init=random bits=4800 subtrain=769 val=210 v_thresh_init=12.4011
+[r4_binary_random_seed2] epoch 20/200 loss=0.7022 train_acc=0.7279 val_acc=0.5905 (782s)
+[r4_binary_random_seed2] epoch 40/200 loss=0.5092 train_acc=0.8138 val_acc=0.5857 (1554s)
+[r4_binary_random_seed2] epoch 60/200 loss=0.4112 train_acc=0.8294 val_acc=0.6524 (2329s)
+[r4_binary_random_seed2] epoch 80/200 loss=0.2962 train_acc=0.9062 val_acc=0.7476 (3081s)
+[r4_binary_random_seed2] epoch 100/200 loss=0.1986 train_acc=0.9245 val_acc=0.7095 (3854s)
+[r4_binary_random_seed2] epoch 120/200 loss=0.1523 train_acc=0.9492 val_acc=0.7381 (4616s)
+[r4_binary_random_seed2] epoch 140/200 loss=0.0941 train_acc=0.9701 val_acc=0.7667 (5378s)
+[r4_binary_random_seed2] epoch 160/200 loss=0.0824 train_acc=0.9870 val_acc=0.7905 (6141s)
+[r4_binary_random_seed2] epoch 180/200 loss=0.0705 train_acc=0.9870 val_acc=0.7905 (6914s)
+[r4_binary_random_seed2] epoch 200/200 loss=0.0756 train_acc=0.9857 val_acc=0.7762 (7657s)
+[r4_binary_random_seed2] BEST val_acc=0.8000 @ epoch 165
+[r4_binary_random_seed2] TEST test_acc=0.7667
+[r4_binary_random_seed2] wrote /home/ihs24/Desktop/CiM-HDC/phase3_experiments/artifacts/tables/r4_binary_random_seed2.json
