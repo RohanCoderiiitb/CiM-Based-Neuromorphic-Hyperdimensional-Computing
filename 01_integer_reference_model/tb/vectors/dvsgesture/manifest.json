@@ -1,0 +1,48 @@
+{
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "n_samples": 240,
+ "T": 100,
+ "quantizer": "per-channel",
+ "frozen_widths": {
+  "W_COUNT": 11,
+  "W_X": 21,
+  "W_V": 26,
+  "W_THRESH": 15
+ },
+ "event_stream_rows": [
+  15,
+  35,
+  37,
+  43,
+  46,
+  48,
+  70,
+  71,
+  72,
+  73,
+  74,
+  76,
+  79,
+  117,
+  121,
+  124,
+  139,
+  168,
+  220,
+  222
+ ],
+ "git_sha": "0d07a28b0f445b315ecf1a54974f3cbb8712740c",
+ "format_version": "1.0",
+ "dataset": "dvsgesture",
+ "sha256": {
+  "counts.npz": "7600ea02a7adac8182df638e14ca9a9f44a97a4e05f8c43834fafc142758a05c",
+  "events.npz": "5c28192f4e13648e28a472d408ccef48da02afc078995ed645ae3be2de3aa1cd",
+  "seed0.npz": "33de5cd42093adb33c205c9312a687ad145eac9dc75552badbc8c7868f88547d",
+  "seed1.npz": "3a539e32a0c9144f1506dfc9704b2d98cf553660a506fe9c9c64a42a1852dad7",
+  "seed2.npz": "ecbe23797c3c6a73f265b04f9169d31106e3551f39731956bc68806a74914472"
+ }
+}

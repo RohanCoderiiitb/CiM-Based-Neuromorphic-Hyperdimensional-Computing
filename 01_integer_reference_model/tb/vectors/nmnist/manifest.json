@@ -1,0 +1,25 @@
+{
+ "seeds": [
+  0
+ ],
+ "n_samples": 1000,
+ "T": 100,
+ "per_class": 100,
+ "quantizer": "per-tensor (all 20 s_j equal)",
+ "note": "thresh_int is per-sample: ceil(v_thresh*N_e/s); thresh_seednmnist0.mem holds the N_e=1 value",
+ "event_stream_rows": "all",
+ "frozen_widths": {
+  "W_COUNT": 11,
+  "W_X": 21,
+  "W_V": 26,
+  "W_THRESH": 15
+ },
+ "git_sha": "0d07a28b0f445b315ecf1a54974f3cbb8712740c",
+ "format_version": "1.0",
+ "dataset": "nmnist",
+ "sha256": {
+  "counts.npz": "953963808510795c2190fc366980953cd1fda445dd30d30073e17093547ed322",
+  "events.npz": "04aa1b670d43f22a53cc4ab777b4f61a892f7b2188c5189fe241618825f3f9ad",
+  "seed0.npz": "bb7be8195a63e821a960c5399e05bce856a181cc5fa00f435f8ad9b814ee2d59"
+ }
+}
