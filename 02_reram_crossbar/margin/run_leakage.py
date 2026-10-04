@@ -1,8 +1,10 @@
-"""1B-i step 4: HRS leakage vs on/off ratio, correctable fraction, residual and crossover. Writes results/1b_i/leakage.json.
+"""1B-i step 4: HRS leakage vs on/off ratio, correctable fraction, residual and crossover. Writes results/margin_budget/hrs_leakage_vs_ratio.json.
 
 Reference R_s for the ratio sweeps is R_REF (leakage is nearly insensitive to R_s; spot check included).
 """
 from __future__ import annotations
+
+import paths as RP
 
 import json
 from pathlib import Path
@@ -11,7 +13,7 @@ import device.constants as C
 from margin import leakage as LK
 from margin.core import gap_hrs_for_ratio, levels, params_for
 
-OUT = Path(__file__).resolve().parents[1] / "results" / "1b_i" / "leakage.json"
+OUT = RP.HRS_LEAKAGE_JSON
 R_REF = 10.0                     # ohm [CHOICE] mid of the R_s sweep, for the ratio sweeps
 DESIGN_RATIOS = (403.4, 270.4, 181.3)   # [CHOICE] ladder design ratios: ceiling, mid, realistic (1A section 4 mapping)
 GS = (4, 8, 16, 32, 64, 128)

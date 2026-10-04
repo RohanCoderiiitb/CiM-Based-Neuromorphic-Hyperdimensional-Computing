@@ -1,4 +1,4 @@
-"""Fix 2: off-state leakage of the access transistor (PTM 45nm LP), simulated. Writes results/off_leakage.json.
+"""Fix 2: off-state leakage of the access transistor (PTM 45nm LP), simulated. Writes results/device_characterization/access_transistor_off_leakage.json.
 
 Branch: Vr(0.1V) -> NMOS(gate 0 V, off) -> LRS device -> bitline held at v_bl by an ammeter source.
 The bitline ammeter sees only drain->source channel/subthreshold current plus source-junction leakage. GIDL, drain
@@ -8,6 +8,8 @@ split is visible. v_bl = 0 is the conservative (largest-leakage) bitline bias; a
 Usage: python -m validate.off_leakage [--n 500]
 """
 from __future__ import annotations
+
+import paths as RP
 
 import argparse
 import json
@@ -68,7 +70,7 @@ def main() -> None:
                                     max_a=float(pop.max()), samples_a=pop.tolist()))
             print(f"T={t:5.0f}C v_bl={vb:.2f}: nominal {nom[0]:.3e} A  mean {pop.mean():.3e}  sigma {pop.std(ddof=1):.3e}  "
                   f"supply/dev {pop_sup:.3e}  nominal/I_LRS {nom[0] / i_lrs:.2e}")
-    (ROOT / "results" / "off_leakage.json").write_text(json.dumps(out))
+    RP.OFF_LEAKAGE_JSON.write_text(json.dumps(out))
 
 
 if __name__ == "__main__":

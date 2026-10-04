@@ -1,7 +1,7 @@
 # 02_reram_crossbar — ReRAM 2T2R binary crossbar, circuit track (Phase 1)
 
 Sub-phase **1A**: device constants, ngspice harness, vectorised Newton nodal solver, and exhaustive validation of the
-solver against ngspice. Results: [results/phase1a_report.md](results/phase1a_report.md). Plan: `PHASE1_FINAL_PLAN.md`.
+solver against ngspice. Results: [results/reports/phase1a_report.md](results/reports/phase1a_report.md). Plan: `PHASE1_FINAL_PLAN.md`.
 
 ```
 device/constants.py   every value named, sourced, overridable (Params dataclass); TBD values marked
@@ -19,8 +19,8 @@ tests/                solver unit tests (no ngspice needed)
 ## Run (from this directory, repo venv)
 ```
 python -m pytest tests -q
-python -m validate.validate_solver [--n-draws 200]   # resumable; writes results/validation.csv
-python -m validate.make_report                       # writes results/phase1a_report.md
+python -m validate.validate_solver [--n-draws 200]   # resumable; writes results/solver_validation/newton_vs_ngspice_sigma0.10.csv
+python -m validate.make_report                       # writes results/reports/phase1a_report.md
 ```
 Needs `ngspice` on PATH for validation (`brew install ngspice`). Python 3.10+, numpy, scipy (tests), pytest.
 
@@ -29,9 +29,24 @@ Needs `ngspice` on PATH for validation (`brew install ngspice`). Python 3.10+, n
 read equation of `rram.va`; the OSDI-compiled model was not exercised.
 
 ## Phase 1B-i (margin budget, provisional g)
-`solver/budget.py` (framework) + `margin/` (core, point, ladder, leakage, surface). Report: [results/phase1b_i_report.md](results/phase1b_i_report.md).
+`solver/budget.py` (framework) + `margin/` (core, point, ladder, leakage, surface). Report: [results/reports/phase1b_provisional_report.md](results/reports/phase1b_provisional_report.md).
 ```
-python -m margin.run_sweep       # 960 points -> results/1b_i/surface_points.csv (~15 min, resumable)
-python -m margin.run_leakage     # HRS leakage vs ratio, windows -> results/1b_i/leakage.json
-python -m margin.make_report     # -> results/phase1b_i_report.md, results/1b_i/ladder_recommended.csv (~2 min)
+python -m margin.run_sweep       # 960 points -> results/margin_budget/g_surface_points.csv (~15 min, resumable)
+python -m margin.run_leakage     # HRS leakage vs ratio, windows -> results/margin_budget/hrs_leakage_vs_ratio.json
+python -m margin.make_report     # -> results/reports/phase1b_provisional_report.md, results/margin_budget/comparator_ladder_recommended.csv (~2 min)
 ```
+
+## Phase 1B-ii (wire IR, drift, final g) and the consolidated 1B report
+Consolidated report: [results/reports/phase1b_report.md](results/reports/phase1b_report.md) (supersedes the 1B-i report for reading; 1B-i stays on disk). Figures: `results/figures/` (PDF/SVG/PNG300, source CSVs, captions.md).
+```
+python -m wire.validate_mesh        # 2-D mesh solver vs ngspice, 1792 cases  -> results/wire_resistance/mesh_vs_ngspice_validation.csv
+python -m wire.decompose            # between/within-group split, contiguous vs interleaved, held-out test
+python -m wire.rowside              # row line / driver across K columns
+python -m wire.terms                # mesh wire terms over the (g, area, R_s, r) grid -> results/wire_resistance/wire_terms_per_point.json
+python -m drift.run_drift           # g* vs drift rate, three strategies -> results/drift/drift_sweep.json
+python -m wire.final --strategy S1  # final surface -> results/final_surface/final_g_surface_S1.csv (~5 min, 9 workers)
+python -m margin.figures            # six paper figures
+python -m margin.make_report_1b     # -> results/reports/phase1b_report.md (~2 min)
+```
+
+All result locations are defined once in `paths.py`; `results/README.md` is the index of the results tree.

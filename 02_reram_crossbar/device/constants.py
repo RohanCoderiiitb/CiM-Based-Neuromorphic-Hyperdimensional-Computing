@@ -1,7 +1,7 @@
 """Device and circuit constants for the 2T2R read path. Every value is overridable.
 
 Provenance tags (grep-able):
-  [SIM]    measured from an actual ngspice run (script named in the comment; results/*.json holds the raw numbers)
+  [SIM]    measured from an actual ngspice run (script named in the comment; results/device_characterization/*.json holds the raw numbers)
   [MODEL]  computed from an analytic expression stated in the code
   [ASSUM]  taken from literature or assumed; source / range in the comment
   [CHOICE] a design decision we made; reasoning in the comment
@@ -38,7 +38,7 @@ CELL_AREA_F2 = 40.0        # F^2  [CHOICE] 1T1R cell area, mid of the published 
 TX_FILL = 0.6              # -    [CHOICE] W = TX_FILL * CELL_AREA_F2 * F  (device-width fill factor of the cell)
 TX_W_UM = TX_FILL * CELL_AREA_F2 * FEATURE_NM * 1e-3   # um  [MODEL] = 1.08 um at 40 F^2
 R_TX = 505.79      # ohm    [SIM] linear-equivalent access-transistor resistance of an LRS branch (~93 uA) at
-                   #        W = TX_W_UM, V_WL = V_WL, T = 27 C, from validate/extract_rtx.py -> results/transistor.json.
+                   #        W = TX_W_UM, V_WL = V_WL, T = 27 C, from validate/extract_rtx.py -> results/device_characterization/access_transistor_rtx.json.
                    #        tests/test_provenance.py fails if this drifts from the json.
 
 # --- Spread: the compact model has NO mismatch parameters; variability is imposed ---
@@ -67,7 +67,7 @@ AREA_SWEEP_F2 = (20, 40, 60, 100)                     # F^2  [CHOICE] from the 1
 G_SWEEP = (1, 2, 4, 8, 16, 32, 64, 128)              # rows [CHOICE] powers of two dividing 512. Plan lists 4..64; 1, 2 and 128 are added
                                                       #      so the limit is visible where 4..64 alone would clip (spread forces g below 4;
                                                       #      128 shows whether anything is still grid-limited at 64)
-# R_tx per cell area: R_tx * W = ~547 ohm*um (1A section 3), values copied from results/transistor.json (tests/test_margin_constants.py enforces)
+# R_tx per cell area: R_tx * W = ~547 ohm*um (1A section 3), values copied from results/device_characterization/access_transistor_rtx.json (tests/test_margin.py enforces)
 RTX_BY_AREA = {20: 1016.0459, 40: 505.79, 60: 336.8506, 100: 202.0276}      # ohm  [SIM] 1A validate/extract_rtx.py
 ILRS_BY_AREA_A = {20: 6.2868e-5, 40: 9.2739e-5, 60: 1.10155e-4, 100: 1.29708e-4}    # A    [SIM] 1A: single LRS branch current (reporting only)
 
@@ -116,6 +116,25 @@ MACRO_COLS = 32                      # [plan] NeuroHDC macro: 4 neurons x 8 bit-
 FULL_COLS = 160                      # [plan] 20 neurons x 8 bit-planes
 WIRE_PATTERNS_PER_CELL = 40          # [CHOICE] random activation patterns per (group, a, m); half fit the correction, half are held out
 WIRE_SEED = 7                        # [CHOICE]
+
+
+# --- Drift (1B Part D). No authoritative value exists; every drift number is [ASSUM] and swept. ---
+DRIFT_T0_S = 3600.0                  # s  [CHOICE] reference age t0: first read after program-verify; sigma_lnG is the spread MEASURED at t0
+DRIFT_LIFE_YEARS = (1.0, 10.0)       # years [CHOICE] product-life horizons swept
+SECONDS_PER_YEAR = 365.25 * 24 * 3600.0   # s [MODEL]
+NU_MEAN_SWEEP = (0.0, 0.001, 0.003, 0.01, 0.03)   # [ASSUM] mean drift exponent nu in G(t) = G(t0) (t/t0)^-nu (PCM-like values ~0.01-0.1 are the literature
+                                                  #   analogue; resistive-switching drift is usually weaker/non-power-law; unverified for this device)
+NU_REL_SPREAD_SWEEP = (0.25, 0.5)    # [ASSUM] sigma_nu / nu_mean, the device-to-device spread of the exponent
+DRIFT_AGES = 7                       # [CHOICE] log-spaced ages between t0 and the horizon at which the budget is checked
+REFRESH_INTERVALS_DAYS = (1.0, 7.0, 30.0, 90.0, 365.0, 1095.0, 3652.5)   # [CHOICE] candidate refresh intervals
+REF_CELLS_SWEEP = (8, 32, 128, 512)  # [CHOICE] reference cells contributing to one ladder-scale estimate
+WRITE_ENERGY_PJ = 10.0               # pJ per SET/RESET pulse [ASSUM] order-of-magnitude RRAM write energy (literature range ~0.1-100 pJ); 1D must measure
+WRITE_RETRIES = 3.0                  # [ASSUM] mean verify-and-retry pulses per device, before 1D measures it
+ENDURANCE_CYCLES = 1e6               # [ASSUM] conservative RRAM endurance (plan quotes 1e6-1e9)
+
+DRIFT_SCENARIOS = {"none": (0.0, 0.25), "moderate": (0.003, 0.25), "strong": (0.01, 0.25)}   # [ASSUM] (nu_mean, sigma_nu/nu_mean) used for the final surface
+SIGMA_FINAL_SWEEP = (0.03, 0.05, 0.10, 0.15, 0.20)   # [CHOICE] sigma_lnG values of the final surface (0.03 shows where leakage/compression/wire take over)
+ROW_DRIVER_DEFAULT_COLS = 32         # [CHOICE] row-line length (columns) of the final surface = one NeuroHDC macro; 160 columns on one row line is rejected (wire section)
 
 # --- TO BE DETERMINED ---
 # ReRAM read-current temperature coefficient: rram.va has none ($vt appears only in the gap-evolution equation).

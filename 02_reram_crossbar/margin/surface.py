@@ -1,14 +1,16 @@
 """Turn the swept points into the g surface and the binding-term map."""
 from __future__ import annotations
 
+import paths as RP
+
 import csv
 from collections import defaultdict
 from pathlib import Path
 
 import device.constants as C
 
-PTS = Path(__file__).resolve().parents[1] / "results" / "1b_i" / "surface_points.csv"
-FINE = PTS.with_name("surface_points_fine.csv")      # 1B Part A: sigma 0.01 / 0.02 / 0.03
+PTS = RP.SURFACE_POINTS_CSV
+FINE = RP.SURFACE_POINTS_FINE_CSV      # 1B Part A: sigma 0.01 / 0.02 / 0.03
 _NUM = {"g", "a", "area", "delta_loc", "spread_std_loc", "mu_nonuniform_argmin"}
 _BOOL = {"cmrr_ok", "budget_closes", "ok"}
 

@@ -1,8 +1,10 @@
-"""Fix 1: access-transistor R_tx from the PTM 45nm LP card. Writes results/transistor.json.
+"""Fix 1: access-transistor R_tx from the PTM 45nm LP card. Writes results/device_characterization/access_transistor_rtx.json.
 
 Usage: python -m validate.extract_rtx
 """
 from __future__ import annotations
+
+import paths as RP
 
 import json
 from pathlib import Path
@@ -34,8 +36,8 @@ def main() -> None:
         out["rows"].append(row)
     nominal = next(r for r in out["rows"] if r["area_f2"] == C.CELL_AREA_F2)
     out["nominal"] = nominal
-    (ROOT / "results").mkdir(exist_ok=True)
-    (ROOT / "results" / "transistor.json").write_text(json.dumps(out, indent=2))
+    RP.DEVICE.mkdir(parents=True, exist_ok=True)
+    RP.TRANSISTOR_JSON.write_text(json.dumps(out, indent=2))
     print(f"Idsat = {out['idsat_ma_per_um']:.4f} mA/um")
     for r in out["rows"]:
         print({k: round(v, 4) for k, v in r.items()})

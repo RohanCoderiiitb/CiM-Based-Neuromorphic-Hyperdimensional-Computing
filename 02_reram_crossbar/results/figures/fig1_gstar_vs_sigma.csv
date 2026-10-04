@@ -27,3 +27,8 @@ cell_area_F2,sigma_lnG,g_star,limiter_of_next_g
 100,0.1,4,device spread
 100,0.15,2,device spread
 100,0.2,1,device spread
+final_wire_drift,0.03,8,
+final_wire_drift,0.05,8,
+final_wire_drift,0.1,8,
+final_wire_drift,0.15,4,
+final_wire_drift,0.2,4,

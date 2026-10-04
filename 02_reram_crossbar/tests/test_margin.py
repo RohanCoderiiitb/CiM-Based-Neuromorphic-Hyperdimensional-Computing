@@ -1,5 +1,7 @@
 """1B-i: constants provenance, level structure, ladder, point evaluation, consistency with 1A."""
 import json
+
+import paths as RP
 from pathlib import Path
 
 import numpy as np
@@ -10,11 +12,10 @@ from margin import ladder as LD
 from margin.core import RS_ZERO, draw_z, gap_hrs_for_ratio, levels, mc_levels, params_for, worst_step
 from margin.point import evaluate_point
 
-RES = Path(__file__).resolve().parents[1] / "results"
 
 
 def test_rtx_and_ilrs_tables_match_1a_json():
-    tr = RES / "transistor.json"
+    tr = RP.TRANSISTOR_JSON
     if not tr.exists():
         pytest.skip("transistor.json not generated")
     for r in json.loads(tr.read_text())["rows"]:

@@ -4,9 +4,11 @@ For each g, each active count a in 1..g, each match count m in 0..a: draw N gap-
 ngspice AND Newton on the IDENTICAL draws, record worst relative disagreement. Resumable: one CSV row per
 (g, a, m) written as it completes; completed keys are skipped on restart.
 
-Usage: python -m validate.validate_solver [--n-draws 200] [--groups 4 8 16 32] [--out results/validation.csv]
+Usage: python -m validate.validate_solver [--n-draws 200] [--groups 4 8 16 32] [--out results/solver_validation/newton_vs_ngspice_sigma0.10.csv]
 """
 from __future__ import annotations
+
+import paths as RP
 
 import argparse
 import csv
@@ -71,7 +73,7 @@ def main() -> int:
     ap.add_argument("--groups", type=int, nargs="+", default=[4, 8, 16, 32])
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--sigma", type=float, default=SIGMA_LNG, help="log-normal conductance sigma")
-    ap.add_argument("--out", type=Path, default=ROOT / "results" / "validation.csv")
+    ap.add_argument("--out", type=Path, default=RP.VALIDATION_CSV)
     args = ap.parse_args()
     if not ngspice_available():
         print("BLOCKED: ngspice not found; solver validation cannot run.")

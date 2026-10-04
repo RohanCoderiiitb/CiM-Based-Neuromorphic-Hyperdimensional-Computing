@@ -1,6 +1,8 @@
 """House style shared by every paper figure (1B Part B)."""
 from __future__ import annotations
 
+import paths as RP
+
 import csv
 from pathlib import Path
 
@@ -8,7 +10,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-OUT = Path(__file__).resolve().parents[1] / "results" / "figures"
+OUT = RP.FIGURES
 W_IN = 3.5                      # single-column width, 89 mm
 # Okabe-Ito colourblind-safe palette (never relied on alone: every series also has a marker and a line style)
 OI = {"black": "#000000", "orange": "#E69F00", "sky": "#56B4E9", "green": "#009E73", "yellow": "#F0E442",

@@ -1,0 +1,7 @@
+16x8 wire 0.72/0.72/10.0 done
+16x8 wire 5.0/5.0/100.0 done
+32x8 wire 0.72/0.72/10.0 done
+32x8 wire 5.0/5.0/100.0 done
+64x16 wire 0.72/0.72/10.0 done
+64x16 wire 5.0/5.0/100.0 done
+cases=1792 worst rel column current=4.839e-11  worst scale-normalised I_diff=1.027e-11  threshold=1e-04

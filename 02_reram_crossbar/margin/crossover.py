@@ -1,6 +1,6 @@
 """1B Part A: where does device spread overtake the HRS-leakage residual (and compression) as the binding term?
 
-Writes results/1b_i/crossover.json. Uses the refined sigma grid (0, 0.01, 0.02, 0.03, 0.05, ...).
+Writes results/margin_budget/spread_leakage_crossover.json. Uses the refined sigma grid (0, 0.01, 0.02, 0.03, 0.05, ...).
 Two views:
   (1) per sigma, at the recommended cell: g*, the limiter of the next g, and the budget shares at g* (spread / comparator / HRS residual).
   (2) per g, the sigma at which 5-sigma spread equals the HRS-leakage residual (analytic: spread5 is linear in sigma, residual is independent of it),
@@ -8,13 +8,15 @@ Two views:
 """
 from __future__ import annotations
 
+import paths as RP
+
 import json
 from pathlib import Path
 
 import device.constants as C
 from margin import surface as S
 
-OUT = Path(__file__).resolve().parents[1] / "results" / "1b_i" / "crossover.json"
+OUT = RP.CROSSOVER_JSON
 REC_AREA, REC_RS = 20, 5.0
 
 

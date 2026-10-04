@@ -70,7 +70,7 @@ Smaller cells have a larger R_tx (R_tx x W ~ 547 ohm.um), so they carry less spr
 Formula check: spread/Delta ~ (N sigma sqrt(g) / 2) x ballast factor = (5 x 0.10 x 4 / 2) x ballast = 1.0 x ballast at g = 16, sigma 0.10 - exactly the last-but-one column against the ballast column.
 The spread standard deviation is nearly flat across counts at the recommended point (max/min = 1.07), so the worst-count choice matters little.
 Caveat on small g: the Gaussian 5-sigma extrapolation understates the heavier upper tail of a log-normal; at g = 1 the true 5-sigma excursion is larger by (e^(5 sigma) - 1)/(5 sigma) = 1.14x at sigma 0.05, 1.30x at 0.10 and 1.72x at 0.20 (for a sum of many cells this fades; skewness is <= 0.29 for g >= 8). Results at g <= 4 are therefore optimistic.
-Full per-point values: `results/1b_i/surface_points.csv`.
+Full per-point values: `results/margin_budget/g_surface_points.csv`.
 
 ## 3. Term 2 - compression, the ladder, CMRR, and the absolute signal
 
@@ -99,7 +99,7 @@ Full per-point values: `results/1b_i/surface_points.csv`.
 | 128 | 0.888 | 0.794 | 0.587 | 0.386 | 0.204 | 0.061 |
 
 **Ladder.** Thresholds are placed between adjacent population-mean levels, sigma-weighted so both neighbours keep equal margin in sigma units (equal to midpoints when sigma is flat). The ladder is indexed by `a`
-(the digital popcount of the input group, known before the read), so one table per group size; `results/1b_i/ladder_recommended.csv` holds every (a, k) threshold for the recommended point.
+(the digital popcount of the input group, known before the read), so one table per group size; `results/margin_budget/comparator_ladder_recommended.csv` holds every (a, k) threshold for the recommended point.
 Levels are antisymmetric, I_diff(a, m) = -I_diff(a, a-m) (verified, exact), so only half the thresholds need storing.
 **Why this is cheap for a binary readout:** an analog (multi-level) readout must undo compression on the VALUE, with a per-column runtime multiply; a threshold decision only needs its reference in the right place -
 a one-time design of the thresholds, a lookup with no arithmetic at run time. That is a genuine advantage of operating binary.

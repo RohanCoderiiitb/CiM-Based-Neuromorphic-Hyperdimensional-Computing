@@ -1,5 +1,7 @@
 """Provenance and spread tests (no ngspice needed)."""
 import json
+
+import paths as RP
 from pathlib import Path
 
 import numpy as np
@@ -8,13 +10,12 @@ import pytest
 import device.constants as C
 from device.spread import resistance_cv, sample_gaps, sigma_gap_from_lng
 
-RES = Path(__file__).resolve().parents[1] / "results"
 
 
 def test_r_tx_matches_simulated_value():
-    tr = RES / "transistor.json"
+    tr = RP.TRANSISTOR_JSON
     if not tr.exists():
-        pytest.skip("results/transistor.json not generated")
+        pytest.skip("results/device_characterization/access_transistor_rtx.json not generated")
     nom = json.loads(tr.read_text())["nominal"]
     assert nom["area_f2"] == C.CELL_AREA_F2 and abs(nom["w_um"] - C.TX_W_UM) < 1e-9
     assert nom["rtx_lrs"] == pytest.approx(C.R_TX, abs=0.01)

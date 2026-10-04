@@ -1,4 +1,4 @@
-"""1B-i main sweep: every (g, cell area, R_s, sigma_lnG) point evaluated against the budget. Writes results/1b_i/surface_points.csv.
+"""1B-i main sweep: every (g, cell area, R_s, sigma_lnG) point evaluated against the budget. Writes results/margin_budget/g_surface_points.csv.
 
 sigma in {0, .05, .10, .15, .20}; g in G_SWEEP; area in AREA_SWEEP_F2; R_s in R_S_SWEEP. Common random numbers are shared across
 (sigma, R_s, area) at each g. Resumable: finished (g, area, r_s, sigma) keys are skipped.
@@ -6,6 +6,8 @@ sigma in {0, .05, .10, .15, .20}; g in G_SWEEP; area in AREA_SWEEP_F2; R_s in R_
 Usage: python -m margin.run_sweep [--draws 1000]
 """
 from __future__ import annotations
+
+import paths as RP
 
 import argparse
 import csv
@@ -16,7 +18,7 @@ import device.constants as C
 from margin.core import draw_z
 from margin.point import evaluate_point
 
-OUT = Path(__file__).resolve().parents[1] / "results" / "1b_i" / "surface_points.csv"
+OUT = RP.SURFACE_POINTS_CSV
 
 
 def main() -> None:

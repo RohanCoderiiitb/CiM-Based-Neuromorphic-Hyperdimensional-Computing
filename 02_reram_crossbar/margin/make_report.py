@@ -1,8 +1,10 @@
-"""Render results/phase1b_i_report.md from results/1b_i/* plus targeted re-evaluations.
+"""Render results/reports/phase1b_provisional_report.md from results/margin_budget/* plus targeted re-evaluations.
 
 Usage: python -m margin.make_report
 """
 from __future__ import annotations
+
+import paths as RP
 
 import json
 import math
@@ -17,7 +19,7 @@ from margin.core import draw_z, levels, mc_levels, params_for
 from margin.point import BUDGET_TERMS, evaluate_point
 
 ROOT = Path(__file__).resolve().parents[1]
-RES = ROOT / "results"
+RES = RP.RESULTS
 SIGMAS_NZ = tuple(s for s in C.SIGMA_LNG_SWEEP if s > 0)
 SCORE_SIGMAS = (0.05, 0.10, 0.15)       # [CHOICE] the middle of the assumed 5-20% range scores the recommended point
 SHORT = {"device spread": "spread", "absolute signal (comparator noise)": "abs.signal", "ReRAM HRS leakage residual": "HRS leak",
@@ -47,7 +49,7 @@ def gstar_search(area, r_s, sigma, **kw):
 
 def main() -> None:
     rows = S.load(fine=False); idx = S.index(rows)      # the 1B-i report stays on the original sigma grid
-    lk = json.loads((RES / "1b_i" / "leakage.json").read_text())
+    lk = json.loads(RP.HRS_LEAKAGE_JSON.read_text())
     G = C.G_SWEEP
 
     # ---------------- surface + recommendation ----------------
@@ -145,7 +147,7 @@ def main() -> None:
     dist = LD.margins(Lm, thr)["dist"]
     lad_rows = [(m, ua(Lm[m], 2), ua(std[m], 2), (ua(thr[m], 2) if m < g_l else "-"), ua(dist[m], 2), f"{mu_nu[m]:.2f}", f"{mu_un[m]:.2f}") for m in range(g_l + 1)]
     lad_tab = tbl(["count m", "mean I_diff (uA)", "spread sigma (uA)", "threshold above (uA)", "distance to nearest threshold (uA)", "margin factor, non-uniform", "margin factor, uniform"], lad_rows)
-    ladder_csv = RES / "1b_i" / "ladder_recommended.csv"
+    ladder_csv = RP.LADDER_CSV
     with ladder_csv.open("w") as fh:
         fh.write("a,k,threshold_a_between_k_and_k_plus_1\n")
         for a in range(1, g_l + 1):
@@ -298,7 +300,7 @@ Smaller cells have a larger R_tx (R_tx x W ~ 547 ohm.um), so they carry less spr
 Formula check: spread/Delta ~ (N sigma sqrt(g) / 2) x ballast factor = (5 x 0.10 x 4 / 2) x ballast = 1.0 x ballast at g = 16, sigma 0.10 - exactly the last-but-one column against the ballast column.
 The spread standard deviation is nearly flat across counts at the recommended point (max/min = {std_flat:.2f}), so the worst-count choice matters little.
 Caveat on small g: the Gaussian 5-sigma extrapolation understates the heavier upper tail of a log-normal; at g = 1 the true 5-sigma excursion is larger by (e^(5 sigma) - 1)/(5 sigma) = {(math.exp(0.25) - 1) / 0.25:.2f}x at sigma 0.05, {(math.exp(0.5) - 1) / 0.5:.2f}x at 0.10 and {(math.exp(1.0) - 1) / 1.0:.2f}x at 0.20 (for a sum of many cells this fades; skewness is <= {skew_all:.2f} for g >= 8). Results at g <= 4 are therefore optimistic.
-Full per-point values: `results/1b_i/surface_points.csv`.
+Full per-point values: `results/margin_budget/g_surface_points.csv`.
 
 ## 3. Term 2 - compression, the ladder, CMRR, and the absolute signal
 
@@ -309,7 +311,7 @@ Full per-point values: `results/1b_i/surface_points.csv`.
 {cmp40_tab}
 
 **Ladder.** Thresholds are placed between adjacent population-mean levels, sigma-weighted so both neighbours keep equal margin in sigma units (equal to midpoints when sigma is flat). The ladder is indexed by `a`
-(the digital popcount of the input group, known before the read), so one table per group size; `results/1b_i/ladder_recommended.csv` holds every (a, k) threshold for the recommended point.
+(the digital popcount of the input group, known before the read), so one table per group size; `results/margin_budget/comparator_ladder_recommended.csv` holds every (a, k) threshold for the recommended point.
 Levels are antisymmetric, I_diff(a, m) = -I_diff(a, a-m) (verified, exact), so only half the thresholds need storing.
 **Why this is cheap for a binary readout:** an analog (multi-level) readout must undo compression on the VALUE, with a per-column runtime multiply; a threshold decision only needs its reference in the right place -
 a one-time design of the thresholds, a lookup with no arithmetic at run time. That is a genuine advantage of operating binary.
@@ -452,8 +454,9 @@ g* is {g_rec[0.10]}, {g_rec[0.15]}, {g_rec[0.20]} at the recommended cell for si
 - **Wire IR and drift**: 1B-ii.
 - Not done in 1B-i: the 2-D mesh, drift, solver re-validation (1A did that), any write-path work beyond the ratio requirement above, RTL, any macro.
 """
-    (RES / "phase1b_i_report.md").write_text(md)
-    print("wrote results/phase1b_i_report.md")
+    RP.REPORTS.mkdir(parents=True, exist_ok=True)
+    RP.REPORT_1B_PROVISIONAL.write_text(md)
+    print("wrote", RP.REPORT_1B_PROVISIONAL)
 
 
 if __name__ == "__main__":

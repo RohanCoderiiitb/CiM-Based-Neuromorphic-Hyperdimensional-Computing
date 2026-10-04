@@ -1,4 +1,4 @@
-"""Fix 1(e): bound the cost of treating R_tx as a linear resistor. Writes results/linear_vs_bsim.json.
+"""Fix 1(e): bound the cost of treating R_tx as a linear resistor. Writes results/device_characterization/linear_vs_bsim4_bound.json.
 
 BOTH sides are ngspice, same nominal gaps, same circuit; the only difference is the access device (linear R_tx vs the
 real PTM BSIM4 NMOS). This is a MODELLING difference, kept separate from the Newton-vs-ngspice numerical validation.
@@ -7,6 +7,8 @@ Then a best-fit constant R_tx is searched (Newton solver vs BSIM ngspice) to sho
 Usage: python -m validate.linear_vs_bsim
 """
 from __future__ import annotations
+
+import paths as RP
 
 import json
 from pathlib import Path
@@ -68,7 +70,7 @@ def main() -> None:
             single_step_at_m_eq_g_lin=float(d_single_l[-1]), single_step_at_m_eq_g_bsim=float(d_single_b[-1]),
             best_const_rtx=best[0], best_const_rtx_worst_step_err=best[1])
         print(g, {k: (round(v, 5) if isinstance(v, float) else v) for k, v in out["per_g"][g].items()})
-    (ROOT / "results" / "linear_vs_bsim.json").write_text(json.dumps(out, indent=2))
+    RP.LINEAR_VS_BSIM_JSON.write_text(json.dumps(out, indent=2))
 
 
 if __name__ == "__main__":
