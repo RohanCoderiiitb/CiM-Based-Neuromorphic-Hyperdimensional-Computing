@@ -1,0 +1,29 @@
+cell_area_F2,sigma_lnG,g_star,limiter_of_next_g
+20,0.01,128,grid-limited
+20,0.02,64,ReRAM HRS leakage residual
+20,0.03,64,device spread
+20,0.05,32,device spread
+20,0.1,16,device spread
+20,0.15,8,device spread
+20,0.2,4,device spread
+40,0.01,128,grid-limited
+40,0.02,64,device spread
+40,0.03,64,device spread
+40,0.05,32,device spread
+40,0.1,8,device spread
+40,0.15,4,device spread
+40,0.2,2,device spread
+60,0.01,128,grid-limited
+60,0.02,64,device spread
+60,0.03,32,device spread
+60,0.05,16,device spread
+60,0.1,4,device spread
+60,0.15,2,device spread
+60,0.2,1,device spread
+100,0.01,128,grid-limited
+100,0.02,64,device spread
+100,0.03,32,device spread
+100,0.05,16,device spread
+100,0.1,4,device spread
+100,0.15,2,device spread
+100,0.2,1,device spread

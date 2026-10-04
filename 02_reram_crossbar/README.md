@@ -27,3 +27,11 @@ Needs `ngspice` on PATH for validation (`brew install ngspice`). Python 3.10+, n
 ## Status / caveats
 `R_tx` and the gap sigmas are **TO BE DETERMINED** placeholders. ngspice models the device as a B-source carrying the
 read equation of `rram.va`; the OSDI-compiled model was not exercised.
+
+## Phase 1B-i (margin budget, provisional g)
+`solver/budget.py` (framework) + `margin/` (core, point, ladder, leakage, surface). Report: [results/phase1b_i_report.md](results/phase1b_i_report.md).
+```
+python -m margin.run_sweep       # 960 points -> results/1b_i/surface_points.csv (~15 min, resumable)
+python -m margin.run_leakage     # HRS leakage vs ratio, windows -> results/1b_i/leakage.json
+python -m margin.make_report     # -> results/phase1b_i_report.md, results/1b_i/ladder_recommended.csv (~2 min)
+```
