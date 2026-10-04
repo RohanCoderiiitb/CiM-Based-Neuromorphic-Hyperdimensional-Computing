@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/validate/validate_solver.py", line 103, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/validate/validate_solver.py", line 91, in main
+    w.writerow(run_case(g, a, m, args.n_draws, args.seed, args.sigma))
+               ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/validate/validate_solver.py", line 42, in run_case
+    sp, sm, sd = run_differential(gp, gm, act)
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/spice/runner.py", line 61, in run_differential
+    cols = run_columns(np.vstack([gp, np.asarray(gaps_minus, dtype=float)]), np.vstack([act, act]), p,
+                       None if r_s is None else np.resize(r_s, 2 * ncase),
+                       None if r_tx is None else np.resize(r_tx, 2 * ncase), tx=tx, temp=temp)
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/spice/runner.py", line 48, in run_columns
+    raise SpiceError(f"ngspice produced no value for {int(np.isnan(volts).sum())}/{ncol} columns "
+                     f"(rc={proc.returncode}); tail:\n{tail}")
+spice.runner.SpiceError: ngspice produced no value for 400/400 columns (rc=-15); tail:
+
+g=4 done
+g=8 done
+g=16 done
+g=4 done
+g=8 done
+g=16 done
+g=32 done
+cases=770  PRIMARY worst scale-normalised I_diff=1.185e-11  secondary worst |dI|/|I_diff|=2.772e-07  threshold=1e-04 (applied to both; verdict uses the primary)

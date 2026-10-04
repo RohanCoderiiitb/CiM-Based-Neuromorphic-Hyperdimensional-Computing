@@ -1,0 +1,5 @@
+g=4 done
+g=8 done
+g=16 done
+g=32 done
+cases=770  worst rel I_diff=4.531e-06  worst scale-normalised=1.558e-11  threshold=1e-04
