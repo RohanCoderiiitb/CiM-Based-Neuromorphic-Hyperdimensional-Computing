@@ -7,7 +7,6 @@ package cim_neurohdc_pkg;
   localparam int N_NEURONS = 20;  // [S] SIV-B1 spiking neurons
   localparam int N_TIMESTEPS = 100;  // [S] SIV-A timesteps T
   localparam int N_INPUTS = 512;  // [S] eq.19: 2 polarities x 16 x 16
-  localparam int N_CLASSES = 10;  // [P0] DVS-Gesture classes (used by tests only)
   localparam int GRID_DIM = 16;  // [S] eq.19 spatial grid after sum-pooling
   localparam int W_GRID = 4;  // [D] bits of one grid coordinate (0..15)
 
@@ -28,6 +27,7 @@ package cim_neurohdc_pkg;
   localparam int W_BIT_IDX = 4;  // count bit-row index 0..10
   localparam int W_GRP = 9;  // group index; up to 512 groups (g = 1)
   localparam int W_MATCH = 10;  // match count 0..512
+  localparam int W_M_FLAT = N_WCOLS * W_MATCH;  // flat bus of all 160 match counts (column j*8+k at bit (j*8+k)*W_MATCH); flat, not packed-2D, so Icarus can index it
   localparam int W_PCOUNT = 10;  // popcount of a 512-bit row (0..512)
   localparam int W_FOLD = 29;  // signed width of one folded bit-row contribution (+ guard bit)
   localparam int SIGN_PLANE = W_WEIGHT - 1;  // weight bit-plane 7 is the int8 sign bit => NEGATIVE weight
@@ -38,6 +38,7 @@ package cim_neurohdc_pkg;
   localparam int N_PARALLEL_COLS_DEFAULT = N_WCOLS;  // [1B] 160: all columns per read (11 x 512/g reads); 20: one plane at a time (88 x 512/g)
   localparam bit PLANE_SKIP_EN_DEFAULT = 1'b1;  // [1E] skip all-zero count bit-rows
   localparam bit INSTRUMENT_EN_DEFAULT = 1'b1;  // [1E] activity / skip counters (Phase 5 handoff)
+  localparam bit GEOM_NMNIST_DEFAULT = 1'b0;  // [1E] reset value of the sensor geometry: 0 = DVS-Gesture 128x128, 1 = N-MNIST 34x34 (runtime-writable)
 
   // ------------------------------------------------------------------ pipeline latencies [D]
   localparam int MACRO_LAT = 1;  // cim_macro registers its result
@@ -70,11 +71,10 @@ package cim_neurohdc_pkg;
   localparam int W_CFG_DATA = W_NEVENTS;
 
   // ------------------------------------------------------------------ top-level FSM [D]
-  typedef enum logic [1:0] {
-    ST_IDLE = 2'd0,
-    ST_LOAD = 2'd1,
-    ST_RUN = 2'd2,
-    ST_DONE = 2'd3
-  } top_state_e;
+  localparam int W_TOP_STATE = 2;
+  localparam logic [W_TOP_STATE-1:0] ST_IDLE = 2'd0;  // reset; configuration and start accepted
+  localparam logic [W_TOP_STATE-1:0] ST_LOAD = 2'd1;  // weight image shifting in
+  localparam logic [W_TOP_STATE-1:0] ST_RUN = 2'd2;  // per-timestep loop
+  localparam logic [W_TOP_STATE-1:0] ST_DONE = 2'd3;  // all timesteps emitted; new sample or reload accepted
 
 endpackage

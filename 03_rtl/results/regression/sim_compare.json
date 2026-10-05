@@ -1,0 +1,287 @@
+[
+ {
+  "verilator": "dvs_seed0_g8_c160",
+  "icarus": "icarus_dvs_seed0_g8_c160",
+  "rows_compared": 240,
+  "timesteps_compared": 24000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed1_g8_c160",
+  "icarus": "icarus_dvs_seed1_g8_c160",
+  "rows_compared": 240,
+  "timesteps_compared": 24000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed2_g8_c160",
+  "icarus": "icarus_dvs_seed2_g8_c160",
+  "rows_compared": 240,
+  "timesteps_compared": 24000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed0_level4_real_gaps",
+  "icarus": "icarus_dvs_seed0_level4_real_gaps",
+  "rows_compared": 20,
+  "timesteps_compared": 2000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed1_level4_real_gaps",
+  "icarus": "icarus_dvs_seed1_level4_real_gaps",
+  "rows_compared": 20,
+  "timesteps_compared": 2000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed2_level4_real_gaps",
+  "icarus": "icarus_dvs_seed2_level4_real_gaps",
+  "rows_compared": 20,
+  "timesteps_compared": 2000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed0_level4_shuffled_gaps",
+  "icarus": "icarus_dvs_seed0_level4_shuffled_gaps",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed0_level4_sorted_gaps",
+  "icarus": "icarus_dvs_seed0_level4_sorted_gaps",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "dvs_seed1_level4_sorted_nogap",
+  "icarus": "icarus_dvs_seed1_level4_sorted_nogap",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "nmnist_seed0_g8",
+  "icarus": "icarus_nmnist_seed0_g8",
+  "rows_compared": 1000,
+  "timesteps_compared": 100000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "nmnist_seed0_g8_gaps",
+  "icarus": "icarus_nmnist_seed0_g8_gaps",
+  "rows_compared": 200,
+  "timesteps_compared": 20000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "nmnist_seed0_g64",
+  "icarus": "icarus_nmnist_seed0_g64",
+  "rows_compared": 200,
+  "timesteps_compared": 20000,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g4_c160",
+  "icarus": "icarus_dvs_seed0_g4_c160",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g16_c160",
+  "icarus": "icarus_dvs_seed0_g16_c160",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g32_c160",
+  "icarus": "icarus_dvs_seed0_g32_c160",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g64_c160",
+  "icarus": "icarus_dvs_seed0_g64_c160",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g8_c20",
+  "icarus": "icarus_dvs_seed0_g8_c20",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g64_c20",
+  "icarus": "icarus_dvs_seed0_g64_c20",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ },
+ {
+  "verilator": "sub_dvs_seed0_g8_noskip",
+  "icarus": "icarus_dvs_seed0_g8_noskip",
+  "rows_compared": 48,
+  "timesteps_compared": 4800,
+  "disagreements": [],
+  "fields": [
+   "spikes",
+   "X",
+   "V",
+   "stats",
+   "golden_match"
+  ],
+  "verdict": "AGREE"
+ }
+]

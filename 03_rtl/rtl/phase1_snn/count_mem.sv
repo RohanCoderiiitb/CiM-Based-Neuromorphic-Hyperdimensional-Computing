@@ -6,35 +6,45 @@
 // Back-to-back events to the SAME address hit the forwarding path (common in real data: median 3 events/address).
 // `wipe_i` clears every counter in one cycle at the timestep boundary (allowed only when the pipeline is empty).
 // `row_o` presents count bit-row b (bit b of every counter = 512 bits) combinationally; `row_nz_o` is its 512-bit OR.
-module count_mem
-  import cim_neurohdc_pkg::*;
-(
-    input  logic                   clk_i,
-    input  logic                   rst_n_i,
-    input  logic                   ev_valid_i,    // accepted event this cycle
-    input  logic [W_ADDR-1:0]      ev_addr_i,
-    input  logic                   wipe_i,
-    input  logic [W_BIT_IDX-1:0]   row_sel_i,     // which count bit-row (0 .. W_COUNT-1)
-    output logic [N_INPUTS-1:0]    row_o,         // bit `row_sel_i` of every counter
-    output logic                   row_nz_o,      // row_o != 0
-    output logic [N_INPUTS-1:0]    active_o,      // counter != 0 (instrumentation: active addresses)
-    output logic                   busy_o,        // an event is still in the read-modify-write pipeline
-    output logic                   fwd_o,         // stat pulse: stage 1 used the forwarded value
-    input  logic                   chk_i,         // assertion strobe: compare the counter sum with chk_expected_i
-    input  logic [W_NEVENTS-1:0]   chk_expected_i,
-    output logic                   assert_fail_o
+
+
+
+
+
+
+import cim_neurohdc_pkg::N_INPUTS;
+import cim_neurohdc_pkg::W_ADDR;
+import cim_neurohdc_pkg::W_BIT_IDX;
+import cim_neurohdc_pkg::W_COUNT;
+import cim_neurohdc_pkg::W_NEVENTS;
+
+module count_mem (
+    input  logic                 clk_i,
+    input  logic                 rst_n_i,
+    input  logic                 ev_valid_i,      // accepted event this cycle
+    input  logic [   W_ADDR-1:0] ev_addr_i,
+    input  logic                 wipe_i,
+    input  logic [W_BIT_IDX-1:0] row_sel_i,       // which count bit-row (0 .. W_COUNT-1)
+    output logic [ N_INPUTS-1:0] row_o,           // bit `row_sel_i` of every counter
+    output logic                 row_nz_o,        // row_o != 0
+    output logic [ N_INPUTS-1:0] active_o,        // counter != 0 (instrumentation: active addresses)
+    output logic                 busy_o,          // an event is still in the read-modify-write pipeline
+    output logic                 fwd_o,           // stat pulse: stage 1 used the forwarded value
+    input  logic                 chk_i,           // assertion strobe: compare the counter sum with chk_expected_i
+    input  logic [W_NEVENTS-1:0] chk_expected_i,
+    output logic                 assert_fail_o
 );
   localparam logic [W_COUNT-1:0] COUNT_MAX = '1;
 
-  logic [W_COUNT-1:0] cnt_q[N_INPUTS];
+  logic [W_COUNT-1:0] cnt_q      [N_INPUTS];
 
-  logic                s1_valid_q;
-  logic [W_ADDR-1:0]   s1_addr_q;
-  logic                s2_valid_q;
-  logic [W_ADDR-1:0]   s2_addr_q;
-  logic [W_COUNT-1:0]  s2_val_q;
-  logic                fwd_hit;
-  logic [W_COUNT-1:0]  s1_cur;
+  logic               s1_valid_q;
+  logic [ W_ADDR-1:0] s1_addr_q;
+  logic               s2_valid_q;
+  logic [ W_ADDR-1:0] s2_addr_q;
+  logic [W_COUNT-1:0] s2_val_q;
+  logic               fwd_hit;
+  logic [W_COUNT-1:0] s1_cur;
 
   assign fwd_hit = s1_valid_q && s2_valid_q && (s2_addr_q == s1_addr_q);
   assign s1_cur  = fwd_hit ? s2_val_q : cnt_q[s1_addr_q];

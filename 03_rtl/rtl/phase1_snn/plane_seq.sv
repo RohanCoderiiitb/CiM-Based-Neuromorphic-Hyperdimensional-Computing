@@ -9,12 +9,27 @@
 //   20  : one weight bit-plane (20 columns) per read, 8 passes per (bit-row, group)   -> 88 x 512/g reads / timestep
 // Both counts are instrumented in either mode (reads_allcols_o, reads_plane_o); reads_issued_o is the mode's actual cycles.
 // `group_idx_o` accompanies every read so the analog side can select its per-group comparator ladder (1B interface addition).
-module plane_seq
-  import cim_neurohdc_pkg::*;
-#(
-    parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT,
+
+
+
+
+
+
+import cim_neurohdc_pkg::N_INPUTS;
+import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
+import cim_neurohdc_pkg::N_WCOLS;
+import cim_neurohdc_pkg::PLANE_SKIP_EN_DEFAULT;
+import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
+import cim_neurohdc_pkg::W_BIT_IDX;
+import cim_neurohdc_pkg::W_COUNT;
+import cim_neurohdc_pkg::W_GRP;
+import cim_neurohdc_pkg::W_STAT;
+import cim_neurohdc_pkg::W_WEIGHT;
+
+module plane_seq #(
+    parameter int ROWS_PER_GROUP  = ROWS_PER_GROUP_DEFAULT,
     parameter int N_PARALLEL_COLS = N_PARALLEL_COLS_DEFAULT,
-    parameter bit PLANE_SKIP_EN = PLANE_SKIP_EN_DEFAULT
+    parameter bit PLANE_SKIP_EN   = PLANE_SKIP_EN_DEFAULT
 ) (
     input  logic                 clk_i,
     input  logic                 rst_n_i,
@@ -22,16 +37,16 @@ module plane_seq
     input  logic                 row_nz_i,         // the count bit-row currently selected is non-zero
     output logic [W_BIT_IDX-1:0] row_sel_o,        // count bit-row index b (also drives count_mem)
     output logic                 rd_valid_o,       // a crossbar read is issued this cycle
-    output logic [W_GRP-1:0]     group_idx_o,      // group of ROWS_PER_GROUP consecutive rows
-    output logic [W_WEIGHT-1:0]  plane_mask_o,     // weight bit-planes sensed by this read
+    output logic [    W_GRP-1:0] group_idx_o,      // group of ROWS_PER_GROUP consecutive rows
+    output logic [ W_WEIGHT-1:0] plane_mask_o,     // weight bit-planes sensed by this read
     output logic                 rd_last_o,        // last read of this bit-row (shift_accum folds the row)
     output logic                 done_o,           // one-cycle pulse: all bit-rows walked
     output logic                 busy_o,
-    output logic [W_STAT-1:0]    rows_skipped_o,   // this timestep
-    output logic [W_STAT-1:0]    rows_read_o,
-    output logic [W_STAT-1:0]    reads_allcols_o,  // (bit-row, group) activations: 11 x 512/g form
-    output logic [W_STAT-1:0]    reads_plane_o,    // x W_WEIGHT: 88 x 512/g form
-    output logic [W_STAT-1:0]    reads_issued_o,   // reads actually issued in this configuration
+    output logic [   W_STAT-1:0] rows_skipped_o,   // this timestep
+    output logic [   W_STAT-1:0] rows_read_o,
+    output logic [   W_STAT-1:0] reads_allcols_o,  // (bit-row, group) activations: 11 x 512/g form
+    output logic [   W_STAT-1:0] reads_plane_o,    // x W_WEIGHT: 88 x 512/g form
+    output logic [   W_STAT-1:0] reads_issued_o,   // reads actually issued in this configuration
     output logic                 assert_fail_o
 );
   localparam int N_GROUPS = (N_INPUTS + ROWS_PER_GROUP - 1) / ROWS_PER_GROUP;
@@ -64,23 +79,23 @@ module plane_seq
   logic                   last_row;
   logic                   skip_row;
 
-  assign last_grp       = (grp_q == LAST_GRP);
-  assign last_pass      = (pass_q == LAST_PASS);
-  assign last_row       = (b_q == LAST_ROW);
-  assign skip_row       = PLANE_SKIP_EN && !row_nz_i;
+  assign last_grp        = (grp_q == LAST_GRP);
+  assign last_pass       = (pass_q == LAST_PASS);
+  assign last_row        = (b_q == LAST_ROW);
+  assign skip_row        = PLANE_SKIP_EN && !row_nz_i;
 
-  assign row_sel_o      = b_q;
-  assign rd_valid_o     = (state_q == S_READ);
-  assign group_idx_o    = grp_q;
-  assign plane_mask_o   = (N_PASSES == 1) ? ALL_PLANES : (W_WEIGHT'(1) << pass_q);
-  assign rd_last_o      = rd_valid_o && last_grp && last_pass;
-  assign done_o         = done_q;
-  assign busy_o         = (state_q != S_IDLE);
-  assign rows_skipped_o = skipped_q;
-  assign rows_read_o    = rows_read_q;
+  assign row_sel_o       = b_q;
+  assign rd_valid_o      = (state_q == S_READ);
+  assign group_idx_o     = grp_q;
+  assign plane_mask_o    = (N_PASSES == 1) ? ALL_PLANES : (W_WEIGHT'(1) << pass_q);
+  assign rd_last_o       = rd_valid_o && last_grp && last_pass;
+  assign done_o          = done_q;
+  assign busy_o          = (state_q != S_IDLE);
+  assign rows_skipped_o  = skipped_q;
+  assign rows_read_o     = rows_read_q;
   assign reads_allcols_o = allcols_q;
-  assign reads_plane_o  = plane_q;
-  assign reads_issued_o = issued_q;
+  assign reads_plane_o   = plane_q;
+  assign reads_issued_o  = issued_q;
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) begin
@@ -160,7 +175,7 @@ module plane_seq
         $display("[ASSERT FAIL] %m: start while the sequencer is busy");
         fail_q <= 1'b1;
       end
-      if (rd_valid_o && !(grp_q < W_GRP'(N_GROUPS))) begin
+      if (rd_valid_o && !(int'(grp_q) < N_GROUPS)) begin
         $display("[ASSERT FAIL] %m: group index %0d out of range", grp_q);
         fail_q <= 1'b1;
       end

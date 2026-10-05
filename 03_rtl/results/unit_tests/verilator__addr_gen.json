@@ -1,0 +1,12 @@
+{
+ "sim": "verilator",
+ "case": "addr_gen",
+ "toplevel": "addr_gen",
+ "module": "test_addr_gen",
+ "parameters": {},
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.2
+}

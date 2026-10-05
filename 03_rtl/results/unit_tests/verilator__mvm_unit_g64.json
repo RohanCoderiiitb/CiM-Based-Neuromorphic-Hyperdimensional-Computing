@@ -1,0 +1,16 @@
+{
+ "sim": "verilator",
+ "case": "mvm_unit_g64",
+ "toplevel": "mvm_unit",
+ "module": "test_mvm_unit",
+ "parameters": {
+  "ROWS_PER_GROUP": 64,
+  "N_PARALLEL_COLS": 160,
+  "PLANE_SKIP_EN": 1
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.1
+}

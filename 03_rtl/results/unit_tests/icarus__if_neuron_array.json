@@ -1,0 +1,12 @@
+{
+ "sim": "icarus",
+ "case": "if_neuron_array",
+ "toplevel": "if_neuron_array",
+ "module": "test_if_neuron",
+ "parameters": {},
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 0.9
+}

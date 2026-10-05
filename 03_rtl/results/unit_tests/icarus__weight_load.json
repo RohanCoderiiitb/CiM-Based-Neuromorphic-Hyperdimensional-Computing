@@ -1,0 +1,12 @@
+{
+ "sim": "icarus",
+ "case": "weight_load",
+ "toplevel": "weight_load",
+ "module": "test_weight_load",
+ "parameters": {},
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 0.8
+}

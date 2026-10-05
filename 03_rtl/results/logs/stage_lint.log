@@ -1,0 +1,55 @@
+== verible-verilog-lint (project rules: .rules.verible_lint)
+clean
+== verible-verilog-format --verify (column limit 180)
+clean
+== verilator --lint-only -Wall snn_top (design)
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 5.279 MB in 9 C++ files needing 0.000 MB
+- Verilator: Walltime 0.484 s (elab=0.019, cvt=0.427, bld=0.000); cpu 0.472 s on 1 threads; allocated 139.859 MB
+clean (0 warnings, 0 errors)
+== verilator --lint-only -Wall per block (every module except the recursive parameterised popcount, which is linted through its instances, as its own top; UNUSEDPARAM waived: the shared package declares constants a single block does not use)
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.019 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.009 s (elab=0.002, cvt=0.001, bld=0.000); cpu 0.009 s on 1 threads; allocated 12.469 MB
+addr_gen: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.967 MB in 5 C++ files needing 0.000 MB
+- Verilator: Walltime 0.124 s (elab=0.007, cvt=0.105, bld=0.000); cpu 0.124 s on 1 threads; allocated 39.391 MB
+count_mem: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.029 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.009 s (elab=0.002, cvt=0.002, bld=0.000); cpu 0.009 s on 1 threads; allocated 12.656 MB
+event_ctr: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.028 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.010 s (elab=0.002, cvt=0.002, bld=0.000); cpu 0.010 s on 1 threads; allocated 12.797 MB
+plane_seq: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 3.273 MB in 6 C++ files needing 0.000 MB
+- Verilator: Walltime 0.187 s (elab=0.002, cvt=0.163, bld=0.000); cpu 0.187 s on 1 threads; allocated 67.953 MB
+cim_macro: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.025 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.009 s (elab=0.002, cvt=0.002, bld=0.000); cpu 0.009 s on 1 threads; allocated 12.578 MB
+weight_load: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 1.289 MB in 5 C++ files needing 0.000 MB
+- Verilator: Walltime 0.097 s (elab=0.005, cvt=0.080, bld=0.000); cpu 0.097 s on 1 threads; allocated 47.094 MB
+shift_accum: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.146 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.015 s (elab=0.003, cvt=0.005, bld=0.000); cpu 0.015 s on 1 threads; allocated 13.891 MB
+if_neuron_array: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.023 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.009 s (elab=0.002, cvt=0.001, bld=0.000); cpu 0.009 s on 1 threads; allocated 12.516 MB
+spike_reg: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.549 MB sources in 16 modules, into 0.056 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.012 s (elab=0.002, cvt=0.004, bld=0.000); cpu 0.012 s on 1 threads; allocated 13.125 MB
+snn_ctrl: clean
+== verilator --lint-only -Wall -DSYNTHESIS (crossbar blackboxed; UNDRIVEN/UNUSED waived: they are artefacts of the empty blackbox)
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 0.507 MB sources in 16 modules, into 1.544 MB in 5 C++ files needing 0.000 MB
+- Verilator: Walltime 0.253 s (elab=0.014, cvt=0.224, bld=0.000); cpu 0.252 s on 1 threads; allocated 93.125 MB
+clean

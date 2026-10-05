@@ -1,0 +1,65 @@
+{
+ "specified_elaboration": {
+  "check_assert": "PASS",
+  "latch_cells": 0,
+  "has_blackbox_cim_macro": true
+ },
+ "generic_gates_instrument_en_1": {
+  "flip_flops": 9352,
+  "logic_gates": 78730,
+  "longest_topological_path_gates": 67,
+  "cell_types": {
+   "wires": 80759,
+   "ports": 38,
+   "cells": 90153,
+   "$_ANDNOT_": 3586,
+   "$_AND_": 14911,
+   "$_DFF_P_": 10,
+   "$_MUX_": 8918,
+   "$_NAND_": 24789,
+   "$_NOR_": 3755,
+   "$_NOT_": 769,
+   "$_ORNOT_": 3124,
+   "$_OR_": 8451,
+   "$_SDFFCE_PN0P_": 5932,
+   "$_SDFFE_PN0P_": 713,
+   "$_SDFFE_PN1P_": 4,
+   "$_SDFFE_PP0P_": 2655,
+   "$_SDFF_PN0_": 6,
+   "$_SDFF_PP0_": 32,
+   "$_XNOR_": 4083,
+   "$_XOR_": 6344,
+   "$scopeinfo": 2070,
+   "cim_macro": 1
+  }
+ },
+ "generic_gates_instrument_en_0": {
+  "flip_flops": 9332,
+  "logic_gates": 70568,
+  "longest_topological_path_gates": 67,
+  "cell_types": {
+   "wires": 72598,
+   "ports": 38,
+   "cells": 80948,
+   "$_ANDNOT_": 2986,
+   "$_AND_": 13153,
+   "$_DFF_P_": 10,
+   "$_MUX_": 8630,
+   "$_NAND_": 23539,
+   "$_NOR_": 1035,
+   "$_NOT_": 690,
+   "$_ORNOT_": 2674,
+   "$_OR_": 8285,
+   "$_SDFFCE_PN0P_": 5932,
+   "$_SDFFE_PN0P_": 693,
+   "$_SDFFE_PN1P_": 4,
+   "$_SDFFE_PP0P_": 2655,
+   "$_SDFF_PN0_": 6,
+   "$_SDFF_PP0_": 32,
+   "$_XNOR_": 4049,
+   "$_XOR_": 5527,
+   "$scopeinfo": 1047,
+   "cim_macro": 1
+  }
+ }
+}

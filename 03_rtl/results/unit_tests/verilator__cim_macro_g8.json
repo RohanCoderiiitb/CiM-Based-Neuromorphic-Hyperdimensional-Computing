@@ -1,0 +1,14 @@
+{
+ "sim": "verilator",
+ "case": "cim_macro_g8",
+ "toplevel": "cim_macro",
+ "module": "test_cim_macro",
+ "parameters": {
+  "ROWS_PER_GROUP": 8
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 0.9
+}

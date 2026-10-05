@@ -1,0 +1,21 @@
+=== [0s] lint
+- Verilator: Built from 0.507 MB sources in 16 modules, into 1.544 MB in 5 C++ files needing 0.000 MB
+- Verilator: Walltime 0.253 s (elab=0.014, cvt=0.224, bld=0.000); cpu 0.252 s on 1 threads; allocated 93.125 MB
+clean
+=== [1s] level1_guard
+[PASS] level1_guard: 10 passed in 1.86s | {'dvsgesture_seed0': 0, 'dvsgesture_seed1': 0, 'dvsgesture_seed2': 0, 'nmnist_seed0': 0} | streams {'dvsgesture': 20, 'nmnist': 1000} | 3.5s
+=== [5s] unit_tests
+[PASS] icarus    mvm_unit_g64_c20_s1          1 tests, 4.4s 
+[PASS] icarus    mvm_unit_g8_c160_s0          1 tests, 3.7s 
+[PASS] icarus: g-sweep X identical across 11 runs / 9 vectors
+=== [105s] verilator_regr
+[PASS] nmnist_seed0_g64: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 11.3s
+[PASS] nmnist_seed0_g8: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 23.0s
+[PASS] nmnist_seed0_g8_gaps: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 26.7s
+=== [731s] synthesis
+  "longest_topological_path_gates": 67
+ }
+}
+=== [781s] report
+/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/03_rtl/results/reports/phase1e_report.md
+=== done in 783s: 03_rtl/results/reports/phase1e_report.md

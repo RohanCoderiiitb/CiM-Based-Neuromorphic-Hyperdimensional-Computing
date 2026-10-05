@@ -10,7 +10,7 @@ module popcount #(
   if (N == 1) begin : g_leaf
     assign count_o = bits_i[0];
   end else begin : g_split
-    localparam int H = N / 2;
+    localparam int H  = N / 2;
     localparam int WL = $clog2(H + 1);
     localparam int WH = $clog2(N - H + 1);
     logic [WL-1:0] lo_cnt;

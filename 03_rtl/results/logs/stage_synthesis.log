@@ -1,0 +1,22 @@
+== 1. specified elaboration (check -assert, zero latches)
+check -assert: PASS (exit 0)
+latch cells: 0
+== 2. generic gate smell test, INSTRUMENT_EN=1 (cim_macro is a blackbox: the behavioural crossbar)
+== 2. generic gate smell test, INSTRUMENT_EN=0 (cim_macro is a blackbox: the behavioural crossbar)
+{
+ "specified_elaboration": {
+  "check_assert": "PASS",
+  "latch_cells": 0,
+  "has_blackbox_cim_macro": true
+ },
+ "generic_gates_instrument_en_1": {
+  "flip_flops": 9352,
+  "logic_gates": 78730,
+  "longest_topological_path_gates": 67
+ },
+ "generic_gates_instrument_en_0": {
+  "flip_flops": 9332,
+  "logic_gates": 70568,
+  "longest_topological_path_gates": 67
+ }
+}

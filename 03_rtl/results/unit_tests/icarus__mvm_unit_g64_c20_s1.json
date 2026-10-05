@@ -1,0 +1,16 @@
+{
+ "sim": "icarus",
+ "case": "mvm_unit_g64_c20_s1",
+ "toplevel": "mvm_unit",
+ "module": "test_mvm_unit",
+ "parameters": {
+  "ROWS_PER_GROUP": 64,
+  "N_PARALLEL_COLS": 20,
+  "PLANE_SKIP_EN": 1
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 4.4
+}

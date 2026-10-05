@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 .cache/
 results/scratch/
+
+# regenerable per-timestep logs (scripts/run_everything.sh rebuilds them; compare_sims.py needs them)
+results/regression/*.timesteps.jsonl.gz
+.DS_Store

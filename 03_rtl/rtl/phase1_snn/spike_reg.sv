@@ -1,25 +1,33 @@
 // spike_reg.sv - block I (output side). Holds the 20-bit spike vector S(t) with a ONE-CYCLE valid strobe, the timestep
 // index, and `done` after the last timestep (T strobes in a sample).
-module spike_reg
-  import cim_neurohdc_pkg::*;
-(
-    input  logic                  clk_i,
-    input  logic                  rst_n_i,
-    input  logic                  clr_i,           // sample start
-    input  logic                  load_i,          // capture spike_i for timestep tstep_i (one pulse per timestep)
-    input  logic [N_NEURONS-1:0]  spike_i,
-    input  logic [W_TSTEP-1:0]    tstep_i,
-    output logic [N_NEURONS-1:0]  spike_o,
-    output logic                  valid_o,         // one-cycle strobe, once per timestep
-    output logic [W_TSTEP-1:0]    tstep_o,
-    output logic                  done_o,          // level: T strobes have been produced
-    output logic                  assert_fail_o
+
+
+
+
+
+
+import cim_neurohdc_pkg::N_NEURONS;
+import cim_neurohdc_pkg::N_TIMESTEPS;
+import cim_neurohdc_pkg::W_TSTEP;
+
+module spike_reg (
+    input  logic                 clk_i,
+    input  logic                 rst_n_i,
+    input  logic                 clr_i,         // sample start
+    input  logic                 load_i,        // capture spike_i for timestep tstep_i (one pulse per timestep)
+    input  logic [N_NEURONS-1:0] spike_i,
+    input  logic [  W_TSTEP-1:0] tstep_i,
+    output logic [N_NEURONS-1:0] spike_o,
+    output logic                 valid_o,       // one-cycle strobe, once per timestep
+    output logic [  W_TSTEP-1:0] tstep_o,
+    output logic                 done_o,        // level: T strobes have been produced
+    output logic                 assert_fail_o
 );
   logic [N_NEURONS-1:0] spike_q;
   logic                 valid_q;
-  logic [W_TSTEP-1:0]   tstep_q;
+  logic [  W_TSTEP-1:0] tstep_q;
   logic                 done_q;
-  logic [W_TSTEP-1:0]   strobes_q;
+  logic [  W_TSTEP-1:0] strobes_q;
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i || clr_i) begin

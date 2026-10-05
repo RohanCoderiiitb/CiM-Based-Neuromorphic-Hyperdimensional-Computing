@@ -2,14 +2,25 @@
 //   addr = p*256 + min(floor(16 y / H), 15)*16 + min(floor(16 x / W), 15)
 // floor(16 c / W) is computed as (c * coord_mul_i) >> COORD_SHIFT, a reciprocal multiply, so ONE RTL covers
 //   128x128 (mul = 128, i.e. c >> 3 exactly) and 34x34 (mul = 482, a true divide by 34, no divider).
-module addr_gen
-  import cim_neurohdc_pkg::*;
-(
-    input  logic [W_COORD-1:0]     x_i,
-    input  logic [W_COORD-1:0]     y_i,
+
+
+
+
+
+
+import cim_neurohdc_pkg::COORD_SHIFT;
+import cim_neurohdc_pkg::GRID_DIM;
+import cim_neurohdc_pkg::W_ADDR;
+import cim_neurohdc_pkg::W_COORD;
+import cim_neurohdc_pkg::W_COORD_MUL;
+import cim_neurohdc_pkg::W_GRID;
+
+module addr_gen (
+    input  logic [    W_COORD-1:0] x_i,
+    input  logic [    W_COORD-1:0] y_i,
     input  logic                   p_i,
     input  logic [W_COORD_MUL-1:0] coord_mul_i,
-    output logic [W_ADDR-1:0]      addr_o
+    output logic [     W_ADDR-1:0] addr_o
 );
   localparam int W_PROD = W_COORD + W_COORD_MUL;
   localparam logic [W_PROD-1:0] GRID_MAX = W_PROD'(GRID_DIM - 1);

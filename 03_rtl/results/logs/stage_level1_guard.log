@@ -1,0 +1,1 @@
+[PASS] level1_guard: 10 passed in 1.86s | {'dvsgesture_seed0': 0, 'dvsgesture_seed1': 0, 'dvsgesture_seed2': 0, 'nmnist_seed0': 0} | streams {'dvsgesture': 20, 'nmnist': 1000} | 3.5s

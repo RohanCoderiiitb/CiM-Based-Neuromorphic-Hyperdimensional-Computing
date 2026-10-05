@@ -1,0 +1,36 @@
+{
+ "pytest": {
+  "returncode": 0,
+  "summary": "10 passed in 1.86s"
+ },
+ "traces": {
+  "dvsgesture_seed0": {
+   "samples": 240,
+   "mismatching": 0
+  },
+  "dvsgesture_seed1": {
+   "samples": 240,
+   "mismatching": 0
+  },
+  "dvsgesture_seed2": {
+   "samples": 240,
+   "mismatching": 0
+  },
+  "nmnist_seed0": {
+   "samples": 1000,
+   "mismatching": 0
+  }
+ },
+ "events": {
+  "dvsgesture": {
+   "streams": 20,
+   "error": null
+  },
+  "nmnist": {
+   "streams": 1000,
+   "error": null
+  }
+ },
+ "pass": true,
+ "wall_s": 3.5
+}

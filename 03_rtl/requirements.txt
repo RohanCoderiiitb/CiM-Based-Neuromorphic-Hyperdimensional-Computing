@@ -1,0 +1,7 @@
+# Python environment used for the 1E results (python 3.14; created at the repository root as ./venv)
+cocotb==2.1.0
+cocotb-test==0.3.0
+numpy==2.5.3
+scipy==1.18.1
+torch==2.14.1      # only because Phase 0's events.py imports it
+pytest==9.1.1

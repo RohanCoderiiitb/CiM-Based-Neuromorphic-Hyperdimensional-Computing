@@ -1,0 +1,900 @@
+[
+ {
+  "sim": "verilator",
+  "case": "addr_gen",
+  "toplevel": "addr_gen",
+  "module": "test_addr_gen",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.2
+ },
+ {
+  "sim": "verilator",
+  "case": "event_ctr",
+  "toplevel": "event_ctr",
+  "module": "test_event_ctr",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "count_mem",
+  "toplevel": "count_mem",
+  "module": "test_count_mem",
+  "parameters": {},
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "weight_load",
+  "toplevel": "weight_load",
+  "module": "test_weight_load",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "spike_reg",
+  "toplevel": "spike_reg",
+  "module": "test_spike_reg",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "if_neuron_array",
+  "toplevel": "if_neuron_array",
+  "module": "test_if_neuron",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g48_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g1_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g512_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c160_s0",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g64_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g8",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g8",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g48",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g48",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g512",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g512",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.3
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g4",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g16",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 16,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g32",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 32,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g48",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g64",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g512",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.2
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.3
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g64_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8_c160_s0",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "verilator",
+  "case": "g_sweep_identical_X",
+  "ok": true
+ },
+ {
+  "sim": "icarus",
+  "case": "addr_gen",
+  "toplevel": "addr_gen",
+  "module": "test_addr_gen",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "icarus",
+  "case": "event_ctr",
+  "toplevel": "event_ctr",
+  "module": "test_event_ctr",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.4
+ },
+ {
+  "sim": "icarus",
+  "case": "count_mem",
+  "toplevel": "count_mem",
+  "module": "test_count_mem",
+  "parameters": {},
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "icarus",
+  "case": "weight_load",
+  "toplevel": "weight_load",
+  "module": "test_weight_load",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "spike_reg",
+  "toplevel": "spike_reg",
+  "module": "test_spike_reg",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "if_neuron_array",
+  "toplevel": "if_neuron_array",
+  "module": "test_if_neuron",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.9
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g48_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g1_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g512_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c160_s0",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g64_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 0.8
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g8",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.0
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g8",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g48",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g48",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.2
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g512",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.3
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g512",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.1
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 9.9
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g4",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.0
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 3.0
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g16",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 16,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.3
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g32",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 32,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.1
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g48",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.1
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g64",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g512",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 12.6
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g64_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.4
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8_c160_s0",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 3.7
+ },
+ {
+  "sim": "icarus",
+  "case": "g_sweep_identical_X",
+  "ok": true
+ }
+]

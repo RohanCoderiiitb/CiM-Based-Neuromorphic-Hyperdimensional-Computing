@@ -1,0 +1,4 @@
+# Project lint configuration: the naming convention of the 1E brief (parameters CAPS_WITH_UNDERSCORES) and a 180-column limit
+# (assertion messages and port comments are long; the Verible default is 100).
++parameter-name-style=localparam_style:ALL_CAPS;parameter_style:ALL_CAPS
++line-length=length:180

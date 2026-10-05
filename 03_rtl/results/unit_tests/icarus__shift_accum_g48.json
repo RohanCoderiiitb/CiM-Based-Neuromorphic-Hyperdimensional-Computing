@@ -1,0 +1,14 @@
+{
+ "sim": "icarus",
+ "case": "shift_accum_g48",
+ "toplevel": "shift_accum",
+ "module": "test_shift_accum",
+ "parameters": {
+  "ROWS_PER_GROUP": 48
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.2
+}

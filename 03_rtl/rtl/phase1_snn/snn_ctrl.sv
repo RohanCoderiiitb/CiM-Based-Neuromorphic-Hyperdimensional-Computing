@@ -12,72 +12,88 @@
 // source holding `valid` is back-pressured and no event can be lost - the assertions check that every event is counted exactly once
 // and that the counters sum to the timestep's event count at every boundary.
 // ingest_en_i gates event intake (nothing drives it low in 1E; Phase 4 early exit will).
-module snn_ctrl
-  import cim_neurohdc_pkg::*;
-(
-    input  logic                  clk_i,
-    input  logic                  rst_n_i,
+
+
+
+
+
+
+import cim_neurohdc_pkg::DRAIN_CYCLES;
+import cim_neurohdc_pkg::N_TIMESTEPS;
+import cim_neurohdc_pkg::ST_DONE;
+import cim_neurohdc_pkg::ST_IDLE;
+import cim_neurohdc_pkg::ST_LOAD;
+import cim_neurohdc_pkg::ST_RUN;
+import cim_neurohdc_pkg::W_NEVENTS;
+import cim_neurohdc_pkg::W_PCOUNT;
+import cim_neurohdc_pkg::W_STAT;
+import cim_neurohdc_pkg::W_TOP_STATE;
+import cim_neurohdc_pkg::W_TSTEP;
+
+module snn_ctrl (
+    input  logic                 clk_i,
+    input  logic                 rst_n_i,
     // host
-    input  logic                  load_start_i,
-    input  logic                  start_i,
-    input  logic                  ingest_en_i,
+    input  logic                 load_start_i,
+    input  logic                 start_i,
+    input  logic                 ingest_en_i,
     // event handshake
-    input  logic                  ev_valid_i,
-    output logic                  ev_ready_o,
-    output logic                  ev_accept_o,
+    input  logic                 ev_valid_i,
+    output logic                 ev_ready_o,
+    output logic                 ev_accept_o,
     // event_ctr
-    input  logic                  boundary_i,
-    input  logic [W_NEVENTS-1:0]  ev_n_i,
-    input  logic [W_TSTEP-1:0]    ev_tstep_i,
-    input  logic [W_NEVENTS-1:0]  ev_total_i,
-    input  logic                  sample_done_i,
+    input  logic                 boundary_i,
+    input  logic [W_NEVENTS-1:0] ev_n_i,
+    input  logic [  W_TSTEP-1:0] ev_tstep_i,
+    input  logic [W_NEVENTS-1:0] ev_total_i,
+    input  logic                 sample_done_i,
     // weight_load
-    output logic                  wl_start_o,
-    input  logic                  wl_done_i,
+    output logic                 wl_start_o,
+    input  logic                 wl_done_i,
     // sample start pulse (clears event_ctr, neurons, spike_reg)
-    output logic                  sample_clr_o,
+    output logic                 sample_clr_o,
     // count_mem
-    input  logic                  cm_busy_i,
-    input  logic                  cm_fwd_i,
-    output logic                  cm_wipe_o,
-    output logic                  cm_chk_o,
-    output logic [W_NEVENTS-1:0]  cm_chk_expected_o,
-    input  logic [W_PCOUNT-1:0]   active_cnt_i,
+    input  logic                 cm_busy_i,
+    input  logic                 cm_fwd_i,
+    output logic                 cm_wipe_o,
+    output logic                 cm_chk_o,
+    output logic [W_NEVENTS-1:0] cm_chk_expected_o,
+    input  logic [ W_PCOUNT-1:0] active_cnt_i,
     // plane_seq / shift_accum
-    output logic                  seq_start_o,
-    input  logic                  seq_done_i,
-    input  logic [W_STAT-1:0]     seq_rows_skipped_i,
-    input  logic [W_STAT-1:0]     seq_rows_read_i,
-    input  logic [W_STAT-1:0]     seq_reads_allcols_i,
-    input  logic [W_STAT-1:0]     seq_reads_plane_i,
-    input  logic [W_STAT-1:0]     seq_reads_issued_i,
-    input  logic [W_STAT-1:0]     zero_groups_i,
-    output logic                  acc_clr_o,
+    output logic                 seq_start_o,
+    input  logic                 seq_done_i,
+    input  logic [   W_STAT-1:0] seq_rows_skipped_i,
+    input  logic [   W_STAT-1:0] seq_rows_read_i,
+    input  logic [   W_STAT-1:0] seq_reads_allcols_i,
+    input  logic [   W_STAT-1:0] seq_reads_plane_i,
+    input  logic [   W_STAT-1:0] seq_reads_issued_i,
+    input  logic [   W_STAT-1:0] zero_groups_i,
+    output logic                 acc_clr_o,
     // neurons / spike_reg
-    output logic                  neuron_upd_o,
-    output logic                  spike_load_o,
-    output logic [W_TSTEP-1:0]    ts_idx_o,
-    input  logic                  spike_valid_i,
+    output logic                 neuron_upd_o,
+    output logic                 spike_load_o,
+    output logic [  W_TSTEP-1:0] ts_idx_o,
+    input  logic                 spike_valid_i,
     // status
-    output logic [1:0]            state_o,
-    output logic                  weights_loaded_o,
-    output logic                  done_o,
+    output logic [          1:0] state_o,
+    output logic                 weights_loaded_o,
+    output logic                 done_o,
     // per-timestep instrumentation, held from the spike strobe until the next one
-    output logic [W_STAT-1:0]     ts_events_o,
-    output logic [W_STAT-1:0]     ts_active_o,
-    output logic [W_STAT-1:0]     ts_rows_skipped_o,
-    output logic [W_STAT-1:0]     ts_rows_read_o,
-    output logic [W_STAT-1:0]     ts_reads_allcols_o,
-    output logic [W_STAT-1:0]     ts_reads_plane_o,
-    output logic [W_STAT-1:0]     ts_reads_issued_o,
-    output logic [W_STAT-1:0]     ts_zero_groups_o,
-    output logic [W_STAT-1:0]     ts_fwd_o,
-    output logic [W_STAT-1:0]     ts_cycles_o,
-    output logic [W_STAT-1:0]     ts_cycles_ingest_o,
-    output logic [W_STAT-1:0]     cyc_total_o,
-    output logic                  assert_fail_o
+    output logic [   W_STAT-1:0] ts_events_o,
+    output logic [   W_STAT-1:0] ts_active_o,
+    output logic [   W_STAT-1:0] ts_rows_skipped_o,
+    output logic [   W_STAT-1:0] ts_rows_read_o,
+    output logic [   W_STAT-1:0] ts_reads_allcols_o,
+    output logic [   W_STAT-1:0] ts_reads_plane_o,
+    output logic [   W_STAT-1:0] ts_reads_issued_o,
+    output logic [   W_STAT-1:0] ts_zero_groups_o,
+    output logic [   W_STAT-1:0] ts_fwd_o,
+    output logic [   W_STAT-1:0] ts_cycles_o,
+    output logic [   W_STAT-1:0] ts_cycles_ingest_o,
+    output logic [   W_STAT-1:0] cyc_total_o,
+    output logic                 assert_fail_o
 );
-  localparam int POST_DONE_WAIT = DRAIN_CYCLES - 2;   // cycles between plane_seq's done pulse and X being final (0 for the 1+1 pipeline)
+  localparam int POST_DONE_WAIT = DRAIN_CYCLES - 2;  // cycles between plane_seq's done pulse and X being final (0 for the 1+1 pipeline)
   localparam logic [W_STAT-1:0] ONE = W_STAT'(1);
 
   typedef enum logic [3:0] {
@@ -91,43 +107,43 @@ module snn_ctrl
     R_WIPE
   } run_state_e;
 
-  top_state_e               top_q;
-  run_state_e               run_q;
-  logic                     loaded_q;
-  logic       [W_TSTEP-1:0] ts_idx_q;
-  logic       [W_STAT-1:0]  ev_in_ts_q;
-  logic       [W_STAT-1:0]  fwd_q;
-  logic       [W_STAT-1:0]  cyc_ts_q;
-  logic       [W_STAT-1:0]  cyc_ing_q;
-  logic       [W_STAT-1:0]  cyc_total_q;
-  logic       [W_STAT-1:0]  wait_q;
-  logic       [W_STAT-1:0]  active_q;
+  logic       [W_TOP_STATE-1:0] top_q;
+  run_state_e                   run_q;
+  logic                         loaded_q;
+  logic       [    W_TSTEP-1:0] ts_idx_q;
+  logic       [     W_STAT-1:0] ev_in_ts_q;
+  logic       [     W_STAT-1:0] fwd_q;
+  logic       [     W_STAT-1:0] cyc_ts_q;
+  logic       [     W_STAT-1:0] cyc_ing_q;
+  logic       [     W_STAT-1:0] cyc_total_q;
+  logic       [     W_STAT-1:0] wait_q;
+  logic       [     W_STAT-1:0] active_q;
 
-  logic       [W_STAT-1:0]  l_events_q, l_active_q, l_skipped_q, l_rows_q, l_allcols_q, l_plane_q, l_issued_q, l_zero_q, l_fwd_q, l_cyc_q, l_cyc_ing_q;
+  logic [W_STAT-1:0] l_events_q, l_active_q, l_skipped_q, l_rows_q, l_allcols_q, l_plane_q, l_issued_q, l_zero_q, l_fwd_q, l_cyc_q, l_cyc_ing_q;
 
-  logic                     in_run;
-  logic                     can_start;
-  logic                     boundary_acc;
+  logic in_run;
+  logic can_start;
+  logic boundary_acc;
 
-  assign in_run       = (top_q == ST_RUN);
-  assign can_start    = (top_q == ST_IDLE || top_q == ST_DONE);
-  assign sample_clr_o = start_i && can_start && loaded_q;
-  assign wl_start_o   = load_start_i && can_start;
-  assign ev_ready_o   = in_run && (run_q == R_INGEST) && ingest_en_i;
-  assign ev_accept_o  = ev_valid_i && ev_ready_o;
-  assign boundary_acc = ev_accept_o && boundary_i;
+  assign in_run             = (top_q == ST_RUN);
+  assign can_start          = (top_q == ST_IDLE || top_q == ST_DONE);
+  assign sample_clr_o       = start_i && can_start && loaded_q;
+  assign wl_start_o         = load_start_i && can_start;
+  assign ev_ready_o         = in_run && (run_q == R_INGEST) && ingest_en_i;
+  assign ev_accept_o        = ev_valid_i && ev_ready_o;
+  assign boundary_acc       = ev_accept_o && boundary_i;
 
-  assign cm_wipe_o         = in_run && (run_q == R_WIPE);
-  assign cm_chk_o          = in_run && (run_q == R_CHECK);
-  assign cm_chk_expected_o = W_NEVENTS'(ev_in_ts_q);
-  assign seq_start_o       = in_run && (run_q == R_CHECK);
-  assign acc_clr_o         = in_run && (run_q == R_CHECK);
-  assign neuron_upd_o      = in_run && (run_q == R_UPDATE);
-  assign spike_load_o      = in_run && (run_q == R_EMIT);
-  assign ts_idx_o          = ts_idx_q;
-  assign state_o           = top_q;
-  assign weights_loaded_o  = loaded_q;
-  assign done_o            = (top_q == ST_DONE);
+  assign cm_wipe_o          = in_run && (run_q == R_WIPE);
+  assign cm_chk_o           = in_run && (run_q == R_CHECK);
+  assign cm_chk_expected_o  = W_NEVENTS'(ev_in_ts_q);
+  assign seq_start_o        = in_run && (run_q == R_CHECK);
+  assign acc_clr_o          = in_run && (run_q == R_CHECK);
+  assign neuron_upd_o       = in_run && (run_q == R_UPDATE);
+  assign spike_load_o       = in_run && (run_q == R_EMIT);
+  assign ts_idx_o           = ts_idx_q;
+  assign state_o            = top_q;
+  assign weights_loaded_o   = loaded_q;
+  assign done_o             = (top_q == ST_DONE);
 
   assign ts_events_o        = l_events_q;
   assign ts_active_o        = l_active_q;
@@ -196,7 +212,7 @@ module snn_ctrl
           if (ev_accept_o) ev_in_ts_q <= ev_in_ts_q + ONE;
           unique case (run_q)
             R_INGEST: if (boundary_acc) run_q <= R_DRAIN;
-            R_DRAIN: if (!cm_busy_i) run_q <= R_CHECK;
+            R_DRAIN:  if (!cm_busy_i) run_q <= R_CHECK;
             R_CHECK: begin
               active_q <= W_STAT'(active_cnt_i);
               run_q    <= R_MVM;
@@ -238,7 +254,7 @@ module snn_ctrl
               if (ts_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) top_q <= ST_DONE;
               run_q <= R_INGEST;
             end
-            default: run_q <= R_INGEST;
+            default:  run_q <= R_INGEST;
           endcase
         end
         default: top_q <= ST_IDLE;
@@ -257,7 +273,7 @@ module snn_ctrl
     return ((t + 1) * n + t_total - 1) / t_total - (t * n + t_total - 1) / t_total;
   endfunction
 
-  logic [W_STAT-1:0] accepted_q;   // independent count of handshakes in this sample
+  logic [W_STAT-1:0] accepted_q;  // independent count of handshakes in this sample
   logic              strobe_prev_q;
   logic [W_STAT-1:0] strobes_q;
 
@@ -288,8 +304,7 @@ module snn_ctrl
       end
       if (in_run && run_q == R_CHECK) begin
         if (longint'(ev_in_ts_q) != longint'(bin_size(longint'(ev_n_i), longint'(ts_idx_q)))) begin
-          $display("[ASSERT FAIL] %m: timestep %0d holds %0d events, floor(k*T/n) rule requires %0d", ts_idx_q, ev_in_ts_q, bin_size(
-                   longint'(ev_n_i), longint'(ts_idx_q)));
+          $display("[ASSERT FAIL] %m: timestep %0d holds %0d events, floor(k*T/n) rule requires %0d", ts_idx_q, ev_in_ts_q, bin_size(longint'(ev_n_i), longint'(ts_idx_q)));
           fail_q <= 1'b1;
         end
         if (longint'(ev_in_ts_q) != longint'(ev_n_i) / longint'(N_TIMESTEPS) && longint'(ev_in_ts_q) != longint'(ev_n_i) / longint'(N_TIMESTEPS) + 1) begin

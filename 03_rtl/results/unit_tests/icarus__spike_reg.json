@@ -1,0 +1,12 @@
+{
+ "sim": "icarus",
+ "case": "spike_reg",
+ "toplevel": "spike_reg",
+ "module": "test_spike_reg",
+ "parameters": {},
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 0.8
+}

@@ -1,0 +1,12 @@
+{
+ "sim": "verilator",
+ "case": "event_ctr",
+ "toplevel": "event_ctr",
+ "module": "test_event_ctr",
+ "parameters": {},
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.1
+}

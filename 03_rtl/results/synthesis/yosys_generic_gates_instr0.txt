@@ -1,0 +1,34 @@
+
+20. Printing statistics.
+
+=== snn_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    72598 wires
+    95713 wire bits
+     3093 public wires
+    26060 public wire bits
+       38 ports
+     1462 port bits
+    80948 cells
+     2986   $_ANDNOT_
+    13153   $_AND_
+       10   $_DFF_P_
+     8630   $_MUX_
+    23539   $_NAND_
+     1035   $_NOR_
+      690   $_NOT_
+     2674   $_ORNOT_
+     8285   $_OR_
+     5932   $_SDFFCE_PN0P_
+      693   $_SDFFE_PN0P_
+        4   $_SDFFE_PN1P_
+     2655   $_SDFFE_PP0P_
+        6   $_SDFF_PN0_
+       32   $_SDFF_PP0_
+     4049   $_XNOR_
+     5527   $_XOR_
+     1047   $scopeinfo
+        1   cim_macro
+

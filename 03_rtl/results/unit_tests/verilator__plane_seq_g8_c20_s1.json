@@ -1,0 +1,16 @@
+{
+ "sim": "verilator",
+ "case": "plane_seq_g8_c20_s1",
+ "toplevel": "plane_seq",
+ "module": "test_plane_seq",
+ "parameters": {
+  "ROWS_PER_GROUP": 8,
+  "N_PARALLEL_COLS": 20,
+  "PLANE_SKIP_EN": 1
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.0
+}
