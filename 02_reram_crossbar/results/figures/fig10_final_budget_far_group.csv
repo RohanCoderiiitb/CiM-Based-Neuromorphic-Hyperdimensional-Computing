@@ -5,6 +5,7 @@ supply/ground rail (data dependent),0.04334079401124143
 settling + crosstalk at sampling time,0.0015194584796198124
 ladder threshold quantisation,0.049999999999999996
 antisymmetric (half) table storage,0.034741760399789955
+row-gain correction residual (rank 3),0.2103493380300213
 drift,0.28957297977115004
 device spread,8.04852227209081
 absolute signal (comparator noise),5.0

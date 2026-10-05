@@ -23,15 +23,15 @@ full ladder table (29 kbit) instead of half,sense_front_ends,0.01856
 single-end driver R_DRV 2 (budget just closes),reference_dacs,0.0031999999999999997
 both-end R_DRV 20,reference_dacs,0.0031999999999999997
 full ladder table (29 kbit) instead of half,reference_dacs,0.0031999999999999997
-"baseline: both-end drivers, R_DRV 10",ladder_and_gain_storage,0.009222
-single-end driver R_DRV 2 (budget just closes),ladder_and_gain_storage,0.009222
-both-end R_DRV 20,ladder_and_gain_storage,0.009222
-full ladder table (29 kbit) instead of half,ladder_and_gain_storage,0.015678
+"baseline: both-end drivers, R_DRV 10",ladder_and_gain_storage,0.017862
+single-end driver R_DRV 2 (budget just closes),ladder_and_gain_storage,0.017862
+both-end R_DRV 20,ladder_and_gain_storage,0.017862
+full ladder table (29 kbit) instead of half,ladder_and_gain_storage,0.024318
 "baseline: both-end drivers, R_DRV 10",supply_ground_straps,0.00032385152
 single-end driver R_DRV 2 (budget just closes),supply_ground_straps,0.00032385152
 both-end R_DRV 20,supply_ground_straps,0.00032385152
 full ladder table (29 kbit) instead of half,supply_ground_straps,0.00032385152
-"baseline: both-end drivers, R_DRV 10",overhead_20pct,0.023374892825600003
-single-end driver R_DRV 2 (budget just closes),overhead_20pct,0.044443620608
-both-end R_DRV 20,overhead_20pct,0.0163519835648
-full ladder table (29 kbit) instead of half,overhead_20pct,0.024666092825600002
+"baseline: both-end drivers, R_DRV 10",overhead_20pct,0.025102892825600003
+single-end driver R_DRV 2 (budget just closes),overhead_20pct,0.046171620608
+both-end R_DRV 20,overhead_20pct,0.0180799835648
+full ladder table (29 kbit) instead of half,overhead_20pct,0.0263940928256

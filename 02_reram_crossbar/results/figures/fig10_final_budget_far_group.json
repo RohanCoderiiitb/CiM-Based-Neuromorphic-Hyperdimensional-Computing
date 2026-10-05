@@ -1,0 +1,18 @@
+{
+ "terms": [
+  "device spread",
+  "absolute signal (comparator noise)",
+  "ReRAM HRS leakage residual",
+  "wire IR (within group)",
+  "row-driver IR",
+  "supply/ground rail (data dependent)",
+  "settling + crosstalk at sampling time",
+  "ladder threshold quantisation",
+  "antisymmetric (half) table storage",
+  "row-gain correction residual (rank 3)",
+  "drift"
+ ],
+ "margin_left_uA": 0.48,
+ "limit_uA": 12.2,
+ "total_uA": 11.72
+}

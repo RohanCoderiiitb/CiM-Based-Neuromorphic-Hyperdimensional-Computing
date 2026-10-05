@@ -185,6 +185,8 @@ Baseline 1C design: drivers at both ends (R_DRV 10, row line 0.72), supply and g
 | row-gain correction residual (rank 3) | deterministic (linear) | 0.210 |
 | drift | deterministic (linear) | 0.290 |
 
+Figure 10 (`results/figures/fig10_final_budget_far_group.png`) draws these 11 terms from the same file (`budget_final_design.json`).
+
 Total error 11.72 uA; **margin left 0.48 uA = 3.9% of the limit (1B: 0.80 uA, 6.4%).** The new terms add 0.34 uA; the row-driver term fell (1.83 -> 1.25 uA) while the far-group gain with the rails is 0.892 (1B: 0.908) and the near group's 0.803 (1B: 0.824). **Whenever a term is measured, the remaining margin is stated: 0.80 -> 0.69 (both-end rows + rails + dynamics) -> 0.48 uA after the rank-3 gain residual.** Sensitivities (same budget):
 
 | variation | margin (uA) | closes |
@@ -260,7 +262,7 @@ No layout exists; each periphery size is an assumption (section 14) with a low /
 | both-end R_DRV 20 | 0.108 | 0.0066 | 0.0351 | 0.0218 | 0.0179 | 0.0087 | 0.0181 |
 | full ladder table (29 kbit) instead of half | 0.158 | 0.0066 | 0.0702 | 0.0218 | 0.0243 | 0.0087 | 0.0264 |
 
-- Density sensitivity of the baseline total: low / mid / high = 0.092 / 0.151 / 0.285 mm^2. **The cell array is 7% / 4% / 2% of the total at the low / mid / high density assumptions and the row drivers 46% / 47% / 49%: periphery dominates under every assumption.** The row drivers (5,120 of them, 55 um wide each at 10 ohm) are the largest part and the single biggest lever: R_DRV 20 ohm both ends saves {100*(1-area['variants']['both-end R_DRV 20']['total_mm2']/ab['total_mm2']):.0f}% of the total at a cost of {u(fin['vs_r_drv'][0]['margin_left_a']-fin['vs_r_drv'][1]['margin_left_a'])} uA of margin (section 4.4); a single 2 ohm driver per row (the only single-ended option that closes) multiplies the total by {area['variants']['single-end driver R_DRV 2 (budget just closes)']['total_mm2']/ab['total_mm2']:.2f}.
+- Density sensitivity of the baseline total: low / mid / high = 0.092 / 0.151 / 0.285 mm^2. **The cell array is 7% / 4% / 2% of the total at the low / mid / high density assumptions and the row drivers 46% / 47% / 49%: periphery dominates under every assumption.** The row drivers (5,120 of them, 55 um wide each at 10 ohm) are the largest part and the single biggest lever: R_DRV 20 ohm both ends saves 28% of the total at a cost of 0.23 uA of margin (section 4.4); a single 2 ohm driver per row (the only single-ended option that closes) multiplies the total by 1.84.
 - **NeuroHDC comparison basis** (their Table III, NeuroHDC-small, DVS-Gesture, 20 neurons, scaled by them to 45 nm): **0.399 mm^2** (whole accelerator, 130 nm: 2.494 mm^2), **3.01 uJ per inference** (130 nm: 41.61 uJ), 100 MHz clock, latency 1.8 ms at 130 nm. Their weight memory is the same 5 x (512 x 32) organisation (10.24 kB). Our 0.15 mm^2 is the weight memory plus its analog periphery only; the 1E digital logic (9,352 flip-flops generic) and the class-hypervector memory add to it in Phase 5, and their figure cannot be split into SRAM and logic from the paper. A like-for-like latency comparison needs the same event count: ours is 407,124 events per sample (1.14 cycles/event); 1.8 ms at 100 MHz would be 180,000 cycles, i.e. their samples are not the same length.
 
 ## 6. C4 - centre tap and segmented columns

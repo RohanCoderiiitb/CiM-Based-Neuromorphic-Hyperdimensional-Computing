@@ -16,7 +16,7 @@
 
 ## 1C figures (scaleup/figures.py)
 
-**Figure 7 - group profile.** Level span (top) and worst step Delta_G (bottom) of all 64 groups of a 512-row column versus distance from the sense node, for bitline resistance 0.5 and 0.72 ohm/pitch (mesh solver, 20 F^2 cell, R_s 1 ohm, a = 8). Both fall monotonically; the far group's step is 2.7x (0.5) to 3.6x (0.72) smaller than the near group's.
+**Figure 7 - group profile.** All 64 groups are drawn (a dot on every group, a larger marker every eighth). Level span (top) and worst step Delta_G (bottom) of all 64 groups of a 512-row column versus distance from the sense node, for bitline resistance 0.5 and 0.72 ohm/pitch (mesh solver, 20 F^2 cell, R_s 1 ohm, a = 8). Both fall monotonically; the far group's step is 2.7x (0.5) to 3.6x (0.72) smaller than the near group's. The box on the lower panel follows the far group's step through the budget: ideal step, step after row-line and rail losses, the allowance it permits and the error against it.
 
 **Figure 8 - row-line levers.** Budget margin left at g = 8 versus row-driver resistance for the true 32-cell (64-bitline) macro: one driver per row fails above ~4 ohm (and closes by only 0.1-0.15 uA below), drivers at both ends close up to ~30 ohm. The dotted line is 1B's final margin for the 16-cell row line.
 

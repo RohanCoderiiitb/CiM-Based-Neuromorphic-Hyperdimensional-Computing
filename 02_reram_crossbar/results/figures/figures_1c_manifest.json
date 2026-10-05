@@ -1,0 +1,24 @@
+{
+ "fig7": {
+  "full_column/group_tables_r0.5.json": "edd7a3baffe4be1a",
+  "full_column/group_tables_r0.72.json": "ca0160abba66620f",
+  "macro_512x32/budget_final_design.json": "a53e8fe0d0f869b3"
+ },
+ "fig8": {
+  "macro_512x32/row_line_levers.json": "7ccf673af40e19e6",
+  "macro_512x32/row_line_levers_weak_drivers.json": "af96ed6427645f9e"
+ },
+ "fig9": {
+  "macro_512x32/budget_vs_rail.json": "b85ad8b2c42b18b9",
+  "transient/crosstalk_macro_summary.json": "5ce6c2a867028cf6"
+ },
+ "fig10": {
+  "macro_512x32/budget_final_design.json": "a53e8fe0d0f869b3"
+ },
+ "fig11": {
+  "readout_variants/breakeven_margins.json": "5a7f501788a26974"
+ },
+ "fig12": {
+  "full_array/area_model.json": "53627b4327bfd8af"
+ }
+}

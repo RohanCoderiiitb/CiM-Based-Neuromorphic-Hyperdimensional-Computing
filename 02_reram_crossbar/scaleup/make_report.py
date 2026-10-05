@@ -233,7 +233,20 @@ def main() -> None:
     w("")
     w(f"Baseline 1C design: drivers at both ends (R_DRV 10, row line 0.72), supply and ground rails {C.RAIL_R_DEFAULT} ohm/pitch fed from both ends, sampled at 200 ps (cc 0.5), ladder thresholds in 0.1 uA steps, antisymmetric half-table, rank-{GAIN_RANK} gain correction. Far group (worst step {u(far['delta_a'])} uA, limit {u(far['limit_a'])} uA):")
     w("")
-    w(md_table(["term", "kind", "uA"] , [[k, ("random (5 sigma, quadrature)" if k in ("device spread", "absolute signal (comparator noise)", "row-driver IR") else "deterministic (linear)"), f"{v*1e6:.3f}"] for k, v in far["breakdown"].items()]))
+    term_rows = [[k, ("random (5 sigma, quadrature)" if k in ("device spread", "absolute signal (comparator noise)", "row-driver IR") else "deterministic (linear)"), f"{v*1e6:.3f}"] for k, v in far["breakdown"].items()]
+    w(md_table(["term", "kind", "uA"], term_rows))
+    w("")
+    w(f"Figure 10 (`results/figures/fig10_final_budget_far_group.png`) draws these {len(term_rows)} terms from the same file (`budget_final_design.json`).")
+    # ---- consistency: the figure must show exactly the table's terms and the report's margin; every figure must have been drawn from the CURRENT result files
+    fg = J(RP.FIGURES / "fig10_final_budget_far_group.json")
+    assert fg["terms"] == [r[0] for r in term_rows], f"Figure 10 terms {fg['terms']} differ from the section 4.4 table {[r[0] for r in term_rows]}: re-run python -m scaleup.figures"
+    assert abs(fg["margin_left_uA"] - round(base["margin_left_a"] * 1e6, 2)) < 1e-9, f"Figure 10 says {fg['margin_left_uA']} uA, the report says {base['margin_left_a']*1e6:.2f} uA: re-run python -m scaleup.figures"
+    import hashlib
+    man = J(RP.FIGURES / "figures_1c_manifest.json")
+    for fgn, ins in man.items():
+        for rel, h in ins.items():
+            now = hashlib.sha256((RP.RESULTS / rel).read_bytes()).hexdigest()[:16]
+            assert now == h, f"{fgn} was drawn from an older {rel}: re-run python -m scaleup.figures"
     w("")
     w(f"Total error {u(far['total_a'])} uA; **margin left {u(base['margin_left_a'])} uA = {100*base['margin_frac']:.1f}% of the limit (1B: 0.80 uA, 6.4%).** The new terms add {u(sum(far['breakdown'][k] for k in far['breakdown'] if k in ('supply/ground rail (data dependent)', 'settling + crosstalk at sampling time', 'ladder threshold quantisation', 'antisymmetric (half) table storage', f'row-gain correction residual (rank {GAIN_RANK})')))} uA; "
       f"the row-driver term fell (1.83 -> {u(far['breakdown']['row-driver IR'])} uA) while the far-group gain with the rails is {base['rows']['far']['gain']:.3f} (1B: 0.908) and the near group's {base['rows']['near']['gain']:.3f} (1B: 0.824). **Whenever a term is measured, the remaining margin is stated: 0.80 -> 0.69 (both-end rows + rails + dynamics) -> 0.48 uA after the rank-3 gain residual.** "
@@ -304,7 +317,7 @@ def main() -> None:
                  f"{v['parts_mm2']['wordline_buffers']+v['parts_mm2']['row_decoder']:.4f}", f"{v['parts_mm2']['overhead_20pct']:.4f}"] for nm, v in area["variants"].items()]))
     w("")
     w(f"- Density sensitivity of the baseline total: low / mid / high = {area['sensitivity']['low']:.3f} / {area['sensitivity']['mid']:.3f} / {area['sensitivity']['high']:.3f} mm^2. **The cell array is {100*arr_share['low']:.0f}% / {100*arr_share['mid']:.0f}% / {100*arr_share['high']:.0f}% of the total at the low / mid / high density assumptions and the row drivers {100*drv_share['low']:.0f}% / {100*drv_share['mid']:.0f}% / {100*drv_share['high']:.0f}%: periphery dominates under every assumption.** The row drivers (5,120 of them, 55 um wide each at 10 ohm) are the largest part and the single biggest lever: "
-      "R_DRV 20 ohm both ends saves {100*(1-area['variants']['both-end R_DRV 20']['total_mm2']/ab['total_mm2']):.0f}% of the total at a cost of {u(fin['vs_r_drv'][0]['margin_left_a']-fin['vs_r_drv'][1]['margin_left_a'])} uA of margin (section 4.4); a single 2 ohm driver per row (the only single-ended option that closes) multiplies the total by {area['variants']['single-end driver R_DRV 2 (budget just closes)']['total_mm2']/ab['total_mm2']:.2f}.")
+      f"R_DRV 20 ohm both ends saves {100*(1-area['variants']['both-end R_DRV 20']['total_mm2']/ab['total_mm2']):.0f}% of the total at a cost of {u(fin['vs_r_drv'][0]['margin_left_a']-fin['vs_r_drv'][1]['margin_left_a'])} uA of margin (section 4.4); a single 2 ohm driver per row (the only single-ended option that closes) multiplies the total by {area['variants']['single-end driver R_DRV 2 (budget just closes)']['total_mm2']/ab['total_mm2']:.2f}.")
     w("- **NeuroHDC comparison basis** (their Table III, NeuroHDC-small, DVS-Gesture, 20 neurons, scaled by them to 45 nm): **0.399 mm^2** (whole accelerator, 130 nm: 2.494 mm^2), **3.01 uJ per inference** (130 nm: 41.61 uJ), 100 MHz clock, latency 1.8 ms at 130 nm. "
       f"Their weight memory is the same 5 x (512 x 32) organisation (10.24 kB). Our {ab['total_mm2']:.2f} mm^2 is the weight memory plus its analog periphery only; the 1E digital logic ({'9,352'} flip-flops generic) and the class-hypervector memory add to it in Phase 5, and their figure cannot be split into SRAM and logic from the paper. "
       f"A like-for-like latency comparison needs the same event count: ours is {cm['runs']['dvs_seed0_g8_c160']['events']:,.0f} events per sample (1.14 cycles/event); 1.8 ms at 100 MHz would be 180,000 cycles, i.e. their samples are not the same length.")
@@ -454,8 +467,14 @@ def main() -> None:
     w("python -m scaleup.c5_decision                                                                                                      # C5")
     w("python -m scaleup.figures && python -m scaleup.make_report                                                                         # figures and this report")
     w("```")
+    text = "\n".join(L) + "\n"
+    import re
+    assert not re.search(r"\{[A-Za-z_0-9]+[\[\(\.:][^}]*\}|\{[a-z_]+\([^}]*\}|\{u\(|\{100\*", text), "unrendered template code in the report"
+    for n, nm in ((7, "fig7_group_profile"), (8, "fig8_row_line_levers"), (9, "fig9_rail_and_crosstalk"), (10, "fig10_final_budget_far_group"), (11, "fig11_g16_breakeven_variants"), (12, "fig12_array_area")):
+        assert f"Figure {n}" in text, f"Figure {n} is not referenced in the text"
+        assert (RP.FIGURES / f"{nm}.png").exists(), f"Figure {n} file missing"
     RP.REPORTS.mkdir(parents=True, exist_ok=True)
-    RP.REPORT_1C.write_text("\n".join(L) + "\n")
+    RP.REPORT_1C.write_text(text)
     print("wrote", RP.REPORT_1C, len(L), "lines")
 
 
