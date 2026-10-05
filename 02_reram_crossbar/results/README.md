@@ -4,7 +4,7 @@ Every location is defined once in `../paths.py`. Re-running a script regenerates
 
 | directory | what is in it | produced by |
 |---|---|---|
-| `reports/` | **The documents to read.** `phase1a_report.md` (device values, validated solver), `phase1b_provisional_report.md` (1B-i: margin budget without wire/drift, provisional g), **`phase1b_report.md` (consolidated 1B: final g, wire IR, drift, handoffs)**, **`phase1c_report.md` (1C: the full 512 x 160 array - group profile, supply/crosstalk, energy/latency/area, centre tap, column-sensing decision, handoffs)**. `archive/` holds superseded versions. | `validate.make_report`, `margin.make_report`, `margin.make_report_1b` |
+| `reports/` | **The documents to read.** `phase1a_report.md` (device values, validated solver), `phase1b_provisional_report.md` (1B-i: margin budget without wire/drift, provisional g), **`phase1b_report.md` (consolidated 1B: final g, wire IR, drift, handoffs)**, **`phase1c_report.md` (1C: the full 512 x 160 array - group profile, supply/crosstalk, energy/latency/area, centre tap, column-sensing decision, handoffs)**, **`phase1f_report.md` (1F: sense front-end topology, noise/mismatch/calibration, pulse length, energy with the front-end, power delivery, threshold path, the re-closed budget and g)**. `archive/` holds superseded versions. | `validate.make_report`, `margin.make_report`, `margin.make_report_1b`, `scaleup.make_report`, `sense.make_report` |
 | `device_characterization/` | 1A: access-transistor R_tx (PTM 45 nm LP), its off-state leakage vs temperature, the linear-vs-BSIM4 bound, differential level-gap curves | `validate.extract_rtx`, `validate.off_leakage`, `validate.linear_vs_bsim` |
 | `solver_validation/` | 1A: Newton nodal solver vs ngspice. `..._sigma0.10.csv` is the full 770-case sweep; the other sigmas are reduced sweeps | `validate.validate_solver` |
 | `margin_budget/` | 1B-i: g-surface points (sigma 0-0.20 plus the fine sigma 0.01-0.03 file), HRS leakage vs on/off ratio, spread/leakage crossover, recommended comparator ladder | `margin.run_sweep`, `margin.run_leakage`, `margin.crossover` |
@@ -18,6 +18,8 @@ Every location is defined once in `../paths.py`. Re-running a script regenerates
 | `full_array/` | C3: five macros on shared rails, full-array transient, area model, energy per inference | `scaleup.run_array`, `scaleup.run_array_transient`, `scaleup.area`, `scaleup.energy_inference` |
 | `readout_variants/` | C4: centre-tap and segmented columns, g* and break-even sigma | `scaleup.run_variants`, `scaleup.run_variants_breakeven` |
 | `column_sensing/` | C5: columns-at-once table (electrical margin, cycles) | `scaleup.c5_decision` |
-| `figures/` | The six paper figures (1B: fig1-6; 1C: fig7-12) (PDF, SVG, PNG 300 dpi), their source CSVs, `captions.md` | `margin.figures`, `scaleup.figures` |
+| `sense_frontend/` | 1F: topology comparison, noise sweep, mismatch / calibration / temperature drift, autozero and comparator pieces, per-point error terms, closure map, energy per inference, area table, recommended designs | `sense.*` (see the 1F section of `../README.md`) |
+| `pdn/` | 1F: power delivery of the read pulse - droop and recovery vs decoupling, peak current, staggering, pad network | `sense.pdn` |
+| `figures/` | The paper figures (1B: fig1-6; 1C: fig7-13; 1F: fig14-21) (PDF, SVG, PNG 300 dpi), their source CSVs, `captions.md` | `margin.figures`, `scaleup.figures`, `sense.figures` |
 | `logs/` | Console logs of the long runs | shell redirects |
 | `archive/` | Superseded raw results kept for provenance (the 1A run with the clipped gap distribution; the far-group-only wire terms) | - |

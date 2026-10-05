@@ -1,0 +1,111 @@
+{
+ "mirror_mc": [
+  {
+   "w_um": 1.0,
+   "l_um": 0.09,
+   "area_um2": 0.18,
+   "iref_uA": 20.0,
+   "nominal_ratio": -0.9808549999999998,
+   "sigma_rel": 0.12341558319737399
+  },
+  {
+   "w_um": 4.0,
+   "l_um": 0.09,
+   "area_um2": 0.72,
+   "iref_uA": 20.0,
+   "nominal_ratio": -1.010616,
+   "sigma_rel": 0.1114488737933134
+  },
+  {
+   "w_um": 4.0,
+   "l_um": 0.36,
+   "area_um2": 2.88,
+   "iref_uA": 20.0,
+   "nominal_ratio": -0.9960525,
+   "sigma_rel": 0.03541493878126538
+  },
+  {
+   "w_um": 16.0,
+   "l_um": 0.36,
+   "area_um2": 11.52,
+   "iref_uA": 20.0,
+   "nominal_ratio": -1.0009095,
+   "sigma_rel": 0.026060432716935908
+  },
+  {
+   "w_um": 16.0,
+   "l_um": 1.44,
+   "area_um2": 46.08,
+   "iref_uA": 20.0,
+   "nominal_ratio": -0.9977729999999999,
+   "sigma_rel": 0.008183344583956786
+  },
+  {
+   "w_um": 64.0,
+   "l_um": 1.44,
+   "area_um2": 184.32,
+   "iref_uA": 20.0,
+   "nominal_ratio": -1.000375,
+   "sigma_rel": 0.006384559199251248
+  }
+ ],
+ "options": [
+  {
+   "option": "A: current DAC per column",
+   "area_per_col_um2": 415.0,
+   "accuracy": "needs per-column calibration of its 10-bit gain (mirror matching alone is 1-3%)",
+   "energy_per_read_pJ": 5.698843423056645,
+   "time_ns": "0.3-0.5 per comparison (DAC settling to 0.1% into the 200 fF integrator)",
+   "note": "static bias of 160 DACs while on: 160 x 60 uA x 1.1 V"
+  },
+  {
+   "option": "B: shared DAC + sample-and-hold per column",
+   "area_per_col_um2": 60.0,
+   "accuracy": "S&H droop and kT/C per column; the DAC is time-multiplexed: 160 values per comparison in < 1 ns is not possible -> only for 20-40 columns per pass",
+   "energy_per_read_pJ": null,
+   "time_ns": "160 x settle (>= 0.3 ns each) per comparison without multiplexing hardware",
+   "note": "rejected for 160 columns at once"
+  },
+  {
+   "option": "C: switched capacitor-array ladder per column",
+   "area_per_col_um2": 250.0,
+   "accuracy": "capacitor matching ~0.1-0.2% for 10-bit unit arrays [ASSUM], temperature-stable; the least calibration",
+   "energy_per_read_pJ": 28.782037490185072,
+   "time_ns": "0.2 per step (charge redistribution) + 0.3 comparator",
+   "note": "chosen for the area / accuracy estimate; 10-bit absolute across +/-300 uA needs range switching"
+  },
+  {
+   "option": "D: digital after per-column ADC",
+   "area_per_col_um2": 3000.0,
+   "accuracy": "10-11 bit ADC INL ~ 0.5-1 LSB: needs ~12 bit",
+   "energy_per_read_pJ": 3200.0,
+   "time_ns": ">= 2-4 per conversion",
+   "note": "160 ADC x 20 pJ x 20,420 reads = 65 uJ per inference: rejected"
+  }
+ ],
+ "rank3_multiply_uJ": {
+  "per_column_digital": {
+   "4": 9.847864,
+   "8": 7.5454213
+  },
+  "per_position_digital": {
+   "4": 1.9695727999999997,
+   "8": 1.5090842599999998
+  },
+  "stored_corrected": {
+   "4": 2.5113175,
+   "8": 2.20393775
+  }
+ },
+ "area_assumptions_um2": {
+  "dac10_current": 400.0,
+  "sample_hold": 60.0,
+  "cap_array10": 250.0,
+  "trim_logic_per_bit": 1.5
+ },
+ "horowitz": {
+  "mult12_J": 4.5e-13,
+  "add12_J": 5e-14,
+  "sram_read_per_bit_J": 1.5625e-13
+ }
+}

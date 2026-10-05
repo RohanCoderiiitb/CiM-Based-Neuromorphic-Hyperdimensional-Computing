@@ -23,6 +23,9 @@ results/
   full_array/                 C3: five macros - multi-macro supply, array energy, latency, area
   readout_variants/           C4: centre-tapped and segmented columns
   column_sensing/             C5: how many columns can sense at once
+  -- 1F --
+  sense_frontend/             1F: topology comparison, noise / offset / bandwidth of the chosen front-end, pulse length, threshold path
+  pdn/                        1F: power-delivery network, decoupling and macro staggering
   archive/                    superseded raw results
 """
 from __future__ import annotations
@@ -51,12 +54,15 @@ MACRO = RESULTS / "macro_512x32"
 FULL_ARRAY = RESULTS / "full_array"
 READOUT_VARIANTS = RESULTS / "readout_variants"
 COLUMN_SENSING = RESULTS / "column_sensing"
+SENSE = RESULTS / "sense_frontend"
+PDN = RESULTS / "pdn"
 
 # reports
 REPORT_1A = REPORTS / "phase1a_report.md"
 REPORT_1B_PROVISIONAL = REPORTS / "phase1b_provisional_report.md"
 REPORT_1B = REPORTS / "phase1b_report.md"
 REPORT_1C = REPORTS / "phase1c_report.md"
+REPORT_1F = REPORTS / "phase1f_report.md"
 REPORT_1A_V1 = REPORTS_ARCHIVE / "phase1a_report_v1.md"
 
 # 1A

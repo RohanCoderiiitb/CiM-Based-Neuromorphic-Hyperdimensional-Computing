@@ -1,0 +1,299 @@
+{
+ "c_dec=0nF|low": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 42137.4555648,
+   "wordline_buffers": 3840.0,
+   "row_decoder": 512.0,
+   "ladder_and_gain_storage": 12503.4,
+   "supply_ground_straps": 161.92576,
+   "sense_front_ends_1f": 50094.0,
+   "calibration_storage": 2240.0,
+   "overhead_20pct": 23624.860264960003
+  },
+  "total_um2": 141749.16158976,
+  "total_mm2": 0.14174916158976,
+  "sense_per_col": {
+   "conveyor_channel": 84.84749999999998,
+   "integration_caps": 20.0,
+   "decision": 38.239999999999995,
+   "threshold_cap_array": 150.0,
+   "trims": 20.0
+  },
+  "replaced_1c_um2": 10880.0,
+  "total_1c_mm2": 0.09200436158976001
+ },
+ "c_dec=0nF|mid": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 70229.092608,
+   "wordline_buffers": 7680.0,
+   "row_decoder": 1024.0,
+   "ladder_and_gain_storage": 17862.0,
+   "supply_ground_straps": 323.85152,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "overhead_20pct": 38152.8928256
+  },
+  "total_um2": 228917.35695359998,
+  "total_mm2": 0.22891735695359997,
+  "sense_per_col": {
+   "conveyor_channel": 141.41249999999997,
+   "integration_caps": 40.0,
+   "decision": 62.39999999999999,
+   "threshold_cap_array": 250.0,
+   "trims": 30.0
+  },
+  "replaced_1c_um2": 21760.0,
+  "total_1c_mm2": 0.1506173569536
+ },
+ "c_dec=0nF|high": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 140458.185216,
+   "wordline_buffers": 15360.0,
+   "row_decoder": 2048.0,
+   "ladder_and_gain_storage": 28579.2,
+   "supply_ground_straps": 809.6288,
+   "sense_front_ends_1f": 138704.0,
+   "calibration_storage": 5120.0,
+   "overhead_20pct": 67542.9068032
+  },
+  "total_um2": 405257.44081919995,
+  "total_mm2": 0.40525744081919995,
+  "sense_per_col": {
+   "conveyor_channel": 226.25999999999996,
+   "integration_caps": 80.0,
+   "decision": 100.63999999999999,
+   "threshold_cap_array": 400.0,
+   "trims": 60.0
+  },
+  "replaced_1c_um2": 43520.0,
+  "total_1c_mm2": 0.2848926408192
+ },
+ "c_dec=1nF|low": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 42137.4555648,
+   "wordline_buffers": 3840.0,
+   "row_decoder": 512.0,
+   "ladder_and_gain_storage": 12503.4,
+   "supply_ground_straps": 161.92576,
+   "sense_front_ends_1f": 50094.0,
+   "calibration_storage": 2240.0,
+   "decoupling": 121951.21951219515,
+   "overhead_20pct": 48015.10416739903
+  },
+  "total_um2": 288090.62500439415,
+  "total_mm2": 0.28809062500439414,
+  "sense_per_col": {
+   "conveyor_channel": 84.84749999999998,
+   "integration_caps": 20.0,
+   "decision": 38.239999999999995,
+   "threshold_cap_array": 150.0,
+   "trims": 20.0
+  },
+  "replaced_1c_um2": 10880.0,
+  "total_1c_mm2": 0.09200436158976001
+ },
+ "c_dec=1nF|mid": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 70229.092608,
+   "wordline_buffers": 7680.0,
+   "row_decoder": 1024.0,
+   "ladder_and_gain_storage": 17862.0,
+   "supply_ground_straps": 323.85152,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "decoupling": 166666.6666666667,
+   "overhead_20pct": 71486.22615893335
+  },
+  "total_um2": 428917.3569536,
+  "total_mm2": 0.4289173569536,
+  "sense_per_col": {
+   "conveyor_channel": 141.41249999999997,
+   "integration_caps": 40.0,
+   "decision": 62.39999999999999,
+   "threshold_cap_array": 250.0,
+   "trims": 30.0
+  },
+  "replaced_1c_um2": 21760.0,
+  "total_1c_mm2": 0.1506173569536
+ },
+ "c_dec=1nF|high": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 140458.185216,
+   "wordline_buffers": 15360.0,
+   "row_decoder": 2048.0,
+   "ladder_and_gain_storage": 28579.2,
+   "supply_ground_straps": 809.6288,
+   "sense_front_ends_1f": 138704.0,
+   "calibration_storage": 5120.0,
+   "decoupling": 200000.00000000003,
+   "overhead_20pct": 107542.9068032
+  },
+  "total_um2": 645257.4408192,
+  "total_mm2": 0.6452574408192,
+  "sense_per_col": {
+   "conveyor_channel": 226.25999999999996,
+   "integration_caps": 80.0,
+   "decision": 100.63999999999999,
+   "threshold_cap_array": 400.0,
+   "trims": 60.0
+  },
+  "replaced_1c_um2": 43520.0,
+  "total_1c_mm2": 0.2848926408192
+ },
+ "c_dec=2nF|low": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 42137.4555648,
+   "wordline_buffers": 3840.0,
+   "row_decoder": 512.0,
+   "ladder_and_gain_storage": 12503.4,
+   "supply_ground_straps": 161.92576,
+   "sense_front_ends_1f": 50094.0,
+   "calibration_storage": 2240.0,
+   "decoupling": 243902.4390243903,
+   "overhead_20pct": 72405.34806983806
+  },
+  "total_um2": 434432.0884190284,
+  "total_mm2": 0.43443208841902836,
+  "sense_per_col": {
+   "conveyor_channel": 84.84749999999998,
+   "integration_caps": 20.0,
+   "decision": 38.239999999999995,
+   "threshold_cap_array": 150.0,
+   "trims": 20.0
+  },
+  "replaced_1c_um2": 10880.0,
+  "total_1c_mm2": 0.09200436158976001
+ },
+ "c_dec=2nF|mid": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 70229.092608,
+   "wordline_buffers": 7680.0,
+   "row_decoder": 1024.0,
+   "ladder_and_gain_storage": 17862.0,
+   "supply_ground_straps": 323.85152,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "decoupling": 333333.3333333334,
+   "overhead_20pct": 104819.55949226668
+  },
+  "total_um2": 628917.3569536001,
+  "total_mm2": 0.6289173569536001,
+  "sense_per_col": {
+   "conveyor_channel": 141.41249999999997,
+   "integration_caps": 40.0,
+   "decision": 62.39999999999999,
+   "threshold_cap_array": 250.0,
+   "trims": 30.0
+  },
+  "replaced_1c_um2": 21760.0,
+  "total_1c_mm2": 0.1506173569536
+ },
+ "c_dec=2nF|high": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 140458.185216,
+   "wordline_buffers": 15360.0,
+   "row_decoder": 2048.0,
+   "ladder_and_gain_storage": 28579.2,
+   "supply_ground_straps": 809.6288,
+   "sense_front_ends_1f": 138704.0,
+   "calibration_storage": 5120.0,
+   "decoupling": 400000.00000000006,
+   "overhead_20pct": 147542.90680320002
+  },
+  "total_um2": 885257.4408192001,
+  "total_mm2": 0.8852574408192001,
+  "sense_per_col": {
+   "conveyor_channel": 226.25999999999996,
+   "integration_caps": 80.0,
+   "decision": 100.63999999999999,
+   "threshold_cap_array": 400.0,
+   "trims": 60.0
+  },
+  "replaced_1c_um2": 43520.0,
+  "total_1c_mm2": 0.2848926408192
+ },
+ "c_dec=20nF|low": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 42137.4555648,
+   "wordline_buffers": 3840.0,
+   "row_decoder": 512.0,
+   "ladder_and_gain_storage": 12503.4,
+   "supply_ground_straps": 161.92576,
+   "sense_front_ends_1f": 50094.0,
+   "calibration_storage": 2240.0,
+   "decoupling": 2439024.390243903,
+   "overhead_20pct": 511429.7383137406
+  },
+  "total_um2": 3068578.4298824435,
+  "total_mm2": 3.0685784298824434,
+  "sense_per_col": {
+   "conveyor_channel": 84.84749999999998,
+   "integration_caps": 20.0,
+   "decision": 38.239999999999995,
+   "threshold_cap_array": 150.0,
+   "trims": 20.0
+  },
+  "replaced_1c_um2": 10880.0,
+  "total_1c_mm2": 0.09200436158976001
+ },
+ "c_dec=20nF|mid": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 70229.092608,
+   "wordline_buffers": 7680.0,
+   "row_decoder": 1024.0,
+   "ladder_and_gain_storage": 17862.0,
+   "supply_ground_straps": 323.85152,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "decoupling": 3333333.3333333335,
+   "overhead_20pct": 704819.5594922667
+  },
+  "total_um2": 4228917.3569536,
+  "total_mm2": 4.2289173569536,
+  "sense_per_col": {
+   "conveyor_channel": 141.41249999999997,
+   "integration_caps": 40.0,
+   "decision": 62.39999999999999,
+   "threshold_cap_array": 250.0,
+   "trims": 30.0
+  },
+  "replaced_1c_um2": 21760.0,
+  "total_1c_mm2": 0.1506173569536
+ },
+ "c_dec=20nF|high": {
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 140458.185216,
+   "wordline_buffers": 15360.0,
+   "row_decoder": 2048.0,
+   "ladder_and_gain_storage": 28579.2,
+   "supply_ground_straps": 809.6288,
+   "sense_front_ends_1f": 138704.0,
+   "calibration_storage": 5120.0,
+   "decoupling": 4000000.0,
+   "overhead_20pct": 867542.9068032
+  },
+  "total_um2": 5205257.4408192,
+  "total_mm2": 5.2052574408192,
+  "sense_per_col": {
+   "conveyor_channel": 226.25999999999996,
+   "integration_caps": 80.0,
+   "decision": 100.63999999999999,
+   "threshold_cap_array": 400.0,
+   "trims": 60.0
+  },
+  "replaced_1c_um2": 43520.0,
+  "total_1c_mm2": 0.2848926408192
+ }
+}

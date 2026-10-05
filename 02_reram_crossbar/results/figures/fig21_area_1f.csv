@@ -1,0 +1,49 @@
+design,part,mm2
+1C table (assumed sense),cell_array,0.006635519999999998
+1F no decap,cell_array,0.006635519999999998
+"1F + 1 nF (g=4, 40 col.)",cell_array,0.006635519999999998
+1F + 20 nF (160 col.),cell_array,0.006635519999999998
+1C table (assumed sense),row_drivers,0.070229092608
+1F no decap,row_drivers,0.070229092608
+"1F + 1 nF (g=4, 40 col.)",row_drivers,0.070229092608
+1F + 20 nF (160 col.),row_drivers,0.070229092608
+1C table (assumed sense),wordline_buffers,0.007679999999999999
+1F no decap,wordline_buffers,0.007679999999999999
+"1F + 1 nF (g=4, 40 col.)",wordline_buffers,0.007679999999999999
+1F + 20 nF (160 col.),wordline_buffers,0.007679999999999999
+1C table (assumed sense),row_decoder,0.001024
+1F no decap,row_decoder,0.001024
+"1F + 1 nF (g=4, 40 col.)",row_decoder,0.001024
+1F + 20 nF (160 col.),row_decoder,0.001024
+1C table (assumed sense),sense_front_ends,0.01856
+1F no decap,sense_front_ends,0.0
+"1F + 1 nF (g=4, 40 col.)",sense_front_ends,0.0
+1F + 20 nF (160 col.),sense_front_ends,0.0
+1C table (assumed sense),sense_front_ends_1f,0.0
+1F no decap,sense_front_ends_1f,0.08381
+"1F + 1 nF (g=4, 40 col.)",sense_front_ends_1f,0.08381
+1F + 20 nF (160 col.),sense_front_ends_1f,0.08381
+1C table (assumed sense),reference_dacs,0.0031999999999999997
+1F no decap,reference_dacs,0.0
+"1F + 1 nF (g=4, 40 col.)",reference_dacs,0.0
+1F + 20 nF (160 col.),reference_dacs,0.0
+1C table (assumed sense),ladder_and_gain_storage,0.017862
+1F no decap,ladder_and_gain_storage,0.017862
+"1F + 1 nF (g=4, 40 col.)",ladder_and_gain_storage,0.017862
+1F + 20 nF (160 col.),ladder_and_gain_storage,0.017862
+1C table (assumed sense),calibration_storage,0.0
+1F no decap,calibration_storage,0.0031999999999999997
+"1F + 1 nF (g=4, 40 col.)",calibration_storage,0.0031999999999999997
+1F + 20 nF (160 col.),calibration_storage,0.0031999999999999997
+1C table (assumed sense),supply_ground_straps,0.00032385152
+1F no decap,supply_ground_straps,0.00032385152
+"1F + 1 nF (g=4, 40 col.)",supply_ground_straps,0.00032385152
+1F + 20 nF (160 col.),supply_ground_straps,0.00032385152
+1C table (assumed sense),decoupling,0.0
+1F no decap,decoupling,0.0
+"1F + 1 nF (g=4, 40 col.)",decoupling,0.16666666666666669
+1F + 20 nF (160 col.),decoupling,3.3333333333333335
+1C table (assumed sense),overhead_20pct,0.025102892825600003
+1F no decap,overhead_20pct,0.0381528928256
+"1F + 1 nF (g=4, 40 col.)",overhead_20pct,0.07148622615893335
+1F + 20 nF (160 col.),overhead_20pct,0.7048195594922667

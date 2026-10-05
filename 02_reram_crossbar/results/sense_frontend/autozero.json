@@ -1,0 +1,71 @@
+{
+ "ota1_offset_sigma_mV": 5.29048066474106,
+ "ota1_offset_nominal_mV": 11.395299999999997,
+ "n": 200,
+ "g_far_max_mS": 1.782997383197704,
+ "g_near_max_mS": 5.051185712463279,
+ "offset_current_far_sigma_uA": 9.43291318109136,
+ "offset_current_near_sigma_uA": 26.723200345803274,
+ "az": [
+  {
+   "w_sw": 1e-06,
+   "c_az": 1e-13,
+   "v_stored": 0.2613952763949,
+   "injection_V": 0.000899504520100014,
+   "settle_to_0p1mV_ns": 1.0224736018890002,
+   "ktc_sigma_uV": 203.56861186096447,
+   "ktc_current_far_uA": 0.36296230224928866,
+   "injection_current_far_uA": 1.6038142055128317
+  },
+  {
+   "w_sw": 1e-06,
+   "c_az": 3e-13,
+   "v_stored": 0.2613952763214,
+   "injection_V": 0.0004735448337999659,
+   "settle_to_0p1mV_ns": 1.3585780714050002,
+   "ktc_sigma_uV": 117.53039285648629,
+   "ktc_current_far_uA": 0.20955638290931317,
+   "injection_current_far_uA": 0.8443291994921308
+  },
+  {
+   "w_sw": 1e-06,
+   "c_az": 1e-12,
+   "v_stored": 0.2613765103031,
+   "injection_V": 0.00018031806960000507,
+   "settle_to_0p1mV_ns": 7.361479781928999,
+   "ktc_sigma_uV": 64.37404735994157,
+   "ktc_current_far_uA": 0.11477875798862089,
+   "injection_current_far_uA": 0.3215066462400705
+  },
+  {
+   "w_sw": 4e-06,
+   "c_az": 1e-13,
+   "v_stored": 0.2613953851936,
+   "injection_V": 0.0037193816687999814,
+   "settle_to_0p1mV_ns": 0.31124764084689993,
+   "ktc_sigma_uV": 203.56861186096447,
+   "ktc_current_far_uA": 0.36296230224928866,
+   "injection_current_far_uA": 6.631647782583876
+  },
+  {
+   "w_sw": 4e-06,
+   "c_az": 3e-13,
+   "v_stored": 0.2613953844612,
+   "injection_V": 0.0019122062216000435,
+   "settle_to_0p1mV_ns": 2.4603601259060004,
+   "ktc_sigma_uV": 117.53039285648629,
+   "ktc_current_far_uA": 0.20955638290931317,
+   "injection_current_far_uA": 3.4094586892472463
+  },
+  {
+   "w_sw": 4e-06,
+   "c_az": 1e-12,
+   "v_stored": 0.261371442141,
+   "injection_V": 0.0007177018251000034,
+   "settle_to_0p1mV_ns": 7.794324042655,
+   "ktc_sigma_uV": 64.37404735994157,
+   "ktc_current_far_uA": 0.11477875798862089,
+   "injection_current_far_uA": 1.279660476069522
+  }
+ ]
+}

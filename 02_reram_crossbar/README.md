@@ -69,3 +69,20 @@ python -m scaleup.figures && python -m scaleup.make_report
 `energy_inference` and `c5_decision` read 1E's measured regression JSONs and the golden count vectors under `../03_rtl` and `../01_integer_reference_model` (read-only).
 
 Figure 13 (architecture diagram, cell schematic + array block diagram): `python scripts/make_architecture_fig.py` (needs `pip install schemdraw`).
+
+
+## Phase 1F (the sense front-end and the read timing budget)
+Report: [results/reports/phase1f_report.md](results/reports/phase1f_report.md). Code in `sense/` (transistor-level, ngspice, PTM 45 nm LP: `device/ptm/ptm45n_lp.lib` from 1A and the new `ptm45p_lp.lib`), tests in `tests/test_sense_frontend.py`. Raw results in
+`results/sense_frontend/` and `results/pdn/`; figures 14-21 in `results/figures/`.
+```
+python -m sense.run_topologies && python -m sense.run_ground                                   # F1: four topologies on the same step
+python -m sense.sweep_b && python -m sense.run_mismatch && python -m sense.cal                  # F2: noise, mismatch, calibration
+python -m sense.run_cal_transient && python -m sense.run_drift_sources && python -m sense.az && python -m sense.comparator && python -m sense.run_chop
+python -m sense.enable && python -m sense.pareto && python -m sense.reads                        # F3: bias power-up, per-point error terms, read counts
+python -m sense.budget_1f && python -m sense.closure_1f && python -m sense.energy_1f            # F3/F6: budget, closure map, energy per inference
+python -m sense.pdn && python -m sense.pdn --pad                                                # F4: power delivery
+python -m sense.threshold_path && python -m sense.area_1f && python -m sense.recommend_1f       # F5/F7
+python -m sense.figures && python -m sense.make_report
+```
+`sense.reads` and `sense.energy_1f` read 1E's golden count vectors under `../03_rtl` and 1C's `results/full_array/energy_per_inference.json` (read-only). The long runs are `sense.cal` (~10 min), `sense.run_cal_transient` (~15 min) and `sense.closure_1f` (~5 min) on 10 cores.
+

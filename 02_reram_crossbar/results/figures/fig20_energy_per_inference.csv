@@ -1,0 +1,31 @@
+design,part,uJ
+"g = 8
+160 col.",array_J,0.22569099573850315
+"g = 8
+20 col./pass",array_J,0.22569099573850315
+"g = 4
+40 col./pass",array_J,0.11217755165665763
+"g = 8
+160 col.",wordline_J,0.016
+"g = 8
+20 col./pass",wordline_J,0.016
+"g = 4
+40 col./pass",wordline_J,0.016
+"g = 8
+160 col.",sense_bias_J,2.151621830701912
+"g = 8
+20 col./pass",sense_bias_J,2.151621830701912
+"g = 4
+40 col./pass",sense_bias_J,2.3429757345185185
+"g = 8
+160 col.",decision_J,0.7454011328866668
+"g = 8
+20 col./pass",decision_J,0.7454011328866668
+"g = 4
+40 col./pass",decision_J,0.8493610627333332
+"g = 8
+160 col.",threshold_J,1.5090842599999998
+"g = 8
+20 col./pass",threshold_J,1.5090842599999998
+"g = 4
+40 col./pass",threshold_J,1.9695727999999997

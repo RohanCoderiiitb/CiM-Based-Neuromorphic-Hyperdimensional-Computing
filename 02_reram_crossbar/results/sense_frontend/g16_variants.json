@@ -1,0 +1,152 @@
+{
+ "end|0.02": {
+  "margin_1f_a": -3.820103074472604e-06,
+  "margin_1c_without_comparator_a": -4.0492009770832334e-07,
+  "worst": "far"
+ },
+ "end|0.03": {
+  "margin_1f_a": -4.069695056299964e-06,
+  "margin_1c_without_comparator_a": -1.0217450158625229e-06,
+  "worst": "far"
+ },
+ "end|0.04": {
+  "margin_1f_a": -4.3999521677258395e-06,
+  "margin_1c_without_comparator_a": -1.6873261513204025e-06,
+  "worst": "far"
+ },
+ "end|0.048": {
+  "margin_1f_a": -4.713646979433634e-06,
+  "margin_1c_without_comparator_a": -2.237334736934081e-06,
+  "worst": "far"
+ },
+ "end|0.05": {
+  "margin_1f_a": -4.7981116162951525e-06,
+  "margin_1c_without_comparator_a": -2.3764028863964643e-06,
+  "worst": "far"
+ },
+ "end|0.07": {
+  "margin_1f_a": -7.741052384360392e-06,
+  "margin_1c_without_comparator_a": -7.092278685824308e-06,
+  "worst": "near"
+ },
+ "centre|0.02": {
+  "margin_1f_a": -1.4853547298228576e-07,
+  "margin_1c_without_comparator_a": 2.6643514699382367e-06,
+  "worst": "far"
+ },
+ "centre|0.03": {
+  "margin_1f_a": -7.36652245426224e-07,
+  "margin_1c_without_comparator_a": 1.6371793194528257e-06,
+  "worst": "far"
+ },
+ "centre|0.04": {
+  "margin_1f_a": -1.4774651128929187e-06,
+  "margin_1c_without_comparator_a": 5.379555893010325e-07,
+  "worst": "far"
+ },
+ "centre|0.048": {
+  "margin_1f_a": -2.151013018106333e-06,
+  "margin_1c_without_comparator_a": -3.666786048682123e-07,
+  "worst": "far"
+ },
+ "centre|0.05": {
+  "margin_1f_a": -2.328310779882347e-06,
+  "margin_1c_without_comparator_a": -5.950636200155128e-07,
+  "worst": "far"
+ },
+ "centre|0.07": {
+  "margin_1f_a": -7.729950266768235e-06,
+  "margin_1c_without_comparator_a": -7.081961644314928e-06,
+  "worst": "near"
+ },
+ "seg2_mid|0.02": {
+  "margin_1f_a": 3.95495294246508e-06,
+  "margin_1c_without_comparator_a": 6.120313763449557e-06,
+  "worst": "far"
+ },
+ "seg2_mid|0.03": {
+  "margin_1f_a": 2.6302784847874496e-06,
+  "margin_1c_without_comparator_a": 4.329029204657937e-06,
+  "worst": "far"
+ },
+ "seg2_mid|0.04": {
+  "margin_1f_a": 1.080368581836357e-06,
+  "margin_1c_without_comparator_a": 2.4537742496107287e-06,
+  "worst": "far"
+ },
+ "seg2_mid|0.048": {
+  "margin_1f_a": -2.5784476358570735e-07,
+  "margin_1c_without_comparator_a": 9.258556471308654e-07,
+  "worst": "far"
+ },
+ "seg2_mid|0.05": {
+  "margin_1f_a": -6.42579654480751e-07,
+  "margin_1c_without_comparator_a": 2.46888787953883e-07,
+  "worst": "near"
+ },
+ "seg2_mid|0.07": {
+  "margin_1f_a": -7.729407670389586e-06,
+  "margin_1c_without_comparator_a": -7.0814932235987654e-06,
+  "worst": "near"
+ },
+ "seg4_mid|0.02": {
+  "margin_1f_a": 7.179694750031021e-06,
+  "margin_1c_without_comparator_a": 8.926625767123255e-06,
+  "worst": "far"
+ },
+ "seg4_mid|0.03": {
+  "margin_1f_a": 5.051982151260595e-06,
+  "margin_1c_without_comparator_a": 6.361773493483096e-06,
+  "worst": "far"
+ },
+ "seg4_mid|0.04": {
+  "margin_1f_a": 2.676254177900786e-06,
+  "margin_1c_without_comparator_a": 3.709092602194001e-06,
+  "worst": "far"
+ },
+ "seg4_mid|0.048": {
+  "margin_1f_a": 3.928216180371883e-08,
+  "margin_1c_without_comparator_a": 9.633310908996486e-07,
+  "worst": "near"
+ },
+ "seg4_mid|0.05": {
+  "margin_1f_a": -6.558853255464616e-07,
+  "margin_1c_without_comparator_a": 2.341007547475269e-07,
+  "worst": "near"
+ },
+ "seg4_mid|0.07": {
+  "margin_1f_a": -7.736771323258047e-06,
+  "margin_1c_without_comparator_a": -7.088438231725191e-06,
+  "worst": "near"
+ },
+ "seg8_mid|0.02": {
+  "margin_1f_a": 9.081723701234424e-06,
+  "margin_1c_without_comparator_a": 1.0597011852484191e-05,
+  "worst": "far"
+ },
+ "seg8_mid|0.03": {
+  "margin_1f_a": 6.102125412170276e-06,
+  "margin_1c_without_comparator_a": 7.46374501899878e-06,
+  "worst": "near"
+ },
+ "seg8_mid|0.04": {
+  "margin_1f_a": 2.8063749001670357e-06,
+  "margin_1c_without_comparator_a": 3.894637171539855e-06,
+  "worst": "near"
+ },
+ "seg8_mid|0.048": {
+  "margin_1f_a": 6.105602818724202e-08,
+  "margin_1c_without_comparator_a": 9.841075383532522e-07,
+  "worst": "near"
+ },
+ "seg8_mid|0.05": {
+  "margin_1f_a": -6.350948542897499e-07,
+  "margin_1c_without_comparator_a": 2.539213750831485e-07,
+  "worst": "near"
+ },
+ "seg8_mid|0.07": {
+  "margin_1f_a": -7.725608486142628e-06,
+  "margin_1c_without_comparator_a": -7.0780224054498665e-06,
+  "worst": "near"
+ }
+}
