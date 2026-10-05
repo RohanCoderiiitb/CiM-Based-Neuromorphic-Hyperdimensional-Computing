@@ -50,3 +50,20 @@ python -m margin.make_report_1b     # -> results/reports/phase1b_report.md (~2 m
 ```
 
 All result locations are defined once in `paths.py`; `results/README.md` is the index of the results tree.
+
+
+## Phase 1C (the full 512 x 160 array)
+Report: [results/reports/phase1c_report.md](results/reports/phase1c_report.md). Code in `scaleup/` (the package is not called `array`: that would shadow the standard-library module), with the solver extension in `wire/mesh.py` (`solve_mesh_ext`) and its ngspice
+validation in `wire/validate_mesh_ext.py`.
+```
+python -m wire.validate_mesh_ext --n 300            # extended mesh (blocks, supply/ground rail, both-end drive) vs ngspice -> results/array_validation/
+python -m validate.gate_cap                          # access-transistor gate capacitance from the PTM card
+python -m scaleup.run_column && python -m scaleup.run_accumulate && python -m scaleup.run_controls && python -m scaleup.table_size      # C1: 64 groups, accumulation, ladder size
+python -m scaleup.run_energy_latency && python -m scaleup.analyze_c1d                                                                 # C1d (long)
+python -m scaleup.run_rowline && python -m scaleup.run_rowline_ext && python -m scaleup.run_droop && python -m scaleup.gain_matrix     # C2 DC
+python -m scaleup.run_crosstalk && python -m scaleup.analyze_crosstalk && python -m scaleup.run_crosstalk_bitplane && python -m scaleup.c2_budget
+python -m scaleup.run_array && python -m scaleup.run_array_transient && python -m scaleup.energy_inference && python -m scaleup.area  # C3
+python -m scaleup.run_variants && python -m scaleup.run_variants_breakeven && python -m scaleup.c5_decision                           # C4, C5
+python -m scaleup.figures && python -m scaleup.make_report
+```
+`energy_inference` and `c5_decision` read 1E's measured regression JSONs and the golden count vectors under `../03_rtl` and `../01_integer_reference_model` (read-only).

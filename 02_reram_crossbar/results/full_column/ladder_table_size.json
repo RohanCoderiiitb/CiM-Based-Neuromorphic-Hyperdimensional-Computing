@@ -1,0 +1,186 @@
+{
+ "0.5": {
+  "r": 0.5,
+  "n_groups": 64,
+  "thresholds_per_group": 36,
+  "thresholds_per_group_half": 20,
+  "thresholds_total": 2304,
+  "levels_per_group": 44,
+  "span_near_uA": 991.6943774163794,
+  "span_far_uA": 434.89049153032823,
+  "span_ratio_near_over_far": 2.2803312482798237,
+  "step_near_uA": 123.85924279243393,
+  "step_far_uA": 46.61461105501483,
+  "step_ratio_near_over_far": 2.6570905557112674,
+  "worst_step_any_a_far_uA": 46.61461105501483,
+  "worst_step_any_a_near_uA": 123.85924279243393,
+  "monotone_span": true,
+  "monotone_step_a8": true,
+  "monotone_step_any_a": true,
+  "antisym_dev_max_uA": 0.26467823268269924,
+  "antisym_dev_far_uA": 0.1060510482161391,
+  "antisym_dev_near_uA": 0.20198808910366775,
+  "antisym_half_error_far_uA": 0.05302552410806955,
+  "sizes": {
+   "0.02": {
+    "bits_per_threshold_worst_group": 16,
+    "full_per_group_range": 35136,
+    "full_uniform_width": 36864,
+    "half_per_group_range": 19520,
+    "half_uniform_width": 20480,
+    "quant_error_halfLSB_uA": 0.01
+   },
+   "0.05": {
+    "bits_per_threshold_worst_group": 15,
+    "full_per_group_range": 31968,
+    "full_uniform_width": 34560,
+    "half_per_group_range": 17760,
+    "half_uniform_width": 19200,
+    "quant_error_halfLSB_uA": 0.025
+   },
+   "0.1": {
+    "bits_per_threshold_worst_group": 14,
+    "full_per_group_range": 29664,
+    "full_uniform_width": 32256,
+    "half_per_group_range": 16480,
+    "half_uniform_width": 17920,
+    "quant_error_halfLSB_uA": 0.05
+   },
+   "0.2": {
+    "bits_per_threshold_worst_group": 13,
+    "full_per_group_range": 27360,
+    "full_uniform_width": 29952,
+    "half_per_group_range": 15200,
+    "half_uniform_width": 16640,
+    "quant_error_halfLSB_uA": 0.1
+   },
+   "0.5": {
+    "bits_per_threshold_worst_group": 11,
+    "full_per_group_range": 24264,
+    "full_uniform_width": 25344,
+    "half_per_group_range": 13480,
+    "half_uniform_width": 14080,
+    "quant_error_halfLSB_uA": 0.25
+   },
+   "1.0": {
+    "bits_per_threshold_worst_group": 10,
+    "full_per_group_range": 21960,
+    "full_uniform_width": 23040,
+    "half_per_group_range": 12200,
+    "half_uniform_width": 12800,
+    "quant_error_halfLSB_uA": 0.5
+   }
+  },
+  "factorised": {
+   "1": {
+    "max_resid_uA": 23.255472122327173,
+    "mean_resid_uA": 3.9666932158087564,
+    "far_group_max_resid_uA": 14.760554206114216
+   },
+   "2": {
+    "max_resid_uA": 2.6236186403680373,
+    "mean_resid_uA": 0.24804887816025684,
+    "far_group_max_resid_uA": 1.5572763747655336
+   },
+   "3": {
+    "max_resid_uA": 0.13233928125233543,
+    "mean_resid_uA": 0.01801442114567958,
+    "far_group_max_resid_uA": 0.05112681958984008
+   }
+  },
+  "max_within_halfrange_uA": 1.2642490466076435,
+  "max_heldout_dev_uA": 1.2642490466076435
+ },
+ "0.72": {
+  "r": 0.72,
+  "n_groups": 64,
+  "thresholds_per_group": 36,
+  "thresholds_per_group_half": 20,
+  "thresholds_total": 2304,
+  "levels_per_group": 44,
+  "span_near_uA": 988.1412749356709,
+  "span_far_uA": 347.4326405943684,
+  "span_ratio_near_over_far": 2.8441233191136384,
+  "step_near_uA": 123.37020754079873,
+  "step_far_uA": 34.08414355798126,
+  "step_ratio_near_over_far": 3.6195777467880648,
+  "worst_step_any_a_far_uA": 34.08414355798126,
+  "worst_step_any_a_near_uA": 123.37020754079873,
+  "monotone_span": true,
+  "monotone_step_a8": true,
+  "monotone_step_any_a": true,
+  "antisym_dev_max_uA": 0.4573359539163373,
+  "antisym_dev_far_uA": 0.06948352079957991,
+  "antisym_dev_near_uA": 0.22648682280829657,
+  "antisym_half_error_far_uA": 0.034741760399789955,
+  "sizes": {
+   "0.02": {
+    "bits_per_threshold_worst_group": 16,
+    "full_per_group_range": 34560,
+    "full_uniform_width": 36864,
+    "half_per_group_range": 19200,
+    "half_uniform_width": 20480,
+    "quant_error_halfLSB_uA": 0.01
+   },
+   "0.05": {
+    "bits_per_threshold_worst_group": 15,
+    "full_per_group_range": 31356,
+    "full_uniform_width": 34560,
+    "half_per_group_range": 17420,
+    "half_uniform_width": 19200,
+    "quant_error_halfLSB_uA": 0.025
+   },
+   "0.1": {
+    "bits_per_threshold_worst_group": 14,
+    "full_per_group_range": 29052,
+    "full_uniform_width": 32256,
+    "half_per_group_range": 16140,
+    "half_uniform_width": 17920,
+    "quant_error_halfLSB_uA": 0.05
+   },
+   "0.2": {
+    "bits_per_threshold_worst_group": 13,
+    "full_per_group_range": 26748,
+    "full_uniform_width": 29952,
+    "half_per_group_range": 14860,
+    "half_uniform_width": 16640,
+    "quant_error_halfLSB_uA": 0.1
+   },
+   "0.5": {
+    "bits_per_threshold_worst_group": 11,
+    "full_per_group_range": 23904,
+    "full_uniform_width": 25344,
+    "half_per_group_range": 13280,
+    "half_uniform_width": 14080,
+    "quant_error_halfLSB_uA": 0.25
+   },
+   "1.0": {
+    "bits_per_threshold_worst_group": 10,
+    "full_per_group_range": 21600,
+    "full_uniform_width": 23040,
+    "half_per_group_range": 12000,
+    "half_uniform_width": 12800,
+    "quant_error_halfLSB_uA": 0.5
+   }
+  },
+  "factorised": {
+   "1": {
+    "max_resid_uA": 27.83206982741939,
+    "mean_resid_uA": 4.515367979235654,
+    "far_group_max_resid_uA": 15.793376474314806
+   },
+   "2": {
+    "max_resid_uA": 3.8853953276027062,
+    "mean_resid_uA": 0.34246561754504123,
+    "far_group_max_resid_uA": 2.002002416654766
+   },
+   "3": {
+    "max_resid_uA": 0.15542546839863222,
+    "mean_resid_uA": 0.025935152380552426,
+    "far_group_max_resid_uA": 0.0913227045391395
+   }
+  },
+  "max_within_halfrange_uA": 1.8124308847974488,
+  "max_heldout_dev_uA": 1.8124308847974488
+ }
+}

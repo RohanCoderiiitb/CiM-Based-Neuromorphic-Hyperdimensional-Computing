@@ -36,6 +36,9 @@ def _budget_at_age(g, p, sigma, nu, kappa, ln_tau, z4, strategy, ln_design, n_re
         terms.append(Term("wire IR (within group)", DETERMINISTIC, extras["wire_within_a"]))
     if extras.get("row5_a", 0.0) > 0:
         terms.append(Term("row-driver IR", RANDOM, extras["row5_a"]))
+    for name, kind, val in extras.get("extra_terms", ()):          # 1C: terms measured after 1B (droop, crosstalk, quantisation ...), absolute uA, not scaled by the row gain
+        if val > 0:
+            terms.append(Term(name, kind, val))
     ref_term = 0.0
     if strategy in ("S1", "S2"):
         key = ("ladder", ln_design)

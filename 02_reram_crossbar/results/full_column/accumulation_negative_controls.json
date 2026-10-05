@@ -1,0 +1,90 @@
+[
+ {
+  "kind": "table",
+  "value": 0,
+  "reads": 72,
+  "sum_errors": 0,
+  "wrong_decisions": 0,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 1,
+  "reads": 72,
+  "sum_errors": 47,
+  "wrong_decisions": 47,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 2,
+  "reads": 72,
+  "sum_errors": 52,
+  "wrong_decisions": 104,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 4,
+  "reads": 72,
+  "sum_errors": 63,
+  "wrong_decisions": 201,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 8,
+  "reads": 72,
+  "sum_errors": 64,
+  "wrong_decisions": 495,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 16,
+  "reads": 72,
+  "sum_errors": 66,
+  "wrong_decisions": 1805,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 32,
+  "reads": 72,
+  "sum_errors": 70,
+  "wrong_decisions": 2581,
+  "decisions": 4608
+ },
+ {
+  "kind": "table",
+  "value": 63,
+  "reads": 72,
+  "sum_errors": 55,
+  "wrong_decisions": 55,
+  "decisions": 4608
+ },
+ {
+  "kind": "a",
+  "value": -1,
+  "reads": 72,
+  "sum_errors": 72,
+  "wrong_decisions": 2222,
+  "decisions": 4608
+ },
+ {
+  "kind": "a",
+  "value": 1,
+  "reads": 72,
+  "sum_errors": 72,
+  "wrong_decisions": 2243,
+  "decisions": 4608
+ },
+ {
+  "kind": "shift",
+  "value": 1,
+  "reads": 72,
+  "sum_errors": 68,
+  "wrong_decisions": 0,
+  "decisions": 4608
+ }
+]

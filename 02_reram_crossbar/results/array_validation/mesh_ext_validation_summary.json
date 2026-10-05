@@ -1,0 +1,9 @@
+{
+ "n": 300,
+ "worst_rel_icol": 1.3004974874775144e-10,
+ "worst_rel_irow": 4.852340751426709e-12,
+ "worst_abs_vgnd_v": 2.561145739932158e-14,
+ "with_rail": 203,
+ "with_gnd": 196,
+ "multi_block": 179
+}

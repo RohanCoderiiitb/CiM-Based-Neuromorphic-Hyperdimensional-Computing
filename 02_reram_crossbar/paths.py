@@ -15,6 +15,14 @@ results/
   final_surface/              1B: final g surface with wire IR and drift (one CSV per drift strategy)
   figures/                    the six paper figures (PDF, SVG, PNG 300 dpi), their source CSVs, captions
   logs/                       console logs of the long runs
+  -- 1C --
+  array_validation/           1C: the extended mesh solver (blocks, supply rail, ground rail) vs ngspice; transient vs analytic checks
+  full_column/                C1: all 64 groups of one 512-row column, per-group ladder tables, accumulation test
+  transient/                  C1(d)/C2/C3: read energy and latency per group read, from ngspice transients (and crosstalk)
+  macro_512x32/               C2: one macro - supply droop, crosstalk, budget re-closure
+  full_array/                 C3: five macros - multi-macro supply, array energy, latency, area
+  readout_variants/           C4: centre-tapped and segmented columns
+  column_sensing/             C5: how many columns can sense at once
   archive/                    superseded raw results
 """
 from __future__ import annotations
@@ -36,11 +44,19 @@ FINAL = RESULTS / "final_surface"
 FIGURES = RESULTS / "figures"
 LOGS = RESULTS / "logs"
 ARCHIVE = RESULTS / "archive"
+ARRAY_VALIDATION = RESULTS / "array_validation"
+FULL_COLUMN = RESULTS / "full_column"
+TRANSIENT = RESULTS / "transient"
+MACRO = RESULTS / "macro_512x32"
+FULL_ARRAY = RESULTS / "full_array"
+READOUT_VARIANTS = RESULTS / "readout_variants"
+COLUMN_SENSING = RESULTS / "column_sensing"
 
 # reports
 REPORT_1A = REPORTS / "phase1a_report.md"
 REPORT_1B_PROVISIONAL = REPORTS / "phase1b_provisional_report.md"
 REPORT_1B = REPORTS / "phase1b_report.md"
+REPORT_1C = REPORTS / "phase1c_report.md"
 REPORT_1A_V1 = REPORTS_ARCHIVE / "phase1a_report_v1.md"
 
 # 1A
@@ -78,3 +94,11 @@ DRIFT_SWEEP_JSON = DRIFT / "drift_sweep.json"
 
 def final_points_csv(strategy: str = "S1") -> Path:
     return FINAL / f"final_g_surface_{strategy}.csv"
+
+
+# 1C
+MESH_EXT_VALIDATION_CSV = ARRAY_VALIDATION / "mesh_ext_vs_ngspice_validation.csv"
+
+
+def full_column_tables(r: float) -> Path:
+    return FULL_COLUMN / f"group_tables_r{r}.json"

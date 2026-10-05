@@ -141,6 +141,31 @@ ROW_DRIVER_DEFAULT_COLS = 32         # [CHOICE] row-line length (columns) of the
 # Recorded as an explicit LIMITATION; the temperature-sensitive term in this design is transistor off-leakage.
 
 
+# ===================== Phase 1C constants (array scale-up) =====================
+# Operating point carried forward from 1B (results/reports/phase1b_report.md section 0 / 12): g = 8, 20 F^2 cell (2T2R = 40 F^2), contiguous groups, current-mode sense.
+G_1C = 8                     # rows per group [1B]
+AREA_1C = 20                 # F^2 per device cell [1B]
+RS_1C = 1.0                  # ohm sense (virtual-ground) resistance [1B: current-mode sense, R_s = 1]
+PITCH_UM_1C = 0.2012          # um cell pitch at 20 F^2 [MODEL] (1A: PITCH_UM[20])
+GROUPS_PER_COLUMN = ROWS_TOTAL // G_1C       # 64 [MODEL]
+CELLS_PER_MACRO_ROW = 32     # 2T2R cells (weight bits) per row of one NeuroHDC macro: the paper's 512 x 32-bit SRAM macro stores 4 neurons x 8 bits [plan, NeuroHDC SIII]
+BITLINES_PER_CELL = 2        # a 2T2R cell has two devices on two bitlines [MODEL]
+MACRO_BITLINES = CELLS_PER_MACRO_ROW * BITLINES_PER_CELL   # 64 mesh columns per macro row line. NOTE: 1B's 'K = 32 columns' (wire/rowside.py) was 32 MESH columns = 16 cells,
+                                                           # i.e. half a NeuroHDC macro; 1C models the true macro (64 mesh columns). See 1C report section 0.
+N_MACROS = 5                 # [plan] 160 weight columns / 32
+FULL_CELLS = N_MACROS * CELLS_PER_MACRO_ROW  # 160 weight-bit columns = 81,920 bits over 512 rows [plan]
+# --- Supply / return rails [ASSUM, swept]. 1B has no power-network data. The macro draws up to ~11 mA at 0.1 V, so the rail is a thick-metal strap, not signal metal.
+# r per pitch of cell height (0.2 um): signal metal (the bitline value), 10x and 100x lower (wide strap / two parallel layers), 1000x lower (thick top-metal strap).
+RAIL_R_PER_PITCH_SWEEP = (0.72, 0.072, 0.0072, 0.00072)   # ohm/pitch [ASSUM]
+RAIL_R_DEFAULT = 0.0072      # ohm/pitch [ASSUM] default: 100x below signal metal (a wide upper-metal strap); the sweep brackets it
+RAIL_FEED_BOTH_ENDS = True   # [CHOICE] supply pad at both ends of the vertical rail (halves the worst distance); evaluated against single-ended in C2
+GND_R_PER_PITCH_SWEEP = RAIL_R_PER_PITCH_SWEEP   # ohm/pitch [ASSUM] sense-side ground rail along the columns, same sweep
+# --- Capacitance [ASSUM except gate cap which is [SIM]] ---
+C_LINE_PER_PITCH_F = 0.2e-15                         # F per pitch, total (ground + coupling) on a bitline or row line [ASSUM] related-work value (0.2 fF/cell at 65 nm, 1A section 9)
+CC_FRACTION_SWEEP = (0.25, 0.5, 0.75)                # [ASSUM] share of C_LINE that is neighbour-to-neighbour coupling on a bitline (the rest is to ground/shield)
+CC_FRACTION_DEFAULT = 0.5                            # [ASSUM] default, swept
+T_RISE_S = 20e-12                                    # s [CHOICE] row-driver rise time of the read pulse
+
 @dataclass(frozen=True)
 class Params:
     """Bundle of every value the solver/netlist needs. Use with_() to override."""

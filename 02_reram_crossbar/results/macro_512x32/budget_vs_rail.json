@@ -1,0 +1,101 @@
+[
+ {
+  "r_rail": null,
+  "feed_both": true,
+  "margin_left_a": 6.871376249522944e-07,
+  "margin_frac": 0.05552543176872095,
+  "closes": true,
+  "worst": "far",
+  "gain_far": 0.905031095665702,
+  "total_a": 1.168804979933314e-05,
+  "limit_a": 1.2375187424285435e-05
+ },
+ {
+  "r_rail": 0.72,
+  "feed_both": true,
+  "margin_left_a": -3.7998983640860063e-06,
+  "margin_frac": -1.0551809500172273,
+  "closes": false,
+  "worst": "far",
+  "gain_far": 0.26336420931452303,
+  "total_a": 7.4010800988623665e-06,
+  "limit_a": 3.6011817347763603e-06
+ },
+ {
+  "r_rail": 0.72,
+  "feed_both": false,
+  "margin_left_a": -6.455339632515515e-06,
+  "margin_frac": -25.787621338927032,
+  "closes": false,
+  "worst": "far",
+  "gain_far": 0.018307098921438197,
+  "total_a": 6.705666700207138e-06,
+  "limit_a": 2.5032706769162246e-07
+ },
+ {
+  "r_rail": 0.072,
+  "feed_both": true,
+  "margin_left_a": -3.488510778116029e-07,
+  "margin_frac": -0.032233222693265166,
+  "closes": false,
+  "worst": "far",
+  "gain_far": 0.791494782912634,
+  "total_a": 1.1171569027279686e-05,
+  "limit_a": 1.0822717949468083e-05
+ },
+ {
+  "r_rail": 0.072,
+  "feed_both": false,
+  "margin_left_a": -4.006884332355209e-06,
+  "margin_frac": -1.259595232723583,
+  "closes": false,
+  "worst": "far",
+  "gain_far": 0.2326416736736029,
+  "total_a": 7.187973168084803e-06,
+  "limit_a": 3.1810888357295937e-06
+ },
+ {
+  "r_rail": 0.0072,
+  "feed_both": true,
+  "margin_left_a": 4.778072803464873e-07,
+  "margin_frac": 0.039173036205408095,
+  "closes": true,
+  "worst": "far",
+  "gain_far": 0.8920254495073948,
+  "total_a": 1.1719543924218118e-05,
+  "limit_a": 1.2197351204564605e-05
+ },
+ {
+  "r_rail": 0.0072,
+  "feed_both": false,
+  "margin_left_a": -7.055625456622515e-07,
+  "margin_frac": -0.07334970159071957,
+  "closes": false,
+  "worst": "far",
+  "gain_far": 0.7034753484702871,
+  "total_a": 1.0324722956146068e-05,
+  "limit_a": 9.619160410483816e-06
+ },
+ {
+  "r_rail": 0.00072,
+  "feed_both": true,
+  "margin_left_a": 5.713410062316447e-07,
+  "margin_frac": 0.04627544897738046,
+  "closes": true,
+  "worst": "far",
+  "gain_far": 0.9029349639749755,
+  "total_a": 1.1775184394546583e-05,
+  "limit_a": 1.2346525400778228e-05
+ },
+ {
+  "r_rail": 0.00072,
+  "feed_both": false,
+  "margin_left_a": 4.2765606335510556e-07,
+  "margin_frac": 0.035540439043858216,
+  "closes": true,
+  "worst": "far",
+  "gain_far": 0.8800018020895876,
+  "total_a": 1.1605286546818117e-05,
+  "limit_a": 1.2032942610173222e-05
+ }
+]

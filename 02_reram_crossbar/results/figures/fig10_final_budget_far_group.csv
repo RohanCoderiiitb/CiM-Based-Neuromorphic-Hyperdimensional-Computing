@@ -1,0 +1,11 @@
+term,uA
+ReRAM HRS leakage residual,1.0420984467127705
+wire IR (within group),0.4924421785011793
+supply/ground rail (data dependent),0.04334079401124143
+settling + crosstalk at sampling time,0.0015194584796198124
+ladder threshold quantisation,0.049999999999999996
+antisymmetric (half) table storage,0.034741760399789955
+drift,0.28957297977115004
+device spread,8.04852227209081
+absolute signal (comparator noise),5.0
+row-driver IR,1.2480016688138917

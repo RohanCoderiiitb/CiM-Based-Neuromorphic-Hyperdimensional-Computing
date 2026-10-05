@@ -1,0 +1,37 @@
+variant,part,mm2
+"baseline: both-end drivers, R_DRV 10",cell_array,0.006635519999999998
+single-end driver R_DRV 2 (budget just closes),cell_array,0.006635519999999998
+both-end R_DRV 20,cell_array,0.006635519999999998
+full ladder table (29 kbit) instead of half,cell_array,0.006635519999999998
+"baseline: both-end drivers, R_DRV 10",row_drivers,0.070229092608
+single-end driver R_DRV 2 (budget just closes),row_drivers,0.17557273152000002
+both-end R_DRV 20,row_drivers,0.035114546304
+full ladder table (29 kbit) instead of half,row_drivers,0.070229092608
+"baseline: both-end drivers, R_DRV 10",wordline_buffers,0.007679999999999999
+single-end driver R_DRV 2 (budget just closes),wordline_buffers,0.007679999999999999
+both-end R_DRV 20,wordline_buffers,0.007679999999999999
+full ladder table (29 kbit) instead of half,wordline_buffers,0.007679999999999999
+"baseline: both-end drivers, R_DRV 10",row_decoder,0.001024
+single-end driver R_DRV 2 (budget just closes),row_decoder,0.001024
+both-end R_DRV 20,row_decoder,0.001024
+full ladder table (29 kbit) instead of half,row_decoder,0.001024
+"baseline: both-end drivers, R_DRV 10",sense_front_ends,0.01856
+single-end driver R_DRV 2 (budget just closes),sense_front_ends,0.01856
+both-end R_DRV 20,sense_front_ends,0.01856
+full ladder table (29 kbit) instead of half,sense_front_ends,0.01856
+"baseline: both-end drivers, R_DRV 10",reference_dacs,0.0031999999999999997
+single-end driver R_DRV 2 (budget just closes),reference_dacs,0.0031999999999999997
+both-end R_DRV 20,reference_dacs,0.0031999999999999997
+full ladder table (29 kbit) instead of half,reference_dacs,0.0031999999999999997
+"baseline: both-end drivers, R_DRV 10",ladder_and_gain_storage,0.009222
+single-end driver R_DRV 2 (budget just closes),ladder_and_gain_storage,0.009222
+both-end R_DRV 20,ladder_and_gain_storage,0.009222
+full ladder table (29 kbit) instead of half,ladder_and_gain_storage,0.015678
+"baseline: both-end drivers, R_DRV 10",supply_ground_straps,0.00032385152
+single-end driver R_DRV 2 (budget just closes),supply_ground_straps,0.00032385152
+both-end R_DRV 20,supply_ground_straps,0.00032385152
+full ladder table (29 kbit) instead of half,supply_ground_straps,0.00032385152
+"baseline: both-end drivers, R_DRV 10",overhead_20pct,0.023374892825600003
+single-end driver R_DRV 2 (budget just closes),overhead_20pct,0.044443620608
+both-end R_DRV 20,overhead_20pct,0.0163519835648
+full ladder table (29 kbit) instead of half,overhead_20pct,0.024666092825600002

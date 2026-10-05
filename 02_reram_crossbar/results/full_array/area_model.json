@@ -1,0 +1,133 @@
+{
+ "cell_um2": 0.08099999999999999,
+ "rtx_w_ohm_um": 548.664786,
+ "levels": {
+  "driver_um2_per_um": [
+   0.15,
+   0.25,
+   0.5
+  ],
+  "wl_buffer_um2": [
+   1.5,
+   3.0,
+   6.0
+  ],
+  "decoder_um2_per_row": [
+   1.0,
+   2.0,
+   4.0
+  ],
+  "sense_input_um2": [
+   10.0,
+   20.0,
+   40.0
+  ],
+  "comparator_um2": [
+   6.0,
+   12.0,
+   24.0
+  ],
+  "dac_um2": [
+   200.0,
+   400.0,
+   800.0
+  ],
+  "sram_um2_per_bit": [
+   0.35,
+   0.5,
+   0.8
+  ],
+  "r_sheet_ohm_sq": [
+   0.01,
+   0.02,
+   0.05
+  ],
+  "decap_ff_um2": [
+   5.0,
+   10.0,
+   20.0
+  ]
+ },
+ "overhead": 0.2,
+ "variants": {
+  "baseline: both-end drivers, R_DRV 10": {
+   "total_mm2": 0.1506173569536,
+   "parts_mm2": {
+    "cell_array": 0.006635519999999998,
+    "row_drivers": 0.070229092608,
+    "wordline_buffers": 0.007679999999999999,
+    "row_decoder": 0.001024,
+    "sense_front_ends": 0.01856,
+    "reference_dacs": 0.0031999999999999997,
+    "ladder_and_gain_storage": 0.017862,
+    "supply_ground_straps": 0.00032385152,
+    "overhead_20pct": 0.025102892825600003
+   },
+   "driver_width_um": 54.86647860000001
+  },
+  "single-end driver R_DRV 2 (budget just closes)": {
+   "total_mm2": 0.277029723648,
+   "parts_mm2": {
+    "cell_array": 0.006635519999999998,
+    "row_drivers": 0.17557273152000002,
+    "wordline_buffers": 0.007679999999999999,
+    "row_decoder": 0.001024,
+    "sense_front_ends": 0.01856,
+    "reference_dacs": 0.0031999999999999997,
+    "ladder_and_gain_storage": 0.017862,
+    "supply_ground_straps": 0.00032385152,
+    "overhead_20pct": 0.046171620608
+   },
+   "driver_width_um": 274.332393
+  },
+  "both-end R_DRV 20": {
+   "total_mm2": 0.1084799013888,
+   "parts_mm2": {
+    "cell_array": 0.006635519999999998,
+    "row_drivers": 0.035114546304,
+    "wordline_buffers": 0.007679999999999999,
+    "row_decoder": 0.001024,
+    "sense_front_ends": 0.01856,
+    "reference_dacs": 0.0031999999999999997,
+    "ladder_and_gain_storage": 0.017862,
+    "supply_ground_straps": 0.00032385152,
+    "overhead_20pct": 0.0180799835648
+   },
+   "driver_width_um": 27.433239300000004
+  },
+  "full ladder table (29 kbit) instead of half": {
+   "total_mm2": 0.1583645569536,
+   "parts_mm2": {
+    "cell_array": 0.006635519999999998,
+    "row_drivers": 0.070229092608,
+    "wordline_buffers": 0.007679999999999999,
+    "row_decoder": 0.001024,
+    "sense_front_ends": 0.01856,
+    "reference_dacs": 0.0031999999999999997,
+    "ladder_and_gain_storage": 0.024318,
+    "supply_ground_straps": 0.00032385152,
+    "overhead_20pct": 0.0263940928256
+   },
+   "driver_width_um": 54.86647860000001
+  }
+ },
+ "sensitivity": {
+  "low": 0.09200436158976001,
+  "mid": 0.1506173569536,
+  "high": 0.2848926408192
+ },
+ "decap": {
+  "dv=1mV,T=0.25ns": 1.7299999999999998,
+  "dv=1mV,T=0.5ns": 3.4599999999999995,
+  "dv=1mV,T=1.0ns": 6.919999999999999,
+  "dv=5mV,T=0.25ns": 0.3459999999999999,
+  "dv=5mV,T=0.5ns": 0.6919999999999998,
+  "dv=5mV,T=1.0ns": 1.3839999999999997,
+  "dv=10mV,T=0.25ns": 0.17299999999999996,
+  "dv=10mV,T=0.5ns": 0.3459999999999999,
+  "dv=10mV,T=1.0ns": 0.6919999999999998,
+  "dv=50mV,T=0.25ns": 0.03459999999999999,
+  "dv=50mV,T=0.5ns": 0.06919999999999998,
+  "dv=50mV,T=1.0ns": 0.13839999999999997
+ }
+}

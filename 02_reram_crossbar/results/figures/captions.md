@@ -13,3 +13,17 @@
 **fig5.** Worst-case bitline wire-IR error that no per-group constant can remove (the within-group, activation-dependent residual after the best per-group, per-count ladder level), versus group size g, from the validated 2-D mesh solver (20 F^2 cell, R_s = 5 ohm, farthest group of a 512-row column, 0.5 and 0.72 ohm per cell pitch). Solid blue: rows of a group laid out contiguously; dashed red: rows interleaved across the column. Contiguity keeps every active row within g pitches of its neighbours, so the error grows roughly as g^3 up to g = 16; interleaving spreads the active rows over the whole column and costs 15x (g = 16) to 100x (g = 4) more. Black: the budget limit and the margin left after device spread at sigma = 0.10 (floored at 0.05 uA where it is exhausted); the wire term must fit under the dotted curve, which it does only for g <= 8.
 
 **fig6.** Step between adjacent count levels, normalised to the step with no sense resistor, versus match fraction m/g, for a 40 F^2 cell (R_tx = 505.79 ohm) and R_s = 20 ohm. A single column (dashed, open markers) loses most of its step at high counts because its current compresses against the sense resistor. The two-device (differential) read (solid) is less compressed, because when the + column is heavily loaded the - column is nearly empty, so the compression partly cancels; its worst case is therefore in the middle (m = g/2), not at m = g. Note that below m/g of about 0.5 the single column is the less compressed one (its step is larger relative to its own uncompressed step); the comparison that matters for a threshold readout is the minimum over m, where the differential read is 1.5x better at g = 32 and 1.9x at g = 64.
+
+## 1C figures (scaleup/figures.py)
+
+**Figure 7 - group profile.** Level span (top) and worst step Delta_G (bottom) of all 64 groups of a 512-row column versus distance from the sense node, for bitline resistance 0.5 and 0.72 ohm/pitch (mesh solver, 20 F^2 cell, R_s 1 ohm, a = 8). Both fall monotonically; the far group's step is 2.7x (0.5) to 3.6x (0.72) smaller than the near group's.
+
+**Figure 8 - row-line levers.** Budget margin left at g = 8 versus row-driver resistance for the true 32-cell (64-bitline) macro: one driver per row fails above ~4 ohm (and closes by only 0.1-0.15 uA below), drivers at both ends close up to ~30 ohm. The dotted line is 1B's final margin for the 16-cell row line.
+
+**Figure 9 - supply rails and crosstalk.** Left: margin left versus supply/ground rail resistance per pitch, fed from both ends or one end (negative = g falls to 4). Right: data-dependent victim error versus sampling time for the far and near group at coupling fractions 0.5 and 0.75 (dotted: 0.1 uA).
+
+**Figure 10 - the final budget at the far group.** All terms of the 1C baseline design (blue: random, 5 sigma, quadrature; red: deterministic); limit 12.2 uA, margin left 0.48 uA.
+
+**Figure 11 - g = 16 break-even.** Budget margin at g = 16 versus sigma_lnG for the end-sensed column, the centre tap (r = 0.72 and 0.5 ohm/pitch) and segmented columns with the sense node mid-segment; the zero crossing is the largest sigma at which g = 16 survives.
+
+**Figure 12 - array area.** Area of the 512 x 160 array with periphery for four design variants (layout densities are assumptions; the ranking, not the absolute value, is the result).
