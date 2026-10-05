@@ -67,3 +67,5 @@ python -m scaleup.run_variants && python -m scaleup.run_variants_breakeven && py
 python -m scaleup.figures && python -m scaleup.make_report
 ```
 `energy_inference` and `c5_decision` read 1E's measured regression JSONs and the golden count vectors under `../03_rtl` and `../01_integer_reference_model` (read-only).
+
+Figure 13 (architecture diagram, cell schematic + array block diagram): `python scripts/make_architecture_fig.py` (needs `pip install schemdraw`).

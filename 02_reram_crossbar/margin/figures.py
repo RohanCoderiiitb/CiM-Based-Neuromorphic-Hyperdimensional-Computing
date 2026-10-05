@@ -237,7 +237,7 @@ def fig5() -> None:
     ax.plot(gs, left, color="black", lw=1.0, ls=(0, (1, 1.5)), marker="x", label="margin left after spread ($\\sigma$ = 0.10)")
     ax.set_xscale("log", base=2); ax.set_yscale("log"); ax.set_xticks(gs); ax.set_xticklabels([str(g) for g in gs])
     ax.set_xlabel("active rows per group $g$"); ax.set_ylabel("uncorrectable wire-IR error ($\\mu$A)")
-    ax.legend(fontsize=5.6, loc="lower right")
+    ax.legend(fontsize=5.6, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2, frameon=False)
     FS.write_csv("fig5_wire_ir_vs_g", ["layout", "ohm_per_pitch", "g", "within_group_worst_case_uA", "random_pattern_heldout_max_after_table_uA"], out)
     FS.save(f, "fig5_wire_ir_vs_g")
     _caption("fig5", ("Worst-case bitline wire-IR error that no per-group constant can remove (the within-group, activation-dependent residual after the best per-group, per-count ladder level), "

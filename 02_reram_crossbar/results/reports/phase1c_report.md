@@ -29,6 +29,12 @@ The budget machinery of 1B (`drift.strategies.evaluate` -> `solver.budget.close_
 - 300 cases (R = 32 rows, K = 8/16/24 columns in 1-3 blocks, random 2T2R weights with sigma 0.10, 1-16 active rows, rail at either end and both ends, ground pad per macro or single, drivers at one or both ends, wire settings up to 5 ohm/pitch): **worst column-current disagreement 1.3e-10, worst row-supply-current 4.9e-12**, worst ground-rail voltage 3e-14 V (203 cases with a rail, 196 with a ground rail, 179 multi-block).
 - **Transient** (`scaleup/transient.py`, ngspice `.tran`, distributed-RC bitlines to row 512 with neighbour coupling, row-line C, sense C, rail decoupling): the settled currents equal the validated DC mesh to 4e-11 (relative) for a single column and for the 64-bitline macro, the supply current equals the sum of the sense currents at the end of the pulse, and the pulse energy after settling grows exactly as V I t (`test_transient_steady_state_equals_dc_mesh`). The access transistor is the linear R_tx of 1A (word line asserted before the pulse; its gate-switching energy is accounted separately from the PTM card: **0.705 fF per 20 F^2 access transistor** at the read bias [SIM], `results/device_characterization/access_transistor_gate_cap.json`). Not modelled in the transient: BSIM4 channel-charge injection and feedthrough when the word line switches, package/regulator inductance (the supply is an ideal source at the rail pads), the sense stage.
 
+### The architecture at a glance (Figure 13)
+
+![Figure 13: (a) one 2T2R cell drawn as a schematic with the values the simulations use; (b) the 512 x 160 array as a block diagram showing the four design requirements 1C established: five macros, row drivers at both ends of every macro row, contiguous groups of 8 adjacent rows with per-group thresholds, and supply rails fed from both ends (ground rail as simulated)](../figures/fig13_architecture.png)
+
+*Figure 13.* Panel (a) is drawn by `scripts/make_architecture_fig.py` with schemdraw (ngspice cannot draw a schematic; Xschem would make the drawing the netlist, left for a paper figure of the cell); every value on it is read from `device/constants.py` at draw time and asserted equal to the parameters the simulations use. Panel (b) is a block diagram: numbered markers 1-6 match the boxes on the right (1 five macros, 2 row drivers at both ends, 3 far-group bitline resistance and step, 4 contiguous groups, 5 sense front-end, 6 ground rails); the supply rails and the stored threshold table carry their own text.
+
 ## 3. C1 - the full column
 
 ### 3.1 Profile of all 64 groups (C1a)
@@ -419,5 +425,6 @@ python -m scaleup.c2_budget                                                     
 python -m scaleup.run_array && python -m scaleup.run_array_transient && python -m scaleup.energy_inference && python -m scaleup.area # C3
 python -m scaleup.run_variants && python -m scaleup.run_variants_breakeven                                                         # C4
 python -m scaleup.c5_decision                                                                                                      # C5
+python scripts/make_architecture_fig.py                                                                                                # Figure 13 (needs schemdraw)
 python -m scaleup.figures && python -m scaleup.make_report                                                                         # figures and this report
 ```

@@ -60,8 +60,9 @@ def fig8_levers() -> None:
         st = FS.SERIES[i]
         ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"{'both ends' if both else 'one end'}, r$_{{wl}}$ {rwl}", color=st["color"], ls=st["ls"], marker=st["marker"])
         rows += [[both, rwl, p[0], p[1]] for p in pts]
-    ax.axhline(0, color="k", lw=0.6); ax.axhline(0.80, color="0.4", lw=0.6, ls=":"); ax.text(1.1, 0.88, "1B final (16-cell row line): 0.80 uA", fontsize=5.8, color="0.3")
-    ax.set_xscale("log"); ax.set_xlabel("row-driver resistance R$_{DRV}$ (ohm)"); ax.set_ylabel("margin left (uA)"); ax.legend()
+    ax.axhline(0, color="k", lw=0.6); ax.axhline(0.80, color="0.4", lw=0.8, ls=":", label="1B final (16-cell row line): 0.80 uA")
+    ax.set_xscale("log"); ax.set_xlabel("row-driver resistance R$_{DRV}$ (ohm)"); ax.set_ylabel("margin left (uA)")
+    ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False)
     FS.save(f, "fig8_row_line_levers"); FS.write_csv("fig8_row_line_levers", ["both_ends", "r_wl", "r_drv", "margin_left_uA"], rows)
     _register("fig8", RP.MACRO / "row_line_levers.json", RP.MACRO / "row_line_levers_weak_drivers.json")
 
@@ -110,19 +111,32 @@ def fig11_breakeven() -> None:
         pts = sorted([(x["sigma"], 100 * x["margin_frac"]) for x in res if x["variant"] == v and x["r"] == r and x["g"] == 16])
         st = FS.SERIES[i]; ax.plot([p[0] for p in pts], [p[1] for p in pts], label=f"{v}, r {r}", color=st["color"], ls=st["ls"], marker=st["marker"])
         rows += [[v, r, p[0], p[1]] for p in pts]
-    ax.axhline(0, color="k", lw=0.6); ax.set_xlabel("$\\sigma_{lnG}$"); ax.set_ylabel("budget margin at g = 16 (% of limit)"); ax.legend(); ax.set_ylim(-70, 40)
+    ax.axhline(0, color="k", lw=0.6); ax.set_xlabel("$\\sigma_{lnG}$"); ax.set_ylabel("budget margin at g = 16 (% of limit)"); ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.22), ncol=2, frameon=False); ax.set_ylim(-130, 40)
     FS.save(f, "fig11_g16_breakeven_variants"); FS.write_csv("fig11_g16_breakeven_variants", ["variant", "r", "sigma", "margin_pct"], rows)
     _register("fig11", RP.READOUT_VARIANTS / "breakeven_margins.json")
 
 
 def fig12_area() -> None:
     a = json.loads((RP.FULL_ARRAY / "area_model.json").read_text())["variants"]
-    f, ax = FS.fig(2.7)
+    f, ax = FS.fig(3.2)
     names = list(a); parts = list(a[names[0]]["parts_mm2"]); bottom = np.zeros(len(names)); rows = []
-    for j, p in enumerate(parts):
-        v = np.array([a[n]["parts_mm2"][p] for n in names]); ax.bar(range(len(names)), v, bottom=bottom, label=p.replace("_", " "), color=list(FS.OI.values())[j % 8]); bottom += v
-        rows += [[n, p, float(x)] for n, x in zip(names, v)]
-    ax.set_xticks(range(len(names))); ax.set_xticklabels(["both-end\nR 10", "one-end\nR 2", "both-end\nR 20", "full\ntable"], fontsize=6); ax.set_ylabel("area (mm$^2$)"); ax.legend(fontsize=5, ncol=2)
+    nice = {"cell_array": "cell array", "row_drivers": "ROW DRIVERS (largest)", "wordline_buffers": "word-line buffers", "row_decoder": "row decoder", "sense_front_ends": "sense front-ends",
+            "reference_dacs": "reference DACs", "ladder_and_gain_storage": "ladder + gain storage", "supply_ground_straps": "supply/ground straps", "overhead_20pct": "overhead (20%)"}
+    shades = ["0.15", "0.85", "0.35", "0.60", "0.72", "0.45", "0.25", "0.92", "0.55"]
+    hatches = ["", "", "//", "\\\\", "..", "xx", "--", "", "++"]
+    handles = []
+    for j, p_ in enumerate(parts):
+        v = np.array([a[n]["parts_mm2"][p_] for n in names])
+        bar = ax.bar(range(len(names)), v, bottom=bottom, label=nice.get(p_, p_.replace("_", " ")), color=shades[j % len(shades)], edgecolor="black", linewidth=0.5, hatch=hatches[j % len(hatches)])
+        handles.append(bar); bottom += v
+        rows += [[n, p_, float(x)] for n, x in zip(names, v)]
+    for k, n in enumerate(names):                                  # totals above the bars
+        ax.text(k, bottom[k] + 0.004, f"{bottom[k]:.3f}", ha="center", fontsize=6.5)
+    ax.set_xticks(range(len(names))); ax.set_xticklabels(["both-end\nR 10", "one-end\nR 2", "both-end\nR 20", "full\ntable"], fontsize=6.5); ax.set_ylabel("area (mm$^2$)"); ax.set_ylim(0, bottom.max() * 1.10)
+    leg = ax.legend(handles[::-1], [nice.get(p_, p_.replace("_", " ")) for p_ in parts[::-1]], loc="upper left", bbox_to_anchor=(1.02, 1.0), fontsize=6, frameon=False)
+    for t in leg.get_texts():
+        if t.get_text().startswith("ROW"):
+            t.set_fontweight("bold")
     FS.save(f, "fig12_array_area"); FS.write_csv("fig12_array_area", ["variant", "part", "mm2"], rows)
     _register("fig12", RP.FULL_ARRAY / "area_model.json")
 

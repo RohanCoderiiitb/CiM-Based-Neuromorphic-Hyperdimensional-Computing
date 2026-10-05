@@ -74,6 +74,22 @@ identical draws to ngspice (linear R_tx = {C.R_TX} ohm) and Newton (same R_tx), 
     return txt, dict(prim=float(prim.max()), sec=float(sec.max()), ok=bool(ok_p), sigma=sg)
 
 
+def level_gap_figure(p) -> None:
+    """Differential vs single-column level gap curves (legend placed below the axes so it never covers a curve)."""
+    import matplotlib; matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots(1, 2, figsize=(10, 4.4))
+    for g in GS:
+        c = A.level_curves(g, p)
+        ax[0].plot(np.arange(1, g + 1) / g, c["gap_diff"], label=f"g={g}")
+        ax[1].plot(np.arange(1, g + 1) / g, c["gap_single"], label=f"g={g}")
+    ax[0].set_title("differential level gap vs m/g"); ax[1].set_title("single-column level gap vs m/g")
+    for a_ in ax:
+        a_.set_xlabel("m / g"); a_.set_ylabel("step / uncompressed step"); a_.grid(alpha=.3)
+        a_.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18), ncol=5, frameon=False)
+    fig.tight_layout(); fig.savefig(RP.LEVEL_GAP_PNG, dpi=130, bbox_inches="tight")
+
+
 def main() -> None:
     p = C.DEFAULT
     tr, lk, lb = load(RP.TRANSISTOR_JSON), load(RP.OFF_LEAKAGE_JSON), load(RP.LINEAR_VS_BSIM_JSON)
@@ -292,17 +308,7 @@ This is the only temperature-sensitive term in the design: the ReRAM read curren
             for k in range(g):
                 wtr.writerow([g, k + 1, c["gap_single"][k], c["gap_diff"][k]])
     try:
-        import matplotlib; matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-        fig, ax = plt.subplots(1, 2, figsize=(10, 3.8))
-        for g in GS:
-            c = A.level_curves(g, p)
-            ax[0].plot(np.arange(1, g + 1) / g, c["gap_diff"], label=f"g={g}")
-            ax[1].plot(np.arange(1, g + 1) / g, c["gap_single"], label=f"g={g}")
-        ax[0].set_title("differential level gap vs m/g"); ax[1].set_title("single-column level gap vs m/g")
-        for a_ in ax:
-            a_.set_xlabel("m / g"); a_.set_ylabel("step / uncompressed step"); a_.grid(alpha=.3); a_.legend()
-        fig.tight_layout(); fig.savefig(RP.LEVEL_GAP_PNG, dpi=130)
+        level_gap_figure(p)
     except Exception as exc:  # plotting is optional
         print("plot skipped:", exc)
 

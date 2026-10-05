@@ -94,6 +94,12 @@ def main() -> None:
       "its gate-switching energy is accounted separately from the PTM card: **0.705 fF per 20 F^2 access transistor** at the read bias [SIM], `results/device_characterization/access_transistor_gate_cap.json`). "
       "Not modelled in the transient: BSIM4 channel-charge injection and feedthrough when the word line switches, package/regulator inductance (the supply is an ideal source at the rail pads), the sense stage.")
     w("")
+    w("### The architecture at a glance (Figure 13)")
+    w("")
+    w("![Figure 13: (a) one 2T2R cell drawn as a schematic with the values the simulations use; (b) the 512 x 160 array as a block diagram showing the four design requirements 1C established: five macros, row drivers at both ends of every macro row, contiguous groups of 8 adjacent rows with per-group thresholds, and supply rails fed from both ends (ground rail as simulated)](../figures/fig13_architecture.png)")
+    w("")
+    w("*Figure 13.* Panel (a) is drawn by `scripts/make_architecture_fig.py` with schemdraw (ngspice cannot draw a schematic; Xschem would make the drawing the netlist, left for a paper figure of the cell); every value on it is read from `device/constants.py` at draw time and asserted equal to the parameters the simulations use. Panel (b) is a block diagram: numbered markers 1-6 match the boxes on the right (1 five macros, 2 row drivers at both ends, 3 far-group bitline resistance and step, 4 contiguous groups, 5 sense front-end, 6 ground rails); the supply rails and the stored threshold table carry their own text.")
+    w("")
     w("## 3. C1 - the full column")
     w("")
     w("### 3.1 Profile of all 64 groups (C1a)")
@@ -465,12 +471,13 @@ def main() -> None:
     w("python -m scaleup.run_array && python -m scaleup.run_array_transient && python -m scaleup.energy_inference && python -m scaleup.area # C3")
     w("python -m scaleup.run_variants && python -m scaleup.run_variants_breakeven                                                         # C4")
     w("python -m scaleup.c5_decision                                                                                                      # C5")
+    w("python scripts/make_architecture_fig.py                                                                                                # Figure 13 (needs schemdraw)")
     w("python -m scaleup.figures && python -m scaleup.make_report                                                                         # figures and this report")
     w("```")
     text = "\n".join(L) + "\n"
     import re
     assert not re.search(r"\{[A-Za-z_0-9]+[\[\(\.:][^}]*\}|\{[a-z_]+\([^}]*\}|\{u\(|\{100\*", text), "unrendered template code in the report"
-    for n, nm in ((7, "fig7_group_profile"), (8, "fig8_row_line_levers"), (9, "fig9_rail_and_crosstalk"), (10, "fig10_final_budget_far_group"), (11, "fig11_g16_breakeven_variants"), (12, "fig12_array_area")):
+    for n, nm in ((7, "fig7_group_profile"), (8, "fig8_row_line_levers"), (9, "fig9_rail_and_crosstalk"), (13, "fig13_architecture"), (10, "fig10_final_budget_far_group"), (11, "fig11_g16_breakeven_variants"), (12, "fig12_array_area")):
         assert f"Figure {n}" in text, f"Figure {n} is not referenced in the text"
         assert (RP.FIGURES / f"{nm}.png").exists(), f"Figure {n} file missing"
     RP.REPORTS.mkdir(parents=True, exist_ok=True)

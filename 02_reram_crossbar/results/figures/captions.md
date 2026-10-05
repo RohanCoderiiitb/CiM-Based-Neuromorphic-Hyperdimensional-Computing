@@ -14,16 +14,4 @@
 
 **fig6.** Step between adjacent count levels, normalised to the step with no sense resistor, versus match fraction m/g, for a 40 F^2 cell (R_tx = 505.79 ohm) and R_s = 20 ohm. A single column (dashed, open markers) loses most of its step at high counts because its current compresses against the sense resistor. The two-device (differential) read (solid) is less compressed, because when the + column is heavily loaded the - column is nearly empty, so the compression partly cancels; its worst case is therefore in the middle (m = g/2), not at m = g. Note that below m/g of about 0.5 the single column is the less compressed one (its step is larger relative to its own uncompressed step); the comparison that matters for a threshold readout is the minimum over m, where the differential read is 1.5x better at g = 32 and 1.9x at g = 64.
 
-## 1C figures (scaleup/figures.py)
-
-**Figure 7 - group profile.** All 64 groups are drawn (a dot on every group, a larger marker every eighth). Level span (top) and worst step Delta_G (bottom) of all 64 groups of a 512-row column versus distance from the sense node, for bitline resistance 0.5 and 0.72 ohm/pitch (mesh solver, 20 F^2 cell, R_s 1 ohm, a = 8). Both fall monotonically; the far group's step is 2.7x (0.5) to 3.6x (0.72) smaller than the near group's. The box on the lower panel follows the far group's step through the budget: ideal step, step after row-line and rail losses, the allowance it permits and the error against it.
-
-**Figure 8 - row-line levers.** Budget margin left at g = 8 versus row-driver resistance for the true 32-cell (64-bitline) macro: one driver per row fails above ~4 ohm (and closes by only 0.1-0.15 uA below), drivers at both ends close up to ~30 ohm. The dotted line is 1B's final margin for the 16-cell row line.
-
-**Figure 9 - supply rails and crosstalk.** Left: margin left versus supply/ground rail resistance per pitch, fed from both ends or one end (negative = g falls to 4). Right: data-dependent victim error versus sampling time for the far and near group at coupling fractions 0.5 and 0.75 (dotted: 0.1 uA).
-
-**Figure 10 - the final budget at the far group.** All terms of the 1C baseline design (blue: random, 5 sigma, quadrature; red: deterministic); limit 12.2 uA, margin left 0.48 uA.
-
-**Figure 11 - g = 16 break-even.** Budget margin at g = 16 versus sigma_lnG for the end-sensed column, the centre tap (r = 0.72 and 0.5 ohm/pitch) and segmented columns with the sense node mid-segment; the zero crossing is the largest sigma at which g = 16 survives.
-
-**Figure 12 - array area.** Area of the 512 x 160 array with periphery for four design variants (layout densities are assumptions; the ranking, not the absolute value, is the result).
+**Figure 13 - architecture.** (a) One 2-transistor + 2-resistive-device cell: both access transistors on one word line, a low- and a high-resistance device, the two bitlines into a sense front-end that reads their difference (a stored 1 gives a positive difference, a stored 0 the same size negative, never zero). (b) The 512 x 160 array as five 512 x 32 macros with row drivers at both ends of every macro row, 64 contiguous groups of 8 adjacent rows, a per-group threshold table, supply rails fed from both ends and one ground pad per macro (as simulated). Drawn by scripts/make_architecture_fig.py; panel (a) values are read from device/constants.py and asserted equal to the simulation parameters.
