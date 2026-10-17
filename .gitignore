@@ -1,3 +1,32 @@
-/data
-/venv
+# datasets and environments (large, local)
+/data/
+/myenv/
+/venv/
+.venv/
+
+# local planning document
 IMPLEMENTATION_README.md
+
+# Python / tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS / editor metadata
+.DS_Store
+.vscode/
+.idea/
+
+# crossbar simulations: regenerable build products and large intermediate tables
+# compiled rram.osdi + cached toolchain paths (spice/osdi.py rebuilds them)
+studies/crossbar/spice/build/
+# 1D-ii pulse flow maps, ~20 MB (python -m program.tables --which all)
+studies/crossbar/results/program_verify/tables/
+*.osdi
+
+# RTL flow (also in design/rtl/.gitignore)
+design/rtl/tools/
+design/rtl/build/
+design/rtl/sim_build/
+design/rtl/results/scratch/

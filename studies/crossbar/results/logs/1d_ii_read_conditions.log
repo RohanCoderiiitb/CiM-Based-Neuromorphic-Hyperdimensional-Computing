@@ -1,0 +1,12 @@
+bl|branch|lrs_1a             I(27C)    38.550 uA  dI/dT  -282.96 nA/K  (-0.734 %/K)  R_tx eff 2052 ohm
+bl|branch|lrs_adjacent       I(27C)    33.743 uA  dI/dT  -221.00 nA/K  (-0.655 %/K)  R_tx eff 1976 ohm
+bl|branch|hrs_adjacent       I(27C)     0.822 uA  dI/dT    -0.13 nA/K  (-0.016 %/K)  R_tx eff 1681 ohm
+bl|branch|hrs_1a             I(27C)     0.454 uA  dI/dT    -0.04 nA/K  (-0.009 %/K)  R_tx eff 1679 ohm
+bl|group8|far                I(27C)   134.815 uA  dI/dT  -519.36 nA/K  (-0.385 %/K)
+bl|group8|near               I(27C)   307.535 uA  dI/dT -2252.28 nA/K  (-0.732 %/K)
+rl|branch|lrs_1a             I(27C)    34.742 uA  dI/dT  -233.97 nA/K  (-0.673 %/K)  R_tx eff 2337 ohm
+rl|branch|lrs_adjacent       I(27C)    29.315 uA  dI/dT  -173.69 nA/K  (-0.592 %/K)  R_tx eff 2424 ohm
+rl|branch|hrs_adjacent       I(27C)     0.811 uA  dI/dT    -0.24 nA/K  (-0.029 %/K)  R_tx eff 3337 ohm
+rl|branch|hrs_1a             I(27C)     0.451 uA  dI/dT    -0.07 nA/K  (-0.016 %/K)  R_tx eff 3361 ohm
+rl|group8|far                I(27C)   130.935 uA  dI/dT  -498.47 nA/K  (-0.381 %/K)
+rl|group8|near               I(27C)   277.277 uA  dI/dT -1863.96 nA/K  (-0.672 %/K)

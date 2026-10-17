@@ -1,0 +1,11 @@
+pulse 0: reset 1.70 V 3.34e-05 s -> max |maps - ngspice| 0.036 pm (1.43e-04 in lnG)
+pulse 1: set 1.05 V 2.65e-07 s -> max |maps - ngspice| 0.089 pm (3.57e-04 in lnG)
+pulse 2: set 1.30 V 1.64e-06 s -> max |maps - ngspice| 2.092 pm (8.37e-03 in lnG)
+pulse 3: set 1.75 V 0.000776 s -> max |maps - ngspice| 0.931 pm (3.72e-03 in lnG)
+pulse 4: set 1.20 V 4.45e-07 s -> max |maps - ngspice| 0.932 pm (3.73e-03 in lnG)
+pulse 5: set 1.75 V 0.00397 s -> max |maps - ngspice| 1.248 pm (4.99e-03 in lnG)
+pulse 6: reset 1.20 V 4.5e-07 s -> max |maps - ngspice| 1.248 pm (4.99e-03 in lnG)
+pulse 7: set 1.50 V 0.0341 s -> max |maps - ngspice| 0.943 pm (3.77e-03 in lnG)
+pulse 8: set 1.80 V 3.76e-06 s -> max |maps - ngspice| 0.942 pm (3.77e-03 in lnG)
+pulse 9: reset 1.75 V 6.25e-06 s -> max |maps - ngspice| 0.942 pm (3.77e-03 in lnG)
+worst 0.002091671217909985

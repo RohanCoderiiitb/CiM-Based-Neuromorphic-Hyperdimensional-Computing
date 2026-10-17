@@ -1,0 +1,62 @@
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+/home/ihs24/Desktop/CiM-Based-Neuromorphic-Hyperdimensional-Computing/02_reram_crossbar/program/verify.py:114: RuntimeWarning: divide by zero encountered in log1p
+  return g_target - G0 * np.log1p(w), g_target - G0 * np.log1p(-w)
+B 9600 runs
+targets [3.37428594339434e-05, 8.22073582282382e-07] [0.2864783326672615, 0.9863761074435651]

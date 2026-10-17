@@ -1,0 +1,9 @@
+ngspice-45; received model: rc=65 (error: 'clip_minGap' was not found in the current scope    --> <tmp>/variant.va:37:9    | 37 |         clip_minGap = (limexp(Kclip*(minGap-Gap)) - ddt_gap) * Fw...)
+fixed: rc=0; alternative (clamp at 0): rc=0
+hard SET  -> gap: fixed {'gap_min': 0.200284, 'gap_max': 1.699718, 'gap_end': 0.2002887}  alternative {'gap_min': 0.0007438008, 'gap_max': 1.699718, 'gap_end': 0.0007438079}
+hard RESET-> gap: fixed {'gap_min': 0.2002824, 'gap_max': 1.698415, 'gap_end': 1.698415}  alternative {'gap_min': 0.2, 'gap_max': 1.698415, 'gap_end': 1.698415}
+R(0.2 nm) = 541.8207 ohm (1A 541.82), R(1.7 nm) = 218586.00 ohm (1A 218586.0); gap sweep max rel err 1.11e-15; I-V max rel err 1.90e-15
+hysteresis period 1e-06 s: V_set None, V_reset None, gap min 1.677, end 1.687
+hysteresis period 0.0001 s: V_set None, V_reset None, gap min 0.985, end 1.663
+hysteresis period 0.01 s: V_set 0.6562346519713046, V_reset -0.6575666572338035, gap min 0.374, end 1.626
+hysteresis period 1 s: V_set 0.3530085120068614, V_reset -0.4910842370147387, gap min 0.261, end 1.589

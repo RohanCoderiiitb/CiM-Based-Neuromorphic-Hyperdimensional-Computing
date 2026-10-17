@@ -1,0 +1,5 @@
+set_row_vhalf targets switched 160/160 (t 1.051082182801585e-07 .. 1.055627166172265e-07), non-targets switched 0, peak supply 33.7 mA
+set_row_vhalf_far_vth targets switched 160/160 (t 1.120122424974534e-07 .. 1.136037666023583e-07), non-targets switched 0, peak supply 34.3 mA
+float_tmin5ns targets switched 160/160 (t 7.267839835829983e-09 .. 7.267839835829983e-09), non-targets switched 160, peak supply 33.7 mA
+float_tmin10ns targets switched 160/160 (t 1.219378689971938e-08 .. 1.219378689971938e-08), non-targets switched 0, peak supply 33.7 mA
+float_tmin10ns_v2 targets switched 160/160 (t 1.195987160991206e-08 .. 1.195987160991206e-08), non-targets switched 0, peak supply 39.3 mA

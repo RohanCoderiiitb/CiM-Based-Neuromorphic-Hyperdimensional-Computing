@@ -1,0 +1,146 @@
+{
+ "parallelism": 160,
+ "phases": 2,
+ "pulses_per_device": 3.0,
+ "e_pulse_assumed_j": 1e-11,
+ "i_row_peak_a": 0.03428294684641742,
+ "i_read_pdn_a": 0.069,
+ "program": [
+  {
+   "width_s": 1e-08,
+   "time_s": 9.830400000000001e-05,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-07,
+   "energy_verify_j": 7.004159999999999e-07,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 3e-08,
+   "time_s": 0.000159744,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 1.8957098288194972e-06,
+   "energy_verify_j": 7.004159999999999e-07,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 1e-07,
+   "time_s": 0.000374784,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-06,
+   "energy_verify_j": 7.004159999999999e-07,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 3e-07,
+   "time_s": 0.000989184,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 1.895709828819497e-05,
+   "energy_verify_j": 7.004159999999999e-07,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 1e-06,
+   "time_s": 0.003139584,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-05,
+   "energy_verify_j": 7.004159999999999e-07,
+   "pulse_slots": 3072.0
+  }
+ ],
+ "program_no_verify": [
+  {
+   "width_s": 1e-08,
+   "time_s": 3.6864e-05,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-07,
+   "energy_verify_j": 0.0,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 3e-08,
+   "time_s": 9.830399999999999e-05,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 1.8957098288194972e-06,
+   "energy_verify_j": 0.0,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 1e-07,
+   "time_s": 0.000313344,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-06,
+   "energy_verify_j": 0.0,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 3e-07,
+   "time_s": 0.0009277439999999999,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 1.895709828819497e-05,
+   "energy_verify_j": 0.0,
+   "pulse_slots": 3072.0
+  },
+  {
+   "width_s": 1e-06,
+   "time_s": 0.0030781439999999997,
+   "energy_assumed_j": 4.9152e-06,
+   "energy_array_estimate_j": 6.319032762731658e-05,
+   "energy_verify_j": 0.0,
+   "pulse_slots": 3072.0
+  }
+ ],
+ "sequence": [
+  "for each row r = 0..511 (any order; rows are independent):",
+  "  phase R (RESET): selected row line 0 V; word line r at V_WL; bitlines of the devices that must be HRS driven to V_RESET; all other bitlines at 0 V (= row level);",
+  "                   unselected row lines 0 / V/2, unselected word lines 0 V; apply pulse; switch to verify; read row r (160 columns, 1F read path);",
+  "                   retire the devices that verified; repeat with the 1D-ii amplitude/width schedule until all retired or N_max",
+  "  phase S (SET):   selected row line V_SET; bitlines of the devices that must be LRS at 0 V; non-target bitlines at V_SET/2; unselected row lines 0 V,",
+  "                   unselected word lines 0 V; pulse; verify; retire; repeat",
+  "state the controller holds: the 160-bit weight row (gives both target masks: + device of a 1-cell / - device of a 0-cell), a 320-bit retired mask, the phase,",
+  "  the iteration count (<= N_max, 1D-ii), the current pulse amplitude/width code (per row, or per device if the 1D-ii schedule is per device: 320 x a few bits),",
+  "  the bias-level selects of the five line classes, and the mode (write / verify) with its switch-over timing",
+  "the a = 0 skip and group sequencing of the read path are not involved; programming is row-sequential"
+ ],
+ "recal": [
+  {
+   "item": "per-group ladder thresholds (1C, 16,140 bits half table)",
+   "depends_on": "geometry + the POPULATION MEAN of the programmed LRS/HRS conductances (not individual cells)",
+   "survives_reprogram": "yes if the verify targets and their mean placement are unchanged; no if the targets or the program-verify bias move",
+   "regenerate": "measure the level of every (group, a, m) on reference patterns: 64 groups x 44 levels x 16 reads = 45,056 full-array reads",
+   "reads": 45056
+  },
+  {
+   "item": "rank-3 row-gain correction (1C, 19,584 bits)",
+   "depends_on": "geometry (row line, rails) and the active-row count a; weights only through the data-dependent terms already in the budget",
+   "survives_reprogram": "yes",
+   "regenerate": "not needed; re-fit only if the rails/drivers change",
+   "reads": 0
+  },
+  {
+   "item": "per-column front-end trims (1F, 2 x 2 x 10 bits per column = 6.4 kbit)",
+   "depends_on": "the sense front-end's own mismatch and temperature; NOT the cells",
+   "survives_reprogram": "yes (front-end property) - but it is FITTED through known cells, so it can only be re-fitted once the array holds known data",
+   "regenerate": "18 known configurations (2 groups x m = 0..8) x 9 reads = 162 full-array reads per fit",
+   "reads": 162
+  },
+  {
+   "item": "1F thermal recalibration (every ~5 K)",
+   "depends_on": "front-end gain/offset drift 0.05 uA/K (1F) [+ the cell read-current TC if any: 1D-ii D3]",
+   "survives_reprogram": "n/a",
+   "regenerate": "the same 162-read trim fit",
+   "reads": 162
+  }
+ ],
+ "recal_time_s": {
+  "full": 0.00045218,
+  "trims_only": 1.62e-06
+ },
+ "recal_energy_j": {
+  "full": 1.0309704e-05,
+  "trims_only": 3.6936e-08
+ },
+ "b1_placeholder": {
+  "energy_j": 4.9152e-06,
+  "time_s": 0.0001536
+ }
+}

@@ -1,0 +1,80 @@
+A read 1ns x 1 var 0.1/0.0: sigma L 0.074 H 0.465 -> g4:+9.86 g8:+1.59 g16:-6.40  g* 8; program 1.02 J, 118 s
+A read 1ns x 1 var 0.3/0.3: sigma L 0.079 H 0.465 -> g4:+9.55 g8:+1.36 g16:-6.61  g* 8; program 1.02 J, 119 s
+A read 1ns x 4 var 0.1/0.0: sigma L 0.045 H 0.333 -> g4:+11.59 g8:+3.00 g16:-4.96  g* 8; program 1.05 J, 108 s
+A read 1ns x 4 var 0.3/0.3: sigma L 0.049 H 0.333 -> g4:+11.38 g8:+2.84 g16:-5.13  g* 8; program 1.05 J, 113 s
+A read 1ns x16 var 0.1/0.0: sigma L 0.027 H 0.276 -> g4:+12.39 g8:+3.61 g16:-4.37  g* 8; program 1.07 J, 107 s
+A read 1ns x16 var 0.3/0.3: sigma L 0.030 H 0.276 -> g4:+12.28 g8:+3.53 g16:-4.44  g* 8; program 1.07 J, 114 s
+A read 1ns x64 var 0.1/0.0: sigma L 0.017 H 0.248 -> g4:+12.67 g8:+3.83 g16:-4.24  g* 8; program 1.07 J, 107 s
+A read 1ns x64 var 0.3/0.3: sigma L 0.019 H 0.248 -> g4:+12.63 g8:+3.80 g16:-4.24  g* 8; program 1.07 J, 114 s
+A read 2ns x 1 var 0.1/0.0: sigma L 0.053 H 0.370 -> g4:+11.17 g8:+2.66 g16:-5.32  g* 8; program 1.04 J, 113 s
+A read 2ns x 1 var 0.3/0.3: sigma L 0.056 H 0.370 -> g4:+11.03 g8:+2.55 g16:-5.42  g* 8; program 1.04 J, 114 s
+A read 2ns x 4 var 0.1/0.0: sigma L 0.032 H 0.285 -> g4:+12.19 g8:+3.47 g16:-4.50  g* 8; program 1.06 J, 107 s
+A read 2ns x 4 var 0.3/0.3: sigma L 0.034 H 0.285 -> g4:+12.12 g8:+3.41 g16:-4.55  g* 8; program 1.07 J, 113 s
+A read 2ns x16 var 0.1/0.0: sigma L 0.020 H 0.254 -> g4:+12.60 g8:+3.78 g16:-4.26  g* 8; program 1.07 J, 107 s
+A read 2ns x16 var 0.3/0.3: sigma L 0.022 H 0.254 -> g4:+12.55 g8:+3.74 g16:-4.26  g* 8; program 1.07 J, 114 s
+A read 2ns x64 var 0.1/0.0: sigma L 0.013 H 0.244 -> g4:+12.76 g8:+3.89 g16:-4.22  g* 8; program 1.08 J, 101 s
+A read 2ns x64 var 0.3/0.3: sigma L 0.015 H 0.244 -> g4:+12.71 g8:+3.86 g16:-4.23  g* 8; program 1.08 J, 109 s
+B read 1ns x 1 var 0.1/0.0: sigma L 0.105 H 0.339 -> g4:+7.71 g8:-0.09 g16:-7.72  g* 4; program 0.00163 J, 0.00338 s
+B read 1ns x 1 var 0.3/0.3: sigma L 0.109 H 0.339 -> g4:+7.45 g8:-0.31 g16:-7.91  g* 4; program 0.00165 J, 0.00345 s
+B read 1ns x 4 var 0.1/0.0: sigma L 0.055 H 0.272 -> g4:+11.10 g8:+2.65 g16:-5.24  g* 8; program 0.0027 J, 0.00993 s
+B read 1ns x 4 var 0.3/0.3: sigma L 0.071 H 0.272 -> g4:+10.13 g8:+1.88 g16:-5.91  g* 8; program 0.00168 J, 0.00409 s
+B read 1ns x16 var 0.1/0.0: sigma L 0.033 H 0.224 -> g4:+12.17 g8:+3.48 g16:-4.46  g* 8; program 0.00261 J, 0.0128 s
+B read 1ns x16 var 0.3/0.3: sigma L 0.045 H 0.224 -> g4:+11.60 g8:+3.05 g16:-4.85  g* 8; program 0.00181 J, 0.00852 s
+B read 1ns x64 var 0.1/0.0: sigma L 0.025 H 0.239 -> g4:+12.45 g8:+3.67 g16:-4.28  g* 8; program 0.00231 J, 0.016 s
+B read 1ns x64 var 0.3/0.3: sigma L 0.037 H 0.239 -> g4:+12.01 g8:+3.35 g16:-4.59  g* 8; program 0.00243 J, 0.021 s
+B read 2ns x 1 var 0.1/0.0: sigma L 0.078 H 0.271 -> g4:+9.65 g8:+1.50 g16:-6.25  g* 8; program 0.00165 J, 0.00326 s
+B read 2ns x 1 var 0.3/0.3: sigma L 0.080 H 0.271 -> g4:+9.46 g8:+1.35 g16:-6.38  g* 8; program 0.00167 J, 0.00326 s
+B read 2ns x 4 var 0.1/0.0: sigma L 0.034 H 0.236 -> g4:+12.14 g8:+3.44 g16:-4.50  g* 8; program 0.0026 J, 0.00932 s
+B read 2ns x 4 var 0.3/0.3: sigma L 0.051 H 0.236 -> g4:+11.28 g8:+2.80 g16:-5.07  g* 8; program 0.00176 J, 0.00479 s
+B read 2ns x16 var 0.1/0.0: sigma L 0.027 H 0.221 -> g4:+12.38 g8:+3.63 g16:-4.31  g* 8; program 0.00171 J, 0.00685 s
+B read 2ns x16 var 0.3/0.3: sigma L 0.039 H 0.221 -> g4:+11.93 g8:+3.30 g16:-4.62  g* 8; program 0.00182 J, 0.0088 s
+B read 2ns x64 var 0.1/0.0: sigma L 0.022 H 0.241 -> g4:+12.54 g8:+3.74 g16:-4.23  g* 8; program 0.0023 J, 0.0165 s
+B read 2ns x64 var 0.3/0.3: sigma L 0.033 H 0.241 -> g4:+12.15 g8:+3.45 g16:-4.48  g* 8; program 0.00242 J, 0.0219 s
+1F check sigma 0.03 g4:+12.29 g8:+3.59 g16:-4.29
+1F check sigma 0.05 g4:+11.36 g8:+2.87 g16:-4.92
+1F check sigma 0.07 g4:+10.16 g8:+1.93 g16:-5.77
+1F check sigma 0.1 g4:+8.08 g8:+0.24 g16:-7.29
+{
+"27.0|8": {
+"d_i_lrs_a": 2.5379116499289846e-12,
+"d_i_hrs_a": 7.312329388433301e-13,
+"level_shift_per_inference_a": 1.286355242292986e-11,
+"inferences_to_027uA": 20989.536258950746,
+"dlnG_hrs_per_inference": 9.01777097409783e-07,
+"dlnG_lrs_per_inference": 2.625447841591657e-07
+},
+"27.0|4": {
+"d_i_lrs_a": 1.4363628762170482e-12,
+"d_i_hrs_a": 4.138504377215181e-13,
+"level_shift_per_inference_a": 3.6401442810440875e-12,
+"inferences_to_027uA": 74172.88413704223,
+"dlnG_hrs_per_inference": 5.103720396958741e-07,
+"dlnG_lrs_per_inference": 1.485905079954992e-07
+},
+"85.0|8": {
+"d_i_lrs_a": 7.112600889676907e-11,
+"d_i_hrs_a": 2.3492945012339695e-11,
+"level_shift_per_inference_a": 3.3914741485713715e-10,
+"inferences_to_027uA": 796.1139851640477,
+"dlnG_hrs_per_inference": 2.897216281906906e-05,
+"dlnG_lrs_per_inference": 7.357924636355115e-06
+},
+"85.0|4": {
+"d_i_lrs_a": 4.0254655324846036e-11,
+"d_i_hrs_a": 1.3296126391821966e-11,
+"level_shift_per_inference_a": 9.597236300156569e-11,
+"inferences_to_027uA": 2813.3099108500146,
+"dlnG_hrs_per_inference": 1.6397158316441437e-05,
+"dlnG_lrs_per_inference": 4.1643095786880685e-06
+},
+"125.0|8": {
+"d_i_lrs_a": 3.3876662463426997e-10,
+"d_i_hrs_a": 1.475507867911169e-10,
+"level_shift_per_inference_a": 1.3614567654432498e-09,
+"inferences_to_027uA": 198.3169843164987,
+"dlnG_hrs_per_inference": 0.00018196379452421166,
+"dlnG_lrs_per_inference": 3.504511685716966e-05
+},
+"125.0|4": {
+"d_i_lrs_a": 1.9172921300851308e-10,
+"d_i_hrs_a": 8.350821531132004e-11

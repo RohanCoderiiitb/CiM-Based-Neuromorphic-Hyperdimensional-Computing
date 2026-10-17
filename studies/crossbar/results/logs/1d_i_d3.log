@@ -1,0 +1,28 @@
+set|1.0|bl|27.0 BLn=V RLu=V/2 WLu=0: deliver 0.996 V, disturb 0.000 V, stress target 1.100 V, others 1.000 V, unsel load 0.392 uA, S-N load 0.00 uA
+set|1.0|rl|27.0 BLn=V RLu=V/2 WLu=0: deliver 0.482 V, disturb 0.000 V, stress target 0.996 V, others 1.000 V, unsel load 0.392 uA, S-N load 0.00 uA
+set|1.2|bl|27.0 BLn=V/2 RLu=0 WLu=0: deliver 1.195 V, disturb 0.022 V, stress target 1.100 V, others 0.600 V, unsel load 0.470 uA, S-N load 16.80 uA
+set|1.2|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.493 V, disturb 0.014 V, stress target 1.092 V, others 0.600 V, unsel load 0.470 uA, S-N load 16.77 uA
+set|1.4|bl|27.0 BLn=V/2 RLu=0 WLu=0: deliver 1.394 V, disturb 0.001 V, stress target 1.245 V, others 0.700 V, unsel load 0.562 uA, S-N load 0.86 uA
+set|1.4|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.503 V, disturb 0.001 V, stress target 1.288 V, others 0.700 V, unsel load 0.562 uA, S-N load 0.86 uA
+set|1.6|bl|27.0 BLn=V/2 RLu=0 WLu=0: deliver 1.594 V, disturb 0.000 V, stress target 1.438 V, others 0.800 V, unsel load 0.673 uA, S-N load 0.04 uA
+set|1.6|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.513 V, disturb 0.000 V, stress target 1.484 V, others 0.800 V, unsel load 0.673 uA, S-N load 0.04 uA
+set|1.8|bl|27.0 BLn=V/2 RLu=0 WLu=0: deliver 1.793 V, disturb 0.000 V, stress target 1.631 V, others 0.900 V, unsel load 0.806 uA, S-N load 0.00 uA
+set|1.8|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.523 V, disturb 0.000 V, stress target 1.679 V, others 0.900 V, unsel load 0.806 uA, S-N load 0.00 uA
+set|2.0|bl|27.0 BLn=V/2 RLu=0 WLu=0: deliver 1.992 V, disturb 0.000 V, stress target 1.822 V, others 1.000 V, unsel load 0.964 uA, S-N load 0.00 uA
+set|2.0|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.534 V, disturb 0.000 V, stress target 1.874 V, others 1.000 V, unsel load 0.964 uA, S-N load 0.00 uA
+set|2.2|bl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 2.191 V, disturb 0.000 V, stress target 2.008 V, others 1.100 V, unsel load 1.155 uA, S-N load 0.00 uA
+set|2.2|rl|27.0 BLn=V/2 RLu=V/2 WLu=0: deliver 0.545 V, disturb 0.000 V, stress target 2.067 V, others 1.100 V, unsel load 1.155 uA, S-N load 0.00 uA
+reset|1.0|bl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.104 V, disturb 0.000 V, stress target 0.996 V, others 1.100 V, unsel load 0.392 uA, S-N load 0.01 uA
+reset|1.0|rl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.143 V, disturb 0.000 V, stress target 1.100 V, others 1.100 V, unsel load 0.392 uA, S-N load 0.00 uA
+reset|1.2|bl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.108 V, disturb 0.000 V, stress target 1.092 V, others 1.200 V, unsel load 0.470 uA, S-N load 0.01 uA
+reset|1.2|rl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.149 V, disturb 0.000 V, stress target 1.100 V, others 1.200 V, unsel load 0.470 uA, S-N load 0.00 uA
+reset|1.4|bl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.112 V, disturb 0.000 V, stress target 1.288 V, others 1.400 V, unsel load 6.637 uA, S-N load 0.01 uA
+reset|1.4|rl|27.0 BLn=0 RLu=V/2 WLu=0: deliver 0.155 V, disturb 0.000 V, stress target 1.245 V, others 1.400 V, unsel load 6.637 uA, S-N load 0.00 uA
+reset|1.6|bl|27.0 None
+reset|1.6|rl|27.0 None
+reset|1.8|bl|27.0 None
+reset|1.8|rl|27.0 None
+reset|2.0|bl|27.0 None
+reset|2.0|rl|27.0 None
+reset|2.2|bl|27.0 None
+reset|2.2|rl|27.0 None

@@ -1,0 +1,4 @@
+main tables: {'set': (37, 29, 301), 'reset': (39, 29, 301)} NaN entries: {'set': 0, 'reset': 0}
+85 C tables: {'set': (19, 8, 301), 'reset': (20, 8, 301)} NaN entries: {'set': 0, 'reset': 0}
+near-row tables: {'set': (19, 8, 301)}
+design-capable (out-of-envelope) tables: {'set': (37, 9, 301), 'reset': (39, 9, 301)}

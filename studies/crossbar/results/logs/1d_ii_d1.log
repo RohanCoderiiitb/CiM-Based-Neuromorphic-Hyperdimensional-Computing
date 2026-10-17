@@ -1,0 +1,13 @@
+needs: set|1e-08|379 None
+needs: set|1e-08|11 None
+needs: set|1e-07|379 None
+needs: set|1e-07|11 {'w_um': 10.8, 'v_wl': 1.8, 'v': 2.2, 'gap_out': 0.3492539, 'i_peak': 0.01148105, 'v_tx_max': 0.7455969, 'v_gate_max': 1.8}
+needs: set|1e-06|379 None
+needs: set|1e-06|11 {'w_um': 2.7, 'v_wl': 3.0, 'v': 2.2, 'gap_out': 0.3370484, 'i_peak': 0.005951578, 'v_tx_max': 1.076942, 'v_gate_max': 2.999957}
+needs: reset|1e-08|379 None
+needs: reset|1e-08|11 None
+needs: reset|1e-07|379 None
+needs: reset|1e-07|11 None
+needs: reset|1e-06|379 None
+needs: reset|1e-06|11 {'w_um': 5.4, 'v_wl': 3.0, 'v': 2.0, 'gap_out': 1.695365, 'i_peak': 0.009317886, 'v_tx_max': 0.8565357, 'v_gate_max': 2.999909}
+errors 0
