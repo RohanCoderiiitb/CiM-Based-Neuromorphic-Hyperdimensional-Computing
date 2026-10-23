@@ -1,0 +1,11 @@
+[ 1334s] [PASS] ic_ab_full_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 50.208333333333336, 0 assertion messages, sim 1327.3s
+[ 3104s] [PASS] ic_ab_eeoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 3097.1s
+[ 3104s] [PASS] ic_ab_factoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 56.291666666666664, 0 assertion messages, sim 1545.1s
+[ 3104s] [PASS] ic_ab_bothoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 3089.0s
+[ 6654s] [FAIL] ic_c20_check_s0: 24 samples, 3 mismatching, acc 85.71%, mean exit timestep 51.04761904761905, 0 assertion messages, sim 6647.7s
+   first failing: {'row': 196, 'first_mismatch': None, 'error': 'no output'}
+   first failing: {'row': 229, 'first_mismatch': None, 'error': 'no output'}
+   first failing: {'row': 238, 'first_mismatch': None, 'error': 'no output'}
+
+
+5 runs, 1 failed, 6655s

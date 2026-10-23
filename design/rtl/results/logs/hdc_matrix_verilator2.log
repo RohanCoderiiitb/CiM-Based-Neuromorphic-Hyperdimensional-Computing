@@ -1,0 +1,163 @@
+[    0s] p3_base_s0: skipped (PASS on disk)
+[    0s] p3_r1fact_s0: skipped (PASS on disk)
+[    0s] p3_r1unfact_s0: skipped (PASS on disk)
+[    0s] p3_base_s1: skipped (PASS on disk)
+[    0s] p3_r1fact_s1: skipped (PASS on disk)
+[    0s] p3_r1unfact_s1: skipped (PASS on disk)
+[    0s] p3_base_s2: skipped (PASS on disk)
+[    0s] p3_r1fact_s2: skipped (PASS on disk)
+[    0s] p3_r1unfact_s2: skipped (PASS on disk)
+[    0s] dis_base_s0: skipped (PASS on disk)
+[    0s] dis_r1fact_s0: skipped (PASS on disk)
+[    0s] dis_base_s1: skipped (PASS on disk)
+[    0s] dis_r1fact_s1: skipped (PASS on disk)
+[    0s] dis_base_s2: skipped (PASS on disk)
+[    0s] dis_r1fact_s2: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t1: skipped (PASS on disk)
+[    0s] sw_base_s0_t1: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t2: skipped (PASS on disk)
+[    0s] sw_base_s0_t2: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t3: skipped (PASS on disk)
+[    0s] sw_base_s0_t3: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t4: skipped (PASS on disk)
+[    0s] sw_base_s0_t4: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t6: skipped (PASS on disk)
+[    0s] sw_base_s0_t6: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t8: skipped (PASS on disk)
+[    0s] sw_base_s0_t8: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t10: skipped (PASS on disk)
+[    0s] sw_base_s0_t10: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t12: skipped (PASS on disk)
+[    0s] sw_base_s0_t12: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t16: skipped (PASS on disk)
+[    0s] sw_base_s0_t16: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t20: skipped (PASS on disk)
+[    0s] sw_base_s0_t20: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t24: skipped (PASS on disk)
+[    0s] sw_base_s0_t24: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t28: skipped (PASS on disk)
+[    0s] sw_base_s0_t28: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t32: skipped (PASS on disk)
+[    0s] sw_base_s0_t32: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t40: skipped (PASS on disk)
+[    0s] sw_base_s0_t40: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t48: skipped (PASS on disk)
+[    0s] sw_base_s0_t48: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t56: skipped (PASS on disk)
+[    0s] sw_base_s0_t56: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t64: skipped (PASS on disk)
+[    0s] sw_base_s0_t64: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t80: skipped (PASS on disk)
+[    0s] sw_base_s0_t80: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t96: skipped (PASS on disk)
+[    0s] sw_base_s0_t96: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t128: skipped (PASS on disk)
+[    0s] sw_base_s0_t128: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t192: skipped (PASS on disk)
+[    0s] sw_base_s0_t192: skipped (PASS on disk)
+[    0s] sw_r1fact_s0_t256: skipped (PASS on disk)
+[    0s] sw_base_s0_t256: skipped (PASS on disk)
+[  324s] [PASS] sw_r1fact_s0_t512: 240 samples, 0 mismatching, acc 80.83%, mean exit timestep 100.0, 0 assertion messages, sim 261.9s
+[  328s] [PASS] sw_base_s0_t512: 240 samples, 0 mismatching, acc 84.58%, mean exit timestep 100.0, 0 assertion messages, sim 266.0s
+[  328s] sw_r1fact_s1_t1: skipped (PASS on disk)
+[  328s] sw_base_s1_t1: skipped (PASS on disk)
+[  328s] sw_r1fact_s1_t2: skipped (PASS on disk)
+[  328s] sw_base_s1_t2: skipped (PASS on disk)
+[  328s] sw_r1fact_s1_t3: skipped (PASS on disk)
+[  328s] sw_base_s1_t3: skipped (PASS on disk)
+[  328s] sw_r1fact_s1_t4: skipped (PASS on disk)
+[  328s] sw_base_s1_t4: skipped (PASS on disk)
+[  328s] sw_r1fact_s1_t6: skipped (PASS on disk)
+[  328s] sw_base_s1_t6: skipped (PASS on disk)
+[  328s] [PASS] sw_r1fact_s1_t8: 240 samples, 0 mismatching, acc 48.75%, mean exit timestep 10.0125, 0 assertion messages, sim 40.2s
+[  328s] [PASS] sw_base_s1_t8: 240 samples, 0 mismatching, acc 54.58%, mean exit timestep 9.133333333333333, 0 assertion messages, sim 38.7s
+[  328s] [PASS] sw_r1fact_s1_t10: 240 samples, 0 mismatching, acc 55.42%, mean exit timestep 13.333333333333334, 0 assertion messages, sim 47.9s
+[  328s] [PASS] sw_base_s1_t10: 240 samples, 0 mismatching, acc 64.17%, mean exit timestep 12.5625, 0 assertion messages, sim 47.8s
+[  328s] [PASS] sw_r1fact_s1_t12: 240 samples, 0 mismatching, acc 60.42%, mean exit timestep 16.258333333333333, 0 assertion messages, sim 69.8s
+[  328s] [PASS] sw_base_s1_t12: 240 samples, 0 mismatching, acc 65.42%, mean exit timestep 14.604166666666666, 0 assertion messages, sim 61.8s
+[  328s] [PASS] sw_r1fact_s1_t16: 240 samples, 0 mismatching, acc 65.83%, mean exit timestep 21.954166666666666, 0 assertion messages, sim 81.4s
+[  328s] [PASS] sw_base_s1_t16: 240 samples, 0 mismatching, acc 70.83%, mean exit timestep 20.604166666666668, 0 assertion messages, sim 78.4s
+[  330s] [PASS] sw_r1fact_s1_t20: 240 samples, 0 mismatching, acc 73.33%, mean exit timestep 29.341666666666665, 0 assertion messages, sim 46.5s
+[  330s] [PASS] sw_base_s1_t20: 240 samples, 0 mismatching, acc 77.08%, mean exit timestep 26.720833333333335, 0 assertion messages, sim 42.3s
+[  350s] [PASS] sw_r1fact_s1_t24: 240 samples, 0 mismatching, acc 76.67%, mean exit timestep 37.35, 0 assertion messages, sim 55.6s
+[  350s] [PASS] sw_base_s1_t24: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 32.32083333333333, 0 assertion messages, sim 46.1s
+[  417s] [PASS] sw_r1fact_s1_t28: 240 samples, 0 mismatching, acc 80.00%, mean exit timestep 43.083333333333336, 0 assertion messages, sim 67.3s
+[  417s] [PASS] sw_base_s1_t28: 240 samples, 0 mismatching, acc 80.42%, mean exit timestep 36.420833333333334, 0 assertion messages, sim 52.9s
+[  430s] [PASS] sw_r1fact_s1_t32: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 48.170833333333334, 0 assertion messages, sim 75.1s
+[  430s] [PASS] sw_base_s1_t32: 240 samples, 0 mismatching, acc 81.25%, mean exit timestep 41.13333333333333, 0 assertion messages, sim 61.8s
+[  464s] [PASS] sw_r1fact_s1_t40: 240 samples, 0 mismatching, acc 81.25%, mean exit timestep 58.00416666666667, 0 assertion messages, sim 94.6s
+[  464s] [PASS] sw_base_s1_t40: 240 samples, 0 mismatching, acc 82.50%, mean exit timestep 48.4, 0 assertion messages, sim 77.2s
+[  564s] [PASS] sw_r1fact_s1_t48: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 64.50416666666666, 0 assertion messages, sim 127.9s
+[  564s] [PASS] sw_base_s1_t48: 240 samples, 0 mismatching, acc 82.50%, mean exit timestep 54.125, 0 assertion messages, sim 106.3s
+[  588s] [PASS] sw_r1fact_s1_t56: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 69.2875, 0 assertion messages, sim 137.0s
+[  588s] [PASS] sw_base_s1_t56: 240 samples, 0 mismatching, acc 82.50%, mean exit timestep 59.09166666666667, 0 assertion messages, sim 117.8s
+[  644s] [PASS] sw_r1fact_s1_t64: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 74.47083333333333, 0 assertion messages, sim 153.9s
+[  644s] [PASS] sw_base_s1_t64: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 64.41666666666667, 0 assertion messages, sim 133.3s
+[  775s] [PASS] sw_r1fact_s1_t80: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 81.74583333333334, 0 assertion messages, sim 180.5s
+[  775s] [PASS] sw_base_s1_t80: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 72.59583333333333, 0 assertion messages, sim 162.5s
+[  809s] [PASS] sw_r1fact_s1_t96: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 87.27083333333333, 0 assertion messages, sim 188.1s
+[  809s] [PASS] sw_base_s1_t96: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 80.33333333333333, 0 assertion messages, sim 177.2s
+[  877s] [PASS] sw_r1fact_s1_t128: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 93.85416666666667, 0 assertion messages, sim 200.6s
+[  885s] [PASS] sw_base_s1_t128: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 89.72916666666667, 0 assertion messages, sim 195.2s
+[ 1015s] [PASS] sw_r1fact_s1_t192: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 98.99583333333334, 0 assertion messages, sim 210.5s
+[ 1034s] [PASS] sw_base_s1_t192: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 97.4, 0 assertion messages, sim 216.4s
+[ 1064s] [PASS] sw_r1fact_s1_t256: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 99.82916666666667, 0 assertion messages, sim 215.2s
+[ 1064s] [PASS] sw_base_s1_t256: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 99.8375, 0 assertion messages, sim 209.0s
+[ 1128s] [PASS] sw_r1fact_s1_t512: 240 samples, 0 mismatching, acc 81.67%, mean exit timestep 100.0, 0 assertion messages, sim 211.7s
+[ 1138s] [PASS] sw_base_s1_t512: 240 samples, 0 mismatching, acc 82.92%, mean exit timestep 100.0, 0 assertion messages, sim 212.4s
+[ 1138s] [PASS] sw_r1fact_s2_t1: 240 samples, 0 mismatching, acc 28.75%, mean exit timestep 1.3291666666666666, 0 assertion messages, sim 9.1s
+[ 1138s] [PASS] sw_base_s2_t1: 240 samples, 0 mismatching, acc 26.67%, mean exit timestep 1.2291666666666667, 0 assertion messages, sim 8.8s
+[ 1138s] [PASS] sw_r1fact_s2_t2: 240 samples, 0 mismatching, acc 35.42%, mean exit timestep 1.8416666666666666, 0 assertion messages, sim 11.1s
+[ 1138s] [PASS] sw_base_s2_t2: 240 samples, 0 mismatching, acc 35.42%, mean exit timestep 1.9541666666666666, 0 assertion messages, sim 11.3s
+[ 1138s] [PASS] sw_r1fact_s2_t3: 240 samples, 0 mismatching, acc 45.00%, mean exit timestep 3.0541666666666667, 0 assertion messages, sim 13.6s
+[ 1138s] [PASS] sw_base_s2_t3: 240 samples, 0 mismatching, acc 40.42%, mean exit timestep 3.0833333333333335, 0 assertion messages, sim 12.8s
+[ 1166s] [PASS] sw_r1fact_s2_t4: 240 samples, 0 mismatching, acc 48.33%, mean exit timestep 3.6041666666666665, 0 assertion messages, sim 14.1s
+[ 1168s] [PASS] sw_base_s2_t4: 240 samples, 0 mismatching, acc 42.50%, mean exit timestep 4.054166666666666, 0 assertion messages, sim 15.3s
+[ 1174s] [PASS] sw_r1fact_s2_t6: 240 samples, 0 mismatching, acc 55.42%, mean exit timestep 5.545833333333333, 0 assertion messages, sim 18.0s
+[ 1187s] [PASS] sw_base_s2_t6: 240 samples, 0 mismatching, acc 47.92%, mean exit timestep 6.204166666666667, 0 assertion messages, sim 20.0s
+[ 1196s] [PASS] sw_r1fact_s2_t8: 240 samples, 0 mismatching, acc 60.83%, mean exit timestep 7.729166666666667, 0 assertion messages, sim 22.6s
+[ 1203s] [PASS] sw_base_s2_t8: 240 samples, 0 mismatching, acc 53.33%, mean exit timestep 9.154166666666667, 0 assertion messages, sim 26.0s
+[ 1233s] [PASS] sw_r1fact_s2_t10: 240 samples, 0 mismatching, acc 63.75%, mean exit timestep 9.825, 0 assertion messages, sim 27.4s
+[ 1241s] [PASS] sw_base_s2_t10: 240 samples, 0 mismatching, acc 59.58%, mean exit timestep 12.241666666666667, 0 assertion messages, sim 33.5s
+[ 1248s] [PASS] sw_r1fact_s2_t12: 240 samples, 0 mismatching, acc 67.50%, mean exit timestep 12.25, 0 assertion messages, sim 34.4s
+[ 1269s] [PASS] sw_base_s2_t12: 240 samples, 0 mismatching, acc 64.17%, mean exit timestep 15.504166666666666, 0 assertion messages, sim 41.7s
+[ 1281s] [PASS] sw_r1fact_s2_t16: 240 samples, 0 mismatching, acc 70.42%, mean exit timestep 17.875, 0 assertion messages, sim 45.1s
+[ 1296s] [PASS] sw_base_s2_t16: 240 samples, 0 mismatching, acc 70.83%, mean exit timestep 20.7, 0 assertion messages, sim 51.6s
+[ 1328s] [PASS] sw_r1fact_s2_t20: 240 samples, 0 mismatching, acc 71.67%, mean exit timestep 22.45, 0 assertion messages, sim 53.2s
+[ 1340s] [PASS] sw_base_s2_t20: 240 samples, 0 mismatching, acc 76.67%, mean exit timestep 25.379166666666666, 0 assertion messages, sim 58.4s
+[ 1352s] [PASS] sw_r1fact_s2_t24: 240 samples, 0 mismatching, acc 74.17%, mean exit timestep 27.791666666666668, 0 assertion messages, sim 63.4s
+[ 1379s] [PASS] sw_base_s2_t24: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 30.470833333333335, 0 assertion messages, sim 68.9s
+[ 1396s] [PASS] sw_r1fact_s2_t28: 240 samples, 0 mismatching, acc 75.83%, mean exit timestep 33.516666666666666, 0 assertion messages, sim 74.6s
+[ 1416s] [PASS] sw_base_s2_t28: 240 samples, 0 mismatching, acc 80.00%, mean exit timestep 34.71666666666667, 0 assertion messages, sim 79.6s
+[ 1455s] [PASS] sw_r1fact_s2_t32: 240 samples, 0 mismatching, acc 77.50%, mean exit timestep 37.62083333333333, 0 assertion messages, sim 88.0s
+[ 1468s] [PASS] sw_base_s2_t32: 240 samples, 0 mismatching, acc 79.17%, mean exit timestep 38.729166666666664, 0 assertion messages, sim 89.3s
+[ 1495s] [PASS] sw_r1fact_s2_t40: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 45.42916666666667, 0 assertion messages, sim 101.6s
+[ 1526s] [PASS] sw_base_s2_t40: 240 samples, 0 mismatching, acc 80.42%, mean exit timestep 46.8, 0 assertion messages, sim 104.5s
+[ 1555s] [PASS] sw_r1fact_s2_t48: 240 samples, 0 mismatching, acc 78.33%, mean exit timestep 51.8, 0 assertion messages, sim 116.4s
+[ 1588s] [PASS] sw_base_s2_t48: 240 samples, 0 mismatching, acc 80.42%, mean exit timestep 54.03333333333333, 0 assertion messages, sim 130.2s
+[ 1639s] [PASS] sw_r1fact_s2_t56: 240 samples, 0 mismatching, acc 78.33%, mean exit timestep 58.7625, 0 assertion messages, sim 143.2s
+[ 1661s] [PASS] sw_base_s2_t56: 240 samples, 0 mismatching, acc 80.00%, mean exit timestep 60.67916666666667, 0 assertion messages, sim 151.4s
+[ 1697s] [PASS] sw_r1fact_s2_t64: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 63.325, 0 assertion messages, sim 159.7s
+[ 1742s] [PASS] sw_base_s2_t64: 240 samples, 0 mismatching, acc 80.00%, mean exit timestep 65.28333333333333, 0 assertion messages, sim 168.4s
+[ 1788s] [PASS] sw_r1fact_s2_t80: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 71.6625, 0 assertion messages, sim 183.7s
+[ 1829s] [PASS] sw_base_s2_t80: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 74.10833333333333, 0 assertion messages, sim 192.3s
+[ 1893s] [PASS] sw_r1fact_s2_t96: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 78.90416666666667, 0 assertion messages, sim 205.6s
+[ 1924s] [PASS] sw_base_s2_t96: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 80.3875, 0 assertion messages, sim 214.4s
+[ 1980s] [PASS] sw_r1fact_s2_t128: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 88.88333333333334, 0 assertion messages, sim 232.5s
+[ 2036s] [PASS] sw_base_s2_t128: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 90.90833333333333, 0 assertion messages, sim 245.4s
+[ 2092s] [PASS] sw_r1fact_s2_t192: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 98.4125, 0 assertion messages, sim 251.4s
+[ 2134s] [PASS] sw_base_s2_t192: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 98.48333333333333, 0 assertion messages, sim 253.3s
+[ 2195s] [PASS] sw_r1fact_s2_t256: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 99.7625, 0 assertion messages, sim 249.4s
+[ 2229s] [PASS] sw_base_s2_t256: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 100.0, 0 assertion messages, sim 253.9s
+[ 2282s] [PASS] sw_r1fact_s2_t512: 240 samples, 0 mismatching, acc 78.75%, mean exit timestep 100.0, 0 assertion messages, sim 249.8s
+[ 2323s] [PASS] sw_base_s2_t512: 240 samples, 0 mismatching, acc 79.58%, mean exit timestep 100.0, 0 assertion messages, sim 239.0s
+[ 2323s] [PASS] l4_real_gaps_s0: 20 samples, 0 mismatching, acc 65.00%, mean exit timestep 58.65, 0 assertion messages, sim 31.4s
+[ 2323s] [PASS] l4_sorted_gaps_s0: 48 samples, 0 mismatching, acc 77.08%, mean exit timestep 55.25, 0 assertion messages, sim 50.2s
+[ 2323s] [PASS] l4_shuffled_nogap_s0: 48 samples, 0 mismatching, acc 79.17%, mean exit timestep 50.625, 0 assertion messages, sim 23.2s
+[ 2323s] [PASS] l4_real_gaps_s1: 20 samples, 0 mismatching, acc 80.00%, mean exit timestep 76.8, 0 assertion messages, sim 42.4s
+[ 2323s] [PASS] l4_sorted_gaps_s1: 48 samples, 0 mismatching, acc 77.08%, mean exit timestep 69.85416666666667, 0 assertion messages, sim 63.9s
+[ 2323s] [PASS] l4_shuffled_nogap_s1: 48 samples, 0 mismatching, acc 70.83%, mean exit timestep 46.25, 0 assertion messages, sim 23.5s
+[ 2323s] [PASS] l4_real_gaps_s2: 20 samples, 0 mismatching, acc 75.00%, mean exit timestep 56.75, 0 assertion messages, sim 32.0s
+[ 2323s] [PASS] l4_sorted_gaps_s2: 48 samples, 0 mismatching, acc 75.00%, mean exit timestep 61.395833333333336, 0 assertion messages, sim 48.1s
+[ 2323s] [PASS] l4_shuffled_nogap_s2: 48 samples, 0 mismatching, acc 77.08%, mean exit timestep 48.166666666666664, 0 assertion messages, sim 22.2s
+162 runs, 0 failed, 2323s

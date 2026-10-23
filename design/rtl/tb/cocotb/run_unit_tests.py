@@ -21,8 +21,11 @@ from cocotb_tools.runner import get_results, get_runner  # noqa: E402
 
 RTL = ROOT / "rtl"
 PKG = RTL / "pkg" / "cim_neurohdc_pkg.sv"
+HDC_PKG = RTL / "pkg" / "hdc_pkg.sv"
 SNN = sorted((RTL / "phase1_snn").glob("*.sv"))
+HDC = sorted((RTL / "phase2_hdc").glob("*.sv")) + sorted((RTL / "phase4_exit").glob("*.sv"))
 MVM = ROOT / "tb" / "sv" / "mvm_unit.sv"
+T2W = ROOT / "tb" / "sv" / "top2_wrap.sv"
 OUT = ROOT / "results" / "unit_tests"
 BUILD = ROOT / "build" / "cocotb"
 G_SWEEP = (1, 4, 8, 16, 32, 48, 64, 512)          # 48 does not divide 512; 1 and 512 are the extremes
@@ -50,10 +53,24 @@ for g, cols, skip in ((8, 20, 1), (64, 20, 1), (8, 160, 0)):
                   dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols), PLANE_SKIP_EN=str(skip), MVM_OUT=str(OUT / f"mvm_x_g{g}_c{cols}_s{skip}.json"))))
 
 
+HDC_TOPS = ("top2_wrap", "exit_ctrl", "hdc_query")
+
+# Phase 2-4 blocks (the references are Phase 0 / hdc_query.py, imported by the tests)
+for n in (7, 10, 16, 24):
+    CASES.append((f"top2_tree_n{n}", "top2_wrap", "test_top2_tree", dict(N=n, W=11, WI=5), dict(N=str(n))))
+for ee in (1, 0):
+    CASES.append((f"exit_ctrl_ee{ee}", "exit_ctrl", "test_exit_ctrl", dict(EARLY_EXIT_EN=ee), dict(EARLY_EXIT_EN=str(ee))))
+for f in (0, 1):
+    CASES.append((f"hdc_query_f{f}", "hdc_query", "test_hdc_query", dict(FACTORIZED=f), dict(FACTORIZED=str(f))))
+    CASES.append((f"hdc_query_f{f}_n24", "hdc_query", "test_hdc_query", dict(FACTORIZED=f, N_CLASSES=24), dict(FACTORIZED=str(f), N_CLASSES="24")))     # README Phase 4: N is 10-24
+
+
 def run_case(sim: str, name: str, top: str, module: str, params: dict, env: dict) -> dict:
     t0 = time.time()
     runner = get_runner(sim)
     sources = [PKG] + SNN + ([MVM] if top == "mvm_unit" else [])
+    if top in HDC_TOPS:
+        sources = [PKG, HDC_PKG] + SNN + HDC + ([T2W] if top == "top2_wrap" else [])
     bdir = BUILD / f"{sim}__{name}"
     if sim == "icarus":
         build_args = ["-g2012"]

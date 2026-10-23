@@ -1,0 +1,61 @@
+Startpoint: _131958_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _133897_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   0.000    0.000 ^ _131958_/CK (DFFHQX1)
+   2.123    2.123 ^ _131958_/Q (DFFHQX1)
+   5.030    7.153 v _062707_/Y (INVX1)
+   0.978    8.131 ^ _075070_/Y (NAND2X1)
+   1.989   10.120 v _075072_/Y (NAND2X1)
+   1.027   11.147 ^ _081018_/Y (NAND3BXL)
+   0.165   11.313 v _081057_/Y (NOR4X1)
+   0.052   11.365 ^ _081059_/CON (ACHCONX2)
+   0.038   11.403 ^ _081138_/Y (XOR3X1)
+   0.037   11.440 v _081143_/Y (CLKXOR2X1)
+   0.028   11.468 ^ _081144_/Y (OAI32X1)
+   0.045   11.513 v _081145_/CON (ACHCONX2)
+   0.028   11.541 ^ _081146_/CON (ACHCONX2)
+   0.029   11.570 v _081147_/CON (ACHCONX2)
+   0.027   11.597 ^ _081148_/CON (ACHCONX2)
+   0.029   11.626 v _081149_/CON (ACHCONX2)
+   0.027   11.653 ^ _081150_/CON (ACHCONX2)
+   0.029   11.682 v _081151_/CON (ACHCONX2)
+   0.027   11.709 ^ _081152_/CON (ACHCONX2)
+   0.031   11.739 v _081153_/CON (ACHCONX2)
+   0.022   11.761 ^ _081154_/CON (ACHCONX2)
+   0.092   11.853 v _081164_/Y (XNOR3X1)
+   0.036   11.889 ^ _081251_/CON (ACHCONX2)
+   0.088   11.978 v _081268_/Y (XNOR3X1)
+   0.034   12.012 ^ _081355_/CON (ACHCONX2)
+   0.077   12.089 v _081374_/Y (XNOR3X1)
+   0.043   12.132 ^ _081516_/CON (ACHCONX2)
+   0.088   12.220 v _081538_/Y (XNOR3X1)
+   0.055   12.275 ^ _081607_/Y (XNOR3X1)
+   0.046   12.321 v _081744_/CON (ACHCONX2)
+   0.084   12.405 ^ _081770_/Y (XNOR3X1)
+   0.040   12.445 v _081847_/CON (ACHCONX2)
+   0.032   12.477 ^ _124327_/CON (ACHCONX2)
+   0.046   12.523 v _124355_/Y (XNOR2X1)
+   0.016   12.539 ^ _124357_/Y (AOI31X1)
+   0.169   12.709 ^ _124358_/Y (NOR2BX1)
+   0.000   12.709 ^ _133897_/D (DFFHQX1)
+           12.709   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+           10.000 ^ _133897_/CK (DFFHQX1)
+  -0.022    9.978   library setup time
+            9.978   data required time
+-----------------------------------------------------------
+            9.978   data required time
+          -12.709   data arrival time
+-----------------------------------------------------------
+           -2.731   slack (VIOLATED)
+
+

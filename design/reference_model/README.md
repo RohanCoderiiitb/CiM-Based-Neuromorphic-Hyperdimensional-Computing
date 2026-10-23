@@ -11,8 +11,10 @@ model/fixedpoint/   quantize.py (int8 + exact ceil thresholds; per-checkpoint qu
                     data.py / pipeline.py (reuse original data pipeline; compare, measure)
                     run_phase0.py (on-data driver + hard gate)  check_stored_rasters.py (data-free checks)
                     make_report.py (renders phase0_report.md + docs/bitwidth_table.md)
+model/fixedpoint/hdc_query.py   (Phase 2-4) the HDC query: both class-HV mappings (unfactorized XNOR; R=1 factorized AND-popcount + bias + sign), the top-2 tournament, margin, early exit, the unipolar identity, the theta sweep
+model/fixedpoint/r1_model.py   (Phase 2-4) integer extraction of the R=1 checkpoints (artifacts/checkpoints/r1_binary_svd_seed*), their gate (accuracy == recorded float test_acc) and golden-vector export (r1_seed<k>.npz, weights tag r1s<k>)
 model/export/       export_weights.py (bit-plane image, .mem)  export_vectors.py  load_vectors.py  formats.md
-tests/              test_int_model.py (data-free, synthetic events + real weights)
+tests/              test_int_model.py (data-free, synthetic events + real weights)   test_hdc_query.py (Phase 2-4 reference: identities, top-2, exit semantics, replay of the stored software sweep)
 tb/vectors/         golden vectors, AER event streams, weight images (written by run_phase0.py)
 artifacts/          checkpoints/ reference_rasters/ (copies)   phase0/ (JSON results)
 reference_docs/     copies of the audit, accuracy report, experiment spec, firing-rate results

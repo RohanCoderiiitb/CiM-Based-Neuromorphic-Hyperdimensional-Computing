@@ -1,0 +1,18 @@
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_133230_/D (DFFHQX1)                    9.978   13.095   -3.117 (VIOLATED)
+_133545_/D (DFFHQX1)                    9.834   12.944   -3.111 (VIOLATED)
+_133293_/D (DFFHQX1)                    9.834   12.909   -3.076 (VIOLATED)
+_133440_/D (DFFHQX1)                    9.978   13.049   -3.071 (VIOLATED)
+_133209_/D (DFFHQX1)                    9.978   13.048   -3.070 (VIOLATED)
+_133377_/D (DFFHQX1)                    9.978   13.038   -3.060 (VIOLATED)
+_133146_/D (DFFHQX1)                    9.978   13.028   -3.050 (VIOLATED)
+_133398_/D (DFFHQX1)                    9.978   12.996   -3.018 (VIOLATED)
+_133356_/D (DFFHQX1)                    9.834   12.851   -3.017 (VIOLATED)
+_133542_/D (DFFHQX1)                    9.816   12.833   -3.017 (VIOLATED)
+_133292_/D (DFFHQX1)                    9.978   12.981   -3.003 (VIOLATED)
+_133544_/D (DFFHQX1)                    9.933   12.927   -2.994 (VIOLATED)
+

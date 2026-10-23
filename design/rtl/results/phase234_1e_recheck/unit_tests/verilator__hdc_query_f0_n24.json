@@ -1,0 +1,15 @@
+{
+ "sim": "verilator",
+ "case": "hdc_query_f0_n24",
+ "toplevel": "hdc_query",
+ "module": "test_hdc_query",
+ "parameters": {
+  "FACTORIZED": 0,
+  "N_CLASSES": 24
+ },
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 2.2
+}

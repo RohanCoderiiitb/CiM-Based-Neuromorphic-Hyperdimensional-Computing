@@ -1,0 +1,1757 @@
+
+34. Printing statistics.
+
+=== $paramod\popcount\N=s32'00000000000000000000000000100000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       21        - wires
+       65        - wire bits
+        4        - public wires
+       48        - public wire bits
+        2        - ports
+       38        - port bits
+       23   35.568 cells
+        2    2.736   AND2XL
+        1     1.71   AOI21XL
+        1    1.368   NAND2BXL
+        4    4.104   NAND2XL
+        2    2.736   NOR2BX1
+        4    4.104   NOR2XL
+        1    2.052   OA21X1
+        2     3.42   OAI21XL
+        1    1.368   OR2XL
+        5    11.97   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000010000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000100000': 35.568000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000000101 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        9        - wires
+       17        - wire bits
+        4        - public wires
+       12        - public wire bits
+        2        - ports
+        8        - port bits
+        8   12.312 cells
+        2    2.052   NAND2XL
+        1    1.368   NOR2BX1
+        2    2.052   NOR2XL
+        1     1.71   OAI21XL
+        1    2.394   XNOR2X1
+        1    2.736   XOR2XL
+        2        - submodules
+        1        -   $paramod\popcount\N=s32'00000000000000000000000000000010
+        1        -   $paramod\popcount\N=s32'00000000000000000000000000000011
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000000101': 12.312000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000000010 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+        6        - wire bits
+        4        - public wires
+        6        - public wire bits
+        2        - ports
+        4        - port bits
+        2    4.104 cells
+        1    1.368   AND2XL
+        1    2.736   XOR2XL
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000000001
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000000010': 4.104000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$9b51fb449b26e349f31b7097d5b4c4dbbc695cb0\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$cd79b6ffadb57350ad19c1bf450107d19c6f2549\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$9a39c7d4fecd5081b869d2134de99c291d633573\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$90c07fab1164708c8d6252dc390764e656c6fcb5\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      197        - wire bits
+       10        - public wires
+      103        - public wire bits
+        4        - ports
+       49        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$461b2dc137c0021d380ed3267906ce2cc70bc21b\top2_tree
+        1        -   $paramod$953e6780cb277867d4d5efa00e3f4daa1691e32e\top2_tree
+
+   Chip area for module '$paramod$90c07fab1164708c8d6252dc390764e656c6fcb5\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$680b6717a09ca7d559f8119fc0f1a40a77429f02\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$b61ff7f088a588ee3ad9500c7ccdb302b35e3959\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$735c9f328b2b77a43c6923503acf466b0f4789b5\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$89b2e1de0dd603120a04caf34534b2b6b42510d8\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      197        - wire bits
+       10        - public wires
+      103        - public wire bits
+        4        - ports
+       49        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$b751fb361f1a79173bc871b5076df7bf2c89844b\top2_tree
+        1        -   $paramod$cb0ab06c319860f32f20d7dfce42de79ec0aebac\top2_tree
+
+   Chip area for module '$paramod$89b2e1de0dd603120a04caf34534b2b6b42510d8\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000001000000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       25        - wires
+      104        - wire bits
+        4        - public wires
+       83        - public wire bits
+        2        - ports
+       71        - port bits
+       28   42.066 cells
+        1    1.368   AND2XL
+        1     1.71   AOI21XL
+        1    1.368   NAND2BXL
+        6    6.156   NAND2XL
+        4    5.472   NOR2BX1
+        4    4.104   NOR2XL
+        1    2.052   OA21X1
+        2     3.42   OAI21XL
+        1     1.71   OAI2BB1X1
+        2    2.736   OR2XL
+        5    11.97   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000100000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000001000000': 42.066000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000001010 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       13        - wires
+       29        - wire bits
+        4        - public wires
+       20        - public wire bits
+        2        - ports
+       14        - port bits
+       13   19.836 cells
+        1    1.368   AND2XL
+        3    3.078   NAND2XL
+        1    1.368   NOR2BX1
+        3    3.078   NOR2XL
+        1    2.052   OA21X1
+        1     1.71   OAI21XL
+        3    7.182   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000000101
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000001010': 19.836000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$6540ea6ec3c302ccfffbe33744143f97e28e3ee7\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      197        - wire bits
+       10        - public wires
+      103        - public wire bits
+        4        - ports
+       49        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$9b51fb449b26e349f31b7097d5b4c4dbbc695cb0\top2_tree
+        1        -   $paramod$cd79b6ffadb57350ad19c1bf450107d19c6f2549\top2_tree
+
+   Chip area for module '$paramod$6540ea6ec3c302ccfffbe33744143f97e28e3ee7\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$898fa5d179f9161a19218b9116e8fb07c0f4f72d\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      208        - wire bits
+       10        - public wires
+      114        - public wire bits
+        4        - ports
+       60        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$90c07fab1164708c8d6252dc390764e656c6fcb5\top2_tree
+        1        -   $paramod$9a39c7d4fecd5081b869d2134de99c291d633573\top2_tree
+
+   Chip area for module '$paramod$898fa5d179f9161a19218b9116e8fb07c0f4f72d\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$4a41a62b5c5f9ecdefdbafa68564567c2cec84b0\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      197        - wire bits
+       10        - public wires
+      103        - public wire bits
+        4        - ports
+       49        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$680b6717a09ca7d559f8119fc0f1a40a77429f02\top2_tree
+        1        -   $paramod$b61ff7f088a588ee3ad9500c7ccdb302b35e3959\top2_tree
+
+   Chip area for module '$paramod$4a41a62b5c5f9ecdefdbafa68564567c2cec84b0\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$627e6b835f30148f1e3f4a0a6116ae808c74ea6f\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      208        - wire bits
+       10        - public wires
+      114        - public wire bits
+        4        - ports
+       60        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$735c9f328b2b77a43c6923503acf466b0f4789b5\top2_tree
+        1        -   $paramod$89b2e1de0dd603120a04caf34534b2b6b42510d8\top2_tree
+
+   Chip area for module '$paramod$627e6b835f30148f1e3f4a0a6116ae808c74ea6f\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000000100 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        9        - wires
+       16        - wire bits
+        4        - public wires
+       11        - public wire bits
+        2        - ports
+        7        - port bits
+        8   12.312 cells
+        2    2.052   NAND2XL
+        1    1.368   NOR2BX1
+        2    2.052   NOR2XL
+        1     1.71   OAI21XL
+        1    2.394   XNOR2X1
+        1    2.736   XOR2XL
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000000010
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000000100': 12.312000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000010000000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       29        - wires
+      175        - wire bits
+        4        - public wires
+      150        - public wire bits
+        2        - ports
+      136        - port bits
+       33     51.3 cells
+        3    4.104   AND2XL
+        2     3.42   AOI21XL
+        2    2.736   NAND2BXL
+        5     5.13   NAND2XL
+        3    4.104   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.052   OA21X1
+        3     5.13   OAI21XL
+        2    2.736   OR2XL
+        7   16.758   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000001000000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000010000000': 51.300000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\exit_ctrl\EARLY_EXIT_EN=1'1\N_TS=s32'00000000000000000000000001100100 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      122        - wires
+      183        - wire bits
+       18        - public wires
+       79        - public wire bits
+       18        - ports
+       79        - port bits
+      131  284.544 cells
+        4    5.472   AND2XL
+        1    2.052   AND3XL
+        1    2.052   AOI211XL
+        4     6.84   AOI21XL
+        1    2.394   AOI221X1
+        1    2.052   AOI22XL
+       12   24.624   AOI2BB1XL
+        1     3.42   AOI2BB2X1
+        2    4.104   AOI31X1
+        4     6.84   CLKBUFX2
+       15    82.08   DFFHQX1
+        8    5.472   INVXL
+       12   16.416   NAND2BXL
+        4    4.104   NAND2XL
+       13   17.784   NOR2BX1
+        3    3.078   NOR2XL
+        1     1.71   NOR3XL
+        1     1.71   NOR4X1
+        3    6.156   OA21X1
+        1     1.71   OAI211X1
+        6    10.26   OAI21XL
+        3    7.182   OAI221X1
+        1    2.052   OAI22XL
+        1     1.71   OAI2BB1X1
+       12   24.624   OAI31X1
+        1    1.368   OR2XL
+       11   26.334   XNOR2X1
+        4   10.944   XOR2XL
+
+   Chip area for module '$paramod\exit_ctrl\EARLY_EXIT_EN=1'1\N_TS=s32'00000000000000000000000001100100': 284.544000
+     of which used for sequential elements: 82.080000 (28.85%)
+
+=== $paramod$96a48f35f167371964f4eab3d8783425cacf32a6\hdc_query ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     2095        - wires
+     3813        - wire bits
+      132        - public wires
+     1835        - public wire bits
+       20        - ports
+      425        - port bits
+     3207 1.36E+04 cells
+       42   57.456   AND2XL
+       20    41.04   AND3XL
+       35    71.82   AOI211XL
+       48    82.08   AOI21XL
+       15    35.91   AOI221X1
+       17   34.884   AOI22XL
+        2    4.104   AOI2BB1XL
+       30    61.56   AOI31X1
+       21   50.274   AOI32X1
+      189   323.19   CLKBUFX2
+      174  952.128   DFFHQX1
+     1050   8977.5   EDFFHQX1
+       23   15.732   INVXL
+      318  761.292   MX2XL
+       19  136.458   MX4XL
+      212  507.528   MXI2XL
+        5    35.91   MXI4XL
+        1    1.368   NAND2BX1
+       94  128.592   NAND2BXL
+        1    1.026   NAND2X1
+      127  130.302   NAND2XL
+        2     3.42   NAND3BXL
+       25    42.75   NAND4XL
+       13   17.784   NOR2BX1
+        1    1.026   NOR2X1
+      228  233.928   NOR2XL
+       25     51.3   NOR3BXL
+       21    35.91   NOR3XL
+        3     5.13   NOR4X1
+       10    20.52   OA21X1
+        1    2.394   OA22X1
+      284   485.64   OAI211X1
+       49    83.79   OAI21XL
+        3    7.182   OAI221X1
+        1    2.052   OAI22XL
+        5     8.55   OAI2BB1X1
+       23   31.464   OR2XL
+        1    2.052   OR4X1
+       67  160.398   XNOR2X1
+        1    2.736   XOR2XL
+        1        -   hdc_class_array
+        3        - submodules
+        1        -   $paramod$1fee1a8585b709d0100dddbdc53ef38f18b8956d\hdc_score
+        1        -   $paramod$3d5069ba93ef478343b32a0bd653130bb5dda23b\top2_tree
+        1        -   $paramod\popcount\N=s32'00000000000000000000000000010100
+
+   Area for cell type \hdc_class_array is unknown!
+
+   Chip area for module '$paramod$96a48f35f167371964f4eab3d8783425cacf32a6\hdc_query': 13608.180000
+     of which used for sequential elements: 9929.628000 (72.97%)
+
+=== $paramod$c20210038bae56d973672879575eb4fa72ccafac\snn_top ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      703        - wires
+     5904        - wire bits
+      111        - public wires
+     5312        - public wire bits
+       38        - ports
+     1462        - port bits
+     1436 4.21E+03 cells
+      577  789.336   AND2XL
+        3    6.156   AND3XL
+        1    2.394   AND4X1
+        5    10.26   AOI211XL
+        3     5.13   AOI21XL
+        1    3.078   AOI222X1
+        7   14.364   AOI22XL
+        1    2.052   AOI31X1
+        1    2.394   AOI32X1
+      119   203.49   CLKBUFX2
+       14   76.608   DFFHQX1
+      300     2565   EDFFHQX1
+       10     6.84   INVXL
+       15    35.91   MX2XL
+        3   21.546   MX4XL
+       12   28.728   MXI2XL
+        1    7.182   MXI4XL
+        6    8.208   NAND2BXL
+       39   40.014   NAND2XL
+       13    22.23   NAND3BXL
+        3    7.182   NAND4BXL
+        7    11.97   NAND4XL
+       68   93.024   NOR2BX1
+      208  213.408   NOR2XL
+        1    2.052   NOR3BXL
+        1     1.71   NOR3XL
+        4     6.84   NOR4X1
+        1    2.394   OA22X1
+        1     1.71   OAI211X1
+        3     5.13   OAI21XL
+        2     3.42   OAI2BB1X1
+        2    4.104   OAI31X1
+        3    4.104   OR2XL
+        1        -   cim_macro
+        9        - submodules
+        1        -   $paramod$57697552f37cb4418a383ab77e3abbb039e2900a\plane_seq
+        1        -   $paramod\shift_accum\ROWS_PER_GROUP=s32'00000000000000000000000000001000
+        1        -   addr_gen
+        1        -   count_mem
+        1        -   event_ctr
+        1        -   if_neuron_array
+        1        -   snn_ctrl
+        1        -   spike_reg
+        1        -   weight_load
+
+   Area for cell type \cim_macro is unknown!
+
+   Chip area for module '$paramod$c20210038bae56d973672879575eb4fa72ccafac\snn_top': 4207.968000
+     of which used for sequential elements: 2641.608000 (62.78%)
+
+=== $paramod$ad053efb1548b4a46491588ef817cb06c1fa764f\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      230        - wire bits
+       10        - public wires
+      136        - public wire bits
+        4        - ports
+       82        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$6540ea6ec3c302ccfffbe33744143f97e28e3ee7\top2_tree
+        1        -   $paramod$898fa5d179f9161a19218b9116e8fb07c0f4f72d\top2_tree
+
+   Chip area for module '$paramod$ad053efb1548b4a46491588ef817cb06c1fa764f\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$234e8a4ca71e9661736e377cc9b09f6f13b801c3\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      230        - wire bits
+       10        - public wires
+      136        - public wire bits
+        4        - ports
+       82        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$4a41a62b5c5f9ecdefdbafa68564567c2cec84b0\top2_tree
+        1        -   $paramod$627e6b835f30148f1e3f4a0a6116ae808c74ea6f\top2_tree
+
+   Chip area for module '$paramod$234e8a4ca71e9661736e377cc9b09f6f13b801c3\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000010100 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       17        - wires
+       46        - wire bits
+        4        - public wires
+       33        - public wire bits
+        2        - ports
+       25        - port bits
+       18   26.676 cells
+        1    1.368   AND2XL
+        1     1.71   AOI21XL
+        1    1.368   NAND2BXL
+        3    3.078   NAND2XL
+        3    4.104   NOR2BX1
+        3    3.078   NOR2XL
+        2     3.42   OAI21XL
+        1    1.368   OR2XL
+        3    7.182   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000001010
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000010100': 26.676000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$1fee1a8585b709d0100dddbdc53ef38f18b8956d\hdc_score ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      333        - wires
+      711        - wire bits
+        7        - public wires
+      385        - public wire bits
+        7        - ports
+      385        - port bits
+      376 1.18E+03 cells
+       24  303.696   ACHCONX2
+        8    13.68   AOI21XL
+       11    18.81   CLKBUFX2
+       26   17.784   INVXL
+       12   16.416   NAND2BXL
+       10    10.26   NAND2X1
+       24   24.624   NAND2XL
+       20     34.2   NAND3BXL
+       10    13.68   NOR2BX1
+        1    1.026   NOR2X1
+       21   21.546   NOR2XL
+        1     1.71   NOR3X1
+        7   14.364   OA21X1
+        1     1.71   OAI21X1
+        6    10.26   OAI21XL
+       22    37.62   OAI2BB1X1
+       14   19.152   OR2XL
+        1    2.052   OR3XL
+      101  241.794   XNOR2X1
+       40   300.96   XNOR3XL
+       10    27.36   XOR2XL
+        6   45.144   XOR3XL
+
+   Chip area for module '$paramod$1fee1a8585b709d0100dddbdc53ef38f18b8956d\hdc_score': 1177.848000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$3d5069ba93ef478343b32a0bd653130bb5dda23b\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      104        - wires
+      285        - wire bits
+       10        - public wires
+      191        - public wire bits
+        4        - ports
+      137        - port bits
+      121  233.928 cells
+        2    5.472   AO22XL
+        1    2.052   AOI211XL
+        4    9.576   AOI221X1
+        6   12.312   AOI22XL
+        1    2.052   AOI2BB1XL
+        3     5.13   CLKBUFX2
+       25     17.1   INVXL
+       25    59.85   MX2XL
+       10    47.88   MX3XL
+        1    2.394   MXI2XL
+        5     6.84   NAND2BXL
+        4    4.104   NAND2XL
+        9   12.312   NOR2BX1
+        5     5.13   NOR2XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        2     3.42   OAI211X1
+        1     1.71   OAI21X1
+        2    4.788   OAI221X1
+        3    8.208   OAI222XL
+        1    2.052   OAI22X1
+        6   12.312   OAI22XL
+        3     5.13   OAI2BB1X1
+        2        - submodules
+        1        -   $paramod$234e8a4ca71e9661736e377cc9b09f6f13b801c3\top2_tree
+        1        -   $paramod$ad053efb1548b4a46491588ef817cb06c1fa764f\top2_tree
+
+   Chip area for module '$paramod$3d5069ba93ef478343b32a0bd653130bb5dda23b\top2_tree': 233.928000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$57697552f37cb4418a383ab77e3abbb039e2900a\plane_seq ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      831        - wires
+     1008        - wire bits
+       19        - public wires
+      196        - public wire bits
+       17        - ports
+      190        - port bits
+      995 2.22E+03 cells
+        2    2.736   AND2X1
+       67   91.656   AND2XL
+        9   18.468   AND3XL
+       35    83.79   AND4XL
+       49  100.548   AOI211XL
+       37    63.27   AOI21XL
+       10    23.94   AOI221X1
+       65   133.38   AOI22XL
+        1    2.052   AOI2BB1XL
+        8   16.416   AOI31X1
+       10    23.94   AOI32X1
+       50     85.5   CLKBUFX2
+      180   984.96   DFFHQX1
+       80    54.72   INVXL
+        2    4.788   MX2XL
+       16   21.888   NAND2BXL
+       99  101.574   NAND2XL
+        1     1.71   NAND3BXL
+        1     1.71   NAND3XL
+       16    27.36   NAND4XL
+       15    20.52   NOR2BX1
+        1    1.026   NOR2X1
+       93   95.418   NOR2XL
+       11   22.572   NOR3BXL
+       13    22.23   NOR3XL
+        4   10.944   NOR4BBX1
+        5     8.55   NOR4X1
+       25    42.75   OAI211X1
+        1     1.71   OAI21X1
+       43    73.53   OAI21XL
+        5     8.55   OAI2BB1X1
+       17   34.884   OAI31X1
+        1    2.394   OAI32X1
+       20    27.36   OR2XL
+        1    2.052   OR4X1
+        2    4.788   XNOR2X1
+
+   Chip area for module '$paramod$57697552f37cb4418a383ab77e3abbb039e2900a\plane_seq': 2223.684000
+     of which used for sequential elements: 984.960000 (44.29%)
+
+=== $paramod\shift_accum\ROWS_PER_GROUP=s32'00000000000000000000000000001000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+    36002        - wires
+    40041        - wire bits
+      179        - public wires
+     4218        - public wire bits
+       15        - ports
+     2595        - port bits
+    37888 1.15E+05 cells
+     2575 3.26E+04   ACHCONX2
+       30    41.04   AND2X1
+      905  1238.04   AND2XL
+      426  874.152   AND3XL
+        2    4.788   AND4XL
+      321  768.474   AO21XL
+        6   16.416   AO22XL
+      157  322.164   AOI211XL
+       21    35.91   AOI21X1
+     2535  4334.85   AOI21XL
+       70   167.58   AOI221X1
+       12   36.936   AOI222X1
+      110   225.72   AOI22X1
+      940  1928.88   AOI22XL
+       13   26.676   AOI2BB1X1
+      137  281.124   AOI2BB1XL
+      121  248.292   AOI31X1
+      152  363.888   AOI32X1
+     2621  4481.91   CLKBUFX2
+     2057 1.13E+04   DFFHQX1
+      210   143.64   INVX1
+     2010  1374.84   INVXL
+        6   14.364   MX2X1
+     2238 5.36E+03   MX2XL
+      241 1.15E+03   MX3XL
+       20   143.64   MX4XL
+      897 2.15E+03   MXI2XL
+        3   17.442   MXI3XL
+        8   57.456   MXI4XL
+        1    1.368   NAND2BX1
+      760  1039.68   NAND2BXL
+       28   28.728   NAND2X1
+     2124 2.18E+03   NAND2XL
+       58    99.18   NAND3BXL
+      818  1398.78   NAND3XL
+        6    10.26   NAND4XL
+      476  651.168   NOR2BX1
+       33   33.858   NOR2X1
+     4314 4.43E+03   NOR2XL
+        3    6.156   NOR3BXL
+       20     34.2   NOR3X1
+      111   189.81   NOR3XL
+        1    2.736   NOR4BBX1
+       68   116.28   NOR4X1
+      175    359.1   OA21X1
+      783 1.87E+03   OA22X1
+      533   911.43   OAI211X1
+       18    30.78   OAI21X1
+      777  1328.67   OAI21XL
+       12   28.728   OAI221X1
+        1    2.736   OAI222XL
+       36   73.872   OAI22X1
+      757 1.55E+03   OAI22XL
+      531   908.01   OAI2BB1X1
+        2    7.524   OAI2BB2XL
+       62  127.224   OAI31X1
+      176  421.344   OAI32X1
+      554  757.872   OR2XL
+       53  108.756   OR3XL
+        1    2.052   OR4X1
+     2618 6.27E+03   XNOR2X1
+     2096 1.58E+04   XNOR3XL
+      716 1.96E+03   XOR2XL
+      322 2.42E+03   XOR3XL
+        2        - submodules
+        1        -   $paramod$7591082eb0fd1f0da92497bf48ff68c4d6e31ccc\popcount
+        1        -   $paramod\popcount\N=s32'00000000000000000000001000000000
+
+   Chip area for module '$paramod\shift_accum\ROWS_PER_GROUP=s32'00000000000000000000000000001000': 114780.330000
+     of which used for sequential elements: 11255.904000 (9.81%)
+
+=== $paramod\popcount\N=s32'00000000000000000000001000000000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       35        - wires
+      571        - wire bits
+        4        - public wires
+      540        - public wire bits
+        2        - ports
+      522        - port bits
+       41   67.716 cells
+        4    5.472   AND2XL
+        2     3.42   AOI21XL
+        1    2.052   AOI31X1
+        3    4.104   NAND2BXL
+        4    4.104   NAND2XL
+        4    5.472   NOR2BX1
+        4    4.104   NOR2XL
+        1     1.71   OAI211X1
+        4     6.84   OAI21XL
+        1     1.71   OAI2BB1X1
+        3    4.104   OR2XL
+        8   19.152   XNOR2X1
+        2    5.472   XOR2XL
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000100000000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000001000000000': 67.716000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod$7591082eb0fd1f0da92497bf48ff68c4d6e31ccc\popcount ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       13        - wires
+       33        - wire bits
+        4        - public wires
+       24        - public wire bits
+        2        - ports
+       18        - port bits
+       13   19.836 cells
+        1    1.368   AND2XL
+        3    3.078   NAND2XL
+        1    1.368   NOR2BX1
+        3    3.078   NOR2XL
+        1    2.052   OA21X1
+        1     1.71   OAI21XL
+        3    7.182   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000000100
+
+   Chip area for module '$paramod$7591082eb0fd1f0da92497bf48ff68c4d6e31ccc\popcount': 19.836000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000100000000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       32        - wires
+      309        - wire bits
+        4        - public wires
+      281        - public wire bits
+        2        - ports
+      265        - port bits
+       37   59.166 cells
+        4    5.472   AND2XL
+        2     3.42   AOI21XL
+        1    2.052   AOI2BB1XL
+        1    2.052   AOI31X1
+        2    2.736   NAND2BXL
+        4    4.104   NAND2XL
+        4    5.472   NOR2BX1
+        5     5.13   NOR2XL
+        3     5.13   OAI21XL
+        3    4.104   OR2XL
+        7   16.758   XNOR2X1
+        1    2.736   XOR2XL
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000010000000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000100000000': 59.166000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== cim_neurohdc_top ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      114        - wires
+     2013        - wire bits
+       66        - public wires
+     1965        - public wire bits
+       60        - ports
+     1942        - port bits
+       63  149.112 cells
+        5     8.55   CLKBUFX2
+       13   71.136   DFFHQX1
+       13    8.892   INVXL
+        2     3.42   NAND3BXL
+        2    4.104   NOR3BXL
+        1     1.71   NOR4X1
+       12    20.52   OAI211X1
+       13   26.676   OAI31X1
+        1    2.052   OR3XL
+        1    2.052   OR4X1
+        3        - submodules
+        1        -   $paramod$96a48f35f167371964f4eab3d8783425cacf32a6\hdc_query
+        1        -   $paramod$c20210038bae56d973672879575eb4fa72ccafac\snn_top
+        1        -   $paramod\exit_ctrl\EARLY_EXIT_EN=1'1\N_TS=s32'00000000000000000000000001100100
+
+   Area for cell type \cim_macro is unknown!
+   Area for cell type \hdc_class_array is unknown!
+
+   Chip area for module '\cim_neurohdc_top': 149.112000
+     of which used for sequential elements: 71.136000 (47.71%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000001000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       13        - wires
+       27        - wire bits
+        4        - public wires
+       18        - public wire bits
+        2        - ports
+       12        - port bits
+       13   19.836 cells
+        1    1.368   AND2XL
+        3    3.078   NAND2XL
+        1    1.368   NOR2BX1
+        3    3.078   NOR2XL
+        1    2.052   OA21X1
+        1     1.71   OAI21XL
+        3    7.182   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000000100
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000001000': 19.836000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000010000 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       17        - wires
+       42        - wire bits
+        4        - public wires
+       29        - public wire bits
+        2        - ports
+       21        - port bits
+       18   26.676 cells
+        1    1.368   AND2XL
+        1     1.71   AOI21XL
+        1    1.368   NAND2BXL
+        3    3.078   NAND2XL
+        3    4.104   NOR2BX1
+        3    3.078   NOR2XL
+        2     3.42   OAI21XL
+        1    1.368   OR2XL
+        3    7.182   XNOR2X1
+        2        - submodules
+        2        -   $paramod\popcount\N=s32'00000000000000000000000000001000
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000010000': 26.676000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000000011 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        6        - wires
+       10        - wire bits
+        4        - public wires
+        8        - public wire bits
+        2        - ports
+        5        - port bits
+        4    5.814 cells
+        1    1.026   NAND2XL
+        1    1.368   NOR2BX1
+        1    1.026   NOR2XL
+        1    2.394   XNOR2X1
+        2        - submodules
+        1        -   $paramod\popcount\N=s32'00000000000000000000000000000001
+        1        -   $paramod\popcount\N=s32'00000000000000000000000000000010
+
+   Chip area for module '$paramod\popcount\N=s32'00000000000000000000000000000011': 5.814000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== $paramod\popcount\N=s32'00000000000000000000000000000001 ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        2        - wires
+        2        - wire bits
+        2        - public wires
+        2        - public wire bits
+        2        - ports
+        2        - port bits
+
+=== weight_load ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       55        - wires
+      127        - wire bits
+       13        - public wires
+       85        - public wire bits
+       13        - ports
+       85        - port bits
+       57   143.64 cells
+        7    9.576   AND2XL
+        3    7.182   AND4XL
+        1    2.052   AOI211XL
+        3     5.13   AOI21XL
+        1     1.71   CLKBUFX2
+       14   76.608   DFFHQX1
+        1    0.684   INVXL
+        1    1.368   NAND2BXL
+        1     1.71   NAND4XL
+        1    1.368   NOR2BX1
+       10    10.26   NOR2XL
+        2    4.104   NOR3BXL
+        9    15.39   NOR3XL
+        2    4.104   OA21X1
+        1    2.394   XNOR2X1
+
+   Chip area for module '\weight_load': 143.640000
+     of which used for sequential elements: 76.608000 (53.33%)
+
+=== spike_reg ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+       77        - wires
+      127        - wire bits
+       11        - public wires
+       61        - public wire bits
+       11        - ports
+       61        - port bits
+       95  270.864 cells
+        1     1.71   AOI21XL
+        1    2.052   AOI2BB1XL
+        6    10.26   CLKBUFX2
+       29  158.688   DFFHQX1
+       26   62.244   MXI2XL
+        2    2.736   NAND2BXL
+        1    1.026   NAND2XL
+        1    2.394   NAND4BXL
+        1    1.368   NOR2BX1
+       26   26.676   NOR2XL
+        1     1.71   NOR4X1
+
+   Chip area for module '\spike_reg': 270.864000
+     of which used for sequential elements: 158.688000 (58.59%)
+
+=== $paramod$461b2dc137c0021d380ed3267906ce2cc70bc21b\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== snn_ctrl ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     1840        - wires
+     2669        - wire bits
+       58        - public wires
+      887        - public wire bits
+       51        - ports
+      691        - port bits
+     2337 5.76E+03 cells
+        1    1.368   AND2X1
+      108  147.744   AND2XL
+        1    2.052   AND3XL
+       22   52.668   AND4XL
+       89  182.628   AOI211XL
+       27    46.17   AOI21XL
+       55   112.86   AOI22XL
+       11   22.572   AOI2BB1XL
+        8   16.416   AOI31X1
+       19   45.486   AOI32X1
+      134   229.14   CLKBUFX2
+      546 2.99E+03   DFFHQX1
+        4    2.736   INVX1
+      171  116.964   INVXL
+      253  605.682   MXI2XL
+       26   35.568   NAND2BXL
+       83   85.158   NAND2XL
+        3     5.13   NAND3BXL
+        1     1.71   NAND3XL
+        1    3.078   NAND4BBXL
+       17    29.07   NAND4XL
+       10    13.68   NOR2BX1
+        1    1.026   NOR2X1
+      483  495.558   NOR2XL
+        1    2.052   NOR3BXL
+        5     8.55   NOR3XL
+       19    32.49   NOR4X1
+        2    4.104   OA21X1
+       12   28.728   OA22X1
+       47    80.37   OAI211X1
+        1     1.71   OAI21X1
+       31    53.01   OAI21XL
+       29   59.508   OAI22XL
+        9    15.39   OAI2BB1X1
+        4    8.208   OAI31X1
+       36   86.184   OAI32X1
+        1    1.368   OR2X1
+       21   28.728   OR2XL
+        7   14.364   OR4X1
+       37   88.578   XNOR2X1
+        1    2.736   XOR2XL
+
+   Chip area for module '\snn_ctrl': 5758.254000
+     of which used for sequential elements: 2987.712000 (51.89%)
+
+=== $paramod$953e6780cb277867d4d5efa00e3f4daa1691e32e\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$cb0ab06c319860f32f20d7dfce42de79ec0aebac\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== $paramod$b751fb361f1a79173bc871b5076df7bf2c89844b\top2_tree ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+        4        - wires
+       38        - wire bits
+        4        - public wires
+       38        - public wire bits
+        4        - ports
+       38        - port bits
+
+=== if_neuron_array ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+     5208        - wires
+     6464        - wire bits
+       11        - public wires
+     1267        - public wire bits
+       11        - ports
+     1267        - port bits
+     5738 1.13E+04 cells
+        1   12.654   ACHCONX2
+        2    2.736   AND2X1
+      262  358.416   AND2XL
+        4    9.576   AND4XL
+        9   21.546   AO21XL
+        2    5.472   AO22XL
+       76  155.952   AOI211XL
+       81   138.51   AOI21XL
+       32   76.608   AOI221X1
+       12   24.624   AOI22XL
+        7   14.364   AOI2BB1XL
+       97  199.044   AOI31X1
+        1    2.394   AOI32X1
+      195   333.45   CLKBUFX2
+      541 2.96E+03   DFFHQX1
+        1    0.684   INVX1
+      572  391.248   INVXL
+       91  217.854   MX2XL
+      109  260.946   MXI2XL
+        1    1.368   NAND2BX1
+       93  127.224   NAND2BXL
+        2    2.052   NAND2X1
+      785   805.41   NAND2XL
+       43    73.53   NAND3BXL
+       17    29.07   NAND3XL
+        1    3.078   NAND4BBXL
+        1    2.394   NAND4BXL
+       44    75.24   NAND4XL
+       56   76.608   NOR2BX1
+        2    2.052   NOR2X1
+      378  387.828   NOR2XL
+        3    6.156   NOR3BXL
+       18    30.78   NOR3XL
+        5    13.68   NOR4BBX1
+        7   16.758   NOR4BX1
+       48    82.08   NOR4X1
+       70   143.64   OA21X1
+        7   16.758   OA22X1
+      126   215.46   OAI211X1
+      103   176.13   OAI21XL
+       31   74.214   OAI221X1
+      261  535.572   OAI22XL
+      283   483.93   OAI2BB1X1
+        2    7.524   OAI2BB2XL
+       87  178.524   OAI31X1
+      172  411.768   OAI32X1
+      263  359.784   OR2XL
+        4    8.208   OR3XL
+       23   47.196   OR4X1
+      649 1.55E+03   XNOR2X1
+       58  158.688   XOR2XL
+
+   Chip area for module '\if_neuron_array': 11292.840000
+     of which used for sequential elements: 2960.352000 (26.21%)
+
+=== event_ctr ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      379        - wires
+      466        - wire bits
+       13        - public wires
+      100        - public wire bits
+       12        - ports
+       78        - port bits
+      439  983.592 cells
+       39   53.352   AND2XL
+        1    2.052   AND3XL
+        1    2.394   AO21XL
+        2    4.104   AOI211XL
+        1     1.71   AOI21X1
+       22    37.62   AOI21XL
+        1    2.052   AOI22XL
+        1    2.052   AOI2BB1XL
+        3    6.156   AOI31X1
+       13    22.23   CLKBUFX2
+       71  388.512   DFFHQX1
+        1    0.684   INVX1
+        9    6.156   INVXL
+       23   55.062   MX2XL
+       19   45.486   MXI2XL
+       13   17.784   NAND2BXL
+       53   54.378   NAND2XL
+        1     1.71   NAND3BXL
+        2     3.42   NAND3XL
+        1    2.394   NAND4BXL
+        4     6.84   NAND4XL
+       13   17.784   NOR2BX1
+       43   44.118   NOR2XL
+        4    8.208   NOR3BXL
+        6    10.26   NOR3XL
+        3     5.13   NOR4X1
+        1    2.052   OA21X1
+        9    15.39   OAI211X1
+       24    41.04   OAI21XL
+        1    2.394   OAI221X1
+        1     1.71   OAI2BB1X1
+        1    2.052   OAI31X1
+        9   12.312   OR2XL
+       37   88.578   XNOR2X1
+        6   16.416   XOR2XL
+
+   Chip area for module '\event_ctr': 983.592000
+     of which used for sequential elements: 388.512000 (39.50%)
+
+=== count_mem ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+    22383        - wires
+    28582        - wire bits
+      531        - public wires
+     6730        - public wire bits
+       14        - ports
+     1067        - port bits
+    28542 8.83E+04 cells
+        1    1.368   AND2X1
+       38   51.984   AND2XL
+        5    10.26   AND3XL
+        1    2.394   AO21XL
+        4   10.944   AO22XL
+       29   59.508   AOI211XL
+      131   224.01   AOI21XL
+      181  433.314   AOI221X1
+      522 1.07E+03   AOI22XL
+        2    4.104   AOI2BB1XL
+      200    410.4   AOI31X1
+       59  141.246   AOI32X1
+     2942  5030.82   CLKBUFX2
+       31  169.632   DFFHQX1
+     5632  48153.6   EDFFHQX1
+        5     3.42   INVX1
+       42   28.728   INVXL
+     2738 6.55E+03   MX2XL
+        2    9.576   MX3XL
+      322 2.31E+03   MX4XL
+     1292 3.09E+03   MXI2XL
+        1    5.814   MXI3XL
+      202 1.45E+03   MXI4XL
+        2    2.736   NAND2BX1
+      680   930.24   NAND2BXL
+       13   13.338   NAND2X1
+     1819 1.87E+03   NAND2XL
+       56    95.76   NAND3BXL
+        1     1.71   NAND3XL
+       50     85.5   NAND4XL
+      305   417.24   NOR2BX1
+        2    2.052   NOR2X1
+     6040  6197.04   NOR2XL
+        3    6.156   NOR3BXL
+        4     6.84   NOR3XL
+     1162  1987.02   NOR4X1
+       31   63.612   OA21X1
+     1991  3404.61   OAI211X1
+      280    478.8   OAI21XL
+      266  636.804   OAI221X1
+       15    41.04   OAI222XL
+      514 1.05E+03   OAI22XL
+       58    99.18   OAI2BB1X1
+       25     51.3   OAI31X1
+      116  277.704   OAI32X1
+      216  295.488   OR2XL
+        1    2.052   OR3XL
+      506 1.04E+03   OR4X1
+        4    9.576   XNOR2X1
+
+   Chip area for module '\count_mem': 88298.586000
+     of which used for sequential elements: 48323.232000 (54.73%)
+
+=== addr_gen ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+      605        - wires
+      633        - wire bits
+        5        - public wires
+       33        - public wire bits
+        5        - ports
+       33        - port bits
+      608 1.41E+03 cells
+       12  151.848   ACHCONX2
+       37   50.616   AND2XL
+        2    4.104   AND3XL
+        9   21.546   AND4XL
+        4    9.576   AO21XL
+        1    2.736   AO22XL
+        2    4.104   AOI211XL
+        9    15.39   AOI21XL
+        2    4.788   AOI221X1
+       27   55.404   AOI22XL
+        4    8.208   AOI2BB1XL
+        1    2.052   AOI31X1
+        5    11.97   AOI32X1
+       35    59.85   CLKBUFX2
+       11    7.524   INVXL
+       23   31.464   NAND2BXL
+       95    97.47   NAND2XL
+        8    13.68   NAND3BXL
+        1     1.71   NAND3XL
+       12    20.52   NAND4XL
+       24   32.832   NOR2BX1
+       43   44.118   NOR2XL
+        3    6.156   NOR3BXL
+        4     6.84   NOR3XL
+        1    2.394   NOR4BX1
+        1     1.71   NOR4X1
+        3    6.156   OA21X1
+        1    2.394   OA22X1
+        1     1.71   OAI211X1
+       24    41.04   OAI21XL
+        2    4.788   OAI221X1
+        3    6.156   OAI22X1
+        9   18.468   OAI22XL
+       18    30.78   OAI2BB1X1
+        1    3.762   OAI2BB2XL
+        2    4.104   OAI31X1
+        1    2.736   OAI33X1
+       14   19.152   OR2XL
+        2    4.104   OR3XL
+       68  162.792   XNOR2X1
+       34  255.816   XNOR3XL
+       40   109.44   XOR2XL
+        9   67.716   XOR3XL
+
+   Chip area for module '\addr_gen': 1409.724000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== design hierarchy ===
+
+        +----------Count including submodules.
+        |        +-Area including submodules.
+        |        | 
+    86929 2.53E+05 cim_neurohdc_top
+     3207 1.36E+04 $paramod$96a48f35f167371964f4eab3d8783425cacf32a6\hdc_query
+      376 1.18E+03   $paramod$1fee1a8585b709d0100dddbdc53ef38f18b8956d\hdc_score
+      121  233.928   $paramod$3d5069ba93ef478343b32a0bd653130bb5dda23b\top2_tree
+      121  233.928     $paramod$234e8a4ca71e9661736e377cc9b09f6f13b801c3\top2_tree
+      121  233.928       $paramod$4a41a62b5c5f9ecdefdbafa68564567c2cec84b0\top2_tree
+      121  233.928       $paramod$627e6b835f30148f1e3f4a0a6116ae808c74ea6f\top2_tree
+      121  233.928         $paramod$89b2e1de0dd603120a04caf34534b2b6b42510d8\top2_tree
+      121  233.928     $paramod$ad053efb1548b4a46491588ef817cb06c1fa764f\top2_tree
+      121  233.928       $paramod$6540ea6ec3c302ccfffbe33744143f97e28e3ee7\top2_tree
+      121  233.928       $paramod$898fa5d179f9161a19218b9116e8fb07c0f4f72d\top2_tree
+      121  233.928         $paramod$90c07fab1164708c8d6252dc390764e656c6fcb5\top2_tree
+       18   26.676   $paramod\popcount\N=s32'00000000000000000000000000010100
+       13   19.836     $paramod\popcount\N=s32'00000000000000000000000000001010
+        8   12.312       $paramod\popcount\N=s32'00000000000000000000000000000101
+        2    4.104         $paramod\popcount\N=s32'00000000000000000000000000000010
+        4    5.814         $paramod\popcount\N=s32'00000000000000000000000000000011
+        2    4.104           $paramod\popcount\N=s32'00000000000000000000000000000010
+     1436 4.21E+03 $paramod$c20210038bae56d973672879575eb4fa72ccafac\snn_top
+      995 2.22E+03   $paramod$57697552f37cb4418a383ab77e3abbb039e2900a\plane_seq
+    37888 1.15E+05   $paramod\shift_accum\ROWS_PER_GROUP=s32'00000000000000000000000000001000
+       13   19.836     $paramod$7591082eb0fd1f0da92497bf48ff68c4d6e31ccc\popcount
+        8   12.312       $paramod\popcount\N=s32'00000000000000000000000000000100
+        2    4.104         $paramod\popcount\N=s32'00000000000000000000000000000010
+       41   67.716     $paramod\popcount\N=s32'00000000000000000000001000000000
+       37   59.166       $paramod\popcount\N=s32'00000000000000000000000100000000
+       33     51.3         $paramod\popcount\N=s32'00000000000000000000000010000000
+       28   42.066           $paramod\popcount\N=s32'00000000000000000000000001000000
+       23   35.568             $paramod\popcount\N=s32'00000000000000000000000000100000
+       18   26.676               $paramod\popcount\N=s32'00000000000000000000000000010000
+       13   19.836                 $paramod\popcount\N=s32'00000000000000000000000000001000
+        8   12.312                   $paramod\popcount\N=s32'00000000000000000000000000000100
+        2    4.104                     $paramod\popcount\N=s32'00000000000000000000000000000010
+      608 1.41E+03   addr_gen
+    28542 8.83E+04   count_mem
+      439  983.592   event_ctr
+     5738 1.13E+04   if_neuron_array
+     2337 5.76E+03   snn_ctrl
+       95  270.864   spike_reg
+       57   143.64   weight_load
+      131  284.544 $paramod\exit_ctrl\EARLY_EXIT_EN=1'1\N_TS=s32'00000000000000000000000001100100
+
+        +----------Count including submodules.
+        |        +-Area including submodules.
+        |        | 
+    77288        - wires
+   106916        - wire bits
+     4532        - public wires
+    34145        - public wire bits
+     2522        - ports
+    18754        - port bits
+        -        - memories
+        -        - memory bits
+        -        - processes
+    86929 2.53E+05 cells
+     2612 3.31E+04   ACHCONX2
+       36   49.248   AND2X1
+     2518 3.44E+03   AND2XL
+      468  960.336   AND3XL
+        1    2.394   AND4X1
+       75   179.55   AND4XL
+      336  804.384   AO21XL
+       31   84.816   AO22XL
+      455   933.66   AOI211XL
+       22    37.62   AOI21X1
+     2980   5095.8   AOI21XL
+      347  830.718   AOI221X1
+       13   40.014   AOI222X1
+      110   225.72   AOI22X1
+     1701 3.49E+03   AOI22XL
+       13   26.676   AOI2BB1X1
+      189  387.828   AOI2BB1XL
+        1     3.42   AOI2BB2X1
+      474  972.648   AOI31X1
+      268  641.592   AOI32X1
+     6352 1.09E+04   CLKBUFX2
+     3685 2.02E+04   DFFHQX1
+     6982  59696.1   EDFFHQX1
+      221  151.164   INVX1
+     3201 2.19E+03   INVXL
+        6   14.364   MX2X1
+     5650  13526.1   MX2XL
+      333 1.59E+03   MX3XL
+      364 2.61E+03   MX4XL
+     2829 6.77E+03   MXI2XL
+        4   23.256   MXI3XL
+      216 1.55E+03   MXI4XL
+        5     6.84   NAND2BX1
+     1855  2537.64   NAND2BXL
+       54   55.404   NAND2X1
+     6005  6161.13   NAND2XL
+      207   353.97   NAND3BXL
+      841  1438.11   NAND3XL
+        2    6.156   NAND4BBXL
+        6   14.364   NAND4BXL
+      182   311.22   NAND4XL
+     1478 2.02E+03   NOR2BX1
+       41   42.066   NOR2X1
+    12637  1.3E+04   NOR2XL
+       58  119.016   NOR3BXL
+       21    35.91   NOR3X1
+      193   330.03   NOR3XL
+       10    27.36   NOR4BBX1
+       17   40.698   NOR4BX1
+     1325  2265.75   NOR4X1
+      399  818.748   OA21X1
+      805  1927.17   OA22X1
+     3049  5213.79   OAI211X1
+       30     51.3   OAI21X1
+     1683  2877.93   OAI21XL
+      336  804.384   OAI221X1
+       43  117.648   OAI222XL
+       48   98.496   OAI22X1
+     1626 3.34E+03   OAI22XL
+      971  1660.41   OAI2BB1X1
+        5    18.81   OAI2BB2XL
+      225    461.7   OAI31X1
+      501  1.2E+03   OAI32X1
+        1    2.736   OAI33X1
+        1    1.368   OR2X1
+     1220  1668.96   OR2XL
+       62  127.224   OR3XL
+      540  1108.08   OR4X1
+     4203 1.01E+04   XNOR2X1
+     2170 1.63E+04   XNOR3XL
+     1242  3.4E+03   XOR2XL
+      337 2.54E+03   XOR3XL
+        1        -   cim_macro
+        1        -   hdc_class_array
+        3 2.53E+05 submodules
+        1 1.71E+04   $paramod$96a48f35f167371964f4eab3d8783425cacf32a6\hdc_query
+        1 2.35E+05   $paramod$c20210038bae56d973672879575eb4fa72ccafac\snn_top
+        1  284.544   $paramod\exit_ctrl\EARLY_EXIT_EN=1'1\N_TS=s32'00000000000000000000000001100100
+
+   Area for cell type \cim_macro is unknown!
+   Area for cell type \hdc_class_array is unknown!
+
+   Chip area for top module '\cim_neurohdc_top': 252973.638000
+     of which used for sequential elements: 79860.420000 (31.57%)
+

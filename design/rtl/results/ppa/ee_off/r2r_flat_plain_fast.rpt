@@ -1,0 +1,60 @@
+Startpoint: _132847_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _134492_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   0.000    0.000 ^ _132847_/CK (DFFHQX1)
+   2.189    2.189 ^ _132847_/Q (DFFHQX1)
+   5.088    7.277 v _062718_/Y (INVX1)
+   0.983    8.260 ^ _075676_/Y (NAND2X1)
+   1.964   10.224 v _075678_/Y (NAND2X1)
+   1.013   11.237 ^ _100441_/Y (NAND3BXL)
+   0.163   11.401 v _100484_/Y (NOR4X1)
+   0.053   11.453 v _100486_/Y (OAI2BB1X1)
+   0.035   11.488 ^ _100487_/Y (AOI21X1)
+   0.042   11.530 v _100489_/Y (OAI31X1)
+   0.034   11.564 ^ _100490_/Y (AOI21X1)
+   0.036   11.600 v _100491_/Y (OAI32X1)
+   0.038   11.638 ^ _100492_/Y (AOI21X1)
+   0.031   11.669 v _100494_/Y (OAI21X1)
+   0.034   11.703 ^ _100495_/Y (AOI21X1)
+   0.029   11.732 v _100496_/CON (ACHCONX2)
+   0.025   11.757 ^ _100497_/Y (AOI21X1)
+   0.036   11.793 ^ _100499_/Y (OA21X1)
+   0.058   11.851 v _100505_/Y (XNOR2X1)
+   0.034   11.884 ^ _100600_/CON (ACHCONX2)
+   0.088   11.972 v _100610_/Y (XNOR3X1)
+   0.035   12.008 ^ _100698_/CON (ACHCONX2)
+   0.085   12.092 v _100713_/Y (XNOR3X1)
+   0.032   12.125 ^ _100796_/CON (ACHCONX2)
+   0.088   12.212 v _100819_/Y (XNOR3X1)
+   0.034   12.247 ^ _100907_/CON (ACHCONX2)
+   0.088   12.335 v _100927_/Y (XNOR3X1)
+   0.055   12.390 ^ _101010_/Y (XOR3X1)
+   0.046   12.435 v _101136_/CON (ACHCONX2)
+   0.084   12.520 ^ _101165_/Y (XNOR3X1)
+   0.040   12.560 v _101240_/CON (ACHCONX2)
+   0.032   12.592 ^ _123770_/CON (ACHCONX2)
+   0.075   12.667 v _123798_/Y (XOR3X1)
+   0.017   12.684 ^ _123800_/Y (AOI31X1)
+   0.169   12.853 ^ _123801_/Y (NOR2BX1)
+   0.000   12.853 ^ _134492_/D (DFFHQX1)
+           12.853   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+           10.000 ^ _134492_/CK (DFFHQX1)
+  -0.022    9.978   library setup time
+            9.978   data required time
+-----------------------------------------------------------
+            9.978   data required time
+          -12.853   data arrival time
+-----------------------------------------------------------
+           -2.875   slack (VIOLATED)
+
+

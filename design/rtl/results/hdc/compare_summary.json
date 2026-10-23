@@ -1,0 +1,312 @@
+[
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "fu_s0"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_base_s0"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_r1_s0"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "fu_s1"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_base_s1"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_r1_s1"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "fu_s2"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_base_s2"
+ },
+ {
+  "lines": 24240,
+  "timesteps_compared": 24000,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "dis_r1_s2"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_ab_bothoff_g4_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_ab_eeoff_g4_s0"
+ },
+ {
+  "lines": 1375,
+  "timesteps_compared": 1351,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_ab_factoff_g4_s0"
+ },
+ {
+  "lines": 1229,
+  "timesteps_compared": 1205,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_ab_full_g4_s0"
+ },
+ {
+  "lines": 1115,
+  "timesteps_compared": 1094,
+  "disagreements": 1,
+  "first": [
+   [
+    "line count",
+    1115,
+    1229
+   ]
+  ],
+  "verdict": "DISAGREE",
+  "tag": "sim_c20_check_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_base_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_base_s1"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_base_s2"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_r1fact_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_r1fact_s1"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_dis_r1fact_s2"
+ },
+ {
+  "lines": 1193,
+  "timesteps_compared": 1173,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_l4_real_gaps_s0"
+ },
+ {
+  "lines": 1350,
+  "timesteps_compared": 1326,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_l4_shuffled_nogap_s0"
+ },
+ {
+  "lines": 1400,
+  "timesteps_compared": 1376,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_l4_sorted_gaps_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_base_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_base_s1"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_base_s2"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1fact_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1fact_s1"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1fact_s2"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1unfact_s0"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1unfact_s1"
+ },
+ {
+  "lines": 2424,
+  "timesteps_compared": 2400,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_p3_r1unfact_s2"
+ },
+ {
+  "lines": 1350,
+  "timesteps_compared": 1326,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_base_s0_t40"
+ },
+ {
+  "lines": 1702,
+  "timesteps_compared": 1678,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_base_s0_t56"
+ },
+ {
+  "lines": 279,
+  "timesteps_compared": 255,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_base_s0_t8"
+ },
+ {
+  "lines": 1063,
+  "timesteps_compared": 1039,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_r1fact_s0_t40"
+ },
+ {
+  "lines": 1400,
+  "timesteps_compared": 1376,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_r1fact_s0_t56"
+ },
+ {
+  "lines": 256,
+  "timesteps_compared": 232,
+  "disagreements": 0,
+  "first": [],
+  "verdict": "AGREE",
+  "tag": "sim_sw_r1fact_s0_t8"
+ }
+]

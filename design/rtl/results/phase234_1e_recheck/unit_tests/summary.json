@@ -1,0 +1,1200 @@
+[
+ {
+  "sim": "verilator",
+  "case": "addr_gen",
+  "toplevel": "addr_gen",
+  "module": "test_addr_gen",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 7.3
+ },
+ {
+  "sim": "verilator",
+  "case": "event_ctr",
+  "toplevel": "event_ctr",
+  "module": "test_event_ctr",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.8
+ },
+ {
+  "sim": "verilator",
+  "case": "count_mem",
+  "toplevel": "count_mem",
+  "module": "test_count_mem",
+  "parameters": {},
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 7.5
+ },
+ {
+  "sim": "verilator",
+  "case": "weight_load",
+  "toplevel": "weight_load",
+  "module": "test_weight_load",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.1
+ },
+ {
+  "sim": "verilator",
+  "case": "spike_reg",
+  "toplevel": "spike_reg",
+  "module": "test_spike_reg",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.1
+ },
+ {
+  "sim": "verilator",
+  "case": "if_neuron_array",
+  "toplevel": "if_neuron_array",
+  "module": "test_if_neuron",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.3
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.1
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g48_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.5
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g1_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.5
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g512_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.0
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.5
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g8_c160_s0",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 7.0
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g64_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.2
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g8",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.3
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g8",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 13.0
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g48",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.3
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g48",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 12.8
+ },
+ {
+  "sim": "verilator",
+  "case": "cim_macro_g512",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 7.1
+ },
+ {
+  "sim": "verilator",
+  "case": "shift_accum_g512",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 19.2
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 16.0
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g4",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 15.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 15.0
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g16",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 16,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 15.5
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g32",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 32,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 14.2
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g48",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 14.2
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g64",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 14.6
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g512",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 21.1
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 16.4
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g64_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 19.4
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g8_c160_s0",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 16.1
+ },
+ {
+  "sim": "verilator",
+  "case": "top2_tree_n7",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 7,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.3
+ },
+ {
+  "sim": "verilator",
+  "case": "top2_tree_n10",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 10,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.7
+ },
+ {
+  "sim": "verilator",
+  "case": "top2_tree_n16",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 16,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "verilator",
+  "case": "top2_tree_n24",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 24,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "verilator",
+  "case": "exit_ctrl_ee1",
+  "toplevel": "exit_ctrl",
+  "module": "test_exit_ctrl",
+  "parameters": {
+   "EARLY_EXIT_EN": 1
+  },
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.2
+ },
+ {
+  "sim": "verilator",
+  "case": "exit_ctrl_ee0",
+  "toplevel": "exit_ctrl",
+  "module": "test_exit_ctrl",
+  "parameters": {
+   "EARLY_EXIT_EN": 0
+  },
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "verilator",
+  "case": "hdc_query_f0",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 0
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.9
+ },
+ {
+  "sim": "verilator",
+  "case": "hdc_query_f0_n24",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 0,
+   "N_CLASSES": 24
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.2
+ },
+ {
+  "sim": "verilator",
+  "case": "hdc_query_f1",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 1
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.6
+ },
+ {
+  "sim": "verilator",
+  "case": "hdc_query_f1_n24",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 1,
+   "N_CLASSES": 24
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.2
+ },
+ {
+  "sim": "verilator",
+  "case": "g_sweep_identical_X",
+  "ok": true
+ },
+ {
+  "sim": "icarus",
+  "case": "addr_gen",
+  "toplevel": "addr_gen",
+  "module": "test_addr_gen",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.9
+ },
+ {
+  "sim": "icarus",
+  "case": "event_ctr",
+  "toplevel": "event_ctr",
+  "module": "test_event_ctr",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 3.4
+ },
+ {
+  "sim": "icarus",
+  "case": "count_mem",
+  "toplevel": "count_mem",
+  "module": "test_count_mem",
+  "parameters": {},
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "icarus",
+  "case": "weight_load",
+  "toplevel": "weight_load",
+  "module": "test_weight_load",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "spike_reg",
+  "toplevel": "spike_reg",
+  "module": "test_spike_reg",
+  "parameters": {},
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.9
+ },
+ {
+  "sim": "icarus",
+  "case": "if_neuron_array",
+  "toplevel": "if_neuron_array",
+  "module": "test_if_neuron",
+  "parameters": {},
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.3
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g48_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.9
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g1_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.7
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g512_c160_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 1.9
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.7
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g8_c160_s0",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.4
+ },
+ {
+  "sim": "icarus",
+  "case": "plane_seq_g64_c20_s1",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g8",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.3
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g8",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 8
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 5.6
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g48",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.6
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g48",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 48
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.9
+ },
+ {
+  "sim": "icarus",
+  "case": "cim_macro_g512",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 5.3
+ },
+ {
+  "sim": "icarus",
+  "case": "shift_accum_g512",
+  "toplevel": "shift_accum",
+  "module": "test_shift_accum",
+  "parameters": {
+   "ROWS_PER_GROUP": 512
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.4
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 1,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 22.9
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g4",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 8.8
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 6.5
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g16",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 16,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 5.1
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g32",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 32,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.5
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g48",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 48,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.4
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g64",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.3
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g512",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 512,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 5.4
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 28.6
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g64_c20_s1",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 64,
+   "N_PARALLEL_COLS": 20,
+   "PLANE_SKIP_EN": 1
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 9.7
+ },
+ {
+  "sim": "icarus",
+  "case": "mvm_unit_g8_c160_s0",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 8,
+   "N_PARALLEL_COLS": 160,
+   "PLANE_SKIP_EN": 0
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 8.0
+ },
+ {
+  "sim": "icarus",
+  "case": "top2_tree_n7",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 7,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "top2_tree_n10",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 10,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "top2_tree_n16",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 16,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "icarus",
+  "case": "top2_tree_n24",
+  "toplevel": "top2_wrap",
+  "module": "test_top2_tree",
+  "parameters": {
+   "N": 24,
+   "W": 11,
+   "WI": 5
+  },
+  "tests": 1,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.2
+ },
+ {
+  "sim": "icarus",
+  "case": "exit_ctrl_ee1",
+  "toplevel": "exit_ctrl",
+  "module": "test_exit_ctrl",
+  "parameters": {
+   "EARLY_EXIT_EN": 1
+  },
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "icarus",
+  "case": "exit_ctrl_ee0",
+  "toplevel": "exit_ctrl",
+  "module": "test_exit_ctrl",
+  "parameters": {
+   "EARLY_EXIT_EN": 0
+  },
+  "tests": 4,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.1
+ },
+ {
+  "sim": "icarus",
+  "case": "hdc_query_f0",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 0
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.0
+ },
+ {
+  "sim": "icarus",
+  "case": "hdc_query_f0_n24",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 0,
+   "N_CLASSES": 24
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 3.7
+ },
+ {
+  "sim": "icarus",
+  "case": "hdc_query_f1",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 1
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 4.0
+ },
+ {
+  "sim": "icarus",
+  "case": "hdc_query_f1_n24",
+  "toplevel": "hdc_query",
+  "module": "test_hdc_query",
+  "parameters": {
+   "FACTORIZED": 1,
+   "N_CLASSES": 24
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 3.6
+ },
+ {
+  "sim": "icarus",
+  "case": "g_sweep_identical_X",
+  "ok": true
+ }
+]

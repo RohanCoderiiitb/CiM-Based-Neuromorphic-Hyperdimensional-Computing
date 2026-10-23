@@ -54,3 +54,15 @@ See docstring of `model/export/export_weights.py`. Summary: row = address, 160-b
 bit `j*8+k` = plane `k` (0 = LSB, 7 = sign) of neuron `j`; `$readmemh` files list address 0 first,
 hex MSB-first. `weights_seed<k>_macro<m>_32b.mem`: neurons `4m..4m+3`, bit `(j%4)*8+k`.
 `thresh_seed<k>.mem`: 20 lines, two's-complement hex at the frozen threshold width.
+
+## Phase 2-4 additions (the R=1 networks)  - FORMAT_VERSION 1.1, additive
+`tb/vectors/dvsgesture/r1_seed<k>.npz` (k = 0,1,2; the jointly trained R=1 factorized checkpoints `artifacts/checkpoints/r1_binary_svd_seed<k>.pt`), same keys as `seed<k>.npz` plus
+| key | dtype | shape | meaning |
+|---|---|---|---|
+| `a_bits` | uint8 | [10,20] | stationary array: `a_i[j] = 1` means +1 (sign of A) |
+| `b_bits` | uint8 | [100,...] -> [10,100] | sign table: `b_i[t] = 1` means +1 (sign of B) |
+| `class_hv` | uint8 | [10,100,20] | the expansion `C_i[t,j] = XNOR(a_i[j], b_i[t])` (`hdc_query.expand_r1`), what the unfactorized RTL is loaded with in the identity test |
+`score_xnor_prefix` is the XNOR prefix score of the expanded class hypervector (equal, integer for integer, to the factorized AND-popcount form). Weight image tag `r1s<k>`: `weights/weights_seedr1s<k>_*.mem`, `thresh_seedr1s<k>.mem`.
+The gate (`artifacts/phase0/r1_gate.json`): the integer pipeline reproduces each checkpoint's recorded float test accuracy exactly (194/240, 196/240, 189/240).
+
+Class image for the RTL (`hdc_pkg.sv`): unfactorized `cmain.mem` = 100 words of 200 bits (class i slice of timestep t at bits [20 i +: 20], address t); factorized `cmain.mem` = 1 word (`a_i` at [20 i +: 20]), `csign.mem` = 100 words of 10 bits (`b_i[t]` at bit i), `cbias.mem` = 1 word of 50 bits (`||a_i||_1` at [5 i +: 5]).

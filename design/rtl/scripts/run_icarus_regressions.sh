@@ -6,7 +6,7 @@
 #   PROFILE=overnight  the design point and the stress runs in full, the remaining sweeps on a fixed random subset of rows (48 DVS, 200 N-MNIST
 #                      samples); same rows as the Verilator run of that row, compared per timestep. ~4-5 h. The report lists samples per configuration.
 set -uo pipefail
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/../../.."
 PY=venv/bin/python
 CHUNKS=${CHUNKS:-10}
 PROFILE=${PROFILE:-full}

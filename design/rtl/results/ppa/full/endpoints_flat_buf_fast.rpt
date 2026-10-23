@@ -1,0 +1,18 @@
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+ev_ready_o (output)                     7.500    2.553    4.947 (MET)
+_143733_/D (DFFHQX1)                    9.985    3.311    6.674 (MET)
+_143734_/D (DFFHQX1)                    9.985    3.311    6.674 (MET)
+_143735_/D (DFFHQX1)                    9.985    3.311    6.674 (MET)
+_143736_/D (DFFHQX1)                    9.987    3.270    6.716 (MET)
+_144343_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144344_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144345_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144346_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144347_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144348_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+_144349_/E (EDFFHQX1)                   9.787    2.989    6.798 (MET)
+

@@ -1,3 +1,22 @@
+# The ReRAM crossbar - the netlist and the design sheet
+
+## The netlist (the circuit as one artefact)
+
+[`crossbar_netlist/`](crossbar_netlist/) is a parameterised SPICE netlist generator. It emits the array hierarchically - **half** (device + access transistor, on the bit-line side) -> **cell2t2r** (the differential cell) -> **group** (g contiguous cells on one bit-line pair with the bit-line wire between them) -> **macro** (512 x 32 cells, row line broken per macro, row drivers at both ends of every row, sense resistors on a ground rail) -> **array** (five macros, one shared supply rail, per-macro ground pads) - from an `ArraySpec` whose defaults are names in [`studies/crossbar/device/constants.py`](../../studies/crossbar/device/constants.py).
+
+| file | what |
+|---|---|
+| [`crossbar_netlist/spec.py`](crossbar_netlist/spec.py), [`gen.py`](crossbar_netlist/gen.py) | `ArraySpec`; `full_deck` (the whole hierarchy: the artefact), `reduced_deck` (active rows only, for transients) |
+| [`generate.py`](generate.py) | command line: `python design/crossbar/generate.py --macros 1 --g 8 --device resistor --caps --active-group 3 -o out.sp` |
+| [`examples/macro_512x32_g8.sp`](examples/macro_512x32_g8.sp) | a generated 512 x 32-cell macro at g = 8 (fixed-resistor devices, capacitance, one group selected): readable without running anything, a valid ngspice deck |
+| [`validate_netlist.py`](validate_netlist.py) | the netlist against the mesh solver (the reference): 1C's 300-case suite, the real macro and array geometry, the resistor flavour, the transient view |
+| [`refactor_check.py`](refactor_check.py) | the study decks (now generated) against the recorded outputs of the old decks |
+| [`make_report.py`](make_report.py) | [`reports/crossbar_netlist.md`](../../reports/crossbar_netlist.md) |
+
+The studies call it through `studies/crossbar/spice/xbar.py`; `wire/validate_mesh_ext.py`, `wire/netlist.py` and the 1C transient scripts (`scaleup/`) contain no deck text of their own.
+
+---
+
 # The ReRAM crossbar - design sheet
 
 The analog half of the design is a set of decisions, each made and measured in one of the Phase 1 sub-phases. This page collects them in one place, with the report section that justifies each. The simulation code and raw results behind them are in [`../../studies/crossbar/`](../../studies/crossbar/); the device model itself is [`studies/crossbar/spice/rram.va`](../../studies/crossbar/spice/rram.va) (+ `smoothfunctions.va`) and the transistor card is [`studies/crossbar/device/ptm/`](../../studies/crossbar/device/ptm/).

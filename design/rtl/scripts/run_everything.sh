@@ -5,8 +5,8 @@
 # Stages: preflight, lint, Phase 0 Level-1 guard, cocotb unit tests (Verilator + Icarus), Verilator regression, Icarus regression + per-timestep
 # comparison, Yosys check, report. Stops at the first failing stage; every stage logs to results/logs/.
 set -uo pipefail
-cd "$(dirname "$0")/../.."
-SKIP_ICARUS=0; [ "${1:-}" = "--skip-icarus-regression" ] && SKIP_ICARUS=1
+cd "$(dirname "$0")/../../.."
+SKIP_ICARUS=0; [ "${1:-}" = "--skip-icarus-regression" ] && SKIP_ICARUS=1; [ "${1:-}" = "--skip-hdc" ] && true
 PY=venv/bin/python; L=design/rtl/results/logs; mkdir -p $L design/rtl/results/regression reports
 T0=$(date +%s)
 stage() { name=$1; shift; echo "=== [$(( $(date +%s)-T0 ))s] $name"; "$@" > "$L/stage_${name}.log" 2>&1; rc=$?; tail -n 3 "$L/stage_${name}.log"; [ $rc -eq 0 ] || { echo "STAGE FAILED: $name (see $L/stage_${name}.log)"; exit $rc; }; }
@@ -30,4 +30,8 @@ if [ $SKIP_ICARUS -eq 0 ]; then
 fi
 stage synthesis       design/rtl/scripts/synth_check.sh
 stage report          $PY design/rtl/scripts/make_report.py
+# Phases 2-5 (HDC query, integration, margin early exit, PPA) - their own driver; --skip-hdc leaves them out
+if [ "${2:-}" != "--skip-hdc" ] && [ "${1:-}" != "--skip-hdc" ]; then
+  design/rtl/scripts/run_hdc_everything.sh $([ $SKIP_ICARUS -eq 1 ] && echo --skip-icarus) || exit $?
+fi
 echo "=== done in $(( $(date +%s)-T0 ))s: reports/phase1e_report.md"

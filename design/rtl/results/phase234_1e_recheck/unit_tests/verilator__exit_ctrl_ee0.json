@@ -1,0 +1,14 @@
+{
+ "sim": "verilator",
+ "case": "exit_ctrl_ee0",
+ "toplevel": "exit_ctrl",
+ "module": "test_exit_ctrl",
+ "parameters": {
+  "EARLY_EXIT_EN": 0
+ },
+ "tests": 4,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 2.0
+}

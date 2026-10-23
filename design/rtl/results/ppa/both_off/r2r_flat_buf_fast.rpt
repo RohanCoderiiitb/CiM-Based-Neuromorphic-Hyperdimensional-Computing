@@ -1,0 +1,64 @@
+Startpoint: u_snn.u_cim_macro (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _145890_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   0.000    0.000 ^ u_snn.u_cim_macro/clk_i (cim_macro)
+   0.300    0.300 ^ u_snn.u_cim_macro/m_valid_o (cim_macro)
+   0.047    0.347 ^ _082476_/Y (CLKBUFX2)
+   0.025    0.373 ^ _082477_/Y (CLKBUFX2)
+   0.025    0.398 ^ _083139_/Y (CLKBUFX2)
+   0.025    0.423 ^ _083140_/Y (CLKBUFX2)
+   0.034    0.457 v _102750_/Y (NAND3XL)
+   0.027    0.484 v _102780_/Y (NOR2BX1)
+   0.038    0.522 ^ _102813_/Y (XNOR2X1)
+   0.026    0.548 v _102815_/Y (OAI211X1)
+   0.094    0.642 ^ _102863_/Y (AOI211XL)
+   0.062    0.704 v _102865_/CON (ACHCONX2)
+   0.043    0.747 v _102867_/Y (OA21X1)
+   0.041    0.788 ^ _102873_/Y (OAI31X1)
+   0.042    0.830 v _102875_/Y (AOI21XL)
+   0.032    0.862 ^ _102876_/Y (OAI32X1)
+   0.041    0.903 v _102878_/Y (AOI21XL)
+   0.045    0.948 v _102889_/Y (OA21X1)
+   0.033    0.981 ^ _102891_/Y (OAI21XL)
+   0.039    1.020 v _102893_/Y (AOI21XL)
+   0.034    1.054 ^ _102894_/Y (OAI21XL)
+   0.029    1.084 v _102903_/Y (AOI21XL)
+   0.100    1.184 ^ _102907_/Y (XNOR3XL)
+   0.043    1.227 v _102985_/CON (ACHCONX2)
+   0.094    1.321 ^ _102998_/Y (XNOR3XL)
+   0.040    1.361 v _103094_/CON (ACHCONX2)
+   0.094    1.455 ^ _103105_/Y (XNOR3XL)
+   0.040    1.495 v _103190_/CON (ACHCONX2)
+   0.094    1.589 ^ _103214_/Y (XNOR3XL)
+   0.040    1.629 v _103306_/CON (ACHCONX2)
+   0.094    1.723 ^ _103331_/Y (XNOR3XL)
+   0.040    1.763 v _103596_/CON (ACHCONX2)
+   0.094    1.857 ^ _103622_/Y (XNOR3XL)
+   0.075    1.931 ^ _103625_/Y (XNOR3XL)
+   0.046    1.977 v _103703_/CON (ACHCONX2)
+   0.034    2.011 ^ _136169_/CON (ACHCONX2)
+   0.030    2.041 ^ _136203_/Y (OAI2BB1X1)
+   0.016    2.057 v _136205_/Y (OAI31X1)
+   0.019    2.076 ^ _136206_/Y (AOI2BB1XL)
+   0.000    2.076 ^ _145890_/D (DFFHQX1)
+            2.076   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+           10.000 ^ _145890_/CK (DFFHQX1)
+  -0.022    9.978   library setup time
+            9.978   data required time
+-----------------------------------------------------------
+            9.978   data required time
+           -2.076   data arrival time
+-----------------------------------------------------------
+            7.901   slack (MET)
+
+

@@ -1,0 +1,9 @@
+{
+ "a": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc/ic_dis_base_s1.out.txt.gz",
+ "b": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc/vt_dis_base_s1.out.txt.gz",
+ "lines": 2424,
+ "timesteps_compared": 2400,
+ "disagreements": 0,
+ "first": [],
+ "verdict": "AGREE"
+}

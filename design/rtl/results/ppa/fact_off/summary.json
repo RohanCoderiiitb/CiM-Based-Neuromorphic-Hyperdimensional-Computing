@@ -1,0 +1,84 @@
+{
+ "build": "fact_off",
+ "FACTORIZED": 0,
+ "EARLY_EXIT_EN": 1,
+ "period_ns": 10.0,
+ "plain_fast": {
+  "corner": "fast",
+  "buffered": false,
+  "area_um2": 215241.12,
+  "cells": 72062,
+  "flip_flops": 9527,
+  "combinational": 62535,
+  "yosys_s": 65.3,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": -2.731,
+   "arrival_ns": -12.709,
+   "min_period_report": "clk period_min = 12.73 fmax = 78.55",
+   "period_min_ns": 12.73,
+   "cells_on_worst_path": 38,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/timing_flat_plain_fast.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": -2.731,
+   "arrival_ns": 12.709,
+   "startpoint": "_131958_",
+   "min_period_ns": 12.731,
+   "cells_on_path": 38,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/r2r_flat_plain_fast.rpt"
+  }
+ },
+ "buf_fast": {
+  "corner": "fast",
+  "buffered": true,
+  "area_um2": 226070.55,
+  "cells": 78395,
+  "flip_flops": 9527,
+  "combinational": 68868,
+  "yosys_s": 73.0,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": 4.945,
+   "arrival_ns": -2.555,
+   "min_period_report": "clk period_min = 2.01 fmax = 496.59",
+   "period_min_ns": 2.01,
+   "cells_on_worst_path": 1,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/timing_flat_buf_fast.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": 7.986,
+   "arrival_ns": 1.989,
+   "startpoint": "u_snn.u_cim_macro",
+   "min_period_ns": 2.011,
+   "cells_on_path": 42,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/r2r_flat_buf_fast.rpt"
+  }
+ },
+ "buf_slow": {
+  "corner": "slow",
+  "buffered": true,
+  "area_um2": 226087.65,
+  "cells": 78405,
+  "flip_flops": 9527,
+  "combinational": 68878,
+  "yosys_s": 74.8,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": 1.892,
+   "arrival_ns": -7.978,
+   "min_period_report": "clk period_min = 8.11 fmax = 123.33",
+   "period_min_ns": 8.11,
+   "cells_on_worst_path": 70,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/timing_flat_buf_slow.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": 1.892,
+   "arrival_ns": 7.978,
+   "startpoint": "u_snn.u_cim_macro",
+   "min_period_ns": 8.0,
+   "cells_on_path": 70,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/fact_off/r2r_flat_buf_slow.rpt"
+  }
+ }
+}

@@ -2,7 +2,7 @@
 # The Verilator regression suite (Levels 4 and 5, g-sweep, column-mode sweep, N-MNIST). One log per run in results/logs, one JSON per run in
 # results/regression. Icarus runs are in scripts/run_icarus_regressions.sh.
 set -uo pipefail
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/../../.."
 PY=venv/bin/python
 R="$PY design/rtl/scripts/run_regression.py --sim verilator"
 LOG=design/rtl/results/logs

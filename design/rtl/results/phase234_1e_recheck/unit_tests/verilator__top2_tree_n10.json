@@ -1,0 +1,16 @@
+{
+ "sim": "verilator",
+ "case": "top2_tree_n10",
+ "toplevel": "top2_wrap",
+ "module": "test_top2_tree",
+ "parameters": {
+  "N": 10,
+  "W": 11,
+  "WI": 5
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 2.7
+}

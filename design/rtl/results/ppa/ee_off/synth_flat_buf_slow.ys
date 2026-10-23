@@ -1,0 +1,36 @@
+        read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/pkg/cim_neurohdc_pkg.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/pkg/hdc_pkg.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/addr_gen.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/cim_macro.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/count_mem.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/event_ctr.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/if_neuron_array.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/plane_seq.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/popcount.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/shift_accum.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/snn_ctrl.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/snn_top.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/spike_reg.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase1_snn/weight_load.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase2_hdc/hdc_class_array.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase2_hdc/hdc_query.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase2_hdc/hdc_score.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase2_hdc/top2_tree.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase4_exit/exit_ctrl.sv
+read_verilog -sv /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/rtl/phase3_top/cim_neurohdc_top.sv
+        chparam -set FACTORIZED 1 -set EARLY_EXIT_EN 0 -set INSTRUMENT_EN 0 -set CHECK_UNIPOLAR 0 cim_neurohdc_top
+        hierarchy -check -top cim_neurohdc_top
+        flatten -noscopeinfo
+        proc
+        opt -purge
+        memory
+        opt -purge
+        async2sync
+        techmap
+        opt -purge
+        dfflibmap -liberty /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/ASIC-Optimization-FFT-Hardware/45_nm_PDK/cadence/cadence_45nm/lib/slow_vdd1v0_basicCells.lib
+        abc -liberty /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/ASIC-Optimization-FFT-Hardware/45_nm_PDK/cadence/cadence_45nm/lib/slow_vdd1v0_basicCells.lib -g cmos -D 10000 -constr /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/ee_off/abc.constr
+        opt_clean -purge
+        setundef -zero -undriven
+        tee -o /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/ee_off/stat_flat_buf_slow.txt stat -liberty /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/ASIC-Optimization-FFT-Hardware/45_nm_PDK/cadence/cadence_45nm/lib/slow_vdd1v0_basicCells.lib
+        write_verilog -noattr /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa/ee_off/cim_neurohdc_top_flat_buf_slow.v

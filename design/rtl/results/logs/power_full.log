@@ -1,0 +1,1 @@
+[full] power 3.31 mW (internal 0.00314, switching 0.000155, leakage 1.24e-05), annotation {'vcd': 287342, 'unannotated': 0}, gate-level matches golden over 5 timesteps: True

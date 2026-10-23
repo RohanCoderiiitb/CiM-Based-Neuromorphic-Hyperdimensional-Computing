@@ -85,7 +85,7 @@ def run_differential(gaps_plus, gaps_minus, active, p: Params = DEFAULT, r_s=Non
 _PRINT = re.compile(r"^\s*(\S+)\s*=\s*([-+0-9.eE]+)\s*$")
 
 
-def run_deck_prints(deck: str, timeout: float = 600.0) -> dict[str, float]:
+def run_deck_prints(deck: str, timeout: float = 7200.0) -> dict[str, float]:
     """Run an arbitrary deck whose .control block prints scalars; return {name: value}."""
     with tempfile.TemporaryDirectory() as td:
         cir = Path(td) / "deck.cir"

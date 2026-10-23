@@ -18,16 +18,15 @@ import time
 import numpy as np
 
 from device.constants import DEFAULT
-from spice.runner import run_deck_prints
+from spice.xbar import ArraySpec, run_full_op
 from wire.mesh import solve_mesh_ext
-from wire.netlist import build_mesh_deck_ext
 
 FIELDS = ["case", "R", "K", "blocks", "n_active", "rail", "gnd", "pad_far", "r_bl", "r_rail", "r_gnd", "rel_icol", "rel_irow", "abs_vrail_v", "abs_vgnd_v", "mesh_s", "ngspice_s"]
 BLOCKS = {8: [(8,), (4, 4)], 16: [(16,), (8, 8), (6, 5, 5)], 24: [(8, 8, 8), (24,), (12, 12)]}
 WIRES = ((0.72, 0.72, 10.0, 0.72, 0.72), (2.0, 2.0, 30.0, 5.0, 5.0), (0.5, 0.5, 5.0, 0.05, 0.1))     # (r_bl, r_wl, r_drv, r_rail, r_gnd)
 
 
-def one_case(c: int, rng) -> dict:
+def one_case(c: int, rng, **spec_over) -> dict:
     R = 32; K = int(rng.choice([8, 16, 24])); blocks = BLOCKS[K][int(rng.integers(len(BLOCKS[K])))]
     rbl, rwl, rdrv, rrail, rgnd = WIRES[int(rng.integers(len(WIRES)))]
     use_rail, use_gnd = bool(rng.integers(2)) or c % 3 == 0, bool(rng.integers(2)) or c % 3 == 1
@@ -48,19 +47,16 @@ def one_case(c: int, rng) -> dict:
     m = solve_mesh_ext(gaps[act], act + 1.0, DEFAULT, rail_pos=rp_phys[act], rail_length=rail_len, **kw)
     t_m = time.time() - t0
     t0 = time.time()
-    deck = build_mesh_deck_ext(gaps, active, DEFAULT, rbl, rwl, rdrv, r_s=rs, blocks=blocks, r_rail=kw["r_rail"], rail_pos=rp_phys if use_rail else None, rail_length=rail_len, r_gnd=kw["r_gnd"],
-                               gnd_pad_per_block=per_block, drive_both_ends=both)
-    v = run_deck_prints(deck)
+    spec = ArraySpec(rows=R, blocks=tuple(blocks), p=DEFAULT, r_bl=rbl, r_wl=rwl, r_drv=rdrv, r_s=tuple(rs), r_rail=rrail if use_rail else None, r_gnd=rgnd if use_gnd else None,
+                     rail_feed_both_ends=False, rail_length=rail_len if use_rail else None, rail_pos=tuple(rp_phys) if use_rail else None, gnd_pad_per_block=per_block, drive_both_ends=both, **spec_over)
+    ng = run_full_op(spec, gaps, active)
     t_n = time.time() - t0
-    vs = np.array([v[f"v(s{j})"] for j in range(K)]); vg = np.array([v[f"v(g{j})"] for j in range(K)]) if use_gnd else np.zeros(K)
-    icol = (vs - vg) / rs
-    c0 = np.concatenate([[0], np.cumsum(blocks)[:-1]]); cd = np.concatenate([c0, np.cumsum(blocks) - 1]) if both else c0
-    irow = np.array([sum(v[f"v({'rail' + str(i) if use_rail else 'vr'},w{i}_{cc})"] for cc in cd) / max(rdrv, 1e-4) for i in act])
+    icol, irow, vg = ng["i_col"], ng["i_row"], ng["v_gnd"]
     out = dict(case=c, R=R, K=K, blocks="-".join(map(str, blocks)), n_active=n_act, rail=int(use_rail), gnd=int(use_gnd), pad_far=int(pad_far), r_bl=rbl, r_rail=rrail if use_rail else 0.0,
                r_gnd=rgnd if use_gnd else 0.0, rel_icol=float(np.max(np.abs(m.i_col / icol - 1))), rel_irow=float(np.max(np.abs(m.i_row / irow - 1))),
                abs_vrail_v=0.0, abs_vgnd_v=float(np.max(np.abs(m.v_gnd - vg))) if use_gnd else 0.0, mesh_s=round(t_m, 4), ngspice_s=round(t_n, 3))
     if use_rail:
-        out["abs_vrail_v"] = float(np.max(np.abs(m.v_rail - np.array([v[f"v(rail{i})"] for i in act]))))
+        out["abs_vrail_v"] = float(np.max(np.abs(m.v_rail - ng["v_rail"])))
     return out
 
 

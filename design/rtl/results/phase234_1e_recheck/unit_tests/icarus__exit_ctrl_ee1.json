@@ -1,0 +1,14 @@
+{
+ "sim": "icarus",
+ "case": "exit_ctrl_ee1",
+ "toplevel": "exit_ctrl",
+ "module": "test_exit_ctrl",
+ "parameters": {
+  "EARLY_EXIT_EN": 1
+ },
+ "tests": 4,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 2.5
+}

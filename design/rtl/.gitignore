@@ -8,3 +8,17 @@ results/scratch/
 # regenerable per-timestep logs (scripts/run_everything.sh rebuilds them; compare_sims.py needs them)
 results/regression/*.timesteps.jsonl.gz
 .DS_Store
+
+# Phase 2-4 regression: raw per-timestep logs (regenerable by scripts/run_hdc_matrix.py; compare_hdc_runs.py and the Phase 5 evaluator read them), job directories
+results/hdc/*.out.txt.gz
+results/hdc/*.timesteps.jsonl.gz
+# Phase 5 synthesis work directories: netlists, activity dumps, simulators' binaries, Yosys logs (regenerable by scripts/synth_ppa.py / synth_power.py); the summaries, STA reports and tables stay
+results/ppa/**/*.v
+results/ppa/**/*.vcd
+results/ppa/**/*.vvp
+results/ppa/**/ports.json
+results/ppa/**/yosys_*.log
+results/ppa/**/vcd_job/
+results/ppa/**/gate_out.txt
+results/ppa/gl/
+results/ppa/trial/

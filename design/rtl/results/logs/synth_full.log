@@ -1,0 +1,3 @@
+[full/plain_fast] area 223947.756 um^2, 10584 FF + 62220 comb cells, worst slack -2.687 ns (reg->reg -2.687 ns) @ 10.0 ns
+[full/buf_fast] area 234968.706 um^2, 10584 FF + 68665 comb cells, worst slack 4.947 ns (reg->reg 7.986 ns) @ 10.0 ns
+[full/buf_slow] area 235013.166 um^2, 10584 FF + 68691 comb cells, worst slack 1.767 ns (reg->reg 1.767 ns) @ 10.0 ns

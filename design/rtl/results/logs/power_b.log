@@ -1,0 +1,2 @@
+[fact_off] power 3.02 mW (internal 0.00285, switching 0.000157, leakage 1.2e-05), annotation {'vcd': 282724, 'unannotated': 0}, gate-level matches golden over 5 timesteps: True
+[both_off] power 3.01 mW (internal 0.00285, switching 0.000155, leakage 1.21e-05), annotation {'vcd': 282364, 'unannotated': 0}, gate-level matches golden over 5 timesteps: True

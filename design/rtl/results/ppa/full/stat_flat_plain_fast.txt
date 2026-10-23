@@ -1,0 +1,82 @@
+
+35. Printing statistics.
+
+=== cim_neurohdc_top ===
+
+        +----------Local Count, excluding submodules.
+        |        +-Local Area, excluding submodules.
+        |        | 
+    62585        - wires
+    75120        - wire bits
+      899        - public wires
+    13428        - public wire bits
+       60        - ports
+     1942        - port bits
+    72804 2.24E+05 cells
+     2302 2.91E+04   ACHCONX2
+     1949 2.67E+03   AND2X1
+      452  927.504   AND3XL
+       36   86.184   AND4X1
+      359  859.446   AO21X1
+       58  158.688   AO22X1
+      582 1.19E+03   AOI211XL
+     3385  5788.35   AOI21X1
+      665  1592.01   AOI221X1
+       72  221.616   AOI222X1
+     2307 4.73E+03   AOI22X1
+      218  447.336   AOI2BB1X1
+        5     17.1   AOI2BB2X1
+      559 1.15E+03   AOI31X1
+      336  804.384   AOI32X1
+        6   14.364   AOI33XL
+      684 1.87E+03   CLKXOR2X1
+     3602 1.97E+04   DFFHQX1
+     6982  59696.1   EDFFHQX1
+     3059 2.09E+03   INVX1
+     3754 8.99E+03   MX2X1
+      235  1125.18   MX3XL
+      332 2.38E+03   MX4XL
+     2804 6.71E+03   MXI2XL
+       16   93.024   MXI3XL
+      334  2.4E+03   MXI4X1
+     1803 2.47E+03   NAND2BX1
+     4667 4.79E+03   NAND2X1
+      362   619.02   NAND3BXL
+      872  1491.12   NAND3X1
+        2    6.156   NAND4BBXL
+       21   50.274   NAND4BX1
+      244   417.24   NAND4XL
+      999 1.37E+03   NOR2BX1
+    12377 1.27E+04   NOR2X1
+       27   55.404   NOR3BX1
+      175   299.25   NOR3X1
+        6   16.416   NOR4BBX1
+       17   40.698   NOR4BX1
+      196   335.16   NOR4X1
+      342  701.784   OA21X1
+      858 2.05E+03   OA22X1
+     3322  5680.62   OAI211X1
+     1190   2034.9   OAI21X1
+      534 1.28E+03   OAI221X1
+       55   150.48   OAI222X1
+      886 1.82E+03   OAI22X1
+     1060   1812.6   OAI2BB1X1
+       11   41.382   OAI2BB2XL
+      186  381.672   OAI31X1
+      194  464.436   OAI32X1
+        6   16.416   OAI33X1
+     1080  1477.44   OR2X1
+       47   96.444   OR3X1
+       68  139.536   OR4X1
+     3825  9157.05   XNOR2X1
+     1734  1.3E+04   XNOR3X1
+      543 4.09E+03   XOR3X1
+        1        -   cim_macro
+        1        -   hdc_class_array
+
+   Area for cell type \cim_macro is unknown!
+   Area for cell type \hdc_class_array is unknown!
+
+   Chip area for module '\cim_neurohdc_top': 223947.756000
+     of which used for sequential elements: 79406.244000 (35.46%)
+

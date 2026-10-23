@@ -1,0 +1,58 @@
+library (analog_blackboxes) {
+  delay_model : table_lookup;
+  time_unit : "1ns";
+  capacitive_load_unit (1,pf);
+  voltage_unit : "1V";
+  current_unit : "1mA";
+  leakage_power_unit : "1pW";
+  pulling_resistance_unit : "1kohm";
+  nom_voltage : 1.1;
+  default_cell_leakage_power : 0;
+  lu_table_template (scalar) { variable_1 : input_net_transition; index_1 ("0.1"); }
+  type (bus3) { base_type : array; data_type : bit; bit_width : 3; bit_from : 2; bit_to : 0; }
+  type (bus7) { base_type : array; data_type : bit; bit_width : 7; bit_from : 6; bit_to : 0; }
+  type (bus8) { base_type : array; data_type : bit; bit_width : 8; bit_from : 7; bit_to : 0; }
+  type (bus9) { base_type : array; data_type : bit; bit_width : 9; bit_from : 8; bit_to : 0; }
+  type (bus20) { base_type : array; data_type : bit; bit_width : 20; bit_from : 19; bit_to : 0; }
+  type (bus32) { base_type : array; data_type : bit; bit_width : 32; bit_from : 31; bit_to : 0; }
+  type (bus50) { base_type : array; data_type : bit; bit_width : 50; bit_from : 49; bit_to : 0; }
+  type (bus200) { base_type : array; data_type : bit; bit_width : 200; bit_from : 199; bit_to : 0; }
+  type (bus512) { base_type : array; data_type : bit; bit_width : 512; bit_from : 511; bit_to : 0; }
+  type (bus1600) { base_type : array; data_type : bit; bit_width : 1600; bit_from : 1599; bit_to : 0; }
+  cell (cim_macro) {
+    area : 0;
+    dont_touch : true;
+    pin (clk_i) { direction : input; capacitance : 0.002; }
+    pin (rst_n_i) { direction : input; capacitance : 0.002; }
+    pin (wr_en_i) { direction : input; capacitance : 0.002; }
+    bus (wr_macro_i) { bus_type : bus3; direction : input; capacitance : 0.002; }
+    bus (wr_addr_i) { bus_type : bus9; direction : input; capacitance : 0.002; }
+    bus (wr_data_i) { bus_type : bus32; direction : input; capacitance : 0.002; }
+    pin (rd_valid_i) { direction : input; capacitance : 0.002; }
+    bus (rd_bitrow_i) { bus_type : bus512; direction : input; capacitance : 0.002; }
+    bus (rd_grp_i) { bus_type : bus9; direction : input; capacitance : 0.002; }
+    bus (rd_plane_mask_i) { bus_type : bus8; direction : input; capacitance : 0.002; }
+    pin (m_valid_o) { direction : output; capacitance : 0;
+      timing () { related_pin : "clk_i"; timing_type : rising_edge; timing_sense : non_unate; cell_rise (scalar) { index_1 ("0.1"); values ("0.3"); } cell_fall (scalar) { index_1 ("0.1"); values ("0.3"); } rise_transition (scalar) { index_1 ("0.1"); values ("0.1"); } fall_transition (scalar) { index_1 ("0.1"); values ("0.1"); } } }
+    bus (m_o) { bus_type : bus1600; direction : output; capacitance : 0;
+      timing () { related_pin : "clk_i"; timing_type : rising_edge; timing_sense : non_unate; cell_rise (scalar) { index_1 ("0.1"); values ("0.3"); } cell_fall (scalar) { index_1 ("0.1"); values ("0.3"); } rise_transition (scalar) { index_1 ("0.1"); values ("0.1"); } fall_transition (scalar) { index_1 ("0.1"); values ("0.1"); } } }
+  }
+  cell (hdc_class_array) {
+    area : 0;
+    dont_touch : true;
+    pin (clk_i) { direction : input; capacitance : 0.002; }
+    pin (rst_n_i) { direction : input; capacitance : 0.002; }
+    pin (cm_we_i) { direction : input; capacitance : 0.002; }
+    bus (cm_addr_i) { bus_type : bus7; direction : input; capacitance : 0.002; }
+    bus (cm_data_i) { bus_type : bus200; direction : input; capacitance : 0.002; }
+    pin (rd_valid_i) { direction : input; capacitance : 0.002; }
+    bus (rd_addr_i) { bus_type : bus7; direction : input; capacitance : 0.002; }
+    bus (rd_rows_i) { bus_type : bus20; direction : input; capacitance : 0.002; }
+    pin (rd_valid_o) { direction : output; capacitance : 0;
+      timing () { related_pin : "clk_i"; timing_type : rising_edge; timing_sense : non_unate; cell_rise (scalar) { index_1 ("0.1"); values ("0.3"); } cell_fall (scalar) { index_1 ("0.1"); values ("0.3"); } rise_transition (scalar) { index_1 ("0.1"); values ("0.1"); } fall_transition (scalar) { index_1 ("0.1"); values ("0.1"); } } }
+    bus (q_o) { bus_type : bus50; direction : output; capacitance : 0;
+      timing () { related_pin : "clk_i"; timing_type : rising_edge; timing_sense : non_unate; cell_rise (scalar) { index_1 ("0.1"); values ("0.3"); } cell_fall (scalar) { index_1 ("0.1"); values ("0.3"); } rise_transition (scalar) { index_1 ("0.1"); values ("0.1"); } fall_transition (scalar) { index_1 ("0.1"); values ("0.1"); } } }
+    bus (slice_o) { bus_type : bus200; direction : output; capacitance : 0;
+      timing () { related_pin : "clk_i"; timing_type : rising_edge; timing_sense : non_unate; cell_rise (scalar) { index_1 ("0.1"); values ("0.3"); } cell_fall (scalar) { index_1 ("0.1"); values ("0.3"); } rise_transition (scalar) { index_1 ("0.1"); values ("0.1"); } fall_transition (scalar) { index_1 ("0.1"); values ("0.1"); } } }
+  }
+}

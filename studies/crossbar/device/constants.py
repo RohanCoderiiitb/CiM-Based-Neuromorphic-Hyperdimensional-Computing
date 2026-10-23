@@ -166,6 +166,14 @@ CC_FRACTION_SWEEP = (0.25, 0.5, 0.75)                # [ASSUM] share of C_LINE t
 CC_FRACTION_DEFAULT = 0.5                            # [ASSUM] default, swept
 T_RISE_S = 20e-12                                    # s [CHOICE] row-driver rise time of the read pulse
 
+# --- Named here for the netlist generator (design/crossbar/crossbar_netlist). They were literals in the 1C scripts; the values are unchanged. ---
+BL_R_PER_PITCH_1C = BL_R_PER_PITCH_SWEEP[-1]         # ohm per pitch [ASSUM] 1C default bitline resistance (the brief's 1/F scaling, 1A section 9)
+WL_R_PER_PITCH_1C = WL_R_PER_PITCH_SWEEP[-1]         # ohm per pitch [ASSUM] 1C default row-line resistance (same metal as the bitline)
+C_SENSE_F = 5e-15                                    # F [ASSUM] capacitance of the current-mode sense stage at the virtual-ground node (1C: not designed there; 1F designs the front end)
+R_OFF_OHM = 1e16                                     # ohm [CHOICE] resistance of an OPEN switch (access transistor / row driver off). Swept on a 24-bitline case: 1e18 leaves the floating
+                                                     #   nodes of unselected rows so weakly tied that ngspice's DC operating point needs dynamic gmin stepping (6.7 s); 1e16 solves in 0.16 s and
+                                                     #   agrees with 1e18 to 1e-12 (1e12 would converge in 0.09 s but leaks 1.6e-9 of the column current)
+
 @dataclass(frozen=True)
 class Params:
     """Bundle of every value the solver/netlist needs. Use with_() to override."""

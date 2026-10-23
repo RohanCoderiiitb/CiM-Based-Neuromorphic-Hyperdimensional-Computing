@@ -1,0 +1,64 @@
+[A_1c_suite] done in 37s: {"n": 300, "worst_rel_icol": 1.6482459841427044e-10, "worst_rel_irow": 9.29700760821106e-13, "worst_abs_vrail_v": 9.797718192317006e-15, "worst_abs_vgnd_v": 3.9419856268096964e-14, "worst_case": {"case": 17, "blocks": "12-12", "n_active": 2, "rail": 1, "gnd": 1}, "n_over_1c_worst": 2}
+[B_macro] done in 14017s: {"rows": 512, "n": 52, "worst_rel_icol": 1.401233573616878e-10, "worst_abs_icol_a": 1.97086270914415e-15, "worst_rel_irow": 1.2565060103497672e-11, "worst_abs_vrail_v": 2.1635471192382738e-13, "worst_abs_vgnd_v": 2.572508178699806e-14, "max_ngspice_s": 6742.13}
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/process.py", line 254, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/process.py", line 203, in _process_chunk
+    return [fn(*args) for args in chunk]
+            ~~^^^^^^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 107, in _job_array
+    r = compare(spec, gaps, act)
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 57, in compare
+    ng = run_full_op(spec, gaps, act)
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/crossbar_netlist/__init__.py", line 10, in run_full_op
+    return read_full(spec, probes, run_deck_prints(deck), active)
+                                   ~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/studies/crossbar/spice/runner.py", line 93, in run_deck_prints
+    proc = subprocess.run(["ngspice", "-b", str(cir)], capture_output=True, text=True, timeout=timeout)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['ngspice', '-b', '/var/folders/wq/kc610gbs6zldr9k2tp2qhjzr0000gn/T/tmpc6k28i03/deck.cir']' timed out after 600.0 seconds
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 208, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 200, in main
+    res[name] = fn()
+                ~~^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 196, in <lambda>
+    for name, fn in (("A_1c_suite", lambda: part_a(60 if a.quick else 300)), ("B_macro", lambda: part_b(a.rows, a.quick)), ("C_array", lambda: part_c(a.rows, a.quick)),
+                                                                                                                                               ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/crossbar/validate_netlist.py", line 115, in part_c
+    res = list(ex.map(_job_array, jobs))
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/process.py", line 712, in _chain_from_iterable_of_lists
+    for element in iterable:
+                   ^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 645, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 312, in _result_or_cancel
+    return fut.result(timeout)
+           ~~~~~~~~~~^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 454, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/concurrent/futures/_base.py", line 396, in __get_result
+    raise self._exception
+subprocess.TimeoutExpired: Command '['ngspice', '-b', '/var/folders/wq/kc610gbs6zldr9k2tp2qhjzr0000gn/T/tmpc6k28i03/deck.cir']' timed out after 600.0 seconds

@@ -1,0 +1,43 @@
+== verible: NOT INSTALLED on this machine - lint/format of the Phase 2-4 files not run (verilator -Wall below is)
+== verilator --lint-only -Wall -sv -Wno-IMPORTSTAR -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-UNUSEDPARAM  cim_neurohdc_top  FACTORIZED=0 EARLY_EXIT_EN=0
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 6.195 MB in 9 C++ files needing 0.000 MB
+- Verilator: Walltime 3.644 s (elab=0.057, cvt=3.358, bld=0.000); cpu 1.875 s on 1 threads; allocated 148.984 MB
+clean (0 warnings, 0 errors)
+== verilator --lint-only -Wall -sv -Wno-IMPORTSTAR -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-UNUSEDPARAM  cim_neurohdc_top  FACTORIZED=0 EARLY_EXIT_EN=1
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 6.197 MB in 9 C++ files needing 0.000 MB
+- Verilator: Walltime 4.355 s (elab=0.057, cvt=4.043, bld=0.000); cpu 1.892 s on 1 threads; allocated 150.125 MB
+clean (0 warnings, 0 errors)
+== verilator --lint-only -Wall -sv -Wno-IMPORTSTAR -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-UNUSEDPARAM  cim_neurohdc_top  FACTORIZED=1 EARLY_EXIT_EN=0
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 6.096 MB in 9 C++ files needing 0.000 MB
+- Verilator: Walltime 3.614 s (elab=0.055, cvt=3.346, bld=0.000); cpu 1.775 s on 1 threads; allocated 144.984 MB
+clean (0 warnings, 0 errors)
+== verilator --lint-only -Wall -sv -Wno-IMPORTSTAR -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-UNUSEDPARAM  cim_neurohdc_top  FACTORIZED=1 EARLY_EXIT_EN=1
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 6.097 MB in 9 C++ files needing 0.000 MB
+- Verilator: Walltime 3.555 s (elab=0.055, cvt=3.280, bld=0.000); cpu 1.804 s on 1 threads; allocated 142.516 MB
+clean (0 warnings, 0 errors)
+== verilator --lint-only: every new block as its own top (default parameters; the recursive top2_tree, like 1E's popcount, is linted through its instances above)
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 0.045 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.036 s (elab=0.008, cvt=0.006, bld=0.000); cpu 0.036 s on 1 threads; allocated 14.359 MB
+hdc_score: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 0.028 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.041 s (elab=0.006, cvt=0.013, bld=0.000); cpu 0.038 s on 1 threads; allocated 14.797 MB
+hdc_class_array: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 0.411 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.100 s (elab=0.013, cvt=0.056, bld=0.000); cpu 0.097 s on 1 threads; allocated 19.203 MB
+hdc_query: clean
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.111 MB sources in 24 modules, into 0.027 MB in 4 C++ files needing 0.000 MB
+- Verilator: Walltime 0.035 s (elab=0.007, cvt=0.004, bld=0.000); cpu 0.034 s on 1 threads; allocated 13.812 MB
+exit_ctrl: clean
+== verilator --lint-only -DSYNTHESIS (analog arrays black-boxed; UNDRIVEN/UNUSED waived: artefacts of the empty black box)
+- V e r i l a t i o n   R e p o r t: Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905
+- Verilator: Built from 1.014 MB sources in 24 modules, into 1.838 MB in 5 C++ files needing 0.000 MB
+- Verilator: Walltime 1.868 s (elab=0.051, cvt=1.729, bld=0.000); cpu 0.960 s on 1 threads; allocated 96.781 MB
+clean

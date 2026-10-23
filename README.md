@@ -24,6 +24,9 @@ A compute-in-memory implementation of NeuroHDC (SNN feature extraction + hyperdi
 | 1D-ii | the device-level write path, compiled compact model, sigma_lnG | [phase1d_ii](reports/phase1d_ii_report.md) | `program/` |
 | 1E | the SNN RTL | [phase1e](reports/phase1e_report.md) | [design/rtl](design/rtl/) |
 | 1F | the sense front-end and read timing | [phase1f](reports/phase1f_report.md) | `sense/` |
+| netlist | the crossbar as one parameterised, validated SPICE netlist | [crossbar_netlist](reports/crossbar_netlist.md) | [design/crossbar](design/crossbar/README.md) |
+| 2-4 | the HDC query (both class-HV mappings), the integration, margin-based early termination | [phase234](reports/phase234_report.md) | [design/rtl](design/rtl/) `rtl/phase2_hdc`, `phase3_top`, `phase4_exit` |
+| 5 | synthesis, power, the combined PPA at the measured exit timestep, the ablation table | [phase5_ppa](reports/phase5_ppa.md) | [design/rtl](design/rtl/) `scripts/synth_*.py`, `phase5_ppa.py` |
 
 The plan the phases follow is `IMPLEMENTATION_README.md` (kept locally, not in git).
 
