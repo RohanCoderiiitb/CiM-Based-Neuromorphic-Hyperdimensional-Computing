@@ -1,0 +1,58 @@
+{
+ "summary": {
+  "tag": "winfact_offc40_46",
+  "model": "base",
+  "seed": 0,
+  "factorized": 0,
+  "early_exit_en": 1,
+  "theta": 56,
+  "exit_en": 1,
+  "g": 4,
+  "n_parallel_cols": 40,
+  "simulator": "verilator",
+  "gap_mode": 0,
+  "samples": 1,
+  "mismatching_samples": 0,
+  "accuracy": 0.0,
+  "mean_exit_tstep": 56.0,
+  "mean_cycles_inf": 248008.0,
+  "mean_events_ingested": 178713.0,
+  "assert_fail_messages": 0,
+  "sim_returncode": 0,
+  "sim_fatal": false,
+  "sim_wall_s": 0.15,
+  "total_wall_s": 1.49,
+  "git_commit": "f8d1279197940acad1defebcf015ce182f3d9258",
+  "tools": {
+   "verilator": "Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905",
+   "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+   "yosys": "Yosys 0.69+post (git sha1 143eb14f9cc55d6f8927e68523b0c9d2166ed02c, Release, AppleClang clang++ 21.0.0.21000334)"
+  }
+ },
+ "samples": [
+  {
+   "row": 46,
+   "label": 4,
+   "ok": true,
+   "first_mismatch": null,
+   "pred": 1,
+   "correct": false,
+   "early": 1,
+   "exit_tstep": 55,
+   "n_timesteps": 56,
+   "n_events": 319130,
+   "events_ingested": 178713,
+   "cycles_inf": 248008,
+   "cycles_query": 280,
+   "stall_cycles": 69296,
+   "idle_cycles": 0,
+   "reload_cycles": 0,
+   "mvm_and_other_cycles": 69015,
+   "group_reads_allcols": 16277,
+   "group_reads_issued": 65108,
+   "zero_groups": 46955,
+   "rows_gated_total": 360,
+   "raster_hash": "71b0bbe685194cb6"
+  }
+ ]
+}

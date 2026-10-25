@@ -12,8 +12,11 @@
 // Output (+out=<file>):  per timestep   TS <sample> <t> <spikes hex> <20 X> <20 V> <11 stats> <N scores> <top1_idx> <top1> <top2> <fire>
 //                        per sample     END <sample> <cycles_inf> <cycles_ingest> <cycles_query> <events_ingested> <stall> <idle> <events_total> <assert_bits> <hdc_assert> <ts_seen>
 //                                           <pred> <early> <pred_tstep> <reload_cycles>
-// An early exit leaves the SNN parked in its INGEST state (1E's controller has no abort), so the next sample is preceded by a reset and a reload of the weight and class
-// images; those cycles are reported separately (reload_cycles) and are NOT part of the inference.
+// An early exit leaves the SNN parked in its INGEST state. By default the next sample is then preceded by a reset and a reload of the weight and class images (the Phase 2-4
+// behaviour, kept so every earlier result is reproduced bit for bit); those cycles are reported separately (reload_cycles) and are NOT part of the inference.
+//   +abort_mode=1    after an early exit pulse abort_i instead (no reset, no reload: the weights and the class image stay loaded; reload_cycles = 0)
+//   +abort_stress=1  before EVERY sample start a decoy run of the same sample and pulse abort_i at a pseudo-random cycle (INGEST, DRAIN, CHECK, MVM, UPDATE, EMIT, WIPE...), then run
+//                    the real sample; the decoy's timesteps are not logged. Implies abort_mode.
 `timescale 1ns / 1ps
 
 module hdc_regress_tb;
@@ -21,7 +24,7 @@ module hdc_regress_tb;
   import hdc_pkg::*;
 
   parameter int ROWS_PER_GROUP_P = 8;
-  parameter int N_PARALLEL_COLS_P = 160;
+  parameter int N_PARALLEL_COLS_P = 40;
   parameter bit PLANE_SKIP_EN_P = 1'b1;
   parameter bit INSTRUMENT_EN_P = 1'b1;
   parameter bit FACTORIZED_P = 1'b1;
@@ -36,7 +39,7 @@ module hdc_regress_tb;
   logic [W_TOP_CFG_ADDR-1:0] cfg_addr = '0;
   logic cfg_we = 1'b0;
   logic [W_CFG_DATA-1:0] cfg_data = '0;
-  logic load_start = 1'b0, wl_valid = 1'b0, start = 1'b0, ingest_en = 1'b1;
+  logic load_start = 1'b0, wl_valid = 1'b0, start = 1'b0, ingest_en = 1'b1, abort = 1'b0;
   logic [W_WL_WORD-1:0] wl_data = '0;
   logic wl_ready;
   logic cm_we = 1'b0;
@@ -93,6 +96,7 @@ module hdc_regress_tb;
       .cm_data_i(cm_data),
       .start_i(start),
       .ingest_en_i(ingest_en),
+      .abort_i(abort),
       .ev_valid_i(ev_valid),
       .ev_aer_i(ev_aer),
       .ev_ready_o(ev_ready),
@@ -204,8 +208,9 @@ module hdc_regress_tb;
   endfunction
 
   // one line per timestep, on the decision strobe (the spike vector, X, V and the per-timestep SNN counters are all still held at that point)
+  logic log_en = 1'b1;
   always @(posedge clk) begin
-    if (dec_valid) begin
+    if (dec_valid && log_en) begin
       $fwrite(fd_out, "TS %0d %0d %05x", s, spike_tstep, spike);
       for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_x(x_flat[jj*W_X+:W_X]));
       for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_v(v_flat[jj*W_V+:W_V]));
@@ -255,6 +260,81 @@ module hdc_regress_tb;
         cm_write(CM_SEL_BIAS, 0, cm_tmp);
       end
       reloading = 1'b0;
+    end
+  endtask
+
+  integer abort_mode, abort_stress;
+  task automatic do_abort;
+    begin
+      @(negedge clk);
+      abort = 1'b1;
+      @(negedge clk);
+      abort = 1'b0;
+      repeat (3) @(negedge clk);
+    end
+  endtask
+
+  // Decoy runs of the sample about to be simulated, each cut off by abort_i. Two passes over the SAME deterministic stream (cycle numbers count from the start strobe):
+  //   pass A  runs until the first spike strobe (EMIT + 1) and aborts there; it records the cycle on which INGEST stopped accepting (c_drain) and the strobe cycle (c_spike)
+  //   pass B  replays the stream and aborts at a cycle placed relative to those markers, so that EVERY run state is hit, including the one-to-three-cycle ones:
+  //             s mod 3 = 0: c_drain - 1 .. c_drain + 4   (last INGEST event, DRAIN, CHECK, first reads)
+  //                       1: c_spike - 5 .. c_spike + 1   (the last read, UPDATE, EMIT, WIPE, INGEST)
+  //                       2: a pseudo-random cycle of the first timestep (INGEST with an event handshake in the same cycle, or mid-MVM)
+  // Events keep being offered until the abort cycle, so an abort can coincide with an event handshake.
+  integer decoy_k, decoy_c, c_drain, c_spike, decoy_target;
+  logic decoy_prev_ready;
+  logic [31:0] lfsr_saved;
+  task automatic decoy_pass(input integer target, input logic measure);
+    begin
+      for (j = 0; j < N_NEURONS; j++) cfg_write(CFG_THRESH_BASE + j, thr[j] & ((1 << W_THRESH) - 1));
+      cfg_write(CFG_THRESH_SHARED, 0);
+      cfg_write(CFG_N_EVENTS, n_events);
+      cfg_write(CFG_THETA, theta);
+      cfg_write(CFG_EXIT_EN, exit_en);
+      @(negedge clk);
+      start = 1'b1;
+      @(negedge clk);
+      start = 1'b0;
+      decoy_k = 0;
+      decoy_prev_ready = 1'b0;
+      if (measure) begin
+        c_drain = -1;
+        c_spike = -1;
+      end
+      decoy_c = 0;
+      while (!(measure ? (c_spike >= 0) : (decoy_c >= target)) && decoy_c < 60000) begin
+        ev_valid = (decoy_k < n_events);
+        ev_aer   = ev_mem[decoy_k];
+        #4;
+        if (ev_valid && ev_ready) decoy_k = decoy_k + 1;
+        if (measure) begin
+          if (c_drain < 0 && decoy_prev_ready && !ev_ready) c_drain = decoy_c;
+          if (c_spike < 0 && spike_valid) c_spike = decoy_c;
+        end
+        decoy_prev_ready = ev_ready;
+        if (!(measure ? (c_spike >= 0) : (decoy_c + 1 >= target))) @(negedge clk);
+        decoy_c = decoy_c + 1;
+      end
+      do_abort();
+      ev_valid = 1'b0;
+    end
+  endtask
+
+  task automatic decoy_run;
+    begin
+      lfsr_saved = lfsr;
+      lfsr = xorshift(lfsr);
+      log_en = 1'b0;
+      decoy_pass(0, 1'b1);
+      case (s % 3)
+        0: decoy_target = c_drain - 1 + int'(lfsr[3:0]) % 6;
+        1: decoy_target = c_spike - 5 + int'(lfsr[7:4]) % 7;
+        default: decoy_target = 1 + int'(lfsr[27:12]) % (c_spike + 4);
+      endcase
+      if (decoy_target < 1) decoy_target = 1;
+      decoy_pass(decoy_target, 1'b0);
+      log_en = 1'b1;
+      lfsr   = lfsr_saved;
     end
   endtask
 
@@ -325,6 +405,9 @@ module hdc_regress_tb;
     $sformat(path, "%0s/events.bin", job_dir);
     fd_ev = $fopen(path, "rb");
 
+    if (!$value$plusargs("abort_mode=%d", abort_mode)) abort_mode = 0;
+    if (!$value$plusargs("abort_stress=%d", abort_stress)) abort_stress = 0;
+    if (abort_stress != 0) abort_mode = 1;
     bring_up();
     need_bring_up = 1'b0;
 
@@ -340,6 +423,7 @@ module hdc_regress_tb;
       rc = $fread(ev_mem, fd_ev, 0, n_events);
       reload_cycles = 0;
       if (need_bring_up) bring_up();
+      if (abort_stress != 0) decoy_run();
       for (j = 0; j < N_NEURONS; j++) cfg_write(CFG_THRESH_BASE + j, thr[j] & ((1 << W_THRESH) - 1));
       cfg_write(CFG_THRESH_SHARED, 0);
       cfg_write(CFG_N_EVENTS, n_events);
@@ -388,7 +472,8 @@ module hdc_regress_tb;
       sampling = 1'b0;
       $fwrite(fd_out, "END %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d\n", s, cyc_inf, 0, cyc_query, events_ingested, stall_cycles, idle_cycles, n_events, errors, hdc_errors,
               ts_seen, pred, pred_early, pred_tstep, reload_cycles);
-      need_bring_up = exited && !snn_done;
+      if (abort_mode != 0 && exited && !snn_done) do_abort();
+      else need_bring_up = exited && !snn_done;
     end
     $fclose(fd_out);
     $display("RESULT samples=%0d", n_samples);

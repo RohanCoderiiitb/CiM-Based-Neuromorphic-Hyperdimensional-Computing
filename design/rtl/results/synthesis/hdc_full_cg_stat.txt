@@ -1,0 +1,45 @@
+
+31. Printing statistics.
+
+=== cim_neurohdc_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    11714 wires
+    70553 wire bits
+     8659 public wires
+    48251 public wire bits
+       61 ports
+     1943 port bits
+     8788 cells
+      885   $add
+     1397   $and
+      102   $dff
+      698   $dlatch
+      879   $eq
+       49   $ge
+        2   $gt
+       36   $logic_and
+       19   $logic_not
+       11   $logic_or
+        1   $lt
+        1   $mem_v2
+        2   $mul
+      693   $mux
+       16   $ne
+        4   $not
+      588   $or
+       10   $pmux
+       20   $reduce_and
+        6   $reduce_bool
+       70   $reduce_or
+     1809   $scopeinfo
+      525   $sdff
+      243   $sdffe
+      513   $shiftx
+      161   $shl
+        1   $shr
+       45   $sub
+        1   cim_macro
+        1   hdc_class_array
+

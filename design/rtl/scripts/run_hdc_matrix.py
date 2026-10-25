@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import os
 import subprocess
 import sys
 import time
@@ -17,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PY = sys.executable
-RES = ROOT / "results" / "hdc"
+RES = ROOT / "results" / os.environ.get("CIM_RESULTS_SUBDIR", "hdc")
 GRID = [1, 2, 3, 4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 128, 192, 256, 512]       # theta in XNOR-score margin units (software bipolar theta = 2 x)
 NEVER = 4095
 SEEDS = (0, 1, 2)
@@ -66,7 +67,7 @@ def matrix_extra(sim: str) -> list[tuple[str, list[str]]]:
     M = []
     sub = sim == "icarus"
 
-    def add(tag, model, seed, f, e, theta=NEVER, g=8, cols=160):
+    def add(tag, model, seed, f, e, theta=NEVER, g=4, cols=40):
         M.append((pre + tag, ["--model", model, "--seed", str(seed), "--factorized", str(f), "--early-exit", str(e), "--theta", str(theta), "--g", str(g), "--cols", str(cols), *rows, "--sim", sim]))
 
     for s in SEEDS[:1] if sub else SEEDS:
@@ -80,6 +81,13 @@ def matrix_extra(sim: str) -> list[tuple[str, list[str]]]:
             add(f"ab_eeoff_g{g}_s{s}", "r1", s, 1, 0, NEVER, g)
             add(f"ab_factoff_g{g}_s{s}", "base", s, 0, 1, KNEE["base"], g)
             add(f"ab_bothoff_g{g}_s{s}", "base", s, 0, 0, NEVER, g)
+    # E3 (abort): the full design at g = 4, (a) abort_i after an early exit instead of reset + weight reload, (b) a decoy run aborted at a random cycle of every run state before EVERY sample.
+    # Both must reproduce the ordinary run's results sample for sample (compared in hdc_compare_all.py; END field 13, the reload cycles, is 0 here by construction).
+    for s in SEEDS[:1] if sub else SEEDS:
+        for name, plus in (("abortmode", "+abort_mode=1"), ("abortstress", "+abort_stress=1")):
+            M.append((pre + f"{name}_full_g4_s{s}", ["--model", "r1", "--seed", str(s), "--factorized", "1", "--early-exit", "1", "--theta", str(KNEE["r1"]), "--g", "4", "--cols", "40", *rows, "--sim", sim, "--plusarg", plus]))
+    for name, plus in (("abortstress", "+abort_stress=1"),):
+        M.append((pre + f"{name}_factoff_g4_s0", ["--model", "base", "--seed", "0", "--factorized", "0", "--early-exit", "1", "--theta", str(KNEE["base"]), "--g", "4", "--cols", "40", *rows, "--sim", sim, "--plusarg", plus]))
     M.append((pre + "c20_check_s0", ["--model", "r1", "--seed", "0", "--factorized", "1", "--early-exit", "1", "--theta", str(KNEE["r1"]), "--g", "4", "--cols", "20", "--rows", "rand24", "--sim", sim]))
     return M
 
@@ -98,6 +106,7 @@ def main() -> int:
     ap.add_argument("--sim", default="verilator", choices=["verilator", "icarus"])
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--workers", type=int, default=9)
+    ap.add_argument("--chunks", type=int, default=1, help="split each run's samples over this many simulator processes (Icarus: use ~4-8 with --workers 2; END field 13, reload_cycles, then depends on the split)")
     ap.add_argument("--set", default="main", choices=["main", "extra", "twin"], help="twin: the Icarus subset configurations run on Verilator with identical arguments (tag prefix vt_)")
     a = ap.parse_args()
     RES.mkdir(parents=True, exist_ok=True)
@@ -107,12 +116,14 @@ def main() -> int:
     else:
         M = matrix(a.sim) if a.set == "main" else matrix_extra(a.sim)
     M = [m for m in M if not a.only or any(m[0].startswith(o) or m[0][3:].startswith(o) for o in a.only)]
+    if a.chunks > 1:
+        M = [(t, args + ["--chunks", str(a.chunks)]) for t, args in M]
     # build once (serially) so the parallel runs do not race on the cached build
     sys.path.insert(0, str(ROOT / "scripts"))
     import sim_hdc
     sim = "verilator" if a.set == "twin" else a.sim
     for f, e in ((1, 1), (1, 0), (0, 1), (0, 0)):
-        for g, cols in ((8, 160), (4, 160), (4, 20)):
+        for g, cols in ((4, 40), (8, 40), (4, 160), (4, 20)):
             sim_hdc.build(sim, f, e, g, cols)
     t0 = time.time()
     fails = 0

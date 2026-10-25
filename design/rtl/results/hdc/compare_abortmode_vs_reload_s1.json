@@ -1,0 +1,25 @@
+{
+ "a": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final/abortmode_full_g4_s1.out.txt.gz",
+ "b": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final/ab_full_g4_s1.out.txt.gz",
+ "lines": 16061,
+ "timesteps_compared": 15821,
+ "disagreements": 6,
+ "first": [
+  [
+   58,
+   "TS 1 0 0e92f 31456 13156 18515 12565 -77278 68304 -35528 4556 19900 -53464 -122871 19988 7316 83559 83389 65949 -48616 -25952 -44014 -71495 0 0 0 0 -77278 0 -35",
+   "TS 1 0 0e92f 31456 13156 18515 12565 -77278 68304 -35528 4556 19900 -53464 -122871 19988 7316 83559 83389 65949 -48616 -25952 -44014 -71495 0 0 0 0 -77278 0 -35"
+  ],
+  [
+   87,
+   "END 1 170992 0 145 131014 39979 0 451772 0 0 29 9 1 28",
+   "END 1 170533 0 145 131014 39520 0 451772 0 0 29 9 1 28"
+  ],
+  [
+   88,
+   "TS 2 0 2a527 26216 56644 15277 441 5377 18989 1023 -53172 32419 -26480 14269 -40825 -3134 22044 -7197 8657 4886 45932 3212 -11238 0 0 0 441 5377 0 1023 -53172 0",
+   "TS 2 0 2a527 26216 56644 15277 441 5377 18989 1023 -53172 32419 -26480 14269 -40825 -3134 22044 -7197 8657 4886 45932 3212 -11238 0 0 0 441 5377 0 1023 -53172 0"
+  ]
+ ],
+ "verdict": "DISAGREE"
+}

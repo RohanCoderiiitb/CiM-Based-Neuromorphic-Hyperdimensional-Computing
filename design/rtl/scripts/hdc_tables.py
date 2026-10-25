@@ -6,6 +6,7 @@ Every number here is read from a regression run (results/hdc/*.json, the canonic
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -17,7 +18,7 @@ sys.path.insert(0, str(ROOT))
 from tb.common import hdc_golden as H  # noqa: E402
 
 HQ = H.HQ
-HDC = ROOT / "results" / "hdc"
+HDC = ROOT / "results" / os.environ.get("CIM_RESULTS_SUBDIR", "hdc")
 GRID = [1, 2, 3, 4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 48, 56, 64, 80, 96, 128, 192, 256, 512]
 EXTRA_THETA = {"r1": [47, 50], "base": [37]}
 SEEDS = (0, 1, 2)

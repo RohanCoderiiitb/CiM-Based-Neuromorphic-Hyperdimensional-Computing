@@ -1,0 +1,30 @@
+Startpoint: abort_i (input port clocked by clk)
+Endpoint: ev_ready_o (output port clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   2.500    2.500 v input external delay
+   0.000    2.500 v abort_i (in)
+   0.025    2.525 v _065557_/Y (CLKBUFX2)
+   0.029    2.554 ^ _065558_/Y (NOR4X1)
+   0.027    2.581 v _065559_/Y (NAND3XL)
+   0.024    2.606 ^ _065560_/Y (NOR4X1)
+   0.000    2.606 ^ ev_ready_o (out)
+            2.606   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+  -2.500    7.500   output external delay
+            7.500   data required time
+-----------------------------------------------------------
+            7.500   data required time
+           -2.606   data arrival time
+-----------------------------------------------------------
+            4.894   slack (MET)
+
+

@@ -1,0 +1,25 @@
+[ 3162s] [PASS] ic_p3_base_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 3152.3s
+[ 3162s] [PASS] ic_p3_r1fact_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 3147.1s
+[ 3162s] [PASS] ic_p3_r1unfact_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 3144.0s
+[ 8332s] [PASS] ic_p3_base_s1: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 5166.8s
+[ 8354s] [PASS] ic_p3_r1fact_s1: 24 samples, 0 mismatching, acc 83.33%, mean exit timestep 100.0, 0 assertion messages, sim 5184.9s
+[ 8354s] [PASS] ic_p3_r1unfact_s1: 24 samples, 0 mismatching, acc 83.33%, mean exit timestep 100.0, 0 assertion messages, sim 5160.0s
+[ 9874s] [PASS] ic_p3_base_s2: 24 samples, 0 mismatching, acc 70.83%, mean exit timestep 100.0, 0 assertion messages, sim 1537.0s
+[ 9876s] [PASS] ic_p3_r1fact_s2: 24 samples, 0 mismatching, acc 70.83%, mean exit timestep 100.0, 0 assertion messages, sim 1537.0s
+[ 9886s] [PASS] ic_p3_r1unfact_s2: 24 samples, 0 mismatching, acc 70.83%, mean exit timestep 100.0, 0 assertion messages, sim 1527.1s
+[11398s] [PASS] ic_dis_base_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 1518.0s
+[11398s] [PASS] ic_dis_r1fact_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 1507.7s
+[11550s] [PASS] ic_dis_base_s1: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 1658.7s
+[13051s] [PASS] ic_dis_r1fact_s1: 24 samples, 0 mismatching, acc 83.33%, mean exit timestep 100.0, 0 assertion messages, sim 1656.9s
+[13051s] [PASS] ic_dis_base_s2: 24 samples, 0 mismatching, acc 70.83%, mean exit timestep 100.0, 0 assertion messages, sim 1553.6s
+[13115s] [PASS] ic_dis_r1fact_s2: 24 samples, 0 mismatching, acc 70.83%, mean exit timestep 100.0, 0 assertion messages, sim 1560.0s
+[13115s] [PASS] ic_sw_r1fact_s0_t8: 24 samples, 0 mismatching, acc 62.50%, mean exit timestep 8.416666666666666, 0 assertion messages, sim 140.2s
+[13186s] [PASS] ic_sw_base_s0_t8: 24 samples, 0 mismatching, acc 58.33%, mean exit timestep 8.333333333333334, 0 assertion messages, sim 130.1s
+[13692s] [PASS] ic_sw_r1fact_s0_t40: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 41.416666666666664, 0 assertion messages, sim 586.4s
+[13763s] [PASS] ic_sw_base_s0_t40: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 45.333333333333336, 0 assertion messages, sim 643.2s
+[13934s] [PASS] ic_sw_r1fact_s0_t56: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 53.166666666666664, 0 assertion messages, sim 743.1s
+[14495s] [PASS] ic_sw_base_s0_t56: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 56.291666666666664, 0 assertion messages, sim 798.3s
+[14782s] [PASS] ic_l4_real_gaps_s0: 20 samples, 0 mismatching, acc 65.00%, mean exit timestep 58.65, 0 assertion messages, sim 1016.4s
+[14800s] [PASS] ic_l4_sorted_gaps_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 53.166666666666664, 0 assertion messages, sim 862.0s
+[15038s] [PASS] ic_l4_shuffled_nogap_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 45.333333333333336, 0 assertion messages, sim 537.9s
+24 runs, 0 failed, 15038s

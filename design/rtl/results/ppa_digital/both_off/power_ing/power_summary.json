@@ -1,0 +1,603 @@
+{
+ "returncode": 0,
+ "total_w": 0.0001,
+ "internal_w": 7e-05,
+ "switching_w": 1.88e-05,
+ "leakage_w": 1.12e-05,
+ "groups_internal_switching_leakage_total_w": {
+  "Sequential": [
+   2.71e-05,
+   7.87e-07,
+   3.12e-06,
+   3.1e-05
+  ],
+  "Combinational": [
+   2.13e-05,
+   1.64e-05,
+   7.91e-06,
+   4.56e-05
+  ],
+  "Clock": [
+   2.16e-05,
+   1.65e-06,
+   1.79e-07,
+   2.34e-05
+  ],
+  "Macro": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "Pad": [
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "annotation": {
+  "vcd": 264815,
+  "unannotated": 0
+ },
+ "warnings": [],
+ "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/power_ing/power.rpt",
+ "flop_activity": {
+  "flops_in_netlist": 8867,
+  "flops_counted": 8867,
+  "flops_that_toggle": 688,
+  "q_toggles": 31138,
+  "window_cycles": 2400,
+  "alpha_q_per_flop_cycle": 0.0014631968722980339,
+  "by_module": {
+   "u_snn.thresh_q[19]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[18]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[17]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[16]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[15]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[14]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[13]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[12]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[11]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[10]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[9]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[8]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[7]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[6]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[5]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[4]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[3]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[2]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[1]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_q[0]": {
+    "flops": 15,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_event_ctr": {
+    "flops": 22,
+    "toggling": 17,
+    "toggles": 11095
+   },
+   "u_snn.ev_n": {
+    "flops": 21,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_ctrl": {
+    "flops": 37,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.ts_idx": {
+    "flops": 7,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "weights_loaded_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "state_o": {
+    "flops": 2,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.thresh_shared_q": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.aer_shift_q": {
+    "flops": 4,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_plane_seq": {
+    "flops": 6,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "bitrow_idx_o": {
+    "flops": 4,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "group_idx_o": {
+    "flops": 9,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "wl_ready_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_weight_load": {
+    "flops": 12,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "x_o": {
+    "flops": 420,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_shift_accum": {
+    "flops": 1606,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.coord_mul_q": {
+    "flops": 9,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.neuron_spike": {
+    "flops": 20,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "v_o": {
+    "flops": 520,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "spike_tstep_o": {
+    "flops": 7,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "spike_o": {
+    "flops": 20,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.spikes_done": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_query": {
+    "flops": 23,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "dec_t": {
+    "flops": 7,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "scores_o": {
+    "flops": 110,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "top1_o": {
+    "flops": 11,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "top2_o": {
+    "flops": 11,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "top1_idx_o": {
+    "flops": 5,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "exited_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "inf_done_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "pred_o": {
+    "flops": 5,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "pred_tstep_o": {
+    "flops": 7,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "u_snn.u_count_mem": {
+    "flops": 5652,
+    "toggling": 671,
+    "toggles": 20043
+   },
+   "u_snn.seq_done": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "spike_valid_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "dec_valid_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   },
+   "pred_valid_o": {
+    "flops": 1,
+    "toggling": 0,
+    "toggles": 0
+   }
+  }
+ },
+ "icg_activity": {
+  "icgs": 623,
+  "gated_flops": 8820,
+  "ungated_flops": 47,
+  "window_cycles": 2400,
+  "gated_flop_clock_events": 47980,
+  "gated_clock_duty_per_flop": 0.002266628873771731,
+  "ungated_flop_clock_events": 112800,
+  "by_module": {
+   "u_snn.thresh_q[19]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[18]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[17]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[16]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[15]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[14]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[13]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[12]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[11]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[10]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[9]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[8]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[7]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[6]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[5]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[4]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[3]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[2]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[1]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.thresh_q[0]": {
+    "icgs": 1,
+    "flops": 15,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_event_ctr": {
+    "icgs": 1,
+    "flops": 20,
+    "gate_edges": 2399,
+    "flop_clock_events": 47980
+   },
+   "u_snn.ev_n": {
+    "icgs": 1,
+    "flops": 21,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_ctrl": {
+    "icgs": 2,
+    "flops": 36,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.ts_idx": {
+    "icgs": 1,
+    "flops": 7,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.aer_shift_q": {
+    "icgs": 1,
+    "flops": 4,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "bitrow_idx_o": {
+    "icgs": 1,
+    "flops": 4,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "group_idx_o": {
+    "icgs": 1,
+    "flops": 9,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_plane_seq": {
+    "icgs": 1,
+    "flops": 4,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_weight_load": {
+    "icgs": 1,
+    "flops": 9,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "x_o": {
+    "icgs": 1,
+    "flops": 420,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.coord_mul_q": {
+    "icgs": 1,
+    "flops": 9,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_shift_accum": {
+    "icgs": 1,
+    "flops": 1600,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "v_o": {
+    "icgs": 1,
+    "flops": 540,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "spike_o": {
+    "icgs": 1,
+    "flops": 27,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_query": {
+    "icgs": 1,
+    "flops": 27,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "scores_o": {
+    "icgs": 1,
+    "flops": 110,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "top1_o": {
+    "icgs": 1,
+    "flops": 27,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "pred_tstep_o": {
+    "icgs": 1,
+    "flops": 14,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "(none)": {
+    "icgs": 72,
+    "flops": 0,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   },
+   "u_snn.u_count_mem": {
+    "icgs": 512,
+    "flops": 5632,
+    "gate_edges": 0,
+    "flop_clock_events": 0
+   }
+  },
+  "gates_never_enabled": 622
+ },
+ "build": "both_off",
+ "model": "base",
+ "gate": 4,
+ "instr": 0,
+ "rtl_gating": 1,
+ "isolate": 1,
+ "row": 46,
+ "window_start": 12000,
+ "window_cycles": 2400,
+ "area_um2": 198366.84,
+ "vcd_mb": 28.6,
+ "gate_sim_s": 194.8,
+ "timesteps_checked": 3,
+ "gate_level_matches_golden": true,
+ "n_events": 319130,
+ "wall_s": 238
+}

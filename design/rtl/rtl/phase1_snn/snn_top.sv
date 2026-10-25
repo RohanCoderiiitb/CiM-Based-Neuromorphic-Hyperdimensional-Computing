@@ -19,7 +19,9 @@ import cim_neurohdc_pkg::CFG_THRESH_SHARED;
 import cim_neurohdc_pkg::COORD_MUL_DVS;
 import cim_neurohdc_pkg::COORD_MUL_NMNIST;
 import cim_neurohdc_pkg::GEOM_NMNIST_DEFAULT;
+import cim_neurohdc_pkg::CLOCK_GATING_DEFAULT;
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
+import cim_neurohdc_pkg::OPERAND_ISOLATION_DEFAULT;
 import cim_neurohdc_pkg::N_INPUTS;
 import cim_neurohdc_pkg::N_NEURONS;
 import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
@@ -34,9 +36,9 @@ import cim_neurohdc_pkg::W_COORD;
 import cim_neurohdc_pkg::W_COORD_MUL;
 import cim_neurohdc_pkg::W_GRP;
 import cim_neurohdc_pkg::W_MACRO_IDX;
-import cim_neurohdc_pkg::W_M_FLAT;
+import cim_neurohdc_pkg::N_WCOLS;
+import cim_neurohdc_pkg::W_COUNT;
 import cim_neurohdc_pkg::W_NEVENTS;
-import cim_neurohdc_pkg::W_PCOUNT;
 import cim_neurohdc_pkg::W_STAT;
 import cim_neurohdc_pkg::W_THRESH;
 import cim_neurohdc_pkg::W_TSTEP;
@@ -48,8 +50,10 @@ import cim_neurohdc_pkg::W_X;
 module snn_top #(
     parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT,
     parameter int N_PARALLEL_COLS = N_PARALLEL_COLS_DEFAULT,
-    parameter bit PLANE_SKIP_EN = PLANE_SKIP_EN_DEFAULT,
+    parameter bit PLANE_SKIP_EN = PLANE_SKIP_EN_DEFAULT,  // reserved: the scan sequencer never reads an empty (bit-plane, group)
     parameter bit INSTRUMENT_EN = INSTRUMENT_EN_DEFAULT,
+    parameter bit CLOCK_GATING = CLOCK_GATING_DEFAULT,
+    parameter bit OPERAND_ISOLATION = OPERAND_ISOLATION_DEFAULT,
     parameter bit GEOM_NMNIST = GEOM_NMNIST_DEFAULT
 ) (
     input  logic                     clk_i,
@@ -66,6 +70,7 @@ module snn_top #(
     // run control
     input  logic                     start_i,
     input  logic                     ingest_en_i,
+    input  logic                     abort_i,         // one-cycle request: RUN -> IDLE from any run state, per-sample state cleared, weights kept
     // AER event stream (valid/ready)
     input  logic                     ev_valid_i,
     input  logic [        W_AER-1:0] ev_aer_i,
@@ -156,19 +161,24 @@ module snn_top #(
   logic [W_TSTEP-1:0] ev_tstep;
   logic sample_done;
   logic ctrl_done, spikes_done, seq_busy_unused, wl_busy_unused;
-  logic cm_busy, cm_fwd, cm_wipe, cm_chk;
+  localparam int W_M = $clog2(ROWS_PER_GROUP + 1);  // bits of one match count: 0..g
+  logic cm_busy, cm_fwd, cm_wipe;
+  logic cm_ready;                       // declared before the controller instance that reads it (Icarus does not accept use before declaration)
+  logic [W_STAT-1:0] sq_active;
   logic [W_NEVENTS-1:0] cm_chk_expected;
-  logic [ W_PCOUNT-1:0] active_cnt;
   logic seq_start, seq_done, acc_clr, neuron_upd, spike_load;
   logic [W_TSTEP-1:0] ts_idx;
   logic [W_STAT-1:0] sq_skipped, sq_rows, sq_allcols, sq_plane, sq_issued, zero_groups;
 
-  snn_ctrl u_ctrl (
+  snn_ctrl #(
+      .INSTRUMENT_EN(INSTRUMENT_EN)
+  ) u_ctrl (
       .clk_i              (clk_i),
       .rst_n_i            (rst_n_i),
       .load_start_i       (load_start_i),
       .start_i            (start_i),
       .ingest_en_i        (ingest_en_i),
+      .abort_i            (abort_i),
       .ev_valid_i         (ev_valid_i),
       .ev_ready_o         (ev_ready_o),
       .ev_accept_o        (ev_accept),
@@ -183,9 +193,9 @@ module snn_top #(
       .cm_busy_i          (cm_busy),
       .cm_fwd_i           (cm_fwd),
       .cm_wipe_o          (cm_wipe),
-      .cm_chk_o           (cm_chk),
       .cm_chk_expected_o  (cm_chk_expected),
-      .active_cnt_i       (active_cnt),
+      .cm_ready_i         (cm_ready),
+      .seq_active_i       (sq_active),
       .seq_start_o        (seq_start),
       .seq_done_i         (seq_done),
       .seq_rows_skipped_i (sq_skipped),
@@ -233,10 +243,10 @@ module snn_top #(
       .assert_fail_o(assert_fail_o[1])
   );
 
-  // ------------------------------------------------------------------ [B] counters
-  logic [N_INPUTS-1:0] row, active_vec, row_drv;
-  logic row_nz;
-  logic [W_BIT_IDX-1:0] row_sel;
+  // ------------------------------------------------------------------ [B] counters (SRAM macro), [D] scan sequencer
+  logic [W_COUNT-1:0] scan_q;
+  logic scan_qv, scan_re;
+  logic [W_ADDR-1:0] scan_addr;
 
   count_mem u_count_mem (
       .clk_i         (clk_i),
@@ -244,61 +254,54 @@ module snn_top #(
       .ev_valid_i    (ev_accept),
       .ev_addr_i     (ev_addr),
       .wipe_i        (cm_wipe),
-      .row_sel_i     (row_sel),
-      .row_o         (row),
-      .row_nz_o      (row_nz),
-      .active_o      (active_vec),
+      .flush_i       (abort_i),
+      .scan_re_i     (scan_re),
+      .scan_addr_i   (scan_addr),
+      .q_o           (scan_q),
+      .scan_qv_o     (scan_qv),
       .busy_o        (cm_busy),
+      .ready_o       (cm_ready),
       .fwd_o         (cm_fwd),
-      .chk_i         (cm_chk),
+      .chk_i         (seq_done),
       .chk_expected_i(cm_chk_expected),
       .assert_fail_o (assert_fail_o[2])
   );
 
-  if (INSTRUMENT_EN) begin : g_instr
-    // sampled only in the CHECK cycle (snn_ctrl latches it there): gating the input keeps the 512-bit tree quiet the rest of the time
-    logic [N_INPUTS-1:0] active_gated;
-    assign active_gated = cm_chk ? active_vec : '0;
-    popcount #(
-        .N(N_INPUTS)
-    ) u_active (
-        .bits_i (active_gated),
-        .count_o(active_cnt)
-    );
-  end else begin : g_no_instr
-    assign active_cnt = '0;
-  end
-
-  // ------------------------------------------------------------------ [D] plane sequencer
-  logic rd_valid, rd_last;
+  logic rd_valid;
+  logic [ROWS_PER_GROUP-1:0] rd_bits;
   logic [W_GRP-1:0] group_idx;
-  logic [W_WEIGHT-1:0] plane_mask;
+  logic [$clog2(N_WCOLS / N_PARALLEL_COLS > 1 ? N_WCOLS / N_PARALLEL_COLS : 2)-1:0] rd_pass;
+  logic [W_BIT_IDX-1:0] row_sel;
 
   plane_seq #(
       .ROWS_PER_GROUP (ROWS_PER_GROUP),
       .N_PARALLEL_COLS(N_PARALLEL_COLS),
-      .PLANE_SKIP_EN  (PLANE_SKIP_EN)
+      .INSTRUMENT_EN  (INSTRUMENT_EN)
   ) u_plane_seq (
       .clk_i          (clk_i),
       .rst_n_i        (rst_n_i),
       .start_i        (seq_start),
-      .row_nz_i       (row_nz),
-      .row_sel_o      (row_sel),
+      .abort_i        (abort_i),
+      .scan_re_o      (scan_re),
+      .scan_addr_o    (scan_addr),
+      .scan_q_i       (scan_q),
+      .scan_qv_i      (scan_qv),
       .rd_valid_o     (rd_valid),
+      .rd_bits_o      (rd_bits),
       .group_idx_o    (group_idx),
-      .plane_mask_o   (plane_mask),
-      .rd_last_o      (rd_last),
+      .row_sel_o      (row_sel),
+      .pass_o         (rd_pass),
       .done_o         (seq_done),
       .busy_o         (seq_busy_unused),
+      .active_o       (sq_active),
       .rows_skipped_o (sq_skipped),
       .rows_read_o    (sq_rows),
       .reads_allcols_o(sq_allcols),
       .reads_plane_o  (sq_plane),
       .reads_issued_o (sq_issued),
+      .zero_groups_o  (zero_groups),
       .assert_fail_o  (assert_fail_o[3])
   );
-  // the crossbar row drivers are energised only while a read is issued (zero otherwise)
-  assign row_drv      = rd_valid ? row : '0;
   assign rd_valid_o   = rd_valid;
   assign group_idx_o  = group_idx;
   assign bitrow_idx_o = row_sel;
@@ -309,7 +312,7 @@ module snn_top #(
   logic [W_ADDR-1:0] wr_addr;
   logic [W_WL_WORD-1:0] wr_data;
   logic m_valid;
-  logic [W_M_FLAT-1:0] m_data;
+  logic [N_PARALLEL_COLS*W_M-1:0] m_data;
 
   weight_load u_weight_load (
       .clk_i        (clk_i),
@@ -328,7 +331,8 @@ module snn_top #(
   );
 
   cim_macro #(
-      .ROWS_PER_GROUP(ROWS_PER_GROUP)
+      .ROWS_PER_GROUP (ROWS_PER_GROUP),
+      .N_PARALLEL_COLS(N_PARALLEL_COLS)
   ) u_cim_macro (
       .clk_i          (clk_i),
       .rst_n_i        (rst_n_i),
@@ -337,33 +341,28 @@ module snn_top #(
       .wr_addr_i      (wr_addr),
       .wr_data_i      (wr_data),
       .rd_valid_i     (rd_valid),
-      .rd_bitrow_i    (row_drv),
-      .rd_grp_i       (group_idx),
-      .rd_plane_mask_i(plane_mask),
+      .rd_bits_i      (rd_bits),
+      .rd_grp_i       (group_idx[$clog2(N_INPUTS / ROWS_PER_GROUP)-1:0]),
+      .rd_pass_i      (rd_pass),
       .m_valid_o      (m_valid),
       .m_o            (m_data)
   );
 
   // ------------------------------------------------------------------ [G] shift / accumulate
-  logic [W_PCOUNT-1:0] a_row;
-
   shift_accum #(
-      .ROWS_PER_GROUP(ROWS_PER_GROUP)
+      .ROWS_PER_GROUP (ROWS_PER_GROUP),
+      .N_PARALLEL_COLS(N_PARALLEL_COLS)
   ) u_shift_accum (
       .clk_i        (clk_i),
       .rst_n_i      (rst_n_i),
-      .clr_i        (acc_clr),
+      .clr_i        (acc_clr || abort_i),
       .iss_valid_i  (rd_valid),
-      .iss_bitrow_i (row_drv),
-      .iss_grp_i    (group_idx),
       .iss_b_i      (row_sel),
-      .iss_last_i   (rd_last),
-      .iss_plane0_i (plane_mask[0]),
+      .iss_pass_i   (rd_pass),
+      .iss_bits_i   (rd_bits),
       .m_valid_i    (m_valid),
       .m_i          (m_data),
-      .a_row_o      (a_row),
       .x_o          (x_o),
-      .zero_groups_o(zero_groups),
       .assert_fail_o(assert_fail_o[5])
   );
 
@@ -402,8 +401,7 @@ module snn_top #(
   // the sample is finished only when the controller is back in DONE (ready for a new start) AND all T spike strobes were produced
   assign done_o = ctrl_done && spikes_done;
 
-  // `a_row` and `upd_done` feed the analog / debug side in later phases; keep them observable in simulation
   logic unused_ok;
-  assign unused_ok = &{1'b0, a_row, upd_done, rd_last, top_cfg_fail_q, seq_busy_unused, wl_busy_unused};
+  assign unused_ok = &{1'b0, upd_done, top_cfg_fail_q, seq_busy_unused, wl_busy_unused, PLANE_SKIP_EN, CLOCK_GATING, OPERAND_ISOLATION};
   assign top_cfg_fail_q = 1'b0;
 endmodule

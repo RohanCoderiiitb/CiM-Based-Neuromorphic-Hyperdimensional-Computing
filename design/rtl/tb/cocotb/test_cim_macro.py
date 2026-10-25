@@ -7,9 +7,12 @@ import numpy as np
 
 from common import G, reset, start_clock, ticks, unpack_signed, weights_to_macro_words, write_weights_flat
 
-G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "8"))
+G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "4"))
+COLS = int(os.environ.get("N_PARALLEL_COLS", "40"))
 NG = -(-512 // G_ROWS)
-MW = 10
+MW = (G_ROWS).bit_length()          # clog2(g + 1)
+PL = COLS // 20                     # weight bit-planes per pass
+PASSES = 8 // PL
 
 
 def planes_of(W):
@@ -27,27 +30,36 @@ async def load(dut, W):
     await ticks(dut)
 
 
-async def read(dut, bits, grp, mask=0xFF):
-    dut.rd_valid_i.value, dut.rd_bitrow_i.value, dut.rd_grp_i.value, dut.rd_plane_mask_i.value = 1, int(sum(int(b) << i for i, b in enumerate(bits))), grp, mask
+async def read(dut, bits, grp, p=0):
+    """one read of group `grp` with the g row bits of the group (bits are the 512 input bits; only the group's are driven), pass p; returns m[20, 8] with the PL planes of the pass filled in"""
+    lo, hi = grp * G_ROWS, min((grp + 1) * G_ROWS, 512)
+    dut.rd_valid_i.value, dut.rd_bits_i.value, dut.rd_grp_i.value, dut.rd_pass_i.value = 1, int(sum(int(b) << i for i, b in enumerate(bits[lo:hi]))), grp, p
     await ticks(dut)
     dut.rd_valid_i.value = 0
     assert int(dut.m_valid_o.value) == 1
-    vals = unpack_signed(int(dut.m_o.value), 160, MW)       # 10-bit fields, values 0..512 (unsigned) - use & mask
-    return np.array([v & ((1 << MW) - 1) for v in vals]).reshape(20, 8)
+    v = int(dut.m_o.value)
+    m = np.zeros((20, 8), np.int64)
+    for j in range(20):
+        for q in range(PL):
+            m[j, p * PL + q] = (v >> ((j * PL + q) * MW)) & ((1 << MW) - 1)
+    return m
 
 
-def expect(planes, bits, grp, mask=0xFF):
+def expect(planes, bits, grp, p=0):
     lo, hi = grp * G_ROWS, min((grp + 1) * G_ROWS, 512)
     m = np.zeros((20, 8), np.int64)
-    for k in range(8):
-        if (mask >> k) & 1:
-            m[:, k] = planes[:, k, lo:hi] @ np.asarray(bits[lo:hi], np.int64)
+    for k in range(p * PL, (p + 1) * PL):
+        m[:, k] = planes[:, k, lo:hi] @ np.asarray(bits[lo:hi], np.int64)
     return m
+
+
+def expect_all(planes, bits, grp):
+    return sum(expect(planes, bits, grp, p) for p in range(PASSES))
 
 
 async def init(dut):
     dut.wr_en_i.value = dut.rd_valid_i.value = 0
-    dut.rd_bitrow_i.value = dut.rd_grp_i.value = dut.rd_plane_mask_i.value = 0
+    dut.rd_bits_i.value = dut.rd_grp_i.value = dut.rd_pass_i.value = 0
     await start_clock(dut); await reset(dut)
 
 
@@ -63,11 +75,9 @@ async def real_weights_real_rows(dut):
         for b in (0, 3, 9):
             bits = ((counts[t] >> b) & 1)
             for grp in rng.integers(0, NG, 6).tolist() + [0, NG - 1]:
-                got = await read(dut, bits, int(grp))
-                assert np.array_equal(got, expect(planes, bits, int(grp))), f"t={t} b={b} grp={grp}"
-    mask = 0b00100101                                           # plane-serial style partial mask
-    got = await read(dut, ((counts[5] >> 1) & 1), 3, mask)
-    assert np.array_equal(got, expect(planes, ((counts[5] >> 1) & 1), 3, mask))
+                for p in range(PASSES):
+                    got = await read(dut, bits, int(grp), p)
+                    assert np.array_equal(got, expect(planes, bits, int(grp), p)), f"t={t} b={b} grp={grp} pass={p}"
 
 
 @cocotb.test()
@@ -80,12 +90,16 @@ async def directed_weights_and_input_rows(dut):
     planes = planes_of(W)
     ones, zeros = np.ones(512, np.int64), np.zeros(512, np.int64)
     for grp in (0, NG // 2, NG - 1):
-        got1 = await read(dut, ones, grp)
-        assert np.array_equal(got1, expect(planes, ones, grp))
+        got1 = np.zeros((20, 8), np.int64)
+        for p in range(PASSES):
+            got1 += await read(dut, ones, grp, p)                              # the passes fill disjoint planes
+        assert np.array_equal(got1, expect_all(planes, ones, grp))
         lo, hi = grp * G_ROWS, min((grp + 1) * G_ROWS, 512)
         n = hi - lo
         # -128 = 0b10000000 -> only plane 7 set; -1 = 0b11111111 -> all planes; 0 -> none; +1 -> plane 0; +127 -> planes 0..6
         assert list(got1[0]) == [0] * 7 + [n] and list(got1[1]) == [n] * 8 and list(got1[2]) == [0] * 8
         assert list(got1[3]) == [n] + [0] * 7 and list(got1[4]) == [n] * 7 + [0]
-        got0 = await read(dut, zeros, grp)
+        got0 = np.zeros((20, 8), np.int64)
+        for p in range(PASSES):
+            got0 += await read(dut, zeros, grp, p)
         assert not got0.any(), "an all-zero input row must give zero matches"

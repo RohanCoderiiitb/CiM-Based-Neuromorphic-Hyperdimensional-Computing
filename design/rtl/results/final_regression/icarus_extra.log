@@ -1,0 +1,9 @@
+[  707s] [PASS] ic_ab_full_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 50.208333333333336, 0 assertion messages, sim 702.6s
+[12609s] [PASS] ic_ab_eeoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 12604.6s
+[12609s] [PASS] ic_ab_factoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 56.291666666666664, 0 assertion messages, sim 794.0s
+[13188s] [PASS] ic_ab_bothoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 100.0, 0 assertion messages, sim 12476.5s
+[13188s] [PASS] ic_abortmode_full_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 50.208333333333336, 0 assertion messages, sim 11862.8s
+[13201s] [PASS] ic_abortstress_full_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 50.208333333333336, 0 assertion messages, sim 589.0s
+[13354s] [PASS] ic_abortstress_factoff_g4_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 56.291666666666664, 0 assertion messages, sim 685.0s
+[13793s] [PASS] ic_c20_check_s0: 24 samples, 0 mismatching, acc 87.50%, mean exit timestep 50.208333333333336, 0 assertion messages, sim 601.0s
+8 runs, 0 failed, 13793s

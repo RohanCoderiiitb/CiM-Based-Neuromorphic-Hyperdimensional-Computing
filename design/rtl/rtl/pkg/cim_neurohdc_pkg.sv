@@ -34,9 +34,11 @@ package cim_neurohdc_pkg;
   localparam int W_STAT = 32;  // instrumentation counters
 
   // ------------------------------------------------------------------ design-point defaults
-  localparam int ROWS_PER_GROUP_DEFAULT = 8;  // [1B] g = 8; the RTL is bit-exact for every g
-  localparam int N_PARALLEL_COLS_DEFAULT = N_WCOLS;  // [1B] 160: all columns per read (11 x 512/g reads); 20: one plane at a time (88 x 512/g)
+  localparam int ROWS_PER_GROUP_DEFAULT = 4;  // [1B] g = 4 (the recommended point of 1F); the RTL is bit-exact for every g that divides 512
+  localparam int N_PARALLEL_COLS_DEFAULT = 40;  // [1F] 40 columns per pass, 4 passes per read: the supply-limited design point (peak 8.7 mA, 1 nF); 160: all columns at once; 20: one plane per pass
   localparam bit PLANE_SKIP_EN_DEFAULT = 1'b1;  // [1E] skip all-zero count bit-rows
+  localparam bit CLOCK_GATING_DEFAULT = 1'b1;  // [D] digital-energy pass: count_mem and the class-HV sign table use explicit hierarchical clock gates (clk_gate_tree); 0: plain enabled flip-flops
+  localparam bit OPERAND_ISOLATION_DEFAULT = 1'b1;  // [D] digital-energy pass: shift_accum's fold network is fed zeros except when its result is consumed
   localparam bit INSTRUMENT_EN_DEFAULT = 1'b1;  // [1E] activity / skip counters (Phase 5 handoff)
   localparam bit GEOM_NMNIST_DEFAULT = 1'b0;  // [1E] reset value of the sensor geometry: 0 = DVS-Gesture 128x128, 1 = N-MNIST 34x34 (runtime-writable)
 

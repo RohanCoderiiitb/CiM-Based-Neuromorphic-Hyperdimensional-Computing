@@ -7,9 +7,12 @@ import numpy as np
 
 from common import G, reset, start_clock, ticks, unpack_signed
 
-G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "8"))
+G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "4"))
+COLS = int(os.environ.get("N_PARALLEL_COLS", "40"))
 NG = -(-512 // G_ROWS)
-MW = 10
+MW = G_ROWS.bit_length()
+PL = COLS // 20
+PASSES = 8 // PL
 WX = 21
 
 
@@ -18,57 +21,48 @@ def planes_of(W):
     return np.stack([(u >> k) & 1 for k in range(8)], axis=1)
 
 
-def group_counts(planes, bits, grp):
+def group_counts(planes, bits, grp, p):
     lo, hi = grp * G_ROWS, min((grp + 1) * G_ROWS, 512)
-    return np.stack([planes[:, k, lo:hi] @ bits[lo:hi] for k in range(8)], axis=1)       # [20, 8]
+    return np.stack([planes[:, p * PL + q, lo:hi] @ bits[lo:hi] for q in range(PL)], axis=1)       # [20, PL]
 
 
 def pack_m(m):
     v = 0
     for j in range(20):
-        for k in range(8):
-            v |= int(m[j, k]) << ((j * 8 + k) * MW)
+        for q in range(PL):
+            v |= int(m[j, q]) << ((j * PL + q) * MW)
     return v
 
 
-async def run_vector(dut, counts_t, W, skip_empty=True):
-    """Play the issue/result protocol of one MVM for a count vector; return X (20 ints)."""
+async def run_vector(dut, counts_t, W):
+    """Play the issue/result protocol of one MVM for a count vector: every (bit-plane b, group) with an active row, every pass back to back, the result one cycle after the issue; return X."""
     planes = planes_of(W)
     dut.clr_i.value = 1
     await ticks(dut)
     dut.clr_i.value = 0
-    rows = [b for b in range(11) if ((counts_t >> b) & 1).any() or not skip_empty]
+    pad = np.zeros(NG * G_ROWS, np.int64); pad[:512] = counts_t
     pending = None
-    a_rows = []
-    for ri, b in enumerate(rows):
-        bits = ((counts_t >> b) & 1).astype(np.int64)
-        bitrow = int(sum(int(x) << i for i, x in enumerate(bits)))
-        for grp in range(NG):
-            last = int(grp == NG - 1)            # last group of the bit-row folds the row
-            dut.iss_valid_i.value, dut.iss_bitrow_i.value, dut.iss_grp_i.value = 1, bitrow, grp
-            dut.iss_b_i.value, dut.iss_last_i.value, dut.iss_plane0_i.value = b, last, 1
-            await cocotb.triggers.Timer(1, unit="ns")
-            if grp == 0:
-                a_rows.append((int(dut.a_row_o.value), int(bits.sum())))
-            # the result of the PREVIOUS issue arrives now (macro latency 1)
-            if pending is not None:
-                dut.m_valid_i.value, dut.m_i.value = 1, pending
-            else:
-                dut.m_valid_i.value = 0
-            pending = pack_m(group_counts(planes, bits, grp))
-            await ticks(dut)
+    for grp in range(NG):
+        for b in range(11):
+            bits = ((pad >> b) & 1).astype(np.int64)
+            gb = bits[grp * G_ROWS:(grp + 1) * G_ROWS]
+            if not gb.any():
+                continue
+            for p in range(PASSES):
+                dut.iss_valid_i.value, dut.iss_b_i.value, dut.iss_pass_i.value, dut.iss_bits_i.value = 1, b, p, int(sum(int(x) << i for i, x in enumerate(gb)))
+                dut.m_valid_i.value, dut.m_i.value = (1, pending) if pending is not None else (0, 0)
+                pending = pack_m(group_counts(planes, bits[:512] if False else np.pad(bits, (0, 0)), grp, p))
+                await ticks(dut)
     dut.iss_valid_i.value = 0
-    if pending is not None:
-        dut.m_valid_i.value, dut.m_i.value = 1, pending      # result of the very last issue
+    dut.m_valid_i.value, dut.m_i.value = (1, pending) if pending is not None else (0, 0)
     await ticks(dut)
     dut.m_valid_i.value = 0
     await ticks(dut, 2)
-    assert all(a == b for a, b in a_rows), f"a_row_o != popcount(bit-row): {a_rows}"
     return unpack_signed(int(dut.x_o.value), 20, WX)
 
 
 async def init(dut):
-    for s in ("clr_i", "iss_valid_i", "iss_bitrow_i", "iss_grp_i", "iss_b_i", "iss_last_i", "iss_plane0_i", "m_valid_i", "m_i"):
+    for s in ("clr_i", "iss_valid_i", "iss_bits_i", "iss_b_i", "iss_pass_i", "m_valid_i", "m_i"):
         getattr(dut, s).value = 0
     await start_clock(dut); await reset(dut)
 

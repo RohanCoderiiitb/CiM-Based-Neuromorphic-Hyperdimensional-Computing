@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "build"
-RTL = [ROOT / "rtl/pkg/cim_neurohdc_pkg.sv"] + sorted((ROOT / "rtl/phase1_snn").glob("*.sv"))
+RTL = [ROOT / "rtl/pkg/cim_neurohdc_pkg.sv"] + sorted((ROOT / "rtl/common").glob("*.sv")) + sorted((ROOT / "rtl/phase1_snn").glob("*.sv"))
 TB = ROOT / "tb/sv/snn_regress_tb.sv"
 TOP = "snn_regress_tb"
 
@@ -31,7 +31,7 @@ def tool_versions() -> dict:
     return out
 
 
-def build(sim: str, g: int = 8, cols: int = 160, skip: int = 1) -> Path:
+def build(sim: str, g: int = 4, cols: int = 40, skip: int = 1) -> Path:
     tag = f"{sim}_g{g}_c{cols}_s{skip}_{_src_hash()}"
     d = BUILD / tag
     if sim == "verilator":

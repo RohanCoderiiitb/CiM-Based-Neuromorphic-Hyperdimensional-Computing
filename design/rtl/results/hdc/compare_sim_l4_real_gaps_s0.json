@@ -1,6 +1,6 @@
 {
- "a": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc/ic_l4_real_gaps_s0.out.txt.gz",
- "b": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc/vt_l4_real_gaps_s0.out.txt.gz",
+ "a": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final2/ic_l4_real_gaps_s0.out.txt.gz",
+ "b": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final2/vt_l4_real_gaps_s0.out.txt.gz",
  "lines": 1193,
  "timesteps_compared": 1173,
  "disagreements": 0,

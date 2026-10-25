@@ -1,0 +1,58 @@
+{
+ "1C_analytic_20F2": {
+  "assumption": "20 F^2 1T1R cell (1A-1C), 1 nF decap, 'mid' periphery",
+  "total_um2": 428917.3569536,
+  "parts_um2": {
+   "cell_array": 6635.519999999999,
+   "row_drivers": 70229.092608,
+   "wordline_buffers": 7680.0,
+   "row_decoder": 1024.0,
+   "ladder_and_gain_storage": 17862.0,
+   "supply_ground_straps": 323.85152,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "decoupling": 166666.6666666667,
+   "overhead_20pct": 71486.22615893335
+  }
+ },
+ "A2_40F": {
+  "assumption": "NeuroSim, smallest feasible cell (40 F x 4 F)",
+  "neurosim_macro_um2": 20471.007,
+  "neurosim_cell_array_per_macro_um2": 10616.832,
+  "total_um2": 427185.813824,
+  "parts_um2": {
+   "cell_array": 53084.16,
+   "wl_switch_matrix": 22693.5,
+   "sl_switch_matrix": 2374.5,
+   "column_mux": 5973.5,
+   "ladder_and_gain_storage": 17862.0,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "supply_ground_straps": 323.85152,
+   "decoupling": 166666.6666666667,
+   "overhead_20pct": 71197.63563733334
+  }
+ },
+ "B_128F": {
+  "assumption": "NeuroSim, 128 F x 4 F cell (select transistor the write path needs)",
+  "neurosim_macro_um2": 48320.75,
+  "neurosim_cell_array_per_macro_um2": 33973.862,
+  "total_um2": 583313.793824,
+  "parts_um2": {
+   "cell_array": 169869.31,
+   "wl_switch_matrix": 22693.5,
+   "sl_switch_matrix": 2922.5,
+   "column_mux": 18747.0,
+   "ladder_and_gain_storage": 17862.0,
+   "sense_front_ends_1f": 83810.0,
+   "calibration_storage": 3200.0,
+   "supply_ground_straps": 323.85152,
+   "decoupling": 166666.6666666667,
+   "overhead_20pct": 97218.96563733334
+  }
+ },
+ "chip_level_choice": {
+  "variant": "B_128F",
+  "reason": "the select-transistor width the write path requires (1D); the larger of the NeuroSim variants, as the brief requires - not quietly the smaller"
+ }
+}

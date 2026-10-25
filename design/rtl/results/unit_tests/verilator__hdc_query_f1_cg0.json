@@ -1,0 +1,15 @@
+{
+ "sim": "verilator",
+ "case": "hdc_query_f1_cg0",
+ "toplevel": "hdc_query",
+ "module": "test_hdc_query",
+ "parameters": {
+  "FACTORIZED": 1,
+  "CLOCK_GATING": 0
+ },
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 7.5
+}

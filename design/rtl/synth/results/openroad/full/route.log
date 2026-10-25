@@ -1,0 +1,1400 @@
+OpenROAD 2e76e4a91f202d6ba051814e6300235a77cb7e90 
+Features included (+) or not (-): -GPU -GUI -Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer PWdummy :"SPACING 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer PWdummy :"WIDTH 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer Nwell :"SPACING 0.6 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer Nwell :"WIDTH 0.3 ;"
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/tech_openroad.lef, created 36 layers, 119 vias
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/45_nm_PDK/cadence/cadence_45nm/lef/gsclib045_macro.lef, created 574 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/cim_macro.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lef, created 1 library cells
+[WARNING STA-1140] /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lib line 1, library analog_blackboxes already exists.
+[INFO RSZ-0100] Repair move sequence: UnbufferMove SizeUpMove SwapPinsMove BufferMove CloneMove SplitLoadMove 
+[INFO RSZ-0098] No setup violations found
+[INFO RSZ-0505] Runtime: 1.73s
+[INFO RSZ-0046] Found 31 endpoints with hold violations.
+Iteration | Resized | Buffers | Cloned Gates |   Area   |   WNS   |   TNS   | Endpoint
+--------------------------------------------------------------------------------------
+        0 |       0 |       0 |            0 |    +0.0% |  -0.236 |  -0.371 | _135567_/D
+    final |       0 |      25 |            0 |    +0.0% |  -0.190 |  -0.258 | _135567_/D
+--------------------------------------------------------------------------------------
+[WARNING RSZ-0064] Unable to repair all hold checks within margin.
+[INFO RSZ-0032] Inserted 25 hold buffers.
+[INFO RSZ-0506] Runtime: 1.07s
+[INFO DRT-0149] Reading tech and libs.
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Cont
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Cont
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via1
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via1
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via2
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via3
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via4
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via5
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via5
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via6
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via6
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via7
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via7
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via8
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via8
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via9
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via9
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via10
+[WARNING DRT-0349] LEF58_ENCLOSURE with no CUTCLASS is not supported. Skipping for layer Via10
+
+Units:                2000
+Number of layers:     24
+Number of macros:     576
+Number of vias:       150
+Number of viarulegen: 10
+
+[INFO DRT-0150] Reading design.
+[WARNING DRT-0120] Large net _142447_ has 499 pins which may impact routing performance. Consider optimization.
+
+Design:                   cim_neurohdc_top
+Die area:                 ( 0 0 ) ( 1646400 2960360 )
+Number of track patterns: 22
+Number of DEF vias:       0
+Number of components:     96372
+Number of terminals:      1945
+Number of snets:          2
+Number of nets:           97813
+
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/clk_i
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_valid_o
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[7]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[8]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[9]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[10]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[11]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[12]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[13]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[14]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[15]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[16]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[17]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[18]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[19]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[20]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[21]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[22]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[23]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[24]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[25]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[26]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[27]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[28]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[29]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[30]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[31]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[32]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[33]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[34]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[35]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[36]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[37]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[38]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[39]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[40]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[41]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[42]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[43]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[44]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[45]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[46]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[47]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[48]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/q_o[49]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[7]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[8]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[9]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[10]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[11]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[12]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[13]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[14]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[15]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[16]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[17]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[18]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[19]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[20]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[21]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[22]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[23]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[24]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[25]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[26]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[27]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[28]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[29]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[30]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[31]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[32]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[33]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[34]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[35]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[36]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[37]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[38]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[39]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[40]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[41]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[42]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[43]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[44]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[45]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[46]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[47]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[48]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[49]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[50]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[51]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[52]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[53]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[54]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[55]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[56]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[57]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[58]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[59]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[60]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[61]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[62]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[63]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[64]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[65]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[66]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[67]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[68]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[69]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[70]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[71]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[72]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[73]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[74]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[75]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[76]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[77]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[78]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[79]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[80]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[81]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[82]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[83]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[84]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[85]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[86]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[87]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[88]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[89]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[90]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[91]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[92]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[93]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[94]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[95]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[96]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[97]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[98]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[99]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[100]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[101]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[102]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[103]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[104]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[105]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[106]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[107]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[108]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[109]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[110]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[111]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[112]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[113]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[114]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[115]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[116]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[117]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[118]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[119]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[120]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[121]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[122]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[123]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[124]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[125]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[126]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[127]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[128]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[129]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[130]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[131]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[132]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[133]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[134]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[135]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[136]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[137]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[138]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[139]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[140]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[141]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[142]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[143]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[144]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[145]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[146]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[147]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[148]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[149]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[150]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[151]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[152]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[153]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[154]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[155]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[156]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[157]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[158]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[159]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[160]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[161]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[162]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[163]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[164]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[165]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[166]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[167]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[168]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[169]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[170]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[171]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[172]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[173]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[174]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[175]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[176]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[177]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[178]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[179]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[180]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[181]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[182]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[183]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[184]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[185]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[186]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[187]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[188]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[189]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[190]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[191]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[192]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[193]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[194]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[195]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[196]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[197]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[198]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/slice_o[199]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rst_n_i
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_we_i
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_addr_i[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[7]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[8]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[9]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[10]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[11]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[12]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[13]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[14]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[15]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[16]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[17]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[18]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[19]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[20]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[21]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[22]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[23]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[24]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[25]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[26]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[27]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[28]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[29]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[30]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[31]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[32]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[33]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[34]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[35]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[36]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[37]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[38]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[39]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[40]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[41]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[42]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[43]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[44]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[45]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[46]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[47]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[48]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[49]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[50]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[51]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[52]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[53]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[54]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[55]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[56]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[57]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[58]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[59]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[60]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[61]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[62]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[63]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[64]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[65]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[66]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[67]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[68]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[69]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[70]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[71]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[72]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[73]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[74]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[75]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[76]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[77]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[78]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[79]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[80]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[81]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[82]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[83]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[84]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[85]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[86]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[87]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[88]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[89]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[90]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[91]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[92]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[93]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[94]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[95]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[96]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[97]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[98]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[99]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[100]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[101]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[102]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[103]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[104]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[105]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[106]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[107]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[108]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[109]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[110]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[111]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[112]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[113]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[114]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[115]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[116]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[117]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[118]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[119]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[120]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[121]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[122]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[123]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[124]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[125]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[126]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[127]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[128]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[129]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[130]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[131]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[132]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[133]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[134]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[135]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[136]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[137]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[138]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[139]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[140]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[141]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[142]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[143]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[144]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[145]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[146]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[147]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[148]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[149]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[150]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[151]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[152]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[153]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[154]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[155]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[156]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[157]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[158]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[159]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[160]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[161]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[162]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[163]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[164]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[165]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[166]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[167]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[168]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[169]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[170]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[171]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[172]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[173]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[174]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[175]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[176]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[177]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[178]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[179]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[180]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[181]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[182]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[183]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[184]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[185]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[186]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[187]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[188]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[189]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[190]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[191]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[192]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[193]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[194]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[195]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[196]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[197]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[198]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/cm_data_i[199]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_valid_i
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_addr_i[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[7]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[8]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[9]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[10]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[11]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[12]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[13]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[14]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[15]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[16]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[17]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[18]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_query.u_array/rd_rows_i[19]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/clk_i
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_valid_o
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[0]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[1]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[2]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[3]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[4]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[5]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[6]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[7]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[8]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[9]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[10]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[11]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[12]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[13]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[14]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[15]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[16]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[17]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[18]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[19]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[20]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[21]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[22]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[23]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[24]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[25]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[26]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[27]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[28]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[29]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[30]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[31]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[32]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[33]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[34]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[35]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[36]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[37]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[38]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[39]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[40]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[41]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[42]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[43]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[44]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[45]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[46]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[47]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[48]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[49]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[50]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[51]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[52]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[53]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[54]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[55]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[56]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[57]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[58]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[59]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[60]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[61]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[62]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[63]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[64]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[65]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[66]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[67]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[68]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[69]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[70]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[71]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[72]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[73]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[74]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[75]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[76]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[77]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[78]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[79]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[80]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[81]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[82]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[83]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[84]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[85]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[86]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[87]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[88]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[89]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[90]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[91]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[92]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[93]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[94]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[95]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[96]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[97]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[98]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[99]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[100]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[101]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[102]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[103]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[104]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[105]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[106]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[107]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[108]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[109]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[110]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[111]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[112]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[113]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[114]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[115]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[116]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[117]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[118]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[119]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[120]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[121]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[122]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[123]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[124]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[125]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[126]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[127]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[128]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[129]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[130]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[131]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[132]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[133]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[134]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[135]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[136]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[137]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[138]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[139]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[140]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[141]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[142]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[143]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[144]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[145]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[146]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[147]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[148]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[149]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[150]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[151]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[152]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[153]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[154]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[155]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[156]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[157]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[158]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[159]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[160]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[161]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[162]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[163]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[164]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[165]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[166]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[167]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[168]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[169]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[170]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[171]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[172]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[173]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[174]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[175]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[176]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[177]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[178]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[179]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[180]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[181]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[182]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[183]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[184]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[185]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[186]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[187]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[188]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[189]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[190]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[191]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[192]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[193]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[194]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[195]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[196]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[197]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[198]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[199]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[200]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[201]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[202]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[203]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[204]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[205]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[206]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[207]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[208]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[209]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[210]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[211]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[212]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[213]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[214]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[215]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[216]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[217]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[218]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[219]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[220]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[221]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[222]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[223]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[224]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[225]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[226]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[227]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[228]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[229]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[230]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[231]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[232]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[233]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[234]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[235]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[236]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[237]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[238]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[239]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[240]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[241]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[242]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[243]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[244]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[245]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[246]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[247]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[248]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[249]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[250]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[251]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[252]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[253]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[254]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[255]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[256]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[257]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[258]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[259]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[260]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[261]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[262]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[263]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[264]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[265]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[266]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[267]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[268]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[269]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[270]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[271]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[272]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[273]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[274]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[275]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[276]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[277]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[278]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[279]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[280]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[281]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[282]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[283]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[284]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[285]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[286]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[287]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[288]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[289]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[290]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[291]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[292]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[293]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[294]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[295]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[296]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[297]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[298]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[299]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[300]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[301]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[302]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[303]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[304]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[305]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[306]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[307]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[308]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[309]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[310]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[311]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[312]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[313]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[314]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[315]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[316]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[317]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[318]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[319]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[320]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[321]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[322]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[323]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[324]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[325]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[326]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[327]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[328]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[329]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[330]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[331]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[332]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[333]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[334]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[335]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[336]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[337]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[338]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[339]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[340]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[341]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[342]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[343]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[344]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[345]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[346]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[347]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[348]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[349]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[350]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[351]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[352]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[353]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[354]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[355]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[356]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[357]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[358]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[359]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[360]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[361]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[362]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[363]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[364]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[365]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[366]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[367]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[368]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[369]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[370]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[371]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[372]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[373]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[374]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[375]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[376]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[377]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[378]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[379]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[380]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[381]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[382]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[383]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[384]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[385]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[386]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[387]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[388]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[389]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[390]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[391]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[392]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[393]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[394]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[395]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[396]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[397]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[398]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[399]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[400]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[401]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[402]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[403]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[404]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[405]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[406]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[407]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[408]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[409]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[410]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[411]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[412]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[413]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[414]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[415]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[416]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[417]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[418]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[419]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[420]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[421]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[422]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[423]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[424]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[425]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[426]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[427]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[428]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[429]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[430]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[431]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[432]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[433]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[434]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[435]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[436]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[437]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[438]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[439]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[440]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[441]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[442]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[443]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[444]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[445]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[446]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[447]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[448]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[449]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[450]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[451]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[452]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[453]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[454]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[455]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[456]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[457]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[458]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[459]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[460]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[461]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[462]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[463]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[464]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[465]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[466]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[467]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[468]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[469]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[470]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[471]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[472]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[473]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[474]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[475]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[476]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[477]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[478]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[479]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[480]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[481]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[482]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[483]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[484]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[485]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[486]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[487]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[488]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[489]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[490]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[491]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[492]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[493]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[494]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[495]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[496]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[497]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[498]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[499]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[500]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[501]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[502]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[503]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[504]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[505]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[506]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[507]
+[WARNING DRT-0419] No routing tracks pass through the center of Term u_snn.u_cim_macro/m_o[508]
+[WARNING DRT-0419] message limit (1000) reached. This message will no longer print.
+[INFO DRT-0167] List of default vias:
+  Layer Via2
+    default via: M3_M2_VH
+  Layer Via3
+    default via: M4_M3_HV
+  Layer Via4
+    default via: M5_M4_VH
+  Layer Via5
+    default via: M6_M5_HV
+  Layer Via6
+    default via: M7_M6_VH
+  Layer Via7
+    default via: M8_M7_HV
+  Layer Via8
+    default via: M9_M8_VH
+  Layer Via9
+    default via: M10_M9_HV
+  Layer Via10
+    default via: M11_M10_VH
+  Layer Bondpad
+    default via: none
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+[INFO DRT-0164] Number of unique instances = 374.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0024]   Complete Poly.
+[INFO DRT-0024]   Complete Cont.
+[INFO DRT-0024]   Complete Metal1.
+[INFO DRT-0024]   Complete Via1.
+[INFO DRT-0024]   Complete Metal2.
+[INFO DRT-0024]   Complete Via2.
+[INFO DRT-0024]   Complete Metal3.
+[INFO DRT-0024]   Complete Via3.
+[INFO DRT-0024]   Complete Metal4.
+[INFO DRT-0024]   Complete Via4.
+[INFO DRT-0024]   Complete Metal5.
+[INFO DRT-0024]   Complete Via5.
+[INFO DRT-0024]   Complete Metal6.
+[INFO DRT-0024]   Complete Via6.
+[INFO DRT-0024]   Complete Metal7.
+[INFO DRT-0024]   Complete Via7.
+[INFO DRT-0024]   Complete Metal8.
+[INFO DRT-0024]   Complete Via8.
+[INFO DRT-0024]   Complete Metal9.
+[INFO DRT-0024]   Complete Via9.
+[INFO DRT-0024]   Complete Metal10.
+[INFO DRT-0024]   Complete Via10.
+[INFO DRT-0024]   Complete Metal11.
+[INFO DRT-0024]   Complete Bondpad.
+[INFO DRT-0033] Poly shape region query size = 0.
+[INFO DRT-0033] Cont shape region query size = 0.
+[INFO DRT-0033] Metal1 shape region query size = 3227775.
+[INFO DRT-0033] Via1 shape region query size = 126645.
+[INFO DRT-0033] Metal2 shape region query size = 36204.
+[INFO DRT-0033] Via2 shape region query size = 126645.
+[INFO DRT-0033] Metal3 shape region query size = 37481.
+[INFO DRT-0033] Via3 shape region query size = 126645.
+[INFO DRT-0033] Metal4 shape region query size = 38722.
+[INFO DRT-0033] Via4 shape region query size = 126645.
+[INFO DRT-0033] Metal5 shape region query size = 36204.
+[INFO DRT-0033] Via5 shape region query size = 126645.
+[INFO DRT-0033] Metal6 shape region query size = 37019.
+[INFO DRT-0033] Via6 shape region query size = 126645.
+[INFO DRT-0033] Metal7 shape region query size = 36204.
+[INFO DRT-0033] Via7 shape region query size = 126645.
+[INFO DRT-0033] Metal8 shape region query size = 36204.
+[INFO DRT-0033] Via8 shape region query size = 126645.
+[INFO DRT-0033] Metal9 shape region query size = 36232.
+[INFO DRT-0033] Via9 shape region query size = 54272.
+[INFO DRT-0033] Metal10 shape region query size = 21732.
+[INFO DRT-0033] Via10 shape region query size = 34046.
+[INFO DRT-0033] Metal11 shape region query size = 3559.
+[INFO DRT-0033] Bondpad shape region query size = 0.
+[INFO DRT-0165] Start pin access.
+[INFO DRT-0076]   Complete 1000 pins.
+[INFO DRT-0076]   Complete 2000 pins.
+[INFO DRT-0076]   Complete 3000 pins.
+[INFO DRT-0076]   Complete 4000 pins.
+[INFO DRT-0078]   Complete 4947 pins.
+[INFO DRT-0079]   Complete 100 unique inst patterns.
+[INFO DRT-0079]   Complete 200 unique inst patterns.
+[INFO DRT-0079]   Complete 300 unique inst patterns.
+[INFO DRT-0081]   Complete 372 unique inst patterns.
+[INFO DRT-0082]   Complete 10000 groups.
+[INFO DRT-0082]   Complete 20000 groups.
+[INFO DRT-0082]   Complete 30000 groups.
+[INFO DRT-0084]   Complete 31984 groups.
+#scanned instances     = 96372
+#unique  instances     = 374
+#stdCellGenAp          = 8739
+#stdCellValidPlanarAp  = 0
+#stdCellValidViaAp     = 7505
+#stdCellPinNoAp        = 0
+#stdCellPinCnt         = 302912
+#instTermValidViaApCnt = 0
+#macroGenAp            = 13824
+#macroValidPlanarAp    = 13824
+#macroValidViaAp       = 13335
+#macroNoAp             = 0
+[INFO DRT-0166] Complete pin access.
+[INFO DRT-0267] cpu time = 00:32:20, elapsed time = 00:03:49, memory = 1217.25 (MB), peak = 1833.47 (MB)
+[INFO DRT-0156] guideIn read 100000 guides.
+[INFO DRT-0156] guideIn read 200000 guides.
+[INFO DRT-0156] guideIn read 300000 guides.
+[INFO DRT-0156] guideIn read 400000 guides.
+[INFO DRT-0156] guideIn read 500000 guides.
+[INFO DRT-0156] guideIn read 600000 guides.
+[INFO DRT-0156] guideIn read 700000 guides.
+[INFO DRT-0156] guideIn read 800000 guides.
+
+[INFO DRT-0157] Number of guides:     849428
+
+[INFO DRT-0169] Post process guides.
+[INFO DRT-0176] GCELLGRID X 0 DO 274 STEP 6000 ;
+[INFO DRT-0177] GCELLGRID Y 0 DO 493 STEP 6000 ;
+[INFO DRT-0026]   Complete 100000 origin guides.
+[INFO DRT-0026]   Complete 200000 origin guides.
+[INFO DRT-0026]   Complete 300000 origin guides.
+[INFO DRT-0026]   Complete 400000 origin guides.
+[INFO DRT-0026]   Complete 500000 origin guides.
+[INFO DRT-0026]   Complete 600000 origin guides.
+[INFO DRT-0026]   Complete 700000 origin guides.
+[INFO DRT-0026]   Complete 800000 origin guides.
+[INFO DRT-0028]   Complete Poly.
+[INFO DRT-0028]   Complete Cont.
+[INFO DRT-0028]   Complete Metal1.
+[INFO DRT-0028]   Complete Via1.
+[INFO DRT-0028]   Complete Metal2.
+[INFO DRT-0028]   Complete Via2.
+[INFO DRT-0028]   Complete Metal3.
+[INFO DRT-0028]   Complete Via3.
+[INFO DRT-0028]   Complete Metal4.
+[INFO DRT-0028]   Complete Via4.
+[INFO DRT-0028]   Complete Metal5.
+[INFO DRT-0028]   Complete Via5.
+[INFO DRT-0028]   Complete Metal6.
+[INFO DRT-0028]   Complete Via6.
+[INFO DRT-0028]   Complete Metal7.
+[INFO DRT-0028]   Complete Via7.
+[INFO DRT-0028]   Complete Metal8.
+[INFO DRT-0028]   Complete Via8.
+[INFO DRT-0028]   Complete Metal9.
+[INFO DRT-0028]   Complete Via9.
+[INFO DRT-0028]   Complete Metal10.
+[INFO DRT-0028]   Complete Via10.
+[INFO DRT-0028]   Complete Metal11.
+[INFO DRT-0028]   Complete Bondpad.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0035]   Complete Poly (guide).
+[INFO DRT-0035]   Complete Cont (guide).
+[INFO DRT-0035]   Complete Metal1 (guide).
+[INFO DRT-0035]   Complete Via1 (guide).
+[INFO DRT-0035]   Complete Metal2 (guide).
+[INFO DRT-0035]   Complete Via2 (guide).
+[INFO DRT-0035]   Complete Metal3 (guide).
+[INFO DRT-0035]   Complete Via3 (guide).
+[INFO DRT-0035]   Complete Metal4 (guide).
+[INFO DRT-0035]   Complete Via4 (guide).
+[INFO DRT-0035]   Complete Metal5 (guide).
+[INFO DRT-0035]   Complete Via5 (guide).
+[INFO DRT-0035]   Complete Metal6 (guide).
+[INFO DRT-0035]   Complete Via6 (guide).
+[INFO DRT-0035]   Complete Metal7 (guide).
+[INFO DRT-0035]   Complete Via7 (guide).
+[INFO DRT-0035]   Complete Metal8 (guide).
+[INFO DRT-0035]   Complete Via8 (guide).
+[INFO DRT-0035]   Complete Metal9 (guide).
+[INFO DRT-0035]   Complete Via9 (guide).
+[INFO DRT-0035]   Complete Metal10 (guide).
+[INFO DRT-0035]   Complete Via10 (guide).
+[INFO DRT-0035]   Complete Metal11 (guide).
+[INFO DRT-0035]   Complete Bondpad (guide).
+[INFO DRT-0036] Poly guide region query size = 0.
+[INFO DRT-0036] Cont guide region query size = 0.
+[INFO DRT-0036] Metal1 guide region query size = 270773.
+[INFO DRT-0036] Via1 guide region query size = 0.
+[INFO DRT-0036] Metal2 guide region query size = 253865.
+[INFO DRT-0036] Via2 guide region query size = 0.
+[INFO DRT-0036] Metal3 guide region query size = 142968.
+[INFO DRT-0036] Via3 guide region query size = 0.
+[INFO DRT-0036] Metal4 guide region query size = 26376.
+[INFO DRT-0036] Via4 guide region query size = 0.
+[INFO DRT-0036] Metal5 guide region query size = 10832.
+[INFO DRT-0036] Via5 guide region query size = 0.
+[INFO DRT-0036] Metal6 guide region query size = 5271.
+[INFO DRT-0036] Via6 guide region query size = 0.
+[INFO DRT-0036] Metal7 guide region query size = 859.
+[INFO DRT-0036] Via7 guide region query size = 0.
+[INFO DRT-0036] Metal8 guide region query size = 284.
+[INFO DRT-0036] Via8 guide region query size = 0.
+[INFO DRT-0036] Metal9 guide region query size = 26.
+[INFO DRT-0036] Via9 guide region query size = 0.
+[INFO DRT-0036] Metal10 guide region query size = 0.
+[INFO DRT-0036] Via10 guide region query size = 0.
+[INFO DRT-0036] Metal11 guide region query size = 0.
+[INFO DRT-0036] Bondpad guide region query size = 0.
+[INFO DRT-0179] Init gr pin query.
+[INFO DRT-0267] cpu time = 00:00:02, elapsed time = 00:00:00, memory = 1325.03 (MB), peak = 1833.47 (MB)
+[INFO DRT-0245] skipped writing guide updates to database.
+[INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 285796 vertical wires in 6 frboxes and 425458 horizontal wires in 10 frboxes.
+[INFO DRT-0186] Done with 156051 vertical wires in 6 frboxes and 78711 horizontal wires in 10 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:01:11, elapsed time = 00:00:22, memory = 2392.61 (MB), peak = 2392.61 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 2588.44 (MB), peak = 2588.44 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 0 violations.
+    elapsed time = 00:01:49, memory = 2253.41 (MB).
+    Completing 20% with 0 violations.
+    elapsed time = 00:03:50, memory = 1690.47 (MB).
+    Completing 30% with 52763 violations.
+    elapsed time = 00:06:03, memory = 2653.30 (MB).
+    Completing 40% with 52763 violations.
+    elapsed time = 00:08:03, memory = 2371.38 (MB).
+    Completing 50% with 52763 violations.
+    elapsed time = 00:10:21, memory = 2192.94 (MB).
+    Completing 60% with 103094 violations.
+    elapsed time = 00:11:49, memory = 2594.83 (MB).
+    Completing 70% with 103094 violations.
+    elapsed time = 00:14:03, memory = 2874.73 (MB).
+    Completing 80% with 155469 violations.
+    elapsed time = 00:16:23, memory = 3068.14 (MB).
+    Completing 90% with 155469 violations.
+    elapsed time = 00:18:37, memory = 2777.34 (MB).
+    Completing 100% with 206599 violations.
+    elapsed time = 00:20:48, memory = 3802.62 (MB).
+[INFO DRT-0199]   Number of violations = 215359.
+Viol/Layer      Metal1   Via1 Metal2   Via2 Metal3   Via3 Metal4   Via4 Metal5 Metal6 Metal7 Metal8 Metal9
+Cut Spacing          0      7      0      4      0      0      0      0      0      0      0      0      0
+EOL                 24      0     33      0      4      0      0      0      0      0      0      0      0
+Metal Spacing       66      0   5480      0   2841      0    823      0    167    242     23      4      0
+Min Hole             1      0      5      0     19      0      3      0      0      1      0      0      0
+Recheck             26      0   4193      0   2967      0   1150      0    290     82     52      0      0
+Short               96      5 153488     89  25954      7  14695      4   1362    891    254      0      7
+[INFO DRT-0267] cpu time = 03:03:29, elapsed time = 00:20:50, memory = 3951.91 (MB), peak = 3995.03 (MB)
+Total wire length = 4290342 um.
+Total wire length on LAYER Metal1 = 0 um.
+Total wire length on LAYER Metal2 = 1237222 um.
+Total wire length on LAYER Metal3 = 1171839 um.
+Total wire length on LAYER Metal4 = 989532 um.
+Total wire length on LAYER Metal5 = 352728 um.
+Total wire length on LAYER Metal6 = 407396 um.
+Total wire length on LAYER Metal7 = 89418 um.
+Total wire length on LAYER Metal8 = 39050 um.
+Total wire length on LAYER Metal9 = 3154 um.
+Total wire length on LAYER Metal10 = 0 um.
+Total wire length on LAYER Metal11 = 0 um.
+Total number of vias = 824266.
+Up-via summary (total 824266):
+
+------------------
+    Poly         0
+  Metal1    304938
+  Metal2    368673
+  Metal3     92450
+  Metal4     37790
+  Metal5     16662
+  Metal6      2593
+  Metal7      1082
+  Metal8        78
+  Metal9         0
+ Metal10         0
+ Metal11         0
+------------------
+        824266
+
+
+[INFO DRT-0195] Start 1st optimization iteration.
+    Completing 10% with 215359 violations.
+    elapsed time = 00:01:16, memory = 1886.00 (MB).
+    Completing 20% with 215359 violations.
+    elapsed time = 00:02:44, memory = 2338.62 (MB).
+    Completing 30% with 199395 violations.
+    elapsed time = 00:04:27, memory = 3198.80 (MB).
+    Completing 40% with 199395 violations.
+    elapsed time = 00:06:24, memory = 2135.81 (MB).
+    Completing 50% with 199395 violations.
+    elapsed time = 00:08:21, memory = 867.44 (MB).
+    Completing 60% with 182845 violations.
+    elapsed time = 00:09:56, memory = 2334.28 (MB).
+    Completing 70% with 182845 violations.
+    elapsed time = 00:11:56, memory = 1773.11 (MB).
+    Completing 80% with 164293 violations.
+    elapsed time = 00:14:31, memory = 2613.50 (MB).
+    Completing 90% with 164293 violations.
+    elapsed time = 00:16:18, memory = 2454.00 (MB).
+    Completing 100% with 145954 violations.
+    elapsed time = 00:18:42, memory = 3556.66 (MB).
+[INFO DRT-0199]   Number of violations = 145958.
+Viol/Layer      Metal1   Via1 Metal2   Via2 Metal3   Via3 Metal4   Via4 Metal5 Metal6 Metal7 Metal8 Metal9
+Cut Spacing          0      5      0      1      0      0      0      2      0      0      0      0      0
+EOL                 15      0    199      0      1      0      0      0      0      1      0      0      0
+Metal Spacing       60      0   8701      0    858      0    430      0     35    134      5      2      0
+Min Hole             1      0      2      0      8      0      0      0      2      0      0      0      0
+Recheck              0      0      0      0      3      0      1      0      0      0      0      0      0
+Short               88      0 114088     16  12566      3   7730      0    526    445     26      3      1
+[INFO DRT-0267] cpu time = 02:40:26, elapsed time = 00:18:44, memory = 3475.80 (MB), peak = 4002.00 (MB)
+Total wire length = 4277169 um.
+Total wire length on LAYER Metal1 = 0 um.
+Total wire length on LAYER Metal2 = 1203030 um.
+Total wire length on LAYER Metal3 = 1162523 um.
+Total wire length on LAYER Metal4 = 1004743 um.
+Total wire length on LAYER Metal5 = 357367 um.
+Total wire length on LAYER Metal6 = 415825 um.
+Total wire length on LAYER Metal7 = 89831 um.
+Total wire length on LAYER Metal8 = 40693 um.
+Total wire length on LAYER Metal9 = 3153 um.
+Total wire length on LAYER Metal10 = 0 um.
+Total wire length on LAYER Metal11 = 0 um.
+Total number of vias = 833099.
+Up-via summary (total 833099):
+
+------------------
+    Poly         0
+  Metal1    304948
+  Metal2    368044
+  Metal3     97117
+  Metal4     40562
+  Metal5     18187
+  Metal6      2940
+  Metal7      1225
+  Metal8        76
+  Metal9         0
+ Metal10         0
+ Metal11         0
+------------------
+        833099
+
+
+[INFO DRT-0195] Start 2nd optimization iteration.

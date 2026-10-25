@@ -1,0 +1,15 @@
+{
+ "sim": "icarus",
+ "case": "clk_gate_tree_n512_l3",
+ "toplevel": "clk_tree_wrap",
+ "module": "test_clk_gate_tree",
+ "parameters": {
+  "N": 512,
+  "LEVELS": 3
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 3.8
+}

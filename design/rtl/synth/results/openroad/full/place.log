@@ -1,0 +1,596 @@
+OpenROAD 2e76e4a91f202d6ba051814e6300235a77cb7e90 
+Features included (+) or not (-): -GPU -GUI -Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer PWdummy :"SPACING 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer PWdummy :"WIDTH 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer Nwell :"SPACING 0.6 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer Nwell :"WIDTH 0.3 ;"
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/tech_openroad.lef, created 36 layers, 119 vias
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/45_nm_PDK/cadence/cadence_45nm/lef/gsclib045_macro.lef, created 574 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/cim_macro.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lef, created 1 library cells
+[WARNING STA-1140] /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lib line 1, library analog_blackboxes already exists.
+[INFO GPL-0001] ---- Initialize GPL Main Data Structures
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.200  1.710 ) um
+[INFO GPL-0004] CoreBBox: ( 30.000 30.780 ) ( 793.200 1450.080 ) um
+[INFO GPL-0016] Core area:                  1083209.760 um^2
+[INFO GPL-0036] Movable instances area:     206562.186 um^2
+[INFO GPL-0037] Total instances area:       797452.002 um^2
+[INFO GPL-0035] Pin density area adjust:     22350.526 um^2
+[INFO GPL-0032] ---- Initialize Region: Top-level
+[INFO GPL-0006] Number of instances:             78001
+[INFO GPL-0007] Movable instances:               77999
+[INFO GPL-0008] Fixed instances:                     2
+[INFO GPL-0009] Dummy instances:                     0
+[INFO GPL-0010] Number of nets:                  80146
+[INFO GPL-0011] Number of pins:                 269541
+[INFO GPL-0012] Die BBox:       (  0.000  0.000 ) ( 823.200 1480.180 ) um
+[INFO GPL-0013] Placement BBox: ( 30.000 30.780 ) ( 793.200 1450.080 ) um
+[INFO GPL-0014] Region name: top-level.
+[INFO GPL-0015] Region area:                1083209.760 um^2
+[INFO GPL-0017] Fixed instances area:       590889.816 um^2
+[INFO GPL-0018] Movable instances area:     228912.712 um^2
+[INFO GPL-0019] Utilization:                    46.497 %
+[INFO GPL-0020] Standard cells area:        228912.712 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0005] ---- Execute Conjugate Gradient Initial Placement.
+[INFO GPL-0051] Source of initial instance position counters:
+	Odb location = 0	Core center = 77999	Region center = 0
+[INFO GPL-0033] ---- Initialize Nesterov Region: Top-level
+[INFO GPL-0023] Placement target density:       0.5500
+[INFO GPL-0024] Movable insts average area:      2.935 um^2
+[INFO GPL-0025] Ideal bin area:                  5.336 um^2
+[INFO GPL-0026] Ideal bin count:                202999
+[INFO GPL-0027] Total bin area:             1083209.760 um^2
+[INFO GPL-0028] Bin count (X, Y):         256 ,    256
+[INFO GPL-0029] Bin size (W * H):       2.981 *  5.544 um
+[INFO GPL-0030] Number of bins:                  65536
+[INFO GPL-0084] ---- Execute Nesterov Global Placement.
+[INFO GPL-0031] HPWL: Half-Perimeter Wirelength
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+        0 |   0.9995 |  8.827357e+05 |   +0.00% |  1.98e-15 |      
+       10 |   0.9925 |  1.156131e+06 |  +30.97% |  2.97e-15 |      
+       20 |   0.9878 |  1.173976e+06 |   +1.54% |  4.78e-15 |      
+       30 |   0.9843 |  1.119849e+06 |   -4.61% |  7.79e-15 |      
+       40 |   0.9820 |  1.048963e+06 |   -6.33% |  1.27e-14 |      
+       50 |   0.9809 |  9.738852e+05 |   -7.16% |  2.07e-14 |      
+       60 |   0.9775 |  8.969298e+05 |   -7.90% |  3.37e-14 |      
+       70 |   0.9765 |  8.280760e+05 |   -7.68% |  5.49e-14 |      
+       80 |   0.9765 |  7.943232e+05 |   -4.08% |  8.94e-14 |      
+       90 |   0.9745 |  7.755584e+05 |   -2.36% |  1.46e-13 |      
+      100 |   0.9709 |  7.653921e+05 |   -1.31% |  2.37e-13 |      
+      110 |   0.9669 |  7.684548e+05 |   +0.40% |  3.86e-13 |      
+      120 |   0.9651 |  7.787470e+05 |   +1.34% |  6.27e-13 |      
+      130 |   0.9633 |  7.960632e+05 |   +2.22% |  1.02e-12 |      
+      140 |   0.9610 |  8.213057e+05 |   +3.17% |  1.65e-12 |      
+      150 |   0.9576 |  8.616101e+05 |   +4.91% |  2.67e-12 |      
+      160 |   0.9521 |  9.218583e+05 |   +6.99% |  4.29e-12 |      
+      170 |   0.9446 |  1.002945e+06 |   +8.80% |  6.86e-12 |      
+      180 |   0.9320 |  1.107817e+06 |  +10.46% |  1.09e-11 |      
+      190 |   0.9155 |  1.245026e+06 |  +12.39% |  1.73e-11 |      
+      200 |   0.8948 |  1.420937e+06 |  +14.13% |  2.71e-11 |      
+      210 |   0.8684 |  1.621599e+06 |  +14.12% |  4.23e-11 |      
+      220 |   0.8387 |  1.833895e+06 |  +13.09% |  6.58e-11 |      
+      230 |   0.8070 |  2.037676e+06 |  +11.11% |  1.02e-10 |      
+      240 |   0.7723 |  2.208332e+06 |   +8.38% |  1.61e-10 |      
+      250 |   0.7351 |  2.345975e+06 |   +6.23% |  2.54e-10 |      
+      260 |   0.6922 |  2.470441e+06 |   +5.31% |  4.02e-10 |      
+      270 |   0.6408 |  2.566953e+06 |   +3.91% |  6.41e-10 |      
+      280 |   0.5753 |  2.665397e+06 |   +3.84% |  1.02e-09 |      
+      290 |   0.5081 |  2.834229e+06 |   +6.33% |  1.61e-09 |      
+      300 |   0.4483 |  3.038276e+06 |   +7.20% |  2.50e-09 |      
+      310 |   0.4085 |  3.160619e+06 |   +4.03% |  3.96e-09 |      
+      320 |   0.3680 |  3.221557e+06 |   +1.93% |  6.36e-09 |      
+      330 |   0.3349 |  3.248758e+06 |   +0.84% |  9.98e-09 |      
+      340 |   0.3150 |  3.200599e+06 |   -1.48% |  1.47e-08 |      
+      350 |   0.2869 |  3.192417e+06 |   -0.26% |  2.17e-08 |      
+      360 |   0.2675 |  3.174181e+06 |   -0.57% |  3.19e-08 |      
+      370 |   0.2419 |  3.145272e+06 |   -0.91% |  4.70e-08 |      
+      380 |   0.2158 |  3.126336e+06 |   -0.60% |  6.92e-08 |      
+      390 |   0.1950 |  3.102765e+06 |   -0.75% |  1.02e-07 |      
+      400 |   0.1739 |  3.085283e+06 |   -0.56% |  1.50e-07 |      
+      410 |   0.1547 |  3.066939e+06 |   -0.59% |  2.21e-07 |      
+      420 |   0.1368 |  3.031962e+06 |   -1.14% |  3.26e-07 |      
+      430 |   0.1200 |  3.017617e+06 |   -0.47% |  4.80e-07 |      
+      440 |   0.1041 |  3.016866e+06 |   -0.02% |  7.07e-07 |      
+      443 |   0.0997 |  3.017248e+06 |          |  8.26e-07 |      
+---------------------------------------------------------------
+[INFO GPL-1001] Global placement finished at iteration 443
+[INFO GPL-1002] Placed Cell Area            228912.7117
+[INFO GPL-1003] Available Free Area         492319.9440
+[INFO GPL-1004] Minimum Feasible Density        0.4700 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.5166
+[INFO GPL-1008]     - For 80% usage of free space: 0.5812
+[INFO GPL-1009]     - For 50% usage of free space: 0.9299
+[INFO GPL-1014] Final placement area: 228912.71 (+0.00%)
+[INFO GPL-1018] Final HPWL (um): 3018048.69
+Found 2 macro blocks.
+Using 2 tracks default min distance between IO pins.
+[INFO PPL-0001] Number of available slots 11882
+[INFO PPL-0002] Number of I/O             1943
+[INFO PPL-0003] Number of I/O w/sink      1943
+[INFO PPL-0004] Number of I/O w/o sink    0
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 313846.22 um.
+[INFO GPL-0001] ---- Initialize GPL Main Data Structures
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.200  1.710 ) um
+[INFO GPL-0004] CoreBBox: ( 30.000 30.780 ) ( 793.200 1450.080 ) um
+[INFO GPL-0016] Core area:                  1083209.760 um^2
+[INFO GPL-0036] Movable instances area:     206562.186 um^2
+[INFO GPL-0037] Total instances area:       797452.002 um^2
+[INFO GPL-0035] Pin density area adjust:     22350.526 um^2
+[INFO GPL-0032] ---- Initialize Region: Top-level
+[INFO GPL-0006] Number of instances:             78001
+[INFO GPL-0007] Movable instances:               77999
+[INFO GPL-0008] Fixed instances:                     2
+[INFO GPL-0009] Dummy instances:                     0
+[INFO GPL-0010] Number of nets:                  80146
+[INFO GPL-0011] Number of pins:                 271484
+[INFO GPL-0012] Die BBox:       (  0.000  0.000 ) ( 823.200 1480.180 ) um
+[INFO GPL-0013] Placement BBox: ( 30.000 30.780 ) ( 793.200 1450.080 ) um
+[INFO GPL-0014] Region name: top-level.
+[INFO GPL-0015] Region area:                1083209.760 um^2
+[INFO GPL-0017] Fixed instances area:       590889.816 um^2
+[INFO GPL-0018] Movable instances area:     228912.712 um^2
+[INFO GPL-0019] Utilization:                    46.497 %
+[INFO GPL-0020] Standard cells area:        228912.712 um^2
+[INFO GPL-0021] Large instances area:            0.000 um^2
+[INFO GPL-0005] ---- Execute Conjugate Gradient Initial Placement.
+[INFO GPL-0051] Source of initial instance position counters:
+	Odb location = 77999	Core center = 0	Region center = 0
+[InitialPlace]  Iter: 1 conjugate gradient residual: 0.00061905 HPWL: 13410552195
+[InitialPlace]  Iter: 2 conjugate gradient residual: 0.00055531 HPWL: 10917997808
+[InitialPlace]  Iter: 3 conjugate gradient residual: 0.00048111 HPWL: 9984340343
+[InitialPlace]  Iter: 4 conjugate gradient residual: 0.00031885 HPWL: 9474332651
+[InitialPlace]  Iter: 5 conjugate gradient residual: 0.00030967 HPWL: 9151257882
+[InitialPlace]  Iter: 6 conjugate gradient residual: 0.00022815 HPWL: 8940069806
+[InitialPlace]  Iter: 7 conjugate gradient residual: 0.00017517 HPWL: 8842408953
+[InitialPlace]  Iter: 8 conjugate gradient residual: 0.00005574 HPWL: 8783392991
+[InitialPlace]  Iter: 9 conjugate gradient residual: 0.00003069 HPWL: 8738070689
+[InitialPlace]  Iter: 10 conjugate gradient residual: 0.00003059 HPWL: 8713427582
+[InitialPlace]  Iter: 11 conjugate gradient residual: 0.00003299 HPWL: 8702992101
+[InitialPlace]  Iter: 12 conjugate gradient residual: 0.00002827 HPWL: 8697066587
+[InitialPlace]  Iter: 13 conjugate gradient residual: 0.00002538 HPWL: 8689854241
+[InitialPlace]  Iter: 14 conjugate gradient residual: 0.00002962 HPWL: 8686995035
+[InitialPlace]  Iter: 15 conjugate gradient residual: 0.00003280 HPWL: 8684535673
+[InitialPlace]  Iter: 16 conjugate gradient residual: 0.00003326 HPWL: 8683437947
+[InitialPlace]  Iter: 17 conjugate gradient residual: 0.00002163 HPWL: 8681577436
+[InitialPlace]  Iter: 18 conjugate gradient residual: 0.00003242 HPWL: 8680661896
+[InitialPlace]  Iter: 19 conjugate gradient residual: 0.00002310 HPWL: 8679273134
+[InitialPlace]  Iter: 20 conjugate gradient residual: 0.00002852 HPWL: 8678498885
+[INFO GPL-0033] ---- Initialize Nesterov Region: Top-level
+[INFO GPL-0023] Placement target density:       0.5500
+[INFO GPL-0024] Movable insts average area:      2.935 um^2
+[INFO GPL-0025] Ideal bin area:                  5.336 um^2
+[INFO GPL-0026] Ideal bin count:                202999
+[INFO GPL-0027] Total bin area:             1083209.760 um^2
+[INFO GPL-0028] Bin count (X, Y):         256 ,    256
+[INFO GPL-0029] Bin size (W * H):       2.981 *  5.544 um
+[INFO GPL-0030] Number of bins:                  65536
+[INFO GPL-0084] ---- Execute Nesterov Global Placement.
+[INFO GPL-0031] HPWL: Half-Perimeter Wirelength
+Iteration | Overflow |     HPWL (um) |  HPWL(%) |   Penalty | Group
+---------------------------------------------------------------
+        0 |   0.9525 |  1.239584e+06 |   +0.00% |  1.88e-15 |      
+       10 |   0.8955 |  1.473251e+06 |  +18.85% |  2.75e-15 |      
+       20 |   0.8692 |  1.630365e+06 |  +10.66% |  4.32e-15 |      
+       30 |   0.8522 |  1.703550e+06 |   +4.49% |  6.92e-15 |      
+       40 |   0.8442 |  1.732191e+06 |   +1.68% |  1.12e-14 |      
+       50 |   0.8420 |  1.757179e+06 |   +1.44% |  1.81e-14 |      
+       60 |   0.8404 |  1.783203e+06 |   +1.48% |  2.94e-14 |      
+       70 |   0.8394 |  1.801182e+06 |   +1.01% |  4.77e-14 |      
+       80 |   0.8393 |  1.807946e+06 |   +0.38% |  7.75e-14 |      
+       90 |   0.8391 |  1.806737e+06 |   -0.07% |  1.26e-13 |      
+      100 |   0.8386 |  1.801389e+06 |   -0.30% |  2.06e-13 |      
+      110 |   0.8392 |  1.793619e+06 |   -0.43% |  3.35e-13 |      
+      120 |   0.8402 |  1.786546e+06 |   -0.39% |  5.45e-13 |      
+      130 |   0.8411 |  1.784505e+06 |   -0.11% |  8.88e-13 |      
+      140 |   0.8408 |  1.791247e+06 |   +0.38% |  1.45e-12 |      
+      150 |   0.8391 |  1.807645e+06 |   +0.92% |  2.35e-12 |      
+      160 |   0.8362 |  1.833027e+06 |   +1.40% |  3.80e-12 |      
+      170 |   0.8330 |  1.866249e+06 |   +1.81% |  6.15e-12 |      
+      180 |   0.8300 |  1.907868e+06 |   +2.23% |  9.93e-12 |      
+      190 |   0.8239 |  1.960858e+06 |   +2.78% |  1.60e-11 |      
+      200 |   0.8146 |  2.028170e+06 |   +3.43% |  2.57e-11 |      
+      210 |   0.8020 |  2.115300e+06 |   +4.30% |  4.10e-11 |      
+      220 |   0.7840 |  2.224037e+06 |   +5.14% |  6.53e-11 |      
+      230 |   0.7618 |  2.345765e+06 |   +5.47% |  1.04e-10 |      
+      240 |   0.7351 |  2.481346e+06 |   +5.78% |  1.64e-10 |      
+      250 |   0.7035 |  2.627876e+06 |   +5.91% |  2.59e-10 |      
+      260 |   0.6634 |  2.754319e+06 |   +4.81% |  4.09e-10 |      
+      270 |   0.6133 |  2.839272e+06 |   +3.08% |  6.54e-10 |      
+      280 |   0.5551 |  2.923854e+06 |   +2.98% |  1.05e-09 |      
+      290 |   0.4911 |  3.058815e+06 |   +4.62% |  1.66e-09 |      
+      300 |   0.4415 |  3.203301e+06 |   +4.72% |  2.61e-09 |      
+      310 |   0.3985 |  3.287786e+06 |   +2.64% |  4.17e-09 |      
+      320 |   0.3604 |  3.341246e+06 |   +1.63% |  6.72e-09 |      
+      330 |   0.3270 |  3.379743e+06 |   +1.15% |  1.02e-08 |      
+      340 |   0.3047 |  3.331061e+06 |   -1.44% |  1.50e-08 |      
+      350 |   0.2813 |  3.328370e+06 |   -0.08% |  2.21e-08 |      
+      360 |   0.2554 |  3.316770e+06 |   -0.35% |  3.26e-08 |      
+      370 |   0.2347 |  3.290037e+06 |   -0.81% |  4.80e-08 |      
+      380 |   0.2106 |  3.266020e+06 |   -0.73% |  7.07e-08 |      
+      390 |   0.1919 |  3.239151e+06 |   -0.82% |  1.04e-07 |      
+      400 |   0.1694 |  3.219489e+06 |   -0.61% |  1.53e-07 |      
+      410 |   0.1509 |  3.181885e+06 |   -1.17% |  2.26e-07 |      
+      420 |   0.1350 |  3.152168e+06 |   -0.93% |  3.33e-07 |      
+      430 |   0.1168 |  3.143819e+06 |   -0.26% |  4.90e-07 |      
+      440 |   0.1009 |  3.144291e+06 |   +0.02% |  7.22e-07 |      
+      441 |   0.0994 |  3.144317e+06 |          |  7.81e-07 |      
+---------------------------------------------------------------
+[INFO GPL-1001] Global placement finished at iteration 441
+[INFO GPL-1002] Placed Cell Area            228912.7117
+[INFO GPL-1003] Available Free Area         492319.9440
+[INFO GPL-1004] Minimum Feasible Density        0.4700 (cell_area / free_area)
+[INFO GPL-1006]   Suggested Target Densities:
+[INFO GPL-1007]     - For 90% usage of free space: 0.5166
+[INFO GPL-1008]     - For 80% usage of free space: 0.5812
+[INFO GPL-1009]     - For 50% usage of free space: 0.9299
+[INFO GPL-1014] Final placement area: 228912.71 (+0.00%)
+[INFO GPL-1018] Final HPWL (um): 3145106.41
+Iteration |   Area    | Resized | Buffers | Nets repaired | Remaining
+---------------------------------------------------------------------
+        0 |     +0.0% |       0 |       0 |             0 |     80146
+    final |    +16.8% |   12508 |   14774 |         12396 |         0
+---------------------------------------------------------------------
+[INFO RSZ-0034] Found 12539 slew violations.
+[INFO RSZ-0035] Found 10 fanout violations.
+[INFO RSZ-0036] Found 12 capacitance violations.
+[INFO RSZ-0039] Resized 12508 instances.
+[INFO RSZ-0038] Inserted 14774 buffers in 12396 nets.
+[INFO RSZ-0504] Runtime: 11.73s
+[INFO DPL-0006] Core area: 1083209.76 um^2
+[INFO DPL-0007] Movable instances area: 340357.03 um^2
+[INFO DPL-0008] Fixed instances area within core: 590745.15 um^2
+[INFO DPL-0009] Utilization: 86.0%
+[INFO DPL-0005] Diamond search max displacement: +/- 500 sites horizontally, +/- 100 rows vertically.
+[INFO DPL-1102] Legalizing using negotiation legalizer.
+[INFO DPL-1103] Negotiation base search window: +/-20 sites horizontally, +/-5 rows vertically 
+	Automatic search window extension enabled.
+	Search window extendable up to the max displacement cap of +/-500 sites, +/-100 rows near walls.
+[INFO DPL-1104] NegotiationLegalizer DRC penalty: 5.
+[INFO DPL-0392] Negotiation cell height distribution (3 unique row-count(s)):
+[INFO DPL-0393]   height 1 row(s): 92773 cells
+[INFO DPL-0393]   height 51 row(s): 1 cells
+[INFO DPL-0393]   height 447 row(s): 1 cells
+          |      Total |  Illegal |  Illegal
+Iteration | Violations |    Cells |    Sites
+---------------------------------------------
+        0 |     310568 |     45966 |    246663
+        1 |     195346 |     17386 |    149227
+        2 |     159058 |     12908 |    123388
+        3 |     132079 |     11707 |    108909
+        4 |     113311 |     10879 |     95655
+        5 |     101920 |     10456 |     86836
+        6 |      91586 |      9986 |     78484
+        7 |      84989 |      9671 |     73083
+        8 |      78293 |      9347 |     67220
+        9 |      73658 |      9030 |     63584
+       10 |      71139 |      8921 |     61238
+       20 |      49642 |      8002 |     41490
+       30 |      41862 |      7410 |     34371
+       40 |      36468 |      6986 |     29446
+       50 |      33093 |      6529 |     26537
+       60 |      29885 |      6169 |     23704
+       70 |      27583 |      5941 |     21624
+       80 |      25756 |      5622 |     20131
+       90 |      23965 |      5457 |     18508
+      100 |      22732 |      5120 |     17609
+      110 |      21108 |      4830 |     16278
+      120 |      19982 |      4684 |     15295
+      130 |      18971 |      4455 |     14492
+      140 |      17788 |      4228 |     13557
+      150 |      16827 |      4053 |     12765
+      160 |      16032 |      3906 |     12126
+      170 |      15363 |      3773 |     11590
+      180 |      14498 |      3556 |     10939
+      190 |      13914 |      3392 |     10501
+      200 |      13560 |      3300 |     10260
+      210 |      13273 |      3169 |     10104
+      220 |      12398 |      3094 |      9304
+      230 |      11761 |      3015 |      8746
+      240 |      10969 |      2779 |      8187
+      250 |      10472 |      2738 |      7734
+      260 |      10137 |      2603 |      7534
+      270 |       9846 |      2552 |      7294
+      280 |       9731 |      2493 |      7238
+      290 |       9089 |      2383 |      6697
+      300 |       8692 |      2294 |      6398
+      310 |       8237 |      2147 |      6090
+      320 |       7997 |      2079 |      5915
+      330 |       7891 |      2033 |      5858
+      340 |       7344 |      1946 |      5398
+      350 |       7395 |      1863 |      5529
+      360 |       6742 |      1758 |      4984
+      370 |       6485 |      1697 |      4788
+      380 |       6182 |      1672 |      4510
+      390 |       6101 |      1623 |      4478
+      399 |       5858 |      1582 |      4276
+Negotiation phase 2: isolation point active, 1000 iterations.
+      400 |       5906 |      1592 |      4314
+      410 |       6059 |      1563 |      4496
+      420 |       5469 |      1515 |      3954
+      430 |       5432 |      1426 |      4006
+      440 |       5276 |      1406 |      3870
+      450 |       4979 |      1331 |      3648
+      460 |       4925 |      1397 |      3528
+      470 |       4877 |      1347 |      3530
+      480 |       4603 |      1265 |      3338
+      490 |       4509 |      1201 |      3308
+      500 |       4208 |      1114 |      3094
+      510 |       4049 |      1023 |      3026
+      520 |       3736 |       990 |      2746
+      530 |       3768 |       976 |      2792
+      540 |       3478 |       914 |      2564
+      550 |       3166 |       864 |      2302
+      560 |       3009 |       821 |      2188
+      570 |       3094 |       822 |      2272
+      580 |       2995 |       791 |      2204
+      590 |       2924 |       766 |      2158
+      600 |       2780 |       748 |      2032
+      610 |       2721 |       755 |      1966
+      620 |       2522 |       708 |      1814
+      630 |       2500 |       694 |      1806
+      640 |       2499 |       681 |      1818
+      650 |       2222 |       614 |      1608
+      660 |       2084 |       574 |      1510
+      670 |       1906 |       524 |      1382
+      680 |       1862 |       526 |      1336
+      690 |       1799 |       519 |      1280
+      700 |       1670 |       500 |      1170
+      710 |       1634 |       466 |      1168
+      720 |       1649 |       447 |      1202
+      730 |       1541 |       419 |      1122
+      740 |       1403 |       379 |      1024
+      750 |       1470 |       368 |      1102
+      760 |       1382 |       384 |       998
+      770 |       1461 |       381 |      1080
+      780 |       1454 |       348 |      1106
+      790 |       1285 |       335 |       950
+      800 |       1261 |       327 |       934
+      810 |       1179 |       297 |       882
+      820 |       1168 |       296 |       872
+      830 |       1094 |       296 |       798
+      840 |       1165 |       291 |       874
+      850 |       1031 |       285 |       746
+      860 |       1049 |       277 |       772
+      870 |        971 |       269 |       702
+      880 |        991 |       267 |       724
+      890 |        859 |       247 |       612
+      900 |        834 |       246 |       588
+      910 |        831 |       237 |       594
+      920 |        783 |       215 |       568
+      930 |        681 |       195 |       486
+      940 |        617 |       175 |       442
+      950 |        581 |       163 |       418
+      960 |        528 |       154 |       374
+      970 |        505 |       147 |       358
+      980 |        507 |       141 |       366
+      990 |        416 |       132 |       284
+     1000 |        425 |       115 |       310
+     1010 |        453 |       117 |       336
+     1020 |        347 |       107 |       240
+     1030 |        318 |        94 |       224
+     1040 |        346 |       100 |       246
+     1050 |        351 |        97 |       254
+     1060 |        317 |        95 |       222
+     1070 |        327 |        99 |       228
+     1080 |        312 |        92 |       220
+     1090 |        292 |        84 |       208
+     1100 |        263 |        79 |       184
+     1110 |        269 |        71 |       198
+     1120 |        242 |        66 |       176
+     1130 |        261 |        75 |       186
+     1140 |        221 |        67 |       154
+     1150 |        218 |        64 |       154
+     1160 |        207 |        65 |       142
+     1170 |        212 |        50 |       162
+     1180 |        200 |        48 |       152
+     1190 |        187 |        55 |       132
+     1200 |        190 |        58 |       132
+     1210 |        194 |        54 |       140
+     1220 |        237 |        53 |       184
+     1230 |        173 |        47 |       126
+     1240 |        169 |        45 |       124
+     1250 |        167 |        45 |       122
+     1260 |        166 |        42 |       124
+     1270 |        221 |        45 |       176
+     1280 |        222 |        60 |       162
+     1290 |        249 |        61 |       188
+     1300 |        193 |        49 |       144
+     1310 |        161 |        47 |       114
+     1320 |        138 |        40 |        98
+     1330 |        122 |        42 |        80
+     1340 |        123 |        41 |        82
+     1350 |        130 |        44 |        86
+     1360 |        129 |        43 |        86
+     1370 |        120 |        40 |        80
+     1380 |        122 |        34 |        88
+     1390 |        122 |        38 |        84
+     1399 |        132 |        36 |        96
+[WARNING DPL-0701] NegotiationLegalizer did not fully converge. Violations remain: 36
+[INFO DPL-0500] Runtime: 427.10s
+Detailed Placement Analysis
+---------------------------------
+legalizer            negotiation
+total moves             2362258
+total displacement     344312.2 u
+average displacement        3.7 u
+max displacement           69.8 u
+original HPWL         3415374.8 u
+legalized HPWL        3736493.6 u
+delta HPWL                    9 %
+
+[WARNING DPL-0005] Overlap check failed (17).
+ _075206_ (XNOR2X1) overlaps _074187_ (OA22X1)
+ _086117_ (NOR2X2) overlaps _075117_ (OA22X1)
+ _090462_ (OAI21XL) overlaps _090461_ (NAND2XL)
+ _093495_ (MX2X1) overlaps _075102_ (CLKBUFX2)
+ _101272_ (OAI22XL) overlaps _100518_ (NAND2XL)
+ _101954_ (NOR2X2) overlaps _092982_ (AOI22X2)
+ _102194_ (OAI22X4) overlaps _089533_ (NAND2XL)
+ _131720_ (XNOR2X1) overlaps _079976_ (OAI21XL)
+ wire1807 (BUFX16) overlaps _075070_ (INVXL)
+ wire1943 (CLKBUFX20) overlaps _093310_ (CLKMX2X2)
+ wire2148 (CLKBUFX20) overlaps _081843_ (INVXL)
+ wire2222 (CLKBUFX20) overlaps _086118_ (AOI22X2)
+ wire2700 (CLKBUFX20) overlaps _096413_ (MX2X1)
+ wire3825 (CLKBUFX20) overlaps _080051_ (AOI21XL)
+ wire4050 (BUFX20) overlaps _091843_ (OAI32X2)
+ wire5090 (CLKBUFX20) overlaps _074722_ (OA22X1)
+ wire5586 (BUFX20) overlaps _078490_ (NOR2X2)
+[WARNING DPL-0011] Padding check failed (17).
+ _075206_
+ _086117_
+ _090462_
+ _093495_
+ _101272_
+ _101954_
+ _102194_
+ _131720_
+ wire1807
+ wire1943
+ wire2148
+ wire2222
+ wire2700
+ wire3825
+ wire4050
+ wire5090
+ wire5586
+[ERROR DPL-0033] detailed placement checks failed during check placement.
+check_placement failed once (DPL-0033): legalising again with a wider search
+[INFO DPL-0006] Core area: 1083209.76 um^2
+[INFO DPL-0007] Movable instances area: 340357.03 um^2
+[INFO DPL-0008] Fixed instances area within core: 590745.15 um^2
+[INFO DPL-0009] Utilization: 86.0%
+[INFO DPL-0005] Diamond search max displacement: +/- 15000 sites horizontally, +/- 350 rows vertically.
+[INFO DPL-1102] Legalizing using negotiation legalizer.
+[INFO DPL-1103] Negotiation base search window: +/-20 sites horizontally, +/-5 rows vertically 
+	Automatic search window extension enabled.
+	Search window extendable up to the max displacement cap of +/-15000 sites, +/-350 rows near walls.
+[INFO DPL-1104] NegotiationLegalizer DRC penalty: 5.
+[INFO DPL-0392] Negotiation cell height distribution (3 unique row-count(s)):
+[INFO DPL-0393]   height 1 row(s): 92773 cells
+[INFO DPL-0393]   height 51 row(s): 1 cells
+[INFO DPL-0393]   height 447 row(s): 1 cells
+          |      Total |  Illegal |  Illegal
+Iteration | Violations |    Cells |    Sites
+---------------------------------------------
+        0 |        104 |        34 |        70
+        1 |        108 |        36 |        72
+        2 |        210 |        40 |       170
+        3 |        293 |        38 |       255
+        4 |        300 |        36 |       264
+        5 |        290 |        41 |       249
+        6 |        319 |        40 |       279
+        7 |        387 |        43 |       344
+        8 |        398 |        37 |       361
+        9 |        359 |        40 |       319
+       10 |        279 |        41 |       238
+       20 |        369 |        52 |       317
+       30 |        589 |        74 |       515
+       40 |        879 |        97 |       773
+       50 |       1106 |       136 |       944
+       60 |       1590 |       194 |      1374
+       70 |       2297 |       251 |      2021
+       80 |       3351 |       400 |      2886
+       90 |       4644 |       503 |      3979
+      100 |       5386 |       596 |      4724
+      110 |       6120 |       738 |      5294
+      120 |       7469 |       833 |      6529
+      130 |       7918 |       954 |      6851
+      140 |       7883 |       989 |      6775
+      150 |       8546 |      1094 |      7365
+      160 |       8041 |      1094 |      6898
+      170 |       8353 |      1178 |      7133
+      180 |       8312 |      1131 |      7122
+      190 |       7988 |      1082 |      6851
+      200 |       8234 |      1172 |      6970
+      210 |       7150 |      1088 |      6015
+      220 |       6556 |      1003 |      5523
+      230 |       5754 |       901 |      4802
+      240 |       4955 |       826 |      4105
+      250 |       4550 |       780 |      3760
+      260 |       3595 |       644 |      2951
+      270 |       3295 |       599 |      2669
+      280 |       2562 |       490 |      2072
+      290 |       2230 |       442 |      1778
+      300 |       1770 |       363 |      1407
+      310 |       1494 |       292 |      1202
+      320 |       1303 |       298 |      1005
+      330 |       1205 |       244 |       961
+      340 |       1236 |       238 |       998
+      350 |       1142 |       212 |       930
+      360 |       1084 |       224 |       860
+      370 |        892 |       202 |       690
+      380 |        881 |       191 |       690
+      390 |        902 |       189 |       713
+      399 |       1011 |       177 |       834
+Negotiation phase 2: isolation point active, 1000 iterations.
+      400 |        967 |       179 |       788
+      410 |        811 |       176 |       635
+      420 |        777 |       157 |       620
+      430 |        841 |       155 |       686
+      440 |        723 |       140 |       583
+      450 |        605 |       129 |       476
+      460 |        601 |       131 |       470
+      470 |        495 |       137 |       358
+      480 |        520 |        96 |       424
+      490 |        436 |        96 |       340
+      500 |        411 |        83 |       328
+      510 |        468 |        96 |       372
+      520 |        337 |        75 |       262
+      530 |        242 |        62 |       180
+      540 |        248 |        56 |       192
+      550 |        194 |        46 |       148
+      560 |        203 |        57 |       146
+      570 |        234 |        58 |       176
+      580 |        209 |        51 |       158
+      590 |        214 |        58 |       156
+      600 |        227 |        45 |       182
+      610 |        147 |        37 |       110
+      620 |        147 |        39 |       108
+      630 |        122 |        22 |       100
+      640 |        104 |        24 |        80
+      650 |         91 |        23 |        68
+      660 |         94 |        18 |        76
+      670 |        141 |        29 |       112
+      680 |        118 |        26 |        92
+      690 |        101 |        25 |        76
+      700 |         97 |        33 |        64
+      710 |         51 |        21 |        30
+      720 |         58 |        14 |        44
+      730 |         54 |        14 |        40
+      740 |         21 |         5 |        16
+      744 |         20 |         4 |        16
+[WARNING DPL-0702] Negotiation phase 2: violations stuck at 20 for 3 consecutive iterations. Using diamond search for 4 remaining illegal cells.
+diamond recovery: recovered 2/4 stuck cells.
+[INFO DPL-0500] Runtime: 82.10s
+Detailed Placement Analysis
+---------------------------------
+legalizer            negotiation
+total moves              266649
+total displacement      72950.2 u
+average displacement        0.8 u
+max displacement           73.3 u
+original HPWL         3736493.6 u
+legalized HPWL        3785406.3 u
+delta HPWL                    1 %
+
+Design area 931102 um^2 86% utilization.
+Cell type report:                       Count        Area
+  Macro                                     2   590745.15
+  Buffer                                 4941    11599.61
+  Timing Repair Buffer                  14774   116559.76
+  Inverter                               1760     1216.84
+  Clock gate cell                         738     4038.34
+  Sequential cell                        9930    56106.81
+  Multi-Input combinational cell        60630   150835.68
+  Total                                 92775   931102.18
+STAGES DONE: place

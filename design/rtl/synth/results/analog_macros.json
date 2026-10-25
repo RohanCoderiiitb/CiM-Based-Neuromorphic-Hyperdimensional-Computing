@@ -1,0 +1,26 @@
+{
+ "cim_macro": {
+  "build_ports_from": "fact_off",
+  "area_um2": 583313.793824,
+  "width_um": 763.2,
+  "height_um": 764.37,
+  "n_ports": 12,
+  "n_bits": 2178
+ },
+ "hdc_class_array_fact": {
+  "build_ports_from": "full",
+  "area_um2": 7373.837743199999,
+  "width_um": 84.6,
+  "height_um": 87.21,
+  "n_ports": 11,
+  "n_bits": 489
+ },
+ "hdc_class_array_unfact": {
+  "build_ports_from": "fact_off",
+  "area_um2": 114871.77432,
+  "width_um": 337.6,
+  "height_um": 340.29,
+  "n_ports": 11,
+  "n_bits": 489
+ }
+}

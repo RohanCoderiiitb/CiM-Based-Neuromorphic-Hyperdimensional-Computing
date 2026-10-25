@@ -17,7 +17,9 @@ import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
 import cim_neurohdc_pkg::N_TIMESTEPS;
 import cim_neurohdc_pkg::PLANE_SKIP_EN_DEFAULT;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
+import cim_neurohdc_pkg::CLOCK_GATING_DEFAULT;
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
+import cim_neurohdc_pkg::OPERAND_ISOLATION_DEFAULT;
 import cim_neurohdc_pkg::GEOM_NMNIST_DEFAULT;
 import cim_neurohdc_pkg::W_AER;
 import cim_neurohdc_pkg::W_BIT_IDX;
@@ -36,6 +38,8 @@ module cim_neurohdc_top #(
     parameter int N_PARALLEL_COLS = N_PARALLEL_COLS_DEFAULT,
     parameter bit PLANE_SKIP_EN = PLANE_SKIP_EN_DEFAULT,
     parameter bit INSTRUMENT_EN = INSTRUMENT_EN_DEFAULT,
+    parameter bit CLOCK_GATING = CLOCK_GATING_DEFAULT,
+    parameter bit OPERAND_ISOLATION = OPERAND_ISOLATION_DEFAULT,
     parameter bit GEOM_NMNIST = GEOM_NMNIST_DEFAULT,
     parameter int N_CLASSES = N_CLASSES_DEFAULT,
     parameter bit FACTORIZED = FACTORIZED_DEFAULT,
@@ -61,6 +65,7 @@ module cim_neurohdc_top #(
     // run control and the AER stream
     input  logic                         start_i,
     input  logic                         ingest_en_i,
+    input  logic                         abort_i,              // one-cycle request: drop the sample in progress (or an early-exited one), keep the weights and class image
     input  logic                         ev_valid_i,
     input  logic [          W_AER-1:0]   ev_aer_i,
     output logic                         ev_ready_o,
@@ -140,6 +145,8 @@ module cim_neurohdc_top #(
       .N_PARALLEL_COLS(N_PARALLEL_COLS),
       .PLANE_SKIP_EN  (PLANE_SKIP_EN),
       .INSTRUMENT_EN  (INSTRUMENT_EN),
+      .CLOCK_GATING   (CLOCK_GATING),
+      .OPERAND_ISOLATION(OPERAND_ISOLATION),
       .GEOM_NMNIST    (GEOM_NMNIST)
   ) u_snn (
       .clk_i             (clk_i),
@@ -153,6 +160,7 @@ module cim_neurohdc_top #(
       .wl_ready_o        (wl_ready_o),
       .start_i           (start_i),
       .ingest_en_i       (ingest_en_snn),
+      .abort_i           (abort_i),
       .ev_valid_i        (ev_valid_i),
       .ev_aer_i          (ev_aer_i),
       .ev_ready_o        (snn_ev_ready),
@@ -189,12 +197,13 @@ module cim_neurohdc_top #(
   // ------------------------------------------------------------------ [Phase 2] HDC query
   logic [W_TADDR-1:0] dec_t;
   logic q_clr;
-  assign q_clr = start_i;
+  assign q_clr = start_i || abort_i;
   hdc_query #(
       .N_CLASSES     (N_CLASSES),
       .FACTORIZED    (FACTORIZED),
       .CHECK_UNIPOLAR(CHECK_UNIPOLAR),
-      .INSTRUMENT_EN (INSTRUMENT_EN)
+      .INSTRUMENT_EN (INSTRUMENT_EN),
+      .CLOCK_GATING  (CLOCK_GATING)
   ) u_query (
       .clk_i        (clk_i),
       .rst_n_i      (rst_n_i),
@@ -262,6 +271,8 @@ module cim_neurohdc_top #(
           ci_q    <= '0;
           ev_q    <= '0;
           running <= 1'b1;
+        end else if (abort_i) begin
+          running <= 1'b0;
         end else if (running) begin
           if (!fin) ci_q <= ci_q + W_STAT'(1);
           if (q_busy && !fin) cq_q <= cq_q + W_STAT'(1);
@@ -275,6 +286,8 @@ module cim_neurohdc_top #(
     assign ci_q    = '0;
     assign ev_q    = '0;
     assign running = 1'b0;
+    logic unused_cyc;
+    assign unused_cyc = &{1'b0, running, cq_q[0], ci_q[0], ev_q[0]};
   end
   assign cyc_query_o       = cq_q;
   assign cyc_inf_o         = ci_q;

@@ -1,0 +1,44 @@
+{
+ "far_m1": {
+  "dev_mV_at_0.3ns_after_pulse": 33.794145693173796,
+  "dev_mV_at_1.3ns_after_pulse": 0.9923998093261943,
+  "dev_mV_at_3ns_after_pulse": 1.3005037200262137,
+  "dev_mV_at_6ns_after_pulse": 1.4780901398644686,
+  "dev_mV_at_8ns_after_pulse": 1.4874033559644784
+ },
+ "far_m4": {
+  "dev_mV_at_0.3ns_after_pulse": 23.038610103195996,
+  "dev_mV_at_1.3ns_after_pulse": 0.19998643869598154,
+  "dev_mV_at_3ns_after_pulse": 1.4875580636159735,
+  "dev_mV_at_6ns_after_pulse": 1.6919580393159883,
+  "dev_mV_at_8ns_after_pulse": 1.6978989692159885
+ },
+ "far_m8": {
+  "dev_mV_at_0.3ns_after_pulse": 66.16898950843824,
+  "dev_mV_at_1.3ns_after_pulse": 63.797022362938215,
+  "dev_mV_at_3ns_after_pulse": 7.164024739738234,
+  "dev_mV_at_6ns_after_pulse": 34.963613808038225,
+  "dev_mV_at_8ns_after_pulse": 48.48673018403821
+ },
+ "near_m1": {
+  "dev_mV_at_0.3ns_after_pulse": 24.275332772840024,
+  "dev_mV_at_1.3ns_after_pulse": 2.6389893355400207,
+  "dev_mV_at_3ns_after_pulse": 1.690228418854689,
+  "dev_mV_at_6ns_after_pulse": 1.7903575735546962,
+  "dev_mV_at_8ns_after_pulse": 1.791774257354689
+ },
+ "near_m4": {
+  "dev_mV_at_0.3ns_after_pulse": 21.244597598669312,
+  "dev_mV_at_1.3ns_after_pulse": 1.4257156660337778,
+  "dev_mV_at_3ns_after_pulse": 0.6629292123306874,
+  "dev_mV_at_6ns_after_pulse": 0.9980756872306762,
+  "dev_mV_at_8ns_after_pulse": 1.0146484270306677
+ },
+ "near_m8": {
+  "dev_mV_at_0.3ns_after_pulse": 142.67274573180086,
+  "dev_mV_at_1.3ns_after_pulse": 25.478239588299147,
+  "dev_mV_at_3ns_after_pulse": 74.04257750350085,
+  "dev_mV_at_6ns_after_pulse": 37.48287552100085,
+  "dev_mV_at_8ns_after_pulse": 72.40654858300086
+ }
+}

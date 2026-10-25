@@ -1,0 +1,260 @@
+{
+ "stage": "baseline",
+ "build": "full",
+ "netlist": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/full/cim_neurohdc_top_flat_buf_fast_raw.v",
+ "propagated_clocks": false,
+ "area": {
+  "std_cell_area_um2": 205722.234,
+  "cells": 77507,
+  "flip_flops": 9930,
+  "icgs": 738,
+  "icg_area_um2": 4038.3360000000002,
+  "clock_buffers": 4442,
+  "clock_buffer_area_um2": 7595.82,
+  "filler_cells": 0,
+  "by_cell": {
+   "NOR2XL": 11036,
+   "XNOR2X1": 4262,
+   "NAND2XL": 4624,
+   "NAND3BXL": 321,
+   "NOR2BX1": 1210,
+   "AOI21XL": 2221,
+   "AND2XL": 6345,
+   "INVXL": 1629,
+   "XOR2XL": 780,
+   "NAND2BXL": 1223,
+   "OAI21XL": 4562,
+   "OR2XL": 929,
+   "AOI32X1": 106,
+   "OAI2BB1X1": 1347,
+   "OAI22XL": 502,
+   "OR4X1": 47,
+   "INVX1": 131,
+   "NOR2X1": 128,
+   "OR3XL": 152,
+   "NOR4X1": 298,
+   "NAND4XL": 189,
+   "AO21XL": 792,
+   "AOI2BB1XL": 203,
+   "AND4XL": 67,
+   "OAI211X1": 1830,
+   "OA21X1": 500,
+   "CLKBUFX2": 4442,
+   "AOI211XL": 217,
+   "NOR3XL": 1856,
+   "NAND2X1": 64,
+   "OAI31X1": 840,
+   "AOI221X1": 706,
+   "AOI22XL": 1382,
+   "OAI221X1": 126,
+   "AND2X1": 48,
+   "OAI222XL": 15,
+   "MX2XL": 2236,
+   "MXI2XL": 1912,
+   "OAI33X1": 6,
+   "AOI31X1": 308,
+   "OA22X1": 284,
+   "NAND3XL": 952,
+   "NOR3BXL": 36,
+   "AOI222X1": 266,
+   "AOI2BB2X1": 6,
+   "AND3XL": 529,
+   "AOI33XL": 15,
+   "AOI21X1": 30,
+   "NOR4BX1": 17,
+   "OAI22X1": 42,
+   "AO22XL": 44,
+   "NAND3X1": 1,
+   "NAND4BXL": 4,
+   "OAI32X1": 120,
+   "NOR4BBX1": 2,
+   "XNOR3XL": 1860,
+   "NAND4BBXL": 1,
+   "MX3XL": 157,
+   "MX2X1": 14,
+   "NOR3X1": 20,
+   "ACHCONX2": 2289,
+   "XOR3XL": 397,
+   "AOI22X1": 110,
+   "OAI21X1": 4,
+   "MXI3XL": 29,
+   "OR2X1": 1,
+   "NAND2BX1": 3,
+   "MXI4XL": 2,
+   "AOI2BB1X1": 1,
+   "OAI2BB2XL": 2,
+   "BUFX2": 9,
+   "TLATNCAX2": 738,
+   "DFFHQX1": 9915,
+   "EDFFHQX1": 15
+  }
+ },
+ "timing": {
+  "fast": {
+   "returncode": 0,
+   "worst_slack_ns": 4.933,
+   "tns_ns": 0.0,
+   "worst_path_slack_ns": 4.933,
+   "period_min_ns": 0.61,
+   "clock_skew_report": "Clock clk\n  0.000 source latency _132830_/CK ^\n -0.839 target latency _133370_/CK ^\n  0.000 CRPR\n--------------\n -0.839 setup skew",
+   "clock_skew_numbers": [],
+   "propagated_clock": false,
+   "spef": null
+  },
+  "slow": {
+   "returncode": 0,
+   "worst_slack_ns": 2.088,
+   "tns_ns": 0.0,
+   "worst_path_slack_ns": 2.088,
+   "period_min_ns": 7.91,
+   "clock_skew_report": "Clock clk\n  0.000 source latency _132830_/CK ^\n -2.074 target latency _133370_/CK ^\n  0.000 CRPR\n--------------\n -2.074 setup skew",
+   "clock_skew_numbers": [],
+   "propagated_clock": false,
+   "spef": null
+  }
+ },
+ "power": {
+  "all": {
+   "returncode": 0,
+   "total_w": 0.000147,
+   "internal_w": 0.00011,
+   "switching_w": 2.55e-05,
+   "leakage_w": 1.15e-05,
+   "groups_internal_switching_leakage_total_w": {
+    "Sequential": [
+     5.43e-05,
+     1.19e-06,
+     3.49e-06,
+     5.9e-05
+    ],
+    "Combinational": [
+     3.01e-05,
+     1.99e-05,
+     7.8e-06,
+     5.78e-05
+    ],
+    "Clock": [
+     2.54e-05,
+     4.37e-06,
+     2.12e-07,
+     3e-05
+    ],
+    "Macro": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "Pad": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "annotation": {
+    "vcd": 270502,
+    "unannotated": 0
+   },
+   "window_start": 12000,
+   "window_cycles": 8000,
+   "gate_level_matches_golden": true,
+   "timesteps_checked": 5
+  },
+  "ing": {
+   "returncode": 0,
+   "total_w": 0.000105,
+   "internal_w": 7.5e-05,
+   "switching_w": 1.88e-05,
+   "leakage_w": 1.15e-05,
+   "groups_internal_switching_leakage_total_w": {
+    "Sequential": [
+     2.75e-05,
+     8.07e-07,
+     3.49e-06,
+     3.18e-05
+    ],
+    "Combinational": [
+     2.13e-05,
+     1.64e-05,
+     7.79e-06,
+     4.54e-05
+    ],
+    "Clock": [
+     2.63e-05,
+     1.66e-06,
+     2.12e-07,
+     2.81e-05
+    ],
+    "Macro": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "Pad": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "annotation": {
+    "vcd": 270502,
+    "unannotated": 0
+   },
+   "window_start": 12000,
+   "window_cycles": 2400,
+   "gate_level_matches_golden": true,
+   "timesteps_checked": 3
+  },
+  "mvm": {
+   "returncode": 0,
+   "total_w": 0.000407,
+   "internal_w": 0.000326,
+   "switching_w": 6.94e-05,
+   "leakage_w": 1.15e-05,
+   "groups_internal_switching_leakage_total_w": {
+    "Sequential": [
+     0.000215,
+     4.23e-06,
+     3.49e-06,
+     0.000222
+    ],
+    "Combinational": [
+     9.11e-05,
+     4.51e-05,
+     7.82e-06,
+     0.000144
+    ],
+    "Clock": [
+     2.01e-05,
+     2e-05,
+     2.12e-07,
+     4.03e-05
+    ],
+    "Macro": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "Pad": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "annotation": {
+    "vcd": 270502,
+    "unannotated": 0
+   },
+   "window_start": 14580,
+   "window_cycles": 560,
+   "gate_level_matches_golden": true,
+   "timesteps_checked": 3
+  }
+ },
+ "wall_s": 485
+}

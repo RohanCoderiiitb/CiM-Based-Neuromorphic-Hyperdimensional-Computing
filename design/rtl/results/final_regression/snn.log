@@ -1,0 +1,42 @@
+[PASS] f_dvs_s0_g8_c160: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 120.9s
+[PASS] f_dvs_s2_g4_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 132.6s
+[PASS] f_dvs_s0_g4_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 132.3s
+[PASS] f_dvs_s1_g4_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 136.9s
+[PASS] f_dvs_s0_g32_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 115.7s
+[PASS] f_dvs_s0_g16_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 115.3s
+[PASS] f_dvs_s0_g64_c40: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 124.9s
+[PASS] f_dvs_s0_g4_c20: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 137.4s
+[PASS] f_l4_real_gaps_s0: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 24.4s
+[PASS] f_l4_real_gaps_s1: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 24.9s
+[PASS] f_dvs_s0_g4_c160: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 98.0s
+[PASS] f_dvs_s0_g64_c20: 240 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 105.2s
+[PASS] f_l4_real_gaps_s2: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 23.5s
+[PASS] f_l4_sorted_nogap_s1: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 25.4s
+[PASS] f_l4_sorted_gaps: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 39.3s
+[PASS] f_l4_shuffled_gaps: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 39.2s
+[PASS] f_nmnist_g4: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 47.2s
+[PASS] f_nmnist_g4_gaps: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 50.5s
+[PASS] f_nmnist_g64: 1000 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 55.4s
+[PASS] icarus_f_dvs_s0_g4_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 814.3s
+[PASS] icarus_f_dvs_s1_g4_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 888.8s
+[PASS] icarus_f_dvs_s2_g4_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 695.8s
+[PASS] icarus_f_dvs_s0_g8_c160: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 554.5s
+[PASS] icarus_f_dvs_s0_g16_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 719.1s
+[PASS] icarus_f_dvs_s0_g32_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 830.8s
+[PASS] icarus_f_dvs_s0_g64_c40: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 882.8s
+[PASS] icarus_f_dvs_s0_g4_c20: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 874.3s
+[PASS] icarus_f_dvs_s0_g64_c20: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 7353.7s
+[PASS] icarus_f_dvs_s0_g4_c160: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 744.5s
+[PASS] icarus_f_l4_real_gaps_s0: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 440.9s
+[PASS] icarus_f_l4_real_gaps_s1: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 513.4s
+[PASS] icarus_f_l4_real_gaps_s2: 20 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 547.5s
+[PASS] icarus_f_l4_shuffled_gaps: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 1120.1s
+[PASS] icarus_f_l4_sorted_gaps: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 987.2s
+[PASS] icarus_f_l4_sorted_nogap_s1: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 3724.4s
+[PASS] icarus_f_nmnist_g4: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 47.0s
+[PASS] icarus_f_nmnist_g4_gaps: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 49.6s
+[PASS] icarus_f_nmnist_g64: 48 samples, 0 mismatching, 0 access-estimate mismatches, 0 assertion messages, sim 93.5s
+AGREE: icarus_f_nmnist_g4 vs sub_f_nmnist_g4: 48 samples, 4800 timesteps, 0 disagreements
+AGREE: icarus_f_nmnist_g4_gaps vs sub_f_nmnist_g4_gaps: 48 samples, 4800 timesteps, 0 disagreements
+AGREE: icarus_f_nmnist_g64 vs sub_f_nmnist_g64: 48 samples, 4800 timesteps, 0 disagreements
+SNN_DONE

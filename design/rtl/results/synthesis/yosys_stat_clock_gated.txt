@@ -1,0 +1,43 @@
+
+25. Printing statistics.
+
+=== snn_top ===
+
+        +----------Local Count, excluding submodules.
+        | 
+    13300 wires
+    74059 wire bits
+    10487 public wires
+    51528 public wire bits
+       39 ports
+     1463 port bits
+     9908 cells
+     1382   $add
+     1170   $and
+      584   $dlatch
+      666   $eq
+       21   $ge
+        2   $gt
+       30   $logic_and
+       12   $logic_not
+        9   $logic_or
+        9   $lt
+        1   $mem_v2
+        2   $mul
+      662   $mux
+       17   $ne
+        5   $not
+      584   $or
+       10   $pmux
+       25   $reduce_and
+        7   $reduce_bool
+      582   $reduce_or
+     2655   $scopeinfo
+      521   $sdff
+      245   $sdffe
+      521   $shiftx
+      161   $shl
+        1   $shr
+       23   $sub
+        1   cim_macro
+

@@ -18,7 +18,9 @@ module hdc_query #(
     parameter int N_CLASSES = N_CLASSES_DEFAULT,
     parameter bit FACTORIZED = FACTORIZED_DEFAULT,
     parameter bit CHECK_UNIPOLAR = CHECK_UNIPOLAR_DEFAULT,
-    parameter bit INSTRUMENT_EN = 1'b1
+    parameter bit INSTRUMENT_EN = 1'b1,
+    parameter bit SIGN_SRAM = 1'b1,  // the sign table is an SRAM macro (sign_sram) instead of 1,000 gated flip-flops
+    parameter bit CLOCK_GATING = 1'b1  // the factorized mapping's static tables (sign table, bias registers) are written through clock gates, not enabled flip-flops
 ) (
     input  logic                       clk_i,
     input  logic                       rst_n_i,
@@ -61,7 +63,7 @@ module hdc_query #(
   );
 
   // ------------------------------------------------------------------ class array (analog block: behavioural model / blackbox)
-  logic arr_valid;
+  logic arr_valid_raw, arr_valid, clr_q;
   logic [N_CLASSES*5-1:0] arr_q;
   logic [N_CLASSES*20-1:0] arr_slice;
   hdc_class_array #(
@@ -76,10 +78,15 @@ module hdc_query #(
       .rd_valid_i(v1_q),
       .rd_addr_i (t_q),
       .rd_rows_i (s_q),
-      .rd_valid_o(arr_valid),
+      .rd_valid_o(arr_valid_raw),
       .q_o       (arr_q),
       .slice_o   (arr_slice)
   );
+
+  // clr_i can arrive while a read is still in the array's registered valid (an abort in the middle of a timestep): that read belongs to the dropped sample and must not update the
+  // freshly cleared scores one cycle later
+  always_ff @(posedge clk_i) clr_q <= rst_n_i && clr_i;
+  assign arr_valid = arr_valid_raw && !clr_q;
 
   // ------------------------------------------------------------------ digital side tables of the factorized mapping: sign table (T x N) and bias registers (N x 5)
   logic [N_CLASSES-1:0] sign_row;
@@ -87,11 +94,65 @@ module hdc_query #(
   if (FACTORIZED) begin : g_fact_tables
     logic [N_CLASSES-1:0] sign_q[NTS];
     logic [N_CLASSES*5-1:0] bias_q;
-    always_ff @(posedge clk_i) begin
-      if (cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_SIGN)) sign_q[cm_addr_i] <= cm_data_i[N_CLASSES-1:0];
-      if (cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_BIAS)) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+    logic sign_we, bias_we, bias_clk_s;
+    assign sign_we = cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_SIGN);
+    assign bias_we = cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_BIAS);
+    if (SIGN_SRAM) begin : g_sram
+      sign_sram #(
+          .W(N_CLASSES)
+      ) u_sign (
+          .clk_i(clk_i),
+          .we_i (sign_we),
+          .re_i (v1_q),
+          .a_i  (sign_we ? cm_addr_i : t_q),
+          .d_i  (cm_data_i[N_CLASSES-1:0]),
+          .q_o  (sign_row)
+      );
+      clk_gate u_bias_gate (
+          .clk_i (clk_i),
+          .en_i  (bias_we),
+          .gclk_o(bias_clk_s)
+      );
+      always_ff @(posedge bias_clk_s) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+      for (genvar t = 0; t < NTS; t++) begin : g_unused
+        assign sign_q[t] = '0;
+      end
+    end else if (CLOCK_GATING) begin : g_gated
+      // static tables, written once per power-up: one clock gate per row would still toggle 100 gates every cycle, so the rows hang off a two-level tree
+      logic [NTS-1:0] row_clk;
+      logic bias_clk;
+      clk_gate_tree #(
+          .N     (NTS),
+          .LEVELS(2)
+      ) u_sign_tree (
+          .clk_i (clk_i),
+          .clr_i (1'b0),
+          .we_i  (sign_we),
+          .addr_i(cm_addr_i),
+          .gclk_o(row_clk)
+      );
+      for (genvar t = 0; t < NTS; t++) begin : g_row
+        logic [N_CLASSES-1:0] q;  // one register per row: each has its own clock
+        always_ff @(posedge row_clk[t]) q <= cm_data_i[N_CLASSES-1:0];
+        assign sign_q[t] = q;
+      end
+      clk_gate u_bias_gate (
+          .clk_i (clk_i),
+          .en_i  (bias_we),
+          .gclk_o(bias_clk)
+      );
+      always_ff @(posedge bias_clk) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+    end else begin : g_enabled
+      for (genvar t = 0; t < NTS; t++) begin : g_row
+        logic [N_CLASSES-1:0] q;
+        always_ff @(posedge clk_i) if (sign_we && cm_addr_i == W_TADDR'(t)) q <= cm_data_i[N_CLASSES-1:0];
+        assign sign_q[t] = q;
+      end
+      always_ff @(posedge clk_i) if (bias_we) bias_q <= cm_data_i[N_CLASSES*5-1:0];
     end
-    assign sign_row  = sign_q[t_q];
+    if (!SIGN_SRAM) begin : g_flop_read
+      assign sign_row = sign_q[t_q];
+    end
     assign bias_flat = bias_q;
   end else begin : g_no_tables
     assign sign_row  = '0;

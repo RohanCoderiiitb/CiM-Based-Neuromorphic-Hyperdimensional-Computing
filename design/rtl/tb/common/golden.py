@@ -162,7 +162,7 @@ def parse_output(path: Path):
 STAT_NAMES = ["events", "active_addrs", "rows_skipped", "rows_read", "reads_allcols", "reads_plane", "reads_issued", "zero_groups", "fwd_events", "cycles", "cycles_ingest"]
 
 
-def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 11):
+def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 11, a0_skip: bool = True):
     """Access counts predicted from the count vectors alone (no RTL): per timestep active addresses, non-zero / skipped bit-rows, group
     reads in both column assumptions, and the groups that carry no active row. Used by criterion 7."""
     n_groups = -(-N_ADDR // g)
@@ -175,7 +175,8 @@ def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 1
             bits = ((c >> b) & 1)
             pad = np.zeros(n_groups * g, np.int64); pad[:N_ADDR] = bits
             zero_groups += int((pad.reshape(n_groups, g).sum(axis=1) == 0).sum())
-        est[t] = [int(c.sum()), int((c > 0).sum()), w_count - len(rows_nz), len(rows_nz), len(rows_nz) * n_groups, len(rows_nz) * n_groups * 8, 0, zero_groups]
+        reads = len(rows_nz) * n_groups - (zero_groups if a0_skip else 0)        # the a = 0 skip: an empty group of a non-skipped bit-row is never read
+        est[t] = [int(c.sum()), int((c > 0).sum()), w_count - len(rows_nz), len(rows_nz), reads, reads * 8, 0, zero_groups]
     return est      # columns: events, active_addrs, rows_skipped, rows_read, reads_allcols, reads_plane, (issued: mode dependent), zero_groups
 
 

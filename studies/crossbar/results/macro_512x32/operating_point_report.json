@@ -1,0 +1,99 @@
+{
+ "reads": 16748.154,
+ "ramp_mult": 0.7300797321007406,
+ "points": {
+  "541.8": {
+   "ron": 541.8,
+   "feasible": true,
+   "step_uA": 125.36422759574893,
+   "closes_sigma_lnG": {
+    "0.03": true,
+    "0.05": true,
+    "0.1": true,
+    "0.15": true
+   },
+   "row_gain_spread": 0.12256362928860065,
+   "threshold_correction": "rank 1",
+   "point": {
+    "vb": 0.58,
+    "T_ns": 0.5,
+    "sigma_uA": 1.762588230161744,
+    "eta": 0.5369049867773886,
+    "col_read_pJ": 0.06203640135000933,
+    "cycles_per_pass": 1,
+    "i_idle_uA": 21.96039253766,
+    "t_en_ns": 6.363728022675
+   },
+   "crossbar_uJ": {
+    "sense_bias": 0.16623923254652226,
+    "array_wl": 0.037693564187880266,
+    "comparators": 0.4995484048967195,
+    "threshold": 0.6224556523679314,
+    "total": 1.3259368539990535
+   },
+   "extra_cycles": 0.0,
+   "latency_ms": 3.1086,
+   "extra_digital_uJ": {
+    "wait_state": 0.0,
+    "scan_power": 0.0
+   }
+  },
+  "40000.0": {
+   "ron": 40000.0,
+   "feasible": true,
+   "step_uA": 3.217108732975202,
+   "closes_sigma_lnG": {
+    "0.03": true,
+    "0.05": true,
+    "0.1": false,
+    "0.15": false
+   },
+   "row_gain_spread": 0.006396106369614185,
+   "threshold_correction": "none (flat row gain)",
+   "point": {
+    "vb": 0.58,
+    "T_ns": 16.0,
+    "sigma_uA": 0.07077344095269984,
+    "eta": 0.482001409220704,
+    "col_read_pJ": 0.42849374951508157,
+    "cycles_per_pass": 2,
+    "i_idle_uA": 20.77270806264,
+    "t_en_ns": 10.71773130949
+   },
+   "crossbar_uJ": {
+    "sense_bias": 1.1482366887865616,
+    "array_wl": 0.0458135183439901,
+    "comparators": 0.4995484048967195,
+    "threshold": 0.0,
+    "total": 1.6935986120272712
+   },
+   "extra_cycles": 66992.616,
+   "latency_ms": 3.7785261599999997,
+   "extra_digital_uJ": {
+    "wait_state": 0.36376990488,
+    "scan_power": 1.6480183535999997
+   }
+  }
+ },
+ "macro_area_mm2": {
+  "baseline_128F": 0.5833,
+  "op40k": {
+   "decap_array_current_only": {
+    "decap": 0.0063315794689418215,
+    "cell": 0.006636718828139114,
+    "periphery": 0.02572200090143286,
+    "front_end": 0.1052,
+    "overhead": 0.028778059839702764,
+    "total_mm2": 0.17266835903821656
+   },
+   "decap_with_front_end_idle": {
+    "decap": 0.014329829527110637,
+    "cell": 0.006636718828139114,
+    "periphery": 0.02572200090143286,
+    "front_end": 0.1052,
+    "overhead": 0.03037770985133653,
+    "total_mm2": 0.18226625910801916
+   }
+  }
+ }
+}

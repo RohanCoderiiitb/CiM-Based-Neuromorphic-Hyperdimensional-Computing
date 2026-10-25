@@ -1,0 +1,9 @@
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer PWdummy :"SPACING 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer PWdummy :"WIDTH 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer Nwell :"SPACING 0.6 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer Nwell :"WIDTH 0.3 ;"
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/tech_openroad.lef, created 36 layers, 119 vias
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/45_nm_PDK/cadence/cadence_45nm/lef/gsclib045_macro.lef, created 574 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/cim_macro.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lef, created 1 library cells
+[WARNING STA-1140] /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lib line 1, library analog_blackboxes already exists.

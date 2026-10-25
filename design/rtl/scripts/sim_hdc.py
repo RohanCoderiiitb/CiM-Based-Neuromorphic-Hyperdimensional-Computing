@@ -6,10 +6,13 @@ import subprocess
 import time
 from pathlib import Path
 
+import os
+
 ROOT = Path(__file__).resolve().parents[1]
+RTL_ROOT = Path(os.environ["CIM_RTL_ROOT"]) if os.environ.get("CIM_RTL_ROOT") else ROOT      # a snapshot of the RTL of an earlier optimisation step (attribution runs)
 BUILD = ROOT / "build"
-RTL = ([ROOT / "rtl/pkg/cim_neurohdc_pkg.sv", ROOT / "rtl/pkg/hdc_pkg.sv"] + sorted((ROOT / "rtl/phase1_snn").glob("*.sv")) + sorted((ROOT / "rtl/phase2_hdc").glob("*.sv"))
-       + sorted((ROOT / "rtl/phase4_exit").glob("*.sv")) + sorted((ROOT / "rtl/phase3_top").glob("*.sv")))
+RTL = ([RTL_ROOT / "rtl/pkg/cim_neurohdc_pkg.sv", RTL_ROOT / "rtl/pkg/hdc_pkg.sv"] + sorted((RTL_ROOT / "rtl/common").glob("*.sv")) + sorted((RTL_ROOT / "rtl/phase1_snn").glob("*.sv")) + sorted((RTL_ROOT / "rtl/phase2_hdc").glob("*.sv"))
+       + sorted((RTL_ROOT / "rtl/phase4_exit").glob("*.sv")) + sorted((RTL_ROOT / "rtl/phase3_top").glob("*.sv")))
 TB = ROOT / "tb/sv/hdc_regress_tb.sv"
 TOP = "hdc_regress_tb"
 
@@ -21,9 +24,9 @@ def _src_hash() -> str:
     return h.hexdigest()[:10]
 
 
-def build(sim: str, factorized: int = 1, early_exit: int = 1, g: int = 8, cols: int = 160, skip: int = 1, instr: int = 1, vcd: bool = False) -> Path:
+def build(sim: str, factorized: int = 1, early_exit: int = 1, g: int = 4, cols: int = 40, skip: int = 1, instr: int = 1, vcd: bool = False) -> Path:
     tag = f"{sim}_f{factorized}_e{early_exit}_g{g}_c{cols}_s{skip}_i{instr}{'_vcd' if vcd else ''}_{_src_hash()}"
-    d = BUILD / "hdc" / tag
+    d = BUILD / "hdc" / (tag + ("_snap" if RTL_ROOT != ROOT else ""))
     params = dict(ROWS_PER_GROUP_P=g, N_PARALLEL_COLS_P=cols, PLANE_SKIP_EN_P=skip, INSTRUMENT_EN_P=instr, FACTORIZED_P=factorized, EARLY_EXIT_EN_P=early_exit)
     if sim == "verilator":
         exe = d / "obj" / f"V{TOP}"

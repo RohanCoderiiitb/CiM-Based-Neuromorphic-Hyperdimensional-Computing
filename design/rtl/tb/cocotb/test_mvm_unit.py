@@ -10,9 +10,8 @@ import numpy as np
 
 from common import G, reset, start_clock, ticks, unpack_signed, write_weights
 
-G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "8"))
-COLS = int(os.environ.get("N_PARALLEL_COLS", "160"))
-SKIP = int(os.environ.get("PLANE_SKIP_EN", "1"))
+G_ROWS = int(os.environ.get("ROWS_PER_GROUP", "4"))
+COLS = int(os.environ.get("N_PARALLEL_COLS", "40"))
 OUT = Path(os.environ.get("MVM_OUT", "/tmp/mvm_x.json"))
 NG = -(-512 // G_ROWS)
 PASSES = 160 // COLS
@@ -42,11 +41,8 @@ async def mvm(dut, counts):
     await ticks(dut, 3)                                              # pipeline drain (macro + accumulate)
     x = unpack_signed(int(dut.x_o.value), 20, 21)
     stats = dict(rows_skipped=int(dut.rows_skipped_o.value), rows_read=int(dut.rows_read_o.value), reads_allcols=int(dut.reads_allcols_o.value),
-                 reads_plane=int(dut.reads_plane_o.value), reads_issued=int(dut.reads_issued_o.value), zero_groups=int(dut.zero_groups_o.value))
-    dut.wipe_i.value = 1
-    await ticks(dut)
-    dut.wipe_i.value = 0
-    await ticks(dut)
+                 reads_plane=int(dut.reads_plane_o.value), reads_issued=int(dut.reads_issued_o.value), zero_groups=int(dut.zero_groups_o.value), active=int(dut.active_o.value))
+    await ticks(dut)                                                 # the scan has already cleared every counter it read: no wipe step
     return x, stats
 
 
@@ -62,9 +58,11 @@ def vectors():
 
 @cocotb.test()
 async def x_matches_golden_for_every_vector(dut):
-    for s in ("ev_valid_i", "ev_addr_i", "wipe_i", "wr_en_i", "wr_macro_i", "wr_addr_i", "wr_data_i", "start_i"):
+    for s in ("ev_valid_i", "ev_addr_i", "wr_en_i", "wr_macro_i", "wr_addr_i", "wr_data_i", "start_i"):
         getattr(dut, s).value = 0
     await start_clock(dut); await reset(dut)
+    while not int(dut.ready_o.value):                                # the post-reset sweep of the SRAM
+        await ticks(dut)
     vecs, W = vectors()
     await write_weights(dut, W)
     log = {}
@@ -73,10 +71,12 @@ async def x_matches_golden_for_every_vector(dut):
         ref = G.IM.snn_forward(counts[None, :], W, np.full(20, 1 << 40, np.int64)).X[0]       # golden X of this single count vector
         assert x == list(ref), f"g={G_ROWS}: {name}: X differs from int_model (first diff at neuron {int(np.argmax(np.array(x) != ref))})"
         nz_rows = sum(1 for b in range(11) if ((counts >> b) & 1).any())
-        exp_rows = nz_rows if SKIP else 11
-        assert st["rows_read"] == exp_rows and st["rows_skipped"] == 11 - exp_rows, f"{name}: skip accounting {st}"
-        assert st["reads_allcols"] == exp_rows * NG and st["reads_plane"] == exp_rows * NG * 8 and st["reads_issued"] == exp_rows * NG * PASSES
+        pad = np.zeros(NG * G_ROWS, np.int64); pad[:512] = counts
+        nz_reads = sum(int(((pad >> b) & 1).reshape(NG, G_ROWS).any(axis=1).sum()) for b in range(11))          # (bit-plane, group) pairs with an active row: the only reads issued
+        assert st["rows_read"] == nz_rows and st["rows_skipped"] == 11 - nz_rows, f"{name}: skip accounting {st}"
+        assert st["reads_allcols"] == nz_reads and st["reads_plane"] == nz_reads * 8 and st["reads_issued"] == nz_reads * PASSES, f"{name}: read accounting {st} expected {nz_reads}"
+        assert st["zero_groups"] == nz_rows * NG - nz_reads and st["active"] == int((counts > 0).sum()), f"{name}: {st}"
         log[name] = dict(X=x, stats=st)
     assert int(dut.assert_fail_o.value) == 0
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(dict(g=G_ROWS, cols=COLS, skip=SKIP, vectors=log)))
+    OUT.write_text(json.dumps(dict(g=G_ROWS, cols=COLS, vectors=log)))

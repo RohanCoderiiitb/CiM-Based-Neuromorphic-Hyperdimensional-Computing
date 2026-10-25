@@ -33,13 +33,16 @@ REPO = ROOT.parents[1]
 OUT = ROOT / "results" / "ppa"
 DEFAULT_LIB_DIR = REPO.parent / "ASIC-Optimization-FFT-Hardware" / "45_nm_PDK" / "cadence" / "cadence_45nm" / "lib"
 LIBS = {"fast": "fast_vdd1v0_basicCells.lib", "slow": "slow_vdd1v0_basicCells.lib"}
-RTL = (sorted((ROOT / "rtl" / "pkg").glob("*.sv")) + sorted((ROOT / "rtl" / "phase1_snn").glob("*.sv")) + sorted((ROOT / "rtl" / "phase2_hdc").glob("*.sv"))
+RTL = (sorted((ROOT / "rtl" / "pkg").glob("*.sv")) + sorted((ROOT / "rtl" / "common").glob("*.sv")) + sorted((ROOT / "rtl" / "phase1_snn").glob("*.sv")) + sorted((ROOT / "rtl" / "phase2_hdc").glob("*.sv"))
        + sorted((ROOT / "rtl" / "phase4_exit").glob("*.sv")) + sorted((ROOT / "rtl" / "phase3_top").glob("*.sv")))
 TOP = "cim_neurohdc_top"
 BUILDS = {"full": (1, 1), "ee_off": (1, 0), "fact_off": (0, 1), "both_off": (0, 0)}      # name -> (FACTORIZED, EARLY_EXIT_EN)
 ANALOG = ("cim_macro", "hdc_class_array")
 ARRAY_CLK_TO_Q_NS = 0.3          # [ASSUM] launch time of the black boxes' outputs after the clock edge
 CLK = "clk_i"
+# run configuration, set by main() / synth_power.py from the command line (the defaults reproduce Phase 5 exactly: no clock gating, INSTRUMENT_EN = 0 at the top)
+CFG = dict(gate=0, instr=0, rtl_gating=0, isolate=0)   # gate: 0 = none, n >= 1: Yosys `clockgate` with ICGs from the liberty, groups of at least n flip-flops; instr: INSTRUMENT_EN of the top;
+                                            # rtl_gating: CLOCK_GATING of the top (explicit clk_gate trees in count_mem and the sign table, mapped onto the library ICG by synth/icg_map.v)
 
 
 def run(cmd, cwd=None, log=None, timeout=3600):
@@ -50,7 +53,7 @@ def run(cmd, cwd=None, log=None, timeout=3600):
 
 
 def params_cmd(factorized: int, early: int) -> str:
-    return f"chparam -set FACTORIZED {factorized} -set EARLY_EXIT_EN {early} -set INSTRUMENT_EN 0 -set CHECK_UNIPOLAR 0 {TOP}"
+    return f"chparam -set FACTORIZED {factorized} -set EARLY_EXIT_EN {early} -set INSTRUMENT_EN {CFG['instr']} -set CLOCK_GATING {CFG['rtl_gating']} -set OPERAND_ISOLATION {CFG['isolate']} -set CHECK_UNIPOLAR 0 {TOP}"
 
 
 def read_cmds() -> str:
@@ -98,18 +101,22 @@ def synth(work: Path, lib: Path, factorized: int, early: int, flatten: bool, tag
         constr = work / "abc.constr"
         constr.write_text("set_driving_cell BUFX2\nset_load 0.02\n")
         abc += f" -constr {constr}"
+    gate = CFG["gate"]
+    nosdff = " -nosdff" if gate else ""          # keep the synchronous reset as data logic: a flop with `enable | reset` as its enable is what an ICG can drive (an $sdffe has the reset outranking the enable)
     script = textwrap.dedent(f"""\
         {read_cmds()}
         {params_cmd(factorized, early)}
         hierarchy -check -top {TOP}
+        {f"techmap -map {ROOT / 'synth' / 'icg_map.v'}" if CFG["rtl_gating"] else ""}
         {"flatten -noscopeinfo" if flatten else ""}
         proc
-        opt -purge
+        opt -purge{nosdff}
         memory
-        opt -purge
+        opt -purge{nosdff}
         async2sync
         techmap
-        opt -purge
+        opt -purge{nosdff}
+        {f"clockgate -liberty {lib} -min_net_size {CFG['gate']}" if gate else ""}
         dfflibmap -liberty {lib}
         {abc}
         opt_clean -purge
@@ -177,6 +184,21 @@ VARIANTS = {                      # name -> (library corner, fanout buffering + 
 }
 
 
+def add_flow_args(ap) -> None:
+    ap.add_argument("--gate", type=int, default=0, help="clock gating: Yosys `clockgate` with the library's ICG cell, groups of at least N flip-flops (0 = none, the Phase 5 flow)")
+    ap.add_argument("--rtl-gating", type=int, default=0, choices=[0, 1], help="CLOCK_GATING of the top: 1 = the explicit clock-gate trees of count_mem and the sign table (mapped to ICG cells), 0 = enabled flip-flops only")
+    ap.add_argument("--isolate", type=int, default=0, choices=[0, 1], help="OPERAND_ISOLATION of the top: 1 = shift_accum's fold network is held at zero except when its result is consumed")
+    ap.add_argument("--instr", type=int, default=0, choices=[0, 1], help="INSTRUMENT_EN of the top: 1 keeps the debug counters in the netlist (Phase 5 stripped only part of them)")
+    ap.add_argument("--out", default=None, help="results directory (default: design/rtl/results/ppa, the Phase 5 numbers)")
+
+
+def apply_flow_args(a) -> None:
+    global OUT
+    CFG["gate"], CFG["instr"], CFG["rtl_gating"], CFG["isolate"] = a.gate, a.instr, a.rtl_gating, a.isolate
+    if a.out:
+        OUT = Path(a.out) if Path(a.out).is_absolute() else ROOT / "results" / a.out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--builds", nargs="+", default=list(BUILDS))
@@ -185,7 +207,9 @@ def main() -> int:
     ap.add_argument("--lib-dir", default=str(DEFAULT_LIB_DIR))
     ap.add_argument("--sta", default=None, help="path to the OpenSTA binary (default: design/rtl/tools/sta)")
     ap.add_argument("--hier", action="store_true", help="also write the hierarchy-preserving netlist (for the VCD power step)")
+    add_flow_args(ap)
     a = ap.parse_args()
+    apply_flow_args(a)
     sta = a.sta or str(ROOT / "tools" / "sta")
     OUT.mkdir(parents=True, exist_ok=True)
     for b in a.builds:

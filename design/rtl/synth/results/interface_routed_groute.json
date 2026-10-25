@@ -1,0 +1,19 @@
+{
+ "stage": "groute",
+ "build": "full",
+ "reads_in_window": 564,
+ "nets_counted": {
+  "outputs": 480,
+  "row_select": 512
+ },
+ "mean_wire_cap_fF": {
+  "outputs": 113.89481458333331,
+  "row_select": 7.874931640624999
+ },
+ "energy_pJ_per_read": {
+  "wires_outputs": 4.1837726161702085,
+  "wires_row_select": 0.0051080493262411365,
+  "wires_total": 4.18888066549645
+ },
+ "note": "wire energy only (0.5 C V^2 per transition, OpenROAD-estimated wire C, VCD transitions); pin capacitance of the digital loads and the level shifters are not included here"
+}

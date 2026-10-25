@@ -8,9 +8,9 @@
   "N_PARALLEL_COLS": 20,
   "PLANE_SKIP_EN": 1
  },
- "tests": 1,
+ "tests": 2,
  "failed": 0,
  "ok": true,
  "error": "",
- "wall_s": 1.0
+ "wall_s": 5.2
 }

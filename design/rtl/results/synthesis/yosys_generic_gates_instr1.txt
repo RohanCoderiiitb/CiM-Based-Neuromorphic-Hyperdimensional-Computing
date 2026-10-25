@@ -1,34 +1,35 @@
 
-20. Printing statistics.
+23. Printing statistics.
 
 === snn_top ===
 
         +----------Local Count, excluding submodules.
         | 
-    80759 wires
-   103883 wire bits
-     3103 public wires
-    26079 public wire bits
-       38 ports
-     1462 port bits
-    90153 cells
-     3586   $_ANDNOT_
-    14911   $_AND_
+    76308 wires
+   115066 wire bits
+     4126 public wires
+    32212 public wire bits
+       39 ports
+     1463 port bits
+    89930 cells
+     2476   $_ANDNOT_
+    19214   $_AND_
        10   $_DFF_P_
-     8918   $_MUX_
-    24789   $_NAND_
-     3755   $_NOR_
-      769   $_NOT_
-     3124   $_ORNOT_
-     8451   $_OR_
-     5932   $_SDFFCE_PN0P_
-      713   $_SDFFE_PN0P_
+     5929   $_MUX_
+    25257   $_NAND_
+     4018   $_NOR_
+      852   $_NOT_
+     2054   $_ORNOT_
+     3501   $_OR_
+      300   $_SDFFCE_PN0P_
+       64   $_SDFFE_PN0N_
+      490   $_SDFFE_PN0P_
         4   $_SDFFE_PN1P_
-     2655   $_SDFFE_PP0P_
+     8446   $_SDFFE_PP0P_
         6   $_SDFF_PN0_
-       32   $_SDFF_PP0_
-     4083   $_XNOR_
-     6344   $_XOR_
+       22   $_SDFF_PP0_
+     4112   $_XNOR_
+    11104   $_XOR_
      2070   $scopeinfo
         1   cim_macro
 

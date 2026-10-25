@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+"""Floorplan parameters for the optimised flow: crossbar macro on top, the digital region under it against the macro's pin edge (as the earlier flow), the class-array macro inside the
+digital region. UTIL is the target density of the digital region (macros excluded). Writes <out>/fp.tcl.   python fp.py --cells <um2> --util 0.6 --macro-dir <dir> --out <dir>"""
+import argparse
+import math
+import re
+from pathlib import Path
+
+ap = argparse.ArgumentParser()
+ap.add_argument("--cells", type=float, required=True, help="standard-cell area of the netlist, um^2")
+ap.add_argument("--util", type=float, default=0.6)
+ap.add_argument("--margin", type=float, default=10.0)
+ap.add_argument("--macro-dir", required=True)
+ap.add_argument("--extra-macros", nargs="*", default=[], help="name:W:H of additional macros kept inside the digital region (e.g. count_sram)")
+ap.add_argument("--core-w", type=float, default=None, help="width of the standard-cell core (default: the macro width); a narrower core keeps the logic compact under the macro pins")
+ap.add_argument("--out", required=True)
+a = ap.parse_args()
+
+
+def size(lef: Path) -> tuple[float, float]:
+    m = re.search(r"SIZE\s+([\d.]+)\s+BY\s+([\d.]+)", lef.read_text())
+    return float(m.group(1)), float(m.group(2))
+
+
+md = Path(a.macro_dir)
+cw, ch = size(md / "cim_macro.lef")
+hw, hh = size(md / "hdc_class_array.lef")
+extra = [(n, float(w), float(h)) for n, w, h in (s.split(":") for s in a.extra_macros)]
+ROW = 1.71
+m = a.margin
+core_y0 = math.ceil(m / ROW) * ROW
+macro_area = hw * hh * 1.2 + sum(w * h * 1.3 for _, w, h in extra)
+cwid = min(a.core_w, cw) if a.core_w else cw
+dig_h = (a.cells / a.util + macro_area) / cwid
+if hh > 150:      # a tall class array (the unfactorised ablation) would otherwise split the logic into two side strips and force wires of >1 mm around it: keep a full-width band of cells above it
+    dig_h = max(dig_h, hh * 1.2 + 150)
+W = cw + 2 * m
+cim_y = math.ceil((core_y0 + dig_h) / ROW) * ROW
+H = cim_y + ch + m
+lines = [f"set IO_W {min(cwid, 450.0):.1f}", f"set CORE_W {cwid + 0:.2f}", f"set DIE_W {W:.2f}", f"set DIE_H {H:.2f}", f"set MARGIN {m:.1f}", f"set CIM_X {m:.2f}", f"set CIM_Y {cim_y:.2f}", f"set HDC_X {m + 5 + sum(w + 10 for _, w, _ in extra):.2f}", f"set HDC_Y {core_y0 + 5:.2f}", f"set UTIL_TARGET {a.util}"]
+x = m + 5
+for n, w, h in extra:
+    lines.append(f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {core_y0 + 5:.2f}")
+    x += w + 10
+Path(a.out).mkdir(parents=True, exist_ok=True)
+Path(a.out, "fp.tcl").write_text("\n".join(lines) + "\n")
+print(f"die {W:.0f} x {H:.0f} um = {W * H * 1e-6:.4f} mm^2; digital region {cwid:.0f} x {dig_h:.0f} for {a.cells:,.0f} um^2 of cells + macros at util {a.util}")

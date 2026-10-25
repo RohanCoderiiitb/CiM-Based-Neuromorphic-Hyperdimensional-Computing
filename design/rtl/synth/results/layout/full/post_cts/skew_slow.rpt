@@ -1,0 +1,7 @@
+Clock clk
+  7.633 source latency _132832_/CK ^
+ -2.437 target latency u_snn.u_count_mem.g_gated.u_tree.g_lvl[0].g_gate[0].u_cg.u_icg/CK ^
+ -0.000 CRPR
+--------------
+  5.195 setup skew
+

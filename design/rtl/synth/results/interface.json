@@ -1,0 +1,62 @@
+{
+ "vcd": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/full/power_vcd/activity.vcd",
+ "window_cycles": 1200,
+ "reads_in_window": 564,
+ "clock_edges_in_window": 1200,
+ "alpha_output_toggles_per_wire_per_read": 0.12543587470449172,
+ "alpha_rowselect_toggles_per_wire_per_read": 0.002583388741134752,
+ "wires": {
+  "outputs": 480,
+  "row_select": 512,
+  "other_inputs": 63,
+  "total": 1055
+ },
+ "wire_cap_fF_per_um": {
+  "Metal4": 0.41600000000000004,
+  "Metal6": 0.41600000000000004
+ },
+ "level_shifters": {
+  "low_to_high": 480,
+  "high_to_low": 575,
+  "area_um2": 11679.3,
+  "area_mm2": 0.011679299999999998,
+  "energy_fJ_per_toggle_ASSUMED": 4.840000000000002,
+  "lef_sizes_um2": {
+   "LSLHX1_TO": 13.68,
+   "LSHLX1_FROM": 8.892
+  }
+ },
+ "geometry": {
+  "macro_um": [
+   763.75,
+   763.75
+  ],
+  "digital_core_side_um_at_util": 542.1152144279718,
+  "util_assumed": 0.7,
+  "edge_pin_span_um": 763.75
+ },
+ "energy": {
+  "short": {
+   "length_um": 300.0,
+   "wire_cap_fF": 128.8,
+   "energy_out_fJ_per_read": 9674.899120567377,
+   "energy_in_fJ_per_read": 212.5412198581561,
+   "energy_pJ_per_read": 9.887440340425535
+  },
+  "nominal": {
+   "length_um": 500.0,
+   "wire_cap_fF": 212.00000000000003,
+   "energy_out_fJ_per_read": 15736.28170212766,
+   "energy_in_fJ_per_read": 345.69957446808525,
+   "energy_pJ_per_read": 16.081981276595744
+  },
+  "long": {
+   "length_um": 700.0,
+   "wire_cap_fF": 295.20000000000005,
+   "energy_out_fJ_per_read": 21797.664283687944,
+   "energy_in_fJ_per_read": 478.85792907801437,
+   "energy_pJ_per_read": 22.276522212765958
+  }
+ },
+ "note": "g = 8 netlist activity applied to the g = 4 chip; level-shifter energy is an assumption; wire length is a floorplan assumption (300/500/700 um) until Innovus reports the real routes"
+}

@@ -1,0 +1,161 @@
+{
+ "build": "both_off",
+ "FACTORIZED": 0,
+ "EARLY_EXIT_EN": 0,
+ "period_ns": 10.0,
+ "plain_fast": {
+  "corner": "fast",
+  "buffered": false,
+  "area_um2": 190476.9,
+  "cells": 71072,
+  "flip_flops": 9490,
+  "combinational": 61582,
+  "yosys_s": 31.9,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": -19.783,
+   "arrival_ns": -29.706,
+   "min_period_report": "clk period_min = 12.85 fmax = 77.80",
+   "period_min_ns": 12.85,
+   "cells_on_worst_path": 6,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/timing_flat_plain_fast.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": -13.78,
+   "arrival_ns": 23.703,
+   "startpoint": "_122515_",
+   "min_period_ns": 23.725,
+   "cells_on_path": 10,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/r2r_flat_plain_fast.rpt"
+  }
+ },
+ "buf_fast": {
+  "corner": "fast",
+  "buffered": true,
+  "area_um2": 198366.84,
+  "cells": 75686,
+  "flip_flops": 9490,
+  "combinational": 66196,
+  "yosys_s": 34.0,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": 4.921,
+   "arrival_ns": -2.579,
+   "min_period_report": "clk period_min = 0.60 fmax = 1655.00",
+   "period_min_ns": 0.6,
+   "cells_on_worst_path": 3,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/timing_flat_buf_fast.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": 7.994,
+   "arrival_ns": 1.981,
+   "startpoint": "u_snn.u_cim_macro",
+   "min_period_ns": 2.003,
+   "cells_on_path": 47,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/r2r_flat_buf_fast.rpt"
+  }
+ },
+ "buf_slow": {
+  "corner": "slow",
+  "buffered": true,
+  "area_um2": 198387.36,
+  "cells": 75698,
+  "flip_flops": 9490,
+  "combinational": 66208,
+  "yosys_s": 34.0,
+  "timing": {
+   "returncode": 0,
+   "slack_ns": 1.686,
+   "arrival_ns": -8.16,
+   "min_period_report": "clk period_min = 8.31 fmax = 120.28",
+   "period_min_ns": 8.31,
+   "cells_on_worst_path": 66,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/timing_flat_buf_slow.rpt"
+  },
+  "reg2reg": {
+   "slack_ns": 1.686,
+   "arrival_ns": 8.16,
+   "startpoint": "u_snn.u_cim_macro",
+   "min_period_ns": 8.182,
+   "cells_on_path": 66,
+   "report": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/ppa_digital/both_off/r2r_flat_buf_slow.rpt"
+  }
+ },
+ "hier": {
+  "area_um2": 210325.554,
+  "modules": {
+   "top2_tree": {
+    "area_um2": 2108.4299999999994,
+    "count": 9
+   },
+   "popcount": {
+    "area_um2": 403.902,
+    "count": 14
+   },
+   "hdc_score": {
+    "area_um2": 513.0,
+    "count": 1
+   },
+   "snn_ctrl": {
+    "area_um2": 794.124,
+    "count": 1
+   },
+   "plane_seq": {
+    "area_um2": 253.422,
+    "count": 1
+   },
+   "shift_accum": {
+    "area_um2": 105198.174,
+    "count": 1
+   },
+   "exit_ctrl": {
+    "area_um2": 115.254,
+    "count": 1
+   },
+   "hdc_query": {
+    "area_um2": 1749.672,
+    "count": 1
+   },
+   "snn_top": {
+    "area_um2": 3334.842,
+    "count": 1
+   },
+   "count_mem": {
+    "area_um2": 70513.56,
+    "count": 1
+   },
+   "clk_gate_tree": {
+    "area_um2": 4849.56,
+    "count": 1
+   },
+   "cim_neurohdc_top": {
+    "area_um2": 124.83,
+    "count": 1
+   },
+   "weight_load": {
+    "area_um2": 164.16,
+    "count": 1
+   },
+   "spike_reg": {
+    "area_um2": 221.274,
+    "count": 1
+   },
+   "if_neuron_array": {
+    "area_um2": 10161.846,
+    "count": 1
+   },
+   "event_ctr": {
+    "area_um2": 895.014,
+    "count": 1
+   },
+   "addr_gen": {
+    "area_um2": 1409.724,
+    "count": 1
+   },
+   "clk_gate": {
+    "area_um2": 3.762,
+    "count": 1
+   }
+  }
+ }
+}

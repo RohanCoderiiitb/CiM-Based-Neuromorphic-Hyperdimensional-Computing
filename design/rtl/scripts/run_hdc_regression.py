@@ -12,6 +12,7 @@ import concurrent.futures
 import gzip
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -27,7 +28,7 @@ from tb.common import hdc_golden as H  # noqa: E402
 import sim_hdc as SIM  # noqa: E402
 
 HQ = H.HQ
-RESULTS = ROOT / "results" / "hdc"
+RESULTS = ROOT / "results" / os.environ.get("CIM_RESULTS_SUBDIR", "hdc")
 REAL_ROWS: list[int] = []
 
 
@@ -50,8 +51,10 @@ def pick_rows(spec: str, n_total: int, labels: np.ndarray, rng) -> list[int]:
     return [int(v) for v in spec.split(",")]
 
 
-def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8, cols=160) -> dict:
-    """Bit-exact comparison of one DUT sample with the references, timestep by timestep. Returns a record; 'first' is the first mismatch."""
+def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8, cols=160, check_instr=True) -> dict:
+    """Bit-exact comparison of one DUT sample with the references, timestep by timestep. Returns a record; 'first' is the first mismatch.
+    check_instr = False is for netlists synthesized with INSTRUMENT_EN = 0, whose debug counters (events ingested, the SNN access counters, the query / inference cycle counts) are constant zero:
+    every functional output is still compared."""
     ref = H.reference_sample(mdl, row, theta, exit_en)
     tr = G.reference_trace(counts_row, mdl["W"], thr)
     n_exp = ref["t_exit"] + 1
@@ -88,19 +91,19 @@ def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8
     if e["pred_tstep"] != ref["t_exit"]:
         bad("pred_tstep", e["pred_tstep"], ref["t_exit"])
     ev_ref = int(np.sum(G.EV.bin_sizes(n_events, G.T)[:n_exp]))
-    if e["events_ingested"] != ev_ref:
+    if check_instr and e["events_ingested"] != ev_ref:
         bad("events_ingested", e["events_ingested"], ev_ref)
     # 1E's criterion 7 for the timesteps that ran: the SNN access counters equal an independent estimate from the count vectors alone
     est = G.independent_access_estimate(counts_row, g)[:n_exp]
     st = got["stats"]
-    for k, col in ((0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (7, 7)):
+    for k, col in (((0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (7, 7)) if check_instr else ()):
         if not np.array_equal(st[:, k], est[:, col]) and not (k == 5 and cols != 160):
             bad("access_estimate", k, int(np.argwhere(st[:, k] != est[:, col])[0][0]))
-    if not np.array_equal(st[:, 6], st[:, 4] * (160 // cols)):
+    if check_instr and not np.array_equal(st[:, 6], st[:, 4] * (160 // cols)):
         bad("reads_issued", 6)
     if e["assert_cycles"] or e["hdc_assert_cycles"]:
         bad("assertions", e["assert_cycles"], e["hdc_assert_cycles"])
-    if e["cycles_query"] != 5 * n_exp:
+    if check_instr and e["cycles_query"] != 5 * n_exp:
         bad("query_cycles", e["cycles_query"], 5 * n_exp)
     return rec
 
@@ -114,8 +117,8 @@ def main() -> int:
     ap.add_argument("--theta", type=int, default=HQ.THETA_NEVER, help="margin threshold (XNOR-score units) written to the threshold register")
     ap.add_argument("--exit-en", type=int, default=1, help="runtime enable written to CFG_EXIT_EN")
     ap.add_argument("--rows", default="all")
-    ap.add_argument("--g", type=int, default=8)
-    ap.add_argument("--cols", type=int, default=160, help="N_PARALLEL_COLS: 160 or 20")
+    ap.add_argument("--g", type=int, default=4)
+    ap.add_argument("--cols", type=int, default=40, help="N_PARALLEL_COLS: 160, 40 (the design point: 4 passes) or 20")
     ap.add_argument("--sim", default="verilator", choices=["verilator", "icarus"])
     ap.add_argument("--gap", type=int, default=0)
     ap.add_argument("--order", default="auto", choices=["auto", "shuffle", "sorted"])
@@ -123,6 +126,7 @@ def main() -> int:
     ap.add_argument("--sim-seed", type=int, default=1)
     ap.add_argument("--chunks", type=int, default=1)
     ap.add_argument("--keep-job", action="store_true")
+    ap.add_argument("--plusarg", action="append", default=[], help="extra simulator plusarg, e.g. +abort_mode=1 or +abort_stress=1 (repeatable)")
     args = ap.parse_args()
 
     t_all = time.time()
@@ -156,7 +160,7 @@ def main() -> int:
                     sim_seed=args.sim_seed, gap_seeds=[gap_seeds[i] for i in idxs])
         runs.append((jd, jd / "out.txt"))
     with concurrent.futures.ThreadPoolExecutor(len(runs)) as ex:
-        rres = list(ex.map(lambda jo: SIM.run(args.sim, exe, jo[0], jo[1]), runs))
+        rres = list(ex.map(lambda jo: SIM.run(args.sim, exe, jo[0], jo[1], args.plusarg), runs))
     r = dict(returncode=max(x["returncode"] for x in rres), wall_s=max(x["wall_s"] for x in rres), log="\n".join(x["log"][-1500:] for x in rres),
              assert_fails=sum(x["assert_fails"] for x in rres), fatal=any(x["fatal"] for x in rres))
     got = [None] * len(rows)

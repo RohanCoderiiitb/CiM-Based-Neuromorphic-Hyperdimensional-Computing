@@ -1,0 +1,68 @@
+Startpoint: _141385_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _133138_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   7.442    7.442   clock network delay (propagated)
+   0.000    7.442 ^ _141385_/CK (DFFHQX1)
+   0.607    8.049 ^ _141385_/Q (DFFHQX1)
+   0.355    8.404 ^ _073155_/Y (CLKBUFX2)
+   0.929    9.333 v _073156_/Y (INVXL)
+   0.978   10.311 v _073157_/Y (CLKBUFX2)
+   0.907   11.218 v _073158_/Y (CLKBUFX2)
+   0.886   12.104 v _073159_/Y (CLKBUFX2)
+   0.816   12.920 v _073160_/Y (CLKBUFX2)
+   1.137   14.057 v _074521_/Y (CLKBUFX2)
+   1.153   15.210 v _074522_/Y (CLKBUFX2)
+   1.035   16.245 v _074523_/Y (CLKBUFX2)
+   1.025   17.270 v _074524_/Y (CLKBUFX2)
+   0.676   17.946 v _081430_/Y (BUFX3)
+   0.284   18.230 v wire8200/Y (BUFX20)
+   0.600   18.830 v _081431_/Y (CLKBUFX2)
+   0.645   19.475 ^ _087407_/Y (MXI2X2)
+   1.412   20.887 v _087425_/Y (MXI2XL)
+   2.183   23.070 ^ _087436_/Y (MXI2XL)
+   1.040   24.110 ^ _087437_/Y (NAND2BX1)
+   0.212   24.321 ^ wire4517/Y (CLKBUFX20)
+   0.193   24.514 ^ _087439_/Y (AND2XL)
+   0.734   25.249 v _087456_/Y (OAI21XL)
+   1.133   26.382 ^ _087458_/Y (AOI21XL)
+   1.286   27.668 v _087465_/Y (OAI21XL)
+   1.384   29.052 ^ _087472_/Y (AOI21XL)
+   2.031   31.083 v _087474_/Y (OAI21XL)
+   1.522   32.605 ^ _087475_/CON (ACHCONX2)
+   1.858   34.463 v _087477_/Y (OAI21XL)
+   1.593   36.056 ^ _087479_/Y (AOI21XL)
+   1.088   37.144 v _087503_/Y (OAI21XL)
+   0.827   37.972 v _087595_/Y (OAI2BB1X1)
+   0.576   38.548 v _087713_/Y (OAI2BB1X1)
+   0.449   38.997 v _088057_/Y (OAI2BB1X1)
+   0.691   39.688 v _088094_/Y (OAI2BB1X1)
+   0.927   40.615 ^ _088111_/Y (XNOR2X1)
+   0.850   41.465 v _131784_/CON (ACHCONX2)
+   1.373   42.837 ^ _131811_/Y (XNOR3XL)
+   0.846   43.683 ^ _131812_/Y (XNOR3XL)
+   0.764   44.447 v _131813_/Y (XNOR2X1)
+   0.532   44.980 ^ _131814_/Y (XNOR2X1)
+   0.182   45.162 v _131815_/Y (NOR2XL)
+   0.420   45.582 ^ _131816_/Y (AOI211X2)
+   0.361   45.943 ^ wire4/Y (CLKBUFX20)
+   0.001   45.944 ^ _133138_/D (DFFQX2)
+           45.944   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   7.206   17.206   clock network delay (propagated)
+   0.000   17.206   clock reconvergence pessimism
+           17.206 ^ _133138_/CK (DFFQX2)
+  -0.045   17.161   library setup time
+           17.161   data required time
+-----------------------------------------------------------
+           17.161   data required time
+          -45.944   data arrival time
+-----------------------------------------------------------
+          -28.783   slack (VIOLATED)
+
+

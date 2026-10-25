@@ -7,7 +7,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT=results/lint; mkdir -p "$OUT"
 PK="rtl/pkg/cim_neurohdc_pkg.sv rtl/pkg/hdc_pkg.sv"
-ALL="$PK rtl/phase1_snn/*.sv rtl/phase2_hdc/*.sv rtl/phase4_exit/*.sv rtl/phase3_top/*.sv"
+ALL="$PK rtl/common/*.sv rtl/phase1_snn/*.sv rtl/phase2_hdc/*.sv rtl/phase4_exit/*.sv rtl/phase3_top/*.sv"
 W="-Wall -sv -Wno-IMPORTSTAR -Wno-DECLFILENAME -Wno-PINCONNECTEMPTY -Wno-UNUSEDPARAM"
 {
   VB=$(ls -d tools/verible-*/bin 2>/dev/null | head -1 || true); [ -z "$VB" ] && command -v verible-verilog-lint >/dev/null && VB=$(dirname "$(command -v verible-verilog-lint)")

@@ -12,6 +12,12 @@
 // source holding `valid` is back-pressured and no event can be lost - the assertions check that every event is counted exactly once
 // and that the counters sum to the timestep's event count at every boundary.
 // ingest_en_i gates event intake (nothing drives it low in 1E; Phase 4 early exit will).
+//
+// abort_i (digital-energy pass): a one-cycle request that returns RUN -> IDLE from ANY run sub-state. The weights, the configuration and `loaded_q` are kept (a real part keeps its
+// weights in ReRAM); the per-sample state (counters, sequencer, accumulator, query stage) is cleared by the blocks that see the same strobe, and a new start_i begins a clean sample.
+// It is how an early exit hands the datapath over without a reset and a 2,560-cycle weight reload. Ignored outside RUN.
+//
+// INSTRUMENT_EN = 0 removes every debug counter (cycle / event / forward / per-timestep latches) from the netlist: the ts_*_o outputs are then constant zero.
 
 
 
@@ -19,24 +25,27 @@
 
 
 import cim_neurohdc_pkg::DRAIN_CYCLES;
+import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
 import cim_neurohdc_pkg::N_TIMESTEPS;
 import cim_neurohdc_pkg::ST_DONE;
 import cim_neurohdc_pkg::ST_IDLE;
 import cim_neurohdc_pkg::ST_LOAD;
 import cim_neurohdc_pkg::ST_RUN;
 import cim_neurohdc_pkg::W_NEVENTS;
-import cim_neurohdc_pkg::W_PCOUNT;
 import cim_neurohdc_pkg::W_STAT;
 import cim_neurohdc_pkg::W_TOP_STATE;
 import cim_neurohdc_pkg::W_TSTEP;
 
-module snn_ctrl (
+module snn_ctrl #(
+    parameter bit INSTRUMENT_EN = INSTRUMENT_EN_DEFAULT
+) (
     input  logic                 clk_i,
     input  logic                 rst_n_i,
     // host
     input  logic                 load_start_i,
     input  logic                 start_i,
     input  logic                 ingest_en_i,
+    input  logic                 abort_i,
     // event handshake
     input  logic                 ev_valid_i,
     output logic                 ev_ready_o,
@@ -56,9 +65,9 @@ module snn_ctrl (
     input  logic                 cm_busy_i,
     input  logic                 cm_fwd_i,
     output logic                 cm_wipe_o,
-    output logic                 cm_chk_o,
     output logic [W_NEVENTS-1:0] cm_chk_expected_o,
-    input  logic [ W_PCOUNT-1:0] active_cnt_i,
+    input  logic                 cm_ready_i,    // the count memory is not sweeping (after reset / abort)
+    input  logic [   W_STAT-1:0] seq_active_i,   // counters != 0 this timestep (scan)
     // plane_seq / shift_accum
     output logic                 seq_start_o,
     input  logic                 seq_done_i,
@@ -111,91 +120,58 @@ module snn_ctrl (
   run_state_e                   run_q;
   logic                         loaded_q;
   logic       [    W_TSTEP-1:0] ts_idx_q;
-  logic       [     W_STAT-1:0] ev_in_ts_q;
-  logic       [     W_STAT-1:0] fwd_q;
-  logic       [     W_STAT-1:0] cyc_ts_q;
-  logic       [     W_STAT-1:0] cyc_ing_q;
-  logic       [     W_STAT-1:0] cyc_total_q;
+  logic       [     W_STAT-1:0] ev_in_ts_q;  // events of this timestep: the assertions' reference count (only the instrumentation outputs make it visible in a netlist)
   logic       [     W_STAT-1:0] wait_q;
-  logic       [     W_STAT-1:0] active_q;
-
-  logic [W_STAT-1:0] l_events_q, l_active_q, l_skipped_q, l_rows_q, l_allcols_q, l_plane_q, l_issued_q, l_zero_q, l_fwd_q, l_cyc_q, l_cyc_ing_q;
 
   logic in_run;
   logic can_start;
   logic boundary_acc;
+  logic abort_run;
+  logic run_start;
 
-  assign in_run             = (top_q == ST_RUN);
-  assign can_start          = (top_q == ST_IDLE || top_q == ST_DONE);
-  assign sample_clr_o       = start_i && can_start && loaded_q;
-  assign wl_start_o         = load_start_i && can_start;
-  assign ev_ready_o         = in_run && (run_q == R_INGEST) && ingest_en_i;
-  assign ev_accept_o        = ev_valid_i && ev_ready_o;
-  assign boundary_acc       = ev_accept_o && boundary_i;
+  assign in_run            = (top_q == ST_RUN);
+  assign can_start         = (top_q == ST_IDLE || top_q == ST_DONE);
+  assign abort_run         = abort_i && in_run;
+  assign sample_clr_o      = start_i && can_start && loaded_q;
+  assign run_start         = can_start && !load_start_i && start_i && loaded_q;
+  assign wl_start_o        = load_start_i && can_start;
+  assign ev_ready_o        = in_run && (run_q == R_INGEST) && ingest_en_i && !abort_i && cm_ready_i;
+  assign ev_accept_o       = ev_valid_i && ev_ready_o;
+  assign boundary_acc      = ev_accept_o && boundary_i;
 
-  assign cm_wipe_o          = in_run && (run_q == R_WIPE);
-  assign cm_chk_o           = in_run && (run_q == R_CHECK);
-  assign cm_chk_expected_o  = W_NEVENTS'(ev_in_ts_q);
-  assign seq_start_o        = in_run && (run_q == R_CHECK);
-  assign acc_clr_o          = in_run && (run_q == R_CHECK);
-  assign neuron_upd_o       = in_run && (run_q == R_UPDATE);
-  assign spike_load_o       = in_run && (run_q == R_EMIT);
-  assign ts_idx_o           = ts_idx_q;
-  assign state_o            = top_q;
-  assign weights_loaded_o   = loaded_q;
-  assign done_o             = (top_q == ST_DONE);
+  assign cm_wipe_o         = in_run && (run_q == R_WIPE);
+  assign cm_chk_expected_o = W_NEVENTS'(ev_in_ts_q);
+  assign seq_start_o       = in_run && (run_q == R_CHECK);
+  assign acc_clr_o         = in_run && (run_q == R_CHECK);
+  assign neuron_upd_o      = in_run && (run_q == R_UPDATE) && !abort_i;
+  assign spike_load_o      = in_run && (run_q == R_EMIT) && !abort_i;
+  assign ts_idx_o          = ts_idx_q;
+  assign state_o           = top_q;
+  assign weights_loaded_o  = loaded_q;
+  assign done_o            = (top_q == ST_DONE);
 
-  assign ts_events_o        = l_events_q;
-  assign ts_active_o        = l_active_q;
-  assign ts_rows_skipped_o  = l_skipped_q;
-  assign ts_rows_read_o     = l_rows_q;
-  assign ts_reads_allcols_o = l_allcols_q;
-  assign ts_reads_plane_o   = l_plane_q;
-  assign ts_reads_issued_o  = l_issued_q;
-  assign ts_zero_groups_o   = l_zero_q;
-  assign ts_fwd_o           = l_fwd_q;
-  assign ts_cycles_o        = l_cyc_q;
-  assign ts_cycles_ingest_o = l_cyc_ing_q;
-  assign cyc_total_o        = cyc_total_q;
-
+  // ------------------------------------------------------------------ control state (always built)
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) begin
-      top_q       <= ST_IDLE;
-      run_q       <= R_INGEST;
-      loaded_q    <= 1'b0;
-      ts_idx_q    <= '0;
-      ev_in_ts_q  <= '0;
-      fwd_q       <= '0;
-      cyc_ts_q    <= '0;
-      cyc_ing_q   <= '0;
-      cyc_total_q <= '0;
-      wait_q      <= '0;
-      active_q    <= '0;
-      l_events_q  <= '0;
-      l_active_q  <= '0;
-      l_skipped_q <= '0;
-      l_rows_q    <= '0;
-      l_allcols_q <= '0;
-      l_plane_q   <= '0;
-      l_issued_q  <= '0;
-      l_zero_q    <= '0;
-      l_fwd_q     <= '0;
-      l_cyc_q     <= '0;
-      l_cyc_ing_q <= '0;
+      top_q      <= ST_IDLE;
+      run_q      <= R_INGEST;
+      loaded_q   <= 1'b0;
+      ts_idx_q   <= '0;
+      ev_in_ts_q <= '0;
+      wait_q     <= '0;
+    end else if (abort_run) begin
+      top_q <= ST_IDLE;
+      run_q <= R_INGEST;
     end else begin
       // ------------------------------------------------ top-level state
       unique case (top_q)
         ST_IDLE, ST_DONE: begin
           if (load_start_i) top_q <= ST_LOAD;
           else if (start_i && loaded_q) begin
-            top_q       <= ST_RUN;
-            run_q       <= R_INGEST;
-            ts_idx_q    <= '0;
-            ev_in_ts_q  <= '0;
-            fwd_q       <= '0;
-            cyc_ts_q    <= '0;
-            cyc_ing_q   <= '0;
-            cyc_total_q <= '0;
+            top_q      <= ST_RUN;
+            run_q      <= R_INGEST;
+            ts_idx_q   <= '0;
+            ev_in_ts_q <= '0;
           end
         end
         ST_LOAD: begin
@@ -205,18 +181,11 @@ module snn_ctrl (
           end
         end
         ST_RUN: begin
-          cyc_ts_q    <= cyc_ts_q + ONE;
-          cyc_total_q <= cyc_total_q + ONE;
-          if (run_q == R_INGEST) cyc_ing_q <= cyc_ing_q + ONE;
-          if (cm_fwd_i) fwd_q <= fwd_q + ONE;
           if (ev_accept_o) ev_in_ts_q <= ev_in_ts_q + ONE;
           unique case (run_q)
             R_INGEST: if (boundary_acc) run_q <= R_DRAIN;
             R_DRAIN:  if (!cm_busy_i) run_q <= R_CHECK;
-            R_CHECK: begin
-              active_q <= W_STAT'(active_cnt_i);
-              run_q    <= R_MVM;
-            end
+            R_CHECK:  run_q <= R_MVM;
             R_MVM: begin
               if (seq_done_i) begin
                 if (POST_DONE_WAIT <= 0) run_q <= R_UPDATE;
@@ -231,26 +200,10 @@ module snn_ctrl (
               if (wait_q == ONE) run_q <= R_UPDATE;
             end
             R_UPDATE: run_q <= R_EMIT;
-            R_EMIT: begin
-              l_events_q  <= ev_in_ts_q;
-              l_active_q  <= active_q;
-              l_skipped_q <= seq_rows_skipped_i;
-              l_rows_q    <= seq_rows_read_i;
-              l_allcols_q <= seq_reads_allcols_i;
-              l_plane_q   <= seq_reads_plane_i;
-              l_issued_q  <= seq_reads_issued_i;
-              l_zero_q    <= zero_groups_i;
-              l_fwd_q     <= fwd_q;
-              l_cyc_q     <= cyc_ts_q + ONE;
-              l_cyc_ing_q <= cyc_ing_q;
-              run_q       <= R_WIPE;
-            end
+            R_EMIT:   run_q <= R_WIPE;
             R_WIPE: begin
               ts_idx_q   <= ts_idx_q + W_TSTEP'(1);
               ev_in_ts_q <= '0;
-              fwd_q      <= '0;
-              cyc_ts_q   <= '0;
-              cyc_ing_q  <= '0;
               if (ts_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) top_q <= ST_DONE;
               run_q <= R_INGEST;
             end
@@ -260,6 +213,91 @@ module snn_ctrl (
         default: top_q <= ST_IDLE;
       endcase
     end
+  end
+
+  // ------------------------------------------------------------------ instrumentation (debug state: INSTRUMENT_EN = 0 builds none of it)
+  if (INSTRUMENT_EN) begin : g_instr
+    logic [W_STAT-1:0] fwd_q, cyc_ts_q, cyc_ing_q, cyc_total_q;
+    logic [W_STAT-1:0] l_events_q, l_active_q, l_skipped_q, l_rows_q, l_allcols_q, l_plane_q, l_issued_q, l_zero_q, l_fwd_q, l_cyc_q, l_cyc_ing_q;
+
+    always_ff @(posedge clk_i) begin
+      if (!rst_n_i) begin
+        fwd_q       <= '0;
+        cyc_ts_q    <= '0;
+        cyc_ing_q   <= '0;
+        cyc_total_q <= '0;
+        l_events_q  <= '0;
+        l_active_q  <= '0;
+        l_skipped_q <= '0;
+        l_rows_q    <= '0;
+        l_allcols_q <= '0;
+        l_plane_q   <= '0;
+        l_issued_q  <= '0;
+        l_zero_q    <= '0;
+        l_fwd_q     <= '0;
+        l_cyc_q     <= '0;
+        l_cyc_ing_q <= '0;
+      end else if (!abort_run) begin
+        if (run_start) begin
+          fwd_q       <= '0;
+          cyc_ts_q    <= '0;
+          cyc_ing_q   <= '0;
+          cyc_total_q <= '0;
+        end
+        if (in_run) begin
+          cyc_ts_q    <= cyc_ts_q + ONE;
+          cyc_total_q <= cyc_total_q + ONE;
+          if (run_q == R_INGEST) cyc_ing_q <= cyc_ing_q + ONE;
+          if (cm_fwd_i) fwd_q <= fwd_q + ONE;
+          if (run_q == R_EMIT) begin
+            l_events_q  <= ev_in_ts_q;
+            l_active_q  <= seq_active_i;
+            l_skipped_q <= seq_rows_skipped_i;
+            l_rows_q    <= seq_rows_read_i;
+            l_allcols_q <= seq_reads_allcols_i;
+            l_plane_q   <= seq_reads_plane_i;
+            l_issued_q  <= seq_reads_issued_i;
+            l_zero_q    <= zero_groups_i;
+            l_fwd_q     <= fwd_q;
+            l_cyc_q     <= cyc_ts_q + ONE;
+            l_cyc_ing_q <= cyc_ing_q;
+          end
+          if (run_q == R_WIPE) begin
+            fwd_q     <= '0;
+            cyc_ts_q  <= '0;
+            cyc_ing_q <= '0;
+          end
+        end
+      end
+    end
+
+    assign ts_events_o        = l_events_q;
+    assign ts_active_o        = l_active_q;
+    assign ts_rows_skipped_o  = l_skipped_q;
+    assign ts_rows_read_o     = l_rows_q;
+    assign ts_reads_allcols_o = l_allcols_q;
+    assign ts_reads_plane_o   = l_plane_q;
+    assign ts_reads_issued_o  = l_issued_q;
+    assign ts_zero_groups_o   = l_zero_q;
+    assign ts_fwd_o           = l_fwd_q;
+    assign ts_cycles_o        = l_cyc_q;
+    assign ts_cycles_ingest_o = l_cyc_ing_q;
+    assign cyc_total_o        = cyc_total_q;
+  end else begin : g_no_instr
+    assign ts_events_o        = '0;
+    assign ts_active_o        = '0;
+    assign ts_rows_skipped_o  = '0;
+    assign ts_rows_read_o     = '0;
+    assign ts_reads_allcols_o = '0;
+    assign ts_reads_plane_o   = '0;
+    assign ts_reads_issued_o  = '0;
+    assign ts_zero_groups_o   = '0;
+    assign ts_fwd_o           = '0;
+    assign ts_cycles_o        = '0;
+    assign ts_cycles_ingest_o = '0;
+    assign cyc_total_o        = '0;
+    logic unused_instr;
+    assign unused_instr = &{1'b0, run_start, cm_fwd_i, seq_active_i, seq_rows_skipped_i, seq_rows_read_i, seq_reads_allcols_i, seq_reads_plane_i, seq_reads_issued_i, zero_groups_i};
   end
 
   // ------------------------------------------------------------------ assertions (simulation only; never disabled)

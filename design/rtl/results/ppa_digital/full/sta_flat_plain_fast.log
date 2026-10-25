@@ -1,0 +1,1 @@
+Warning 441: sta_flat_plain_fast.tcl line 1, set_input_delay relative to a clock defined on the same port/pin not allowed.

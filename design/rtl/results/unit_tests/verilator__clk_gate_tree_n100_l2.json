@@ -1,0 +1,15 @@
+{
+ "sim": "verilator",
+ "case": "clk_gate_tree_n100_l2",
+ "toplevel": "clk_tree_wrap",
+ "module": "test_clk_gate_tree",
+ "parameters": {
+  "N": 100,
+  "LEVELS": 2
+ },
+ "tests": 1,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 6.9
+}

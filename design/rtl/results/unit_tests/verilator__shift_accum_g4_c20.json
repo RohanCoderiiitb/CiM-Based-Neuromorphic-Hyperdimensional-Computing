@@ -1,0 +1,15 @@
+{
+ "sim": "verilator",
+ "case": "shift_accum_g4_c20",
+ "toplevel": "shift_accum",
+ "module": "test_shift_accum",
+ "parameters": {
+  "ROWS_PER_GROUP": 4,
+  "N_PARALLEL_COLS": 20
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 7.6
+}

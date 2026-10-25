@@ -30,3 +30,16 @@ design/rtl/tools/
 design/rtl/build/
 design/rtl/sim_build/
 design/rtl/results/scratch/
+
+# the Cadence 45 nm PDK (licensed material, includes a secured lab PDF and a licence-server cshrc): never commit; the flows read it from here
+/45_nm_PDK/
+# generated per-build inputs of the owner's Genus / Innovus runs (rebuilt by design/rtl/synth/prepare_rtl.py)
+/design/rtl/synth/work/
+
+# regenerable P&R databases / netlists / guides of the OpenROAD run (design/rtl/synth/openroad/run_flow.sh rebuilds them) and per-run scratch
+/design/rtl/synth/results/openroad/*/*.odb
+/design/rtl/synth/results/openroad/*/*.def
+/design/rtl/synth/results/openroad/*/*.v
+/design/rtl/synth/results/openroad/*/route.guide
+/design/rtl/synth/results/layout/*/*/power_*/
+/design/rtl/synth/results/ports/

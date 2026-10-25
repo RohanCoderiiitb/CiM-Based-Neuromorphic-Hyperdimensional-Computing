@@ -1,0 +1,394 @@
+{
+ "build": "full",
+ "gate": 0,
+ "instr": 0,
+ "rtl_gating": 0,
+ "isolate": 0,
+ "area_um2_hier": 223600.968,
+ "window": {
+  "row": 46,
+  "start": 12000,
+  "len": 8000
+ },
+ "gate_level_matches_golden": true,
+ "timesteps_checked": 5,
+ "sum_of_instances_w": 0.0028549065858,
+ "total_report": "Group                  Internal  Switching    Leakage      Total\n                          Power      Power      Power      Power (Watts)\n----------------------------------------------------------------\nSequential             2.74e-03   1.65e-06   3.53e-06   2.75e-03  96.3%\nCombinational          6.36e-05   3.47e-05   8.76e-06   1.07e-04   3.8%\nClock                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%\nMacro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%\nPad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%\n----------------------------------------------------------------\nTotal                  2.80e-03   3.64e-05   1.23e-05   2.85e-03 100.0%\n                          98.3%       1.3%       0.4%\n",
+ "modules": {
+  "depth1": {
+   "u_snn": {
+    "internal_w": 0.0024592782932944496,
+    "switching_w": 3.634665666999131e-05,
+    "leakage_w": 1.1423255399996791e-05,
+    "total_w": 0.002510968621899633,
+    "cells": 80070
+   },
+   "u_query": {
+    "internal_w": 0.0003346642303701605,
+    "switching_w": 2.9244700000000425e-08,
+    "leakage_w": 8.453828000000181e-07,
+    "total_w": 0.00033624645790000297,
+    "cells": 4311
+   },
+   "u_exit": {
+    "internal_w": 4.0963305496999955e-06,
+    "switching_w": 7.300599999999998e-10,
+    "leakage_w": 1.769550000000003e-08,
+    "total_w": 4.124592299999997e-06,
+    "cells": 133
+   },
+   "(top glue)": {
+    "internal_w": 3.549307507999999e-06,
+    "switching_w": 2.571300000000001e-10,
+    "leakage_w": 8.852400000000004e-09,
+    "total_w": 3.566913699999998e-06,
+    "cells": 64
+   }
+  },
+  "depth2": {
+   "u_snn.u_count_mem": {
+    "internal_w": 0.0015599572291442052,
+    "switching_w": 1.70467154399956e-05,
+    "leakage_w": 4.331328100000373e-06,
+    "total_w": 0.001584516114099698,
+    "cells": 31340
+   },
+   "u_snn.u_shift_accum": {
+    "internal_w": 0.0005967341431606839,
+    "switching_w": 1.354293988999858e-05,
+    "leakage_w": 5.988655499999452e-06,
+    "total_w": 0.0006163831693999878,
+    "cells": 39898
+   },
+   "u_query": {
+    "internal_w": 0.0003346338017944014,
+    "switching_w": 1.8233360000000216e-08,
+    "leakage_w": 6.539794000000068e-07,
+    "total_w": 0.000336013599400005,
+    "cells": 2711
+   },
+   "u_snn.u_neurons": {
+    "internal_w": 0.00014789293991779724,
+    "switching_w": 1.0610730999999997e-07,
+    "leakage_w": 6.6980070000001e-07,
+    "total_w": 0.00014901951769999774,
+    "cells": 5721
+   },
+   "u_snn": {
+    "internal_w": 8.806364454730058e-05,
+    "switching_w": 6.483345400000174e-07,
+    "leakage_w": 2.1133980000000492e-07,
+    "total_w": 8.910512730000018e-05,
+    "cells": 1435
+   },
+   "u_snn.u_event_ctr": {
+    "internal_w": 2.426148774009997e-05,
+    "switching_w": 1.6333820500000023e-06,
+    "leakage_w": 5.821029999999996e-08,
+    "total_w": 2.597943550000004e-05,
+    "cells": 439
+   },
+   "u_snn.u_ctrl": {
+    "internal_w": 1.9252929169699933e-05,
+    "switching_w": 3.0367750999999963e-07,
+    "leakage_w": 4.8206599999999994e-08,
+    "total_w": 1.9637875399999948e-05,
+    "cells": 365
+   },
+   "u_snn.u_addr_gen": {
+    "internal_w": 5.740566582800003e-06,
+    "switching_w": 2.963537939999997e-06,
+    "leakage_w": 7.669359999999999e-08,
+    "total_w": 8.780908299999989e-06,
+    "cells": 608
+   },
+   "u_snn.u_spike_reg": {
+    "internal_w": 7.919119059999993e-06,
+    "switching_w": 8.332499999999996e-10,
+    "leakage_w": 1.588350000000001e-08,
+    "total_w": 7.953767500000011e-06,
+    "cells": 95
+   },
+   "u_snn.u_plane_seq": {
+    "internal_w": 5.6341306052999944e-06,
+    "switching_w": 1.0089372999999999e-07,
+    "leakage_w": 1.4815400000000006e-08,
+    "total_w": 5.7529845e-06,
+    "cells": 112
+   },
+   "u_exit": {
+    "internal_w": 4.0963305496999955e-06,
+    "switching_w": 7.300599999999998e-10,
+    "leakage_w": 1.769550000000003e-08,
+    "total_w": 4.124592299999997e-06,
+    "cells": 133
+   },
+   "u_snn.u_weight_load": {
+    "internal_w": 3.8221033670999984e-06,
+    "switching_w": 2.3501e-10,
+    "leakage_w": 8.32190000000001e-09,
+    "total_w": 3.839722200000004e-06,
+    "cells": 57
+   },
+   "(top glue)": {
+    "internal_w": 3.549307507999999e-06,
+    "switching_w": 2.571300000000001e-10,
+    "leakage_w": 8.852400000000004e-09,
+    "total_w": 3.566913699999998e-06,
+    "cells": 64
+   },
+   "u_query.u_top2": {
+    "internal_w": 1.3493530060000011e-08,
+    "switching_w": 5.826110000000005e-09,
+    "leakage_w": 1.1646390000000006e-07,
+    "total_w": 1.3577800000000136e-07,
+    "cells": 1113
+   },
+   "u_query.u_score": {
+    "internal_w": 1.5890833299999968e-08,
+    "switching_w": 4.6532199999999985e-09,
+    "leakage_w": 6.460810000000008e-08,
+    "total_w": 8.517210000000001e-08,
+    "cells": 379
+   },
+   "u_query.u_spop": {
+    "internal_w": 1.0442124000000014e-09,
+    "switching_w": 5.3201e-10,
+    "leakage_w": 1.0331399999999998e-08,
+    "total_w": 1.19084e-08,
+    "cells": 108
+   }
+  },
+  "by_kind_depth2": {
+   "u_snn.u_event_ctr": {
+    "flop": {
+     "internal_w": 2.1485999999999984e-05,
+     "switching_w": 3.487771200000001e-07,
+     "leakage_w": 2.4352999999999963e-08,
+     "total_w": 2.1885000000000015e-05,
+     "cells": 71
+    },
+    "comb": {
+     "internal_w": 2.7754877400999964e-06,
+     "switching_w": 1.2846049300000022e-06,
+     "leakage_w": 3.385729999999999e-08,
+     "total_w": 4.0944355e-06,
+     "cells": 368
+    }
+   },
+   "u_snn.u_ctrl": {
+    "flop": {
+     "internal_w": 1.893e-05,
+     "switching_w": 1.4014709e-07,
+     "leakage_w": 2.298099999999997e-08,
+     "total_w": 1.9126000000000003e-05,
+     "cells": 67
+    },
+    "comb": {
+     "internal_w": 3.229291696999998e-07,
+     "switching_w": 1.635304199999996e-07,
+     "leakage_w": 2.5225600000000005e-08,
+     "total_w": 5.118754000000015e-07,
+     "cells": 298
+    }
+   },
+   "u_snn.u_count_mem": {
+    "flop": {
+     "internal_w": 0.0015459640000000895,
+     "switching_w": 4.856819699999543e-07,
+     "leakage_w": 1.9386359999998794e-06,
+     "total_w": 0.0015515629999998952,
+     "cells": 5652
+    },
+    "comb": {
+     "internal_w": 1.3993229144002102e-05,
+     "switching_w": 1.6561033469995655e-05,
+     "leakage_w": 2.392692100000578e-06,
+     "total_w": 3.295311409999033e-05,
+     "cells": 25688
+    }
+   },
+   "u_snn.u_plane_seq": {
+    "flop": {
+     "internal_w": 5.576999999999998e-06,
+     "switching_w": 5.1925570000000006e-08,
+     "leakage_w": 6.860000000000002e-09,
+     "total_w": 5.6390000000000006e-06,
+     "cells": 20
+    },
+    "comb": {
+     "internal_w": 5.7130605299999966e-08,
+     "switching_w": 4.896815999999999e-08,
+     "leakage_w": 7.955399999999998e-09,
+     "total_w": 1.1398449999999998e-07,
+     "cells": 92
+    }
+   },
+   "u_snn.u_shift_accum": {
+    "flop": {
+     "internal_w": 0.000558006999999985,
+     "switching_w": 6.096764799999965e-07,
+     "leakage_w": 6.945750000000207e-07,
+     "total_w": 0.0005594259999999735,
+     "cells": 2025
+    },
+    "comb": {
+     "internal_w": 3.872714316059799e-05,
+     "switching_w": 1.2933263409998572e-05,
+     "leakage_w": 5.29408049999952e-06,
+     "total_w": 5.6957169399999694e-05,
+     "cells": 37873
+    }
+   },
+   "u_query": {
+    "flop": {
+     "internal_w": 0.0003346169999999999,
+     "switching_w": 4.867110000000007e-09,
+     "leakage_w": 5.025870000000037e-07,
+     "total_w": 0.00033583200000000075,
+     "cells": 1218
+    },
+    "comb": {
+     "internal_w": 1.6801794399999882e-08,
+     "switching_w": 1.3366249999999903e-08,
+     "leakage_w": 1.513924000000011e-07,
+     "total_w": 1.8159940000000167e-07,
+     "cells": 1493
+    }
+   },
+   "u_snn": {
+    "flop": {
+     "internal_w": 8.632200000000055e-05,
+     "switching_w": 4.4712999999999833e-10,
+     "leakage_w": 1.3140200000000032e-07,
+     "total_w": 8.663599999999988e-05,
+     "cells": 314
+    },
+    "comb": {
+     "internal_w": 1.741644547300007e-06,
+     "switching_w": 6.478874100000174e-07,
+     "leakage_w": 7.993779999999974e-08,
+     "total_w": 2.469127299999995e-06,
+     "cells": 1121
+    }
+   },
+   "u_snn.u_spike_reg": {
+    "flop": {
+     "internal_w": 7.918e-06,
+     "switching_w": 1.1655999999999988e-10,
+     "leakage_w": 9.947000000000003e-09,
+     "total_w": 7.946000000000002e-06,
+     "cells": 29
+    },
+    "comb": {
+     "internal_w": 1.1190599999999996e-09,
+     "switching_w": 7.166899999999996e-10,
+     "leakage_w": 5.936500000000007e-09,
+     "total_w": 7.767499999999995e-09,
+     "cells": 66
+    }
+   },
+   "u_snn.u_neurons": {
+    "flop": {
+     "internal_w": 0.00014769399999999967,
+     "switching_w": 3.852910000000016e-09,
+     "leakage_w": 1.8556299999999913e-07,
+     "total_w": 0.0001482340000000012,
+     "cells": 541
+    },
+    "comb": {
+     "internal_w": 1.9893991779999572e-07,
+     "switching_w": 1.0225439999999993e-07,
+     "leakage_w": 4.842377000000031e-07,
+     "total_w": 7.855176999999892e-07,
+     "cells": 5180
+    }
+   },
+   "u_snn.u_weight_load": {
+    "flop": {
+     "internal_w": 3.822000000000001e-06,
+     "switching_w": 1.3458e-10,
+     "leakage_w": 4.802000000000001e-09,
+     "total_w": 3.835999999999999e-06,
+     "cells": 14
+    },
+    "comb": {
+     "internal_w": 1.033671e-10,
+     "switching_w": 1.0043000000000001e-10,
+     "leakage_w": 3.5199000000000002e-09,
+     "total_w": 3.722200000000001e-09,
+     "cells": 43
+    }
+   },
+   "(top glue)": {
+    "flop": {
+     "internal_w": 3.549000000000001e-06,
+     "switching_w": 4.979e-11,
+     "leakage_w": 4.459000000000001e-09,
+     "total_w": 3.561999999999999e-06,
+     "cells": 13
+    },
+    "comb": {
+     "internal_w": 3.0750800000000014e-10,
+     "switching_w": 2.0733999999999993e-10,
+     "leakage_w": 4.393399999999998e-09,
+     "total_w": 4.9137000000000005e-09,
+     "cells": 51
+    }
+   },
+   "u_exit": {
+    "flop": {
+     "internal_w": 4.095000000000001e-06,
+     "switching_w": 1.7139999999999995e-11,
+     "leakage_w": 5.1450000000000016e-09,
+     "total_w": 4.11e-06,
+     "cells": 15
+    },
+    "comb": {
+     "internal_w": 1.3305496999999996e-09,
+     "switching_w": 7.129199999999997e-10,
+     "leakage_w": 1.2550499999999994e-08,
+     "total_w": 1.4592299999999999e-08,
+     "cells": 118
+    }
+   },
+   "u_snn.u_addr_gen": {
+    "comb": {
+     "internal_w": 5.740566582800003e-06,
+     "switching_w": 2.963537939999997e-06,
+     "leakage_w": 7.669359999999999e-08,
+     "total_w": 8.780908299999989e-06,
+     "cells": 608
+    }
+   },
+   "u_query.u_score": {
+    "comb": {
+     "internal_w": 1.5890833299999968e-08,
+     "switching_w": 4.6532199999999985e-09,
+     "leakage_w": 6.460810000000008e-08,
+     "total_w": 8.517210000000001e-08,
+     "cells": 379
+    }
+   },
+   "u_query.u_top2": {
+    "comb": {
+     "internal_w": 1.3493530060000011e-08,
+     "switching_w": 5.826110000000005e-09,
+     "leakage_w": 1.1646390000000006e-07,
+     "total_w": 1.3577800000000136e-07,
+     "cells": 1113
+    }
+   },
+   "u_query.u_spop": {
+    "comb": {
+     "internal_w": 1.0442124000000014e-09,
+     "switching_w": 5.3201e-10,
+     "leakage_w": 1.0331399999999998e-08,
+     "total_w": 1.19084e-08,
+     "cells": 108
+    }
+   }
+  }
+ },
+ "wall_s": 258
+}

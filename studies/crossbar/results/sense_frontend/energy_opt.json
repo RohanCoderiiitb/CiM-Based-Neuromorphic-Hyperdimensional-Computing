@@ -1,0 +1,128 @@
+{
+ "reads": 16748.154,
+ "steps": [
+  {
+   "step": "1F baseline (rank-3 threshold correction, 160 front-ends, ramp per read)",
+   "sense_bias_uJ": 1.3780120637080764,
+   "threshold_uJ": 1.1583965803679315,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 3.111344177348488
+  },
+  {
+   "step": "+ item 7: rank-1 correction (row line R 1.15 ohm/cell, r_drv 10 ohm)",
+   "sense_bias_uJ": 1.3780120637080764,
+   "threshold_uJ": 0.6224556523679314,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 2.575403249348488
+  },
+  {
+   "step": "  (item 7 alternative: rank 0 - residual 4.1 % = the whole budget margin)",
+   "sense_bias_uJ": 1.3780120637080764,
+   "threshold_uJ": 0.0,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 1.9529475969805565
+  },
+  {
+   "step": "+ item 8a: boosted wake-up (vb 0.42 for 0.6 ns, ramp x0.73, settle 0.95 ns)",
+   "sense_bias_uJ": 1.1261385462558982,
+   "threshold_uJ": 0.6224556523679314,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 2.3235297318963095
+  },
+  {
+   "step": "+ item 8b: front-end kept powered across the 4 passes (40 shared channels)",
+   "sense_bias_uJ": 0.681141593919846,
+   "threshold_uJ": 0.6224556523679314,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 1.8785327795602573
+  },
+  {
+   "step": "+ item 9: per-plane bias / window (vb, T by weight bit-plane)",
+   "sense_bias_uJ": 0.6492697705739706,
+   "threshold_uJ": 0.6224556523679314,
+   "array_wl_uJ": 0.07538712837576053,
+   "comparators_uJ": 0.4995484048967195,
+   "crossbar_total_uJ": 1.846660956214382
+  }
+ ],
+ "planes": [
+  {
+   "plane": 0,
+   "p_err": 0.009,
+   "variance_relaxation": 3.6658032866858514,
+   "vb": 0.52,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.1819980657420881
+  },
+  {
+   "plane": 1,
+   "p_err": 0.003,
+   "variance_relaxation": 2.8397650635834863,
+   "vb": 0.52,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.1819980657420881
+  },
+  {
+   "plane": 2,
+   "p_err": 0.0003,
+   "variance_relaxation": 1.9135720602208313,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  },
+  {
+   "plane": 3,
+   "p_err": 8.999999999999999e-05,
+   "variance_relaxation": 1.630910619575564,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  },
+  {
+   "plane": 4,
+   "p_err": 8.999999999999999e-05,
+   "variance_relaxation": 1.630910619575564,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  },
+  {
+   "plane": 5,
+   "p_err": 3e-06,
+   "variance_relaxation": 1.1464292979215307,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  },
+  {
+   "plane": 6,
+   "p_err": 3e-06,
+   "variance_relaxation": 1.1464292979215307,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  },
+  {
+   "plane": 7,
+   "p_err": 3e-06,
+   "variance_relaxation": 1.1464292979215307,
+   "vb": 0.5,
+   "window_ns": 1.0,
+   "col_read_pJ": 0.22957319453818603
+  }
+ ],
+ "ramp_ratio": 0.7300797321007406,
+ "boost": {
+  "t_settle_ns": 0.953975281339,
+  "e_ramp_pJ_per_channel": 0.2727278086877808,
+  "i_final_uA": 98.3958925329,
+  "i_peak_uA": 1087.1313817740001,
+  "vb_boost": 0.42,
+  "t_boost_ns": 0.6
+ }
+}

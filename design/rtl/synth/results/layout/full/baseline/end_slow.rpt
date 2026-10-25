@@ -1,0 +1,7 @@
+max_delay/setup group clk
+
+                                     Required   Actual
+Endpoint                                Delay    Delay    Slack
+---------------------------------------------------------------
+_133138_/D (DFFHQX1)                    9.846    7.758    2.088 (MET)
+

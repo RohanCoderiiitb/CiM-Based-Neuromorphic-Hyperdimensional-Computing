@@ -1,0 +1,26 @@
+OpenROAD 2e76e4a91f202d6ba051814e6300235a77cb7e90 
+Features included (+) or not (-): -GPU -GUI -Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer PWdummy :"SPACING 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer PWdummy :"WIDTH 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer Nwell :"SPACING 0.6 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer Nwell :"WIDTH 0.3 ;"
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/tech_openroad.lef, created 36 layers, 119 vias
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/45_nm_PDK/cadence/cadence_45nm/lef/gsclib045_macro.lef, created 574 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/cim_macro.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lef, created 1 library cells
+[WARNING STA-1140] /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lib line 1, library analog_blackboxes already exists.
+Design area 942666 um^2 87% utilization.
+Cell type report:                       Count        Area
+  Macro                                     2   590745.15
+  Buffer                                 4941    11599.61
+  Clock buffer                           3408    11100.98
+  Timing Repair Buffer                  14798   116797.79
+  Inverter                               1760     1216.84
+  Clock inverter                          140      224.69
+  Clock gate cell                         738     4038.34
+  Sequential cell                        9930    56106.81
+  Multi-Input combinational cell        60630   150835.68
+  Total                                 96347   942665.89
+STAGES DONE: groute

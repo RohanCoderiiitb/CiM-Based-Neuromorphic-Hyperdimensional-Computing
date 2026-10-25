@@ -1,0 +1,14 @@
+{
+ "sim": "verilator",
+ "case": "count_mem_cg0",
+ "toplevel": "count_mem",
+ "module": "test_count_mem",
+ "parameters": {
+  "CLOCK_GATING": 0
+ },
+ "tests": 5,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 5.9
+}

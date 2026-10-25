@@ -1,0 +1,31 @@
+Startpoint: abort_i (input port clocked by clk)
+Endpoint: _125340_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+   Delay     Time   Description
+-----------------------------------------------------------
+   0.000    0.000   clock clk (rise edge)
+   0.000    0.000   clock network delay (ideal)
+   2.500    2.500 v input external delay
+   0.000    2.500 v abort_i (in)
+   4.829    7.329 v _061309_/Y (NAND2BX1)
+  16.334   23.663 ^ _103408_/Y (NOR2X1)
+   5.342   29.005 v _104915_/Y (OAI21X1)
+   0.701   29.706 ^ _104916_/Y (NOR2X1)
+   0.000   29.706 ^ _125340_/D (DFFHQX1)
+           29.706   data arrival time
+
+  10.000   10.000   clock clk (rise edge)
+   0.000   10.000   clock network delay (ideal)
+   0.000   10.000   clock reconvergence pessimism
+           10.000 ^ _125340_/CK (DFFHQX1)
+  -0.077    9.923   library setup time
+            9.923   data required time
+-----------------------------------------------------------
+            9.923   data required time
+          -29.706   data arrival time
+-----------------------------------------------------------
+          -19.783   slack (VIOLATED)
+
+

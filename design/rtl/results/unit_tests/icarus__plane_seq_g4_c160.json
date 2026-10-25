@@ -1,0 +1,15 @@
+{
+ "sim": "icarus",
+ "case": "plane_seq_g4_c160",
+ "toplevel": "plane_seq",
+ "module": "test_plane_seq",
+ "parameters": {
+  "ROWS_PER_GROUP": 4,
+  "N_PARALLEL_COLS": 160
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 3.7
+}

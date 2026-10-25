@@ -251,7 +251,7 @@ RTL, baseline, 3-seed mean: accuracy 82.50% (full run 82.36%), events ingested 6
 | sw_r1fact_s0_t56 | 1,376 | 0 |
 | sw_r1fact_s0_t8 | 232 | 0 |
 
-Total 54,231 timesteps, 1 differences. The Icarus profile is a fixed random subset of the rows per configuration (Icarus is ~50x slower than Verilator); each is compared with a Verilator twin of identical arguments, so the stimulus is identical.
+Total 54,231 timesteps, 1 differences. **Resolved in the digital energy pass ([`digital_energy.md`](digital_energy.md), section 2): the 'difference' was a stale entry from an Icarus run that had been killed before finishing three rows; the complete re-run agrees with Verilator on every field except `reload_cycles` (END field 13), which depends on how samples are chunked over simulator processes, not on the design. Criterion 5 is closed (PASS).** The Icarus profile is a fixed random subset of the rows per configuration (Icarus is ~50x slower than Verilator); each is compared with a Verilator twin of identical arguments, so the stimulus is identical.
 
 The cocotb unit tests of the new blocks (`top2_tree` N = 7/10/16/24, `exit_ctrl` with and without the comparator, `hdc_query` for both mappings) pass on both simulators:
 

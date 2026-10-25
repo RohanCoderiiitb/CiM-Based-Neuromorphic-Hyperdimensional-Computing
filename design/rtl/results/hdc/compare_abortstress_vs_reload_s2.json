@@ -1,0 +1,25 @@
+{
+ "a": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final/abortstress_full_g4_s2.out.txt.gz",
+ "b": "/Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/results/hdc_final/ab_full_g4_s2.out.txt.gz",
+ "lines": 13190,
+ "timesteps_compared": 12950,
+ "disagreements": 6,
+ "first": [
+  [
+   0,
+   "TS 0 0 efbfe -41159 19489 44455 7711 43441 36999 10404 9193 33080 36633 -54822 78422 20143 20084 106329 51977 -60112 24690 12844 17210 -41159 0 0 0 0 0 0 0 0 0 ",
+   "TS 0 0 efbfe -41159 19489 44455 7711 43441 36999 10404 9193 33080 36633 -54822 78422 20143 20084 106329 51977 -60112 24690 12844 17210 -41159 0 0 0 0 0 0 0 0 0 "
+  ],
+  [
+   74,
+   "END 0 341807 0 370 249971 91837 0 337798 0 0 74 3 1 73",
+   "END 0 341348 0 370 249971 91378 0 337798 0 0 74 3 1 73"
+  ],
+  [
+   75,
+   "TS 1 0 e74b7 30512 37439 40156 -5602 25125 34063 -75971 75226 -2912 -36546 24308 -24945 17164 35998 47470 3546 -60919 82112 48388 16648 0 0 0 -5602 0 0 -75971 0",
+   "TS 1 0 e74b7 30512 37439 40156 -5602 25125 34063 -75971 75226 -2912 -36546 24308 -24945 17164 35998 47470 3546 -60919 82112 48388 16648 0 0 0 -5602 0 0 -75971 0"
+  ]
+ ],
+ "verdict": "DISAGREE"
+}

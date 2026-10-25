@@ -8,6 +8,7 @@
   "theta": 16,
   "exit_en": 1,
   "g": 8,
+  "n_parallel_cols": 160,
   "simulator": "verilator",
   "gap_mode": 0,
   "samples": 240,
@@ -19,9 +20,9 @@
   "assert_fail_messages": 0,
   "sim_returncode": 0,
   "sim_fatal": false,
-  "sim_wall_s": 69.38,
-  "total_wall_s": 107.66,
-  "git_commit": "b5cf523bdfe2a6fb9dd0a3540b05fcd5cda9ba51",
+  "sim_wall_s": 173.79,
+  "total_wall_s": 204.52,
+  "git_commit": "f8d1279197940acad1defebcf015ce182f3d9258",
   "tools": {
    "verilator": "Verilator 5.052 2026-09-05 rev vUNKNOWN-built20260905",
    "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
@@ -49,6 +50,7 @@
    "mvm_and_other_cycles": 11350,
    "group_reads_allcols": 11008,
    "group_reads_issued": 11008,
+   "zero_groups": 6964,
    "rows_gated_total": 124,
    "raster_hash": "aa415e59996d7884"
   },
@@ -72,6 +74,7 @@
    "mvm_and_other_cycles": 5410,
    "group_reads_allcols": 5248,
    "group_reads_issued": 5248,
+   "zero_groups": 3215,
    "rows_gated_total": 79,
    "raster_hash": "4cc24b6e9da9c95e"
   },
@@ -95,6 +98,7 @@
    "mvm_and_other_cycles": 36672,
    "group_reads_allcols": 35520,
    "group_reads_issued": 35520,
+   "zero_groups": 25148,
    "rows_gated_total": 367,
    "raster_hash": "1a561473279d0396"
   },
@@ -118,6 +122,7 @@
    "mvm_and_other_cycles": 6790,
    "group_reads_allcols": 6592,
    "group_reads_issued": 6592,
+   "zero_groups": 3622,
    "rows_gated_total": 87,
    "raster_hash": "7b22dc0662655d75"
   },
@@ -141,6 +146,7 @@
    "mvm_and_other_cycles": 3646,
    "group_reads_allcols": 3520,
    "group_reads_issued": 3520,
+   "zero_groups": 2177,
    "rows_gated_total": 74,
    "raster_hash": "c5bb75b63d2efb91"
   },
@@ -164,6 +170,7 @@
    "mvm_and_other_cycles": 12940,
    "group_reads_allcols": 12544,
    "group_reads_issued": 12544,
+   "zero_groups": 7173,
    "rows_gated_total": 219,
    "raster_hash": "c85a02f6f0cac9b5"
   },
@@ -187,6 +194,7 @@
    "mvm_and_other_cycles": 15636,
    "group_reads_allcols": 15168,
    "group_reads_issued": 15168,
+   "zero_groups": 8453,
    "rows_gated_total": 171,
    "raster_hash": "2f7459f0e310749d"
   },
@@ -210,6 +218,7 @@
    "mvm_and_other_cycles": 13760,
    "group_reads_allcols": 13184,
    "group_reads_issued": 13184,
+   "zero_groups": 9152,
    "rows_gated_total": 211,
    "raster_hash": "d5318e210ce2ca20"
   },
@@ -233,6 +242,7 @@
    "mvm_and_other_cycles": 11816,
    "group_reads_allcols": 11456,
    "group_reads_issued": 11456,
+   "zero_groups": 6040,
    "rows_gated_total": 181,
    "raster_hash": "a7b16ff38ea2876a"
   },
@@ -256,6 +266,7 @@
    "mvm_and_other_cycles": 37166,
    "group_reads_allcols": 36032,
    "group_reads_issued": 36032,
+   "zero_groups": 18718,
    "rows_gated_total": 533,
    "raster_hash": "43df00a92a8e4055"
   },
@@ -279,6 +290,7 @@
    "mvm_and_other_cycles": 6790,
    "group_reads_allcols": 6592,
    "group_reads_issued": 6592,
+   "zero_groups": 4283,
    "rows_gated_total": 69,
    "raster_hash": "fb3de79124cffdbe"
   },
@@ -302,6 +314,7 @@
    "mvm_and_other_cycles": 6890,
    "group_reads_allcols": 6656,
    "group_reads_issued": 6656,
+   "zero_groups": 4568,
    "rows_gated_total": 95,
    "raster_hash": "53481856b597b84e"
   },
@@ -325,6 +338,7 @@
    "mvm_and_other_cycles": 58696,
    "group_reads_allcols": 56896,
    "group_reads_issued": 56896,
+   "zero_groups": 39352,
    "rows_gated_total": 557,
    "raster_hash": "49006e9034ef36e8"
   },
@@ -348,6 +362,7 @@
    "mvm_and_other_cycles": 9038,
    "group_reads_allcols": 8768,
    "group_reads_issued": 8768,
+   "zero_groups": 5043,
    "rows_gated_total": 122,
    "raster_hash": "81e5a6d77661287f"
   },
@@ -371,6 +386,7 @@
    "mvm_and_other_cycles": 3180,
    "group_reads_allcols": 3072,
    "group_reads_issued": 3072,
+   "zero_groups": 1904,
    "rows_gated_total": 67,
    "raster_hash": "b53b0e95b51742d4"
   },
@@ -394,6 +410,7 @@
    "mvm_and_other_cycles": 20796,
    "group_reads_allcols": 19968,
    "group_reads_issued": 19968,
+   "zero_groups": 14338,
    "rows_gated_total": 306,
    "raster_hash": "0a4d3547adba855c"
   },
@@ -417,6 +434,7 @@
    "mvm_and_other_cycles": 23550,
    "group_reads_allcols": 22848,
    "group_reads_issued": 22848,
+   "zero_groups": 13395,
    "rows_gated_total": 257,
    "raster_hash": "f315dbcaceb3fac3"
   },
@@ -440,6 +458,7 @@
    "mvm_and_other_cycles": 12298,
    "group_reads_allcols": 11776,
    "group_reads_issued": 11776,
+   "zero_groups": 8054,
    "rows_gated_total": 168,
    "raster_hash": "9e3d1fd0b317e10a"
   },
@@ -463,6 +482,7 @@
    "mvm_and_other_cycles": 13534,
    "group_reads_allcols": 13120,
    "group_reads_issued": 13120,
+   "zero_groups": 7038,
    "rows_gated_total": 209,
    "raster_hash": "5edd90276d862b72"
   },
@@ -486,6 +506,7 @@
    "mvm_and_other_cycles": 7594,
    "group_reads_allcols": 7360,
    "group_reads_issued": 7360,
+   "zero_groups": 3819,
    "rows_gated_total": 126,
    "raster_hash": "8464b2c760d2cf02"
   },
@@ -509,6 +530,7 @@
    "mvm_and_other_cycles": 4496,
    "group_reads_allcols": 4352,
    "group_reads_issued": 4352,
+   "zero_groups": 2744,
    "rows_gated_total": 52,
    "raster_hash": "917b6254da0011dc"
   },
@@ -532,6 +554,7 @@
    "mvm_and_other_cycles": 6296,
    "group_reads_allcols": 6080,
    "group_reads_issued": 6080,
+   "zero_groups": 3918,
    "rows_gated_total": 97,
    "raster_hash": "a61a04445d78ae61"
   },
@@ -555,6 +578,7 @@
    "mvm_and_other_cycles": 8224,
    "group_reads_allcols": 7936,
    "group_reads_issued": 7936,
+   "zero_groups": 4857,
    "rows_gated_total": 113,
    "raster_hash": "aa35edd1cae4f888"
   },
@@ -578,6 +602,7 @@
    "mvm_and_other_cycles": 15764,
    "group_reads_allcols": 15296,
    "group_reads_issued": 15296,
+   "zero_groups": 8079,
    "rows_gated_total": 211,
    "raster_hash": "c25e50779ebbd980"
   },
@@ -601,6 +626,7 @@
    "mvm_and_other_cycles": 3582,
    "group_reads_allcols": 3456,
    "group_reads_issued": 3456,
+   "zero_groups": 2119,
    "rows_gated_total": 76,
    "raster_hash": "ef84318b76b0025b"
   },
@@ -624,6 +650,7 @@
    "mvm_and_other_cycles": 16238,
    "group_reads_allcols": 15680,
    "group_reads_issued": 15680,
+   "zero_groups": 9471,
    "rows_gated_total": 306,
    "raster_hash": "28b2e381ff49db9c"
   },
@@ -647,6 +674,7 @@
    "mvm_and_other_cycles": 20598,
    "group_reads_allcols": 19968,
    "group_reads_issued": 19968,
+   "zero_groups": 10540,
    "rows_gated_total": 246,
    "raster_hash": "80c0fbbefbafc0cd"
   },
@@ -670,6 +698,7 @@
    "mvm_and_other_cycles": 3874,
    "group_reads_allcols": 3712,
    "group_reads_issued": 3712,
+   "zero_groups": 2321,
    "rows_gated_total": 56,
    "raster_hash": "fa1cf92bd32eeb6a"
   },
@@ -693,6 +722,7 @@
    "mvm_and_other_cycles": 10180,
    "group_reads_allcols": 9856,
    "group_reads_issued": 9856,
+   "zero_groups": 4615,
    "rows_gated_total": 172,
    "raster_hash": "3e8d77e2dd076ef8"
   },
@@ -716,6 +746,7 @@
    "mvm_and_other_cycles": 14804,
    "group_reads_allcols": 14336,
    "group_reads_issued": 14336,
+   "zero_groups": 7263,
    "rows_gated_total": 234,
    "raster_hash": "3bc1ec262dcb68df"
   },
@@ -739,6 +770,7 @@
    "mvm_and_other_cycles": 5300,
    "group_reads_allcols": 5120,
    "group_reads_issued": 5120,
+   "zero_groups": 3408,
    "rows_gated_total": 70,
    "raster_hash": "81c8bc34d34916f6"
   },
@@ -762,6 +794,7 @@
    "mvm_and_other_cycles": 10628,
    "group_reads_allcols": 10304,
    "group_reads_issued": 10304,
+   "zero_groups": 6265,
    "rows_gated_total": 158,
    "raster_hash": "82680ef1885496d8"
   },
@@ -785,6 +818,7 @@
    "mvm_and_other_cycles": 2184,
    "group_reads_allcols": 2112,
    "group_reads_issued": 2112,
+   "zero_groups": 1408,
    "rows_gated_total": 32,
    "raster_hash": "ea9a839f6d08e52a"
   },
@@ -808,6 +842,7 @@
    "mvm_and_other_cycles": 10226,
    "group_reads_allcols": 9920,
    "group_reads_issued": 9920,
+   "zero_groups": 6041,
    "rows_gated_total": 129,
    "raster_hash": "c146809321ee769f"
   },
@@ -831,6 +866,7 @@
    "mvm_and_other_cycles": 3564,
    "group_reads_allcols": 3456,
    "group_reads_issued": 3456,
+   "zero_groups": 2194,
    "rows_gated_total": 64,
    "raster_hash": "e3dac26f29e4dd25"
   },
@@ -854,6 +890,7 @@
    "mvm_and_other_cycles": 4478,
    "group_reads_allcols": 4352,
    "group_reads_issued": 4352,
+   "zero_groups": 2671,
    "rows_gated_total": 81,
    "raster_hash": "98dcfda6d783fc02"
   },
@@ -877,6 +914,7 @@
    "mvm_and_other_cycles": 16166,
    "group_reads_allcols": 15680,
    "group_reads_issued": 15680,
+   "zero_groups": 10544,
    "rows_gated_total": 176,
    "raster_hash": "ff63591244573d28"
   },
@@ -900,6 +938,7 @@
    "mvm_and_other_cycles": 7868,
    "group_reads_allcols": 7616,
    "group_reads_issued": 7616,
+   "zero_groups": 4827,
    "rows_gated_total": 122,
    "raster_hash": "86daf2bb2ea7eb77"
   },
@@ -923,6 +962,7 @@
    "mvm_and_other_cycles": 12346,
    "group_reads_allcols": 11968,
    "group_reads_issued": 11968,
+   "zero_groups": 7409,
    "rows_gated_total": 194,
    "raster_hash": "40af5ae09d488d1f"
   },
@@ -946,6 +986,7 @@
    "mvm_and_other_cycles": 3500,
    "group_reads_allcols": 3392,
    "group_reads_issued": 3392,
+   "zero_groups": 2207,
    "rows_gated_total": 53,
    "raster_hash": "06bbdcd17bbbf07e"
   },
@@ -969,6 +1010,7 @@
    "mvm_and_other_cycles": 4386,
    "group_reads_allcols": 4224,
    "group_reads_issued": 4224,
+   "zero_groups": 2807,
    "rows_gated_total": 45,
    "raster_hash": "288ab401cce2dde1"
   },
@@ -992,6 +1034,7 @@
    "mvm_and_other_cycles": 6634,
    "group_reads_allcols": 6400,
    "group_reads_issued": 6400,
+   "zero_groups": 3633,
    "rows_gated_total": 126,
    "raster_hash": "0ffc66abb0b29063"
   },
@@ -1015,6 +1058,7 @@
    "mvm_and_other_cycles": 3984,
    "group_reads_allcols": 3840,
    "group_reads_issued": 3840,
+   "zero_groups": 2303,
    "rows_gated_total": 80,
    "raster_hash": "8e3241a0778c874f"
   },
@@ -1038,6 +1082,7 @@
    "mvm_and_other_cycles": 10436,
    "group_reads_allcols": 10112,
    "group_reads_issued": 10112,
+   "zero_groups": 5718,
    "rows_gated_total": 140,
    "raster_hash": "726a6c57b524851d"
   },
@@ -1061,6 +1106,7 @@
    "mvm_and_other_cycles": 3180,
    "group_reads_allcols": 3072,
    "group_reads_issued": 3072,
+   "zero_groups": 1883,
    "rows_gated_total": 59,
    "raster_hash": "7a7e9816b716cefc"
   },
@@ -1084,6 +1130,7 @@
    "mvm_and_other_cycles": 3564,
    "group_reads_allcols": 3456,
    "group_reads_issued": 3456,
+   "zero_groups": 1992,
    "rows_gated_total": 65,
    "raster_hash": "08951101439fceb0"
   },
@@ -1107,6 +1154,7 @@
    "mvm_and_other_cycles": 21594,
    "group_reads_allcols": 20928,
    "group_reads_issued": 20928,
+   "zero_groups": 13424,
    "rows_gated_total": 240,
    "raster_hash": "936b83f617576e59"
   },
@@ -1130,6 +1178,7 @@
    "mvm_and_other_cycles": 9540,
    "group_reads_allcols": 9216,
    "group_reads_issued": 9216,
+   "zero_groups": 5887,
    "rows_gated_total": 167,
    "raster_hash": "e3467775180f5140"
   },
@@ -1153,6 +1202,7 @@
    "mvm_and_other_cycles": 5300,
    "group_reads_allcols": 5120,
    "group_reads_issued": 5120,
+   "zero_groups": 2922,
    "rows_gated_total": 107,
    "raster_hash": "cdbc5f6e4d41a7ff"
   },
@@ -1176,6 +1226,7 @@
    "mvm_and_other_cycles": 2120,
    "group_reads_allcols": 2048,
    "group_reads_issued": 2048,
+   "zero_groups": 1193,
    "rows_gated_total": 39,
    "raster_hash": "04ba581718475d9a"
   },
@@ -1199,6 +1250,7 @@
    "mvm_and_other_cycles": 3500,
    "group_reads_allcols": 3392,
    "group_reads_issued": 3392,
+   "zero_groups": 2242,
    "rows_gated_total": 50,
    "raster_hash": "d9c487385ba3222f"
   },
@@ -1222,6 +1274,7 @@
    "mvm_and_other_cycles": 6680,
    "group_reads_allcols": 6464,
    "group_reads_issued": 6464,
+   "zero_groups": 3607,
    "rows_gated_total": 121,
    "raster_hash": "53197eb465c846da"
   },
@@ -1245,6 +1298,7 @@
    "mvm_and_other_cycles": 3646,
    "group_reads_allcols": 3520,
    "group_reads_issued": 3520,
+   "zero_groups": 2163,
    "rows_gated_total": 73,
    "raster_hash": "939010b289f4f8d3"
   },
@@ -1268,6 +1322,7 @@
    "mvm_and_other_cycles": 9248,
    "group_reads_allcols": 8960,
    "group_reads_issued": 8960,
+   "zero_groups": 5295,
    "rows_gated_total": 112,
    "raster_hash": "3b145ded759791b6"
   },
@@ -1291,6 +1346,7 @@
    "mvm_and_other_cycles": 10070,
    "group_reads_allcols": 9728,
    "group_reads_issued": 9728,
+   "zero_groups": 6171,
    "rows_gated_total": 185,
    "raster_hash": "03bf1fa0ac35cfc1"
   },
@@ -1314,6 +1370,7 @@
    "mvm_and_other_cycles": 15242,
    "group_reads_allcols": 14720,
    "group_reads_issued": 14720,
+   "zero_groups": 9359,
    "rows_gated_total": 281,
    "raster_hash": "06a41dc60b1ac7ca"
   },
@@ -1337,6 +1394,7 @@
    "mvm_and_other_cycles": 25204,
    "group_reads_allcols": 24448,
    "group_reads_issued": 24448,
+   "zero_groups": 14570,
    "rows_gated_total": 276,
    "raster_hash": "703ede42fe042cd2"
   },
@@ -1360,6 +1418,7 @@
    "mvm_and_other_cycles": 20522,
    "group_reads_allcols": 19712,
    "group_reads_issued": 19712,
+   "zero_groups": 13758,
    "rows_gated_total": 323,
    "raster_hash": "306d7b6d32ce15d8"
   },
@@ -1383,6 +1442,7 @@
    "mvm_and_other_cycles": 21310,
    "group_reads_allcols": 20608,
    "group_reads_issued": 20608,
+   "zero_groups": 12540,
    "rows_gated_total": 355,
    "raster_hash": "23177b2d4e299915"
   },
@@ -1406,6 +1466,7 @@
    "mvm_and_other_cycles": 9586,
    "group_reads_allcols": 9280,
    "group_reads_issued": 9280,
+   "zero_groups": 5740,
    "rows_gated_total": 174,
    "raster_hash": "c99eefe8bce4201f"
   },
@@ -1429,6 +1490,7 @@
    "mvm_and_other_cycles": 3564,
    "group_reads_allcols": 3456,
    "group_reads_issued": 3456,
+   "zero_groups": 2494,
    "rows_gated_total": 47,
    "raster_hash": "b020a31cc5962d17"
   },
@@ -1452,6 +1514,7 @@
    "mvm_and_other_cycles": 5428,
    "group_reads_allcols": 5248,
    "group_reads_issued": 5248,
+   "zero_groups": 2578,
    "rows_gated_total": 114,
    "raster_hash": "ed2e9af5f253552f"
   },
@@ -1475,6 +1538,7 @@
    "mvm_and_other_cycles": 6104,
    "group_reads_allcols": 5888,
    "group_reads_issued": 5888,
+   "zero_groups": 3853,
    "rows_gated_total": 121,
    "raster_hash": "0259d7fa42eb8e9c"
   },
@@ -1498,6 +1562,7 @@
    "mvm_and_other_cycles": 9184,
    "group_reads_allcols": 8896,
    "group_reads_issued": 8896,
+   "zero_groups": 5655,
    "rows_gated_total": 108,
    "raster_hash": "0676d46314b9b195"
   },
@@ -1521,6 +1586,7 @@
    "mvm_and_other_cycles": 9814,
    "group_reads_allcols": 9472,
    "group_reads_issued": 9472,
+   "zero_groups": 5414,
    "rows_gated_total": 188,
    "raster_hash": "cba70c585a5fdab4"
   },
@@ -1544,6 +1610,7 @@
    "mvm_and_other_cycles": 4240,
    "group_reads_allcols": 4096,
    "group_reads_issued": 4096,
+   "zero_groups": 2746,
    "rows_gated_total": 79,
    "raster_hash": "a00121b48273694d"
   },
@@ -1567,6 +1634,7 @@
    "mvm_and_other_cycles": 19812,
    "group_reads_allcols": 19200,
    "group_reads_issued": 19200,
+   "zero_groups": 11913,
    "rows_gated_total": 226,
    "raster_hash": "50ef4046434b66ed"
   },
@@ -1590,6 +1658,7 @@
    "mvm_and_other_cycles": 16776,
    "group_reads_allcols": 16128,
    "group_reads_issued": 16128,
+   "zero_groups": 11913,
    "rows_gated_total": 261,
    "raster_hash": "f4c10a57e5226d4f"
   },
@@ -1613,6 +1682,7 @@
    "mvm_and_other_cycles": 22370,
    "group_reads_allcols": 21632,
    "group_reads_issued": 21632,
+   "zero_groups": 13715,
    "rows_gated_total": 351,
    "raster_hash": "01631651396a9897"
   },
@@ -1636,6 +1706,7 @@
    "mvm_and_other_cycles": 3500,
    "group_reads_allcols": 3392,
    "group_reads_issued": 3392,
+   "zero_groups": 2150,
    "rows_gated_total": 69,
    "raster_hash": "b80be1a048eca8a3"
   },
@@ -1659,6 +1730,7 @@
    "mvm_and_other_cycles": 3692,
    "group_reads_allcols": 3584,
    "group_reads_issued": 3584,
+   "zero_groups": 2116,
    "rows_gated_total": 50,
    "raster_hash": "b857e9addf0d5be7"
   },
@@ -1682,6 +1754,7 @@
    "mvm_and_other_cycles": 10948,
    "group_reads_allcols": 10624,
    "group_reads_issued": 10624,
+   "zero_groups": 5071,
    "rows_gated_total": 189,
    "raster_hash": "04a801442c087516"
   },
@@ -1705,6 +1778,7 @@
    "mvm_and_other_cycles": 6662,
    "group_reads_allcols": 6464,
    "group_reads_issued": 6464,
+   "zero_groups": 3710,
    "rows_gated_total": 126,
    "raster_hash": "c58f3f17f457fe51"
   },
@@ -1728,6 +1802,7 @@
    "mvm_and_other_cycles": 9870,
    "group_reads_allcols": 9600,
    "group_reads_issued": 9600,
+   "zero_groups": 4921,
    "rows_gated_total": 115,
    "raster_hash": "75368e2d8cd1361d"
   },
@@ -1751,6 +1826,7 @@
    "mvm_and_other_cycles": 11542,
    "group_reads_allcols": 11200,
    "group_reads_issued": 11200,
+   "zero_groups": 6548,
    "rows_gated_total": 210,
    "raster_hash": "42e7ee5c031b11a6"
   },
@@ -1774,6 +1850,7 @@
    "mvm_and_other_cycles": 2970,
    "group_reads_allcols": 2880,
    "group_reads_issued": 2880,
+   "zero_groups": 1660,
    "rows_gated_total": 55,
    "raster_hash": "e9d437e26107e907"
   },
@@ -1797,6 +1874,7 @@
    "mvm_and_other_cycles": 21394,
    "group_reads_allcols": 20800,
    "group_reads_issued": 20800,
+   "zero_groups": 11135,
    "rows_gated_total": 208,
    "raster_hash": "9564108caa4e7744"
   },
@@ -1820,6 +1898,7 @@
    "mvm_and_other_cycles": 2522,
    "group_reads_allcols": 2432,
    "group_reads_issued": 2432,
+   "zero_groups": 1618,
    "rows_gated_total": 54,
    "raster_hash": "3e52325baf53cbeb"
   },
@@ -1843,6 +1922,7 @@
    "mvm_and_other_cycles": 3098,
    "group_reads_allcols": 3008,
    "group_reads_issued": 3008,
+   "zero_groups": 1672,
    "rows_gated_total": 65,
    "raster_hash": "91f668683f5a1e90"
   },
@@ -1866,6 +1946,7 @@
    "mvm_and_other_cycles": 16916,
    "group_reads_allcols": 16448,
    "group_reads_issued": 16448,
+   "zero_groups": 8614,
    "rows_gated_total": 230,
    "raster_hash": "c55d1bd0a71f6f59"
   },
@@ -1889,6 +1970,7 @@
    "mvm_and_other_cycles": 12474,
    "group_reads_allcols": 12096,
    "group_reads_issued": 12096,
+   "zero_groups": 7830,
    "rows_gated_total": 166,
    "raster_hash": "28581f87d386893d"
   },
@@ -1912,6 +1994,7 @@
    "mvm_and_other_cycles": 9942,
    "group_reads_allcols": 9600,
    "group_reads_issued": 9600,
+   "zero_groups": 4819,
    "rows_gated_total": 200,
    "raster_hash": "930ee02c3cd39c66"
   },
@@ -1935,6 +2018,7 @@
    "mvm_and_other_cycles": 2924,
    "group_reads_allcols": 2816,
    "group_reads_issued": 2816,
+   "zero_groups": 1574,
    "rows_gated_total": 63,
    "raster_hash": "6d607fbef326e242"
   },
@@ -1958,6 +2042,7 @@
    "mvm_and_other_cycles": 5154,
    "group_reads_allcols": 4992,
    "group_reads_issued": 4992,
+   "zero_groups": 2711,
    "rows_gated_total": 78,
    "raster_hash": "9ac437ac97580a96"
   },
@@ -1981,6 +2066,7 @@
    "mvm_and_other_cycles": 9750,
    "group_reads_allcols": 9408,
    "group_reads_issued": 9408,
+   "zero_groups": 5832,
    "rows_gated_total": 202,
    "raster_hash": "4d25a64c89743e6b"
   },
@@ -2004,6 +2090,7 @@
    "mvm_and_other_cycles": 4048,
    "group_reads_allcols": 3904,
    "group_reads_issued": 3904,
+   "zero_groups": 2577,
    "rows_gated_total": 89,
    "raster_hash": "4c0916cde4ee65f3"
   },
@@ -2027,6 +2114,7 @@
    "mvm_and_other_cycles": 8462,
    "group_reads_allcols": 8192,
    "group_reads_issued": 8192,
+   "zero_groups": 4789,
    "rows_gated_total": 137,
    "raster_hash": "3ded105bd2c8ce65"
   },
@@ -2050,6 +2138,7 @@
    "mvm_and_other_cycles": 18604,
    "group_reads_allcols": 17920,
    "group_reads_issued": 17920,
+   "zero_groups": 12064,
    "rows_gated_total": 281,
    "raster_hash": "18d5f57527d72562"
   },
@@ -2073,6 +2162,7 @@
    "mvm_and_other_cycles": 4706,
    "group_reads_allcols": 4544,
    "group_reads_issued": 4544,
+   "zero_groups": 2652,
    "rows_gated_total": 89,
    "raster_hash": "0820bfe035893ecc"
   },
@@ -2096,6 +2186,7 @@
    "mvm_and_other_cycles": 18084,
    "group_reads_allcols": 17472,
    "group_reads_issued": 17472,
+   "zero_groups": 9490,
    "rows_gated_total": 289,
    "raster_hash": "8c1a8454c07f7fb4"
   },
@@ -2119,6 +2210,7 @@
    "mvm_and_other_cycles": 5446,
    "group_reads_allcols": 5248,
    "group_reads_issued": 5248,
+   "zero_groups": 3173,
    "rows_gated_total": 86,
    "raster_hash": "ea6e85c6295efc14"
   },
@@ -2142,6 +2234,7 @@
    "mvm_and_other_cycles": 10262,
    "group_reads_allcols": 9920,
    "group_reads_issued": 9920,
+   "zero_groups": 5549,
    "rows_gated_total": 192,
    "raster_hash": "694a77f5df59b934"
   },
@@ -2165,6 +2258,7 @@
    "mvm_and_other_cycles": 4806,
    "group_reads_allcols": 4608,
    "group_reads_issued": 4608,
+   "zero_groups": 3132,
    "rows_gated_total": 99,
    "raster_hash": "0d37d0ca400ca357"
   },
@@ -2188,6 +2282,7 @@
    "mvm_and_other_cycles": 9906,
    "group_reads_allcols": 9600,
    "group_reads_issued": 9600,
+   "zero_groups": 5131,
    "rows_gated_total": 138,
    "raster_hash": "3b999022850bb229"
   },
@@ -2211,6 +2306,7 @@
    "mvm_and_other_cycles": 8160,
    "group_reads_allcols": 7872,
    "group_reads_issued": 7872,
+   "zero_groups": 4853,
    "rows_gated_total": 166,
    "raster_hash": "383d7124aa23e39d"
   },
@@ -2234,6 +2330,7 @@
    "mvm_and_other_cycles": 15324,
    "group_reads_allcols": 14784,
    "group_reads_issued": 14784,
+   "zero_groups": 6768,
    "rows_gated_total": 331,
    "raster_hash": "89bb638c2cc63e07"
   },
@@ -2257,6 +2354,7 @@
    "mvm_and_other_cycles": 8718,
    "group_reads_allcols": 8448,
    "group_reads_issued": 8448,
+   "zero_groups": 5248,
    "rows_gated_total": 118,
    "raster_hash": "af19a776a33922bb"
   },
@@ -2280,6 +2378,7 @@
    "mvm_and_other_cycles": 12948,
    "group_reads_allcols": 12480,
    "group_reads_issued": 12480,
+   "zero_groups": 9113,
    "rows_gated_total": 213,
    "raster_hash": "819ecbdc4137bb84"
   },
@@ -2303,6 +2402,7 @@
    "mvm_and_other_cycles": 3436,
    "group_reads_allcols": 3328,
    "group_reads_issued": 3328,
+   "zero_groups": 2055,
    "rows_gated_total": 78,
    "raster_hash": "d962337057b41d48"
   },
@@ -2326,6 +2426,7 @@
    "mvm_and_other_cycles": 10728,
    "group_reads_allcols": 10368,
    "group_reads_issued": 10368,
+   "zero_groups": 6464,
    "rows_gated_total": 206,
    "raster_hash": "311a5e101b521790"
   },
@@ -2349,6 +2450,7 @@
    "mvm_and_other_cycles": 4432,
    "group_reads_allcols": 4288,
    "group_reads_issued": 4288,
+   "zero_groups": 2785,
    "rows_gated_total": 49,
    "raster_hash": "370a361de35b3f0d"
   },
@@ -2372,6 +2474,7 @@
    "mvm_and_other_cycles": 19966,
    "group_reads_allcols": 19264,
    "group_reads_issued": 19264,
+   "zero_groups": 12430,
    "rows_gated_total": 334,
    "raster_hash": "7707d4c33c736467"
   },
@@ -2395,6 +2498,7 @@
    "mvm_and_other_cycles": 5282,
    "group_reads_allcols": 5120,
    "group_reads_issued": 5120,
+   "zero_groups": 3323,
    "rows_gated_total": 75,
    "raster_hash": "ca58ea488fda2502"
   },
@@ -2418,6 +2522,7 @@
    "mvm_and_other_cycles": 10756,
    "group_reads_allcols": 10432,
    "group_reads_issued": 10432,
+   "zero_groups": 5484,
    "rows_gated_total": 133,
    "raster_hash": "a5ebd2095cf87ea2"
   },
@@ -2441,6 +2546,7 @@
    "mvm_and_other_cycles": 6360,
    "group_reads_allcols": 6144,
    "group_reads_issued": 6144,
+   "zero_groups": 3637,
    "rows_gated_total": 91,
    "raster_hash": "ddd9bb30c1af3750"
   },
@@ -2464,6 +2570,7 @@
    "mvm_and_other_cycles": 2650,
    "group_reads_allcols": 2560,
    "group_reads_issued": 2560,
+   "zero_groups": 1671,
    "rows_gated_total": 42,
    "raster_hash": "61df31190e512f1e"
   },
@@ -2487,6 +2594,7 @@
    "mvm_and_other_cycles": 18734,
    "group_reads_allcols": 18176,
    "group_reads_issued": 18176,
+   "zero_groups": 10236,
    "rows_gated_total": 186,
    "raster_hash": "899d1ed3851ac2b1"
   },
@@ -2510,6 +2618,7 @@
    "mvm_and_other_cycles": 2604,
    "group_reads_allcols": 2496,
    "group_reads_issued": 2496,
+   "zero_groups": 1651,
    "rows_gated_total": 23,
    "raster_hash": "53b329da033f1829"
   },
@@ -2533,6 +2642,7 @@
    "mvm_and_other_cycles": 29124,
    "group_reads_allcols": 28224,
    "group_reads_issued": 28224,
+   "zero_groups": 15653,
    "rows_gated_total": 421,
    "raster_hash": "5b929baa52e667b1"
   },
@@ -2556,6 +2666,7 @@
    "mvm_and_other_cycles": 13342,
    "group_reads_allcols": 12928,
    "group_reads_issued": 12928,
+   "zero_groups": 7588,
    "rows_gated_total": 189,
    "raster_hash": "13081031bbf3c2a6"
   },
@@ -2579,6 +2690,7 @@
    "mvm_and_other_cycles": 5958,
    "group_reads_allcols": 5760,
    "group_reads_issued": 5760,
+   "zero_groups": 3756,
    "rows_gated_total": 45,
    "raster_hash": "9cf2a09f981fb890"
   },
@@ -2602,6 +2714,7 @@
    "mvm_and_other_cycles": 13240,
    "group_reads_allcols": 12736,
    "group_reads_issued": 12736,
+   "zero_groups": 7265,
    "rows_gated_total": 257,
    "raster_hash": "7295b70f84dbfb6b"
   },
@@ -2625,6 +2738,7 @@
    "mvm_and_other_cycles": 4432,
    "group_reads_allcols": 4288,
    "group_reads_issued": 4288,
+   "zero_groups": 2831,
    "rows_gated_total": 61,
    "raster_hash": "a9263e39325f5f63"
   },
@@ -2648,6 +2762,7 @@
    "mvm_and_other_cycles": 14850,
    "group_reads_allcols": 14400,
    "group_reads_issued": 14400,
+   "zero_groups": 7968,
    "rows_gated_total": 176,
    "raster_hash": "bc26c7b4f7408769"
   },
@@ -2671,6 +2786,7 @@
    "mvm_and_other_cycles": 16046,
    "group_reads_allcols": 15488,
    "group_reads_issued": 15488,
+   "zero_groups": 9622,
    "rows_gated_total": 220,
    "raster_hash": "172da0d65c810789"
   },
@@ -2694,6 +2810,7 @@
    "mvm_and_other_cycles": 22004,
    "group_reads_allcols": 21248,
    "group_reads_issued": 21248,
+   "zero_groups": 13853,
    "rows_gated_total": 317,
    "raster_hash": "476ac36908e90696"
   },
@@ -2717,6 +2834,7 @@
    "mvm_and_other_cycles": 9568,
    "group_reads_allcols": 9280,
    "group_reads_issued": 9280,
+   "zero_groups": 5364,
    "rows_gated_total": 110,
    "raster_hash": "5342910c3cf53483"
   },
@@ -2740,6 +2858,7 @@
    "mvm_and_other_cycles": 2010,
    "group_reads_allcols": 1920,
    "group_reads_issued": 1920,
+   "zero_groups": 1265,
    "rows_gated_total": 17,
    "raster_hash": "b4f5f369651c71ed"
   },
@@ -2763,6 +2882,7 @@
    "mvm_and_other_cycles": 3838,
    "group_reads_allcols": 3712,
    "group_reads_issued": 3712,
+   "zero_groups": 2112,
    "rows_gated_total": 68,
    "raster_hash": "57ec2051fc1db1b2"
   },
@@ -2786,6 +2906,7 @@
    "mvm_and_other_cycles": 13378,
    "group_reads_allcols": 12928,
    "group_reads_issued": 12928,
+   "zero_groups": 7299,
    "rows_gated_total": 212,
    "raster_hash": "a15521df97c19689"
   },
@@ -2809,6 +2930,7 @@
    "mvm_and_other_cycles": 5684,
    "group_reads_allcols": 5504,
    "group_reads_issued": 5504,
+   "zero_groups": 3414,
    "rows_gated_total": 62,
    "raster_hash": "2d12e7af501b3708"
   },
@@ -2832,6 +2954,7 @@
    "mvm_and_other_cycles": 11996,
    "group_reads_allcols": 11456,
    "group_reads_issued": 11456,
+   "zero_groups": 5399,
    "rows_gated_total": 226,
    "raster_hash": "62982be6067a9060"
   },
@@ -2855,6 +2978,7 @@
    "mvm_and_other_cycles": 11020,
    "group_reads_allcols": 10624,
    "group_reads_issued": 10624,
+   "zero_groups": 6489,
    "rows_gated_total": 174,
    "raster_hash": "af260688b64a5a73"
   },
@@ -2878,6 +3002,7 @@
    "mvm_and_other_cycles": 17692,
    "group_reads_allcols": 17152,
    "group_reads_issued": 17152,
+   "zero_groups": 8796,
    "rows_gated_total": 209,
    "raster_hash": "0accc57a1d09dc67"
   },
@@ -2901,6 +3026,7 @@
    "mvm_and_other_cycles": 7986,
    "group_reads_allcols": 7680,
    "group_reads_issued": 7680,
+   "zero_groups": 4055,
    "rows_gated_total": 122,
    "raster_hash": "2484ded4d9a5e2cd"
   },
@@ -2924,6 +3050,7 @@
    "mvm_and_other_cycles": 5236,
    "group_reads_allcols": 5056,
    "group_reads_issued": 5056,
+   "zero_groups": 2851,
    "rows_gated_total": 98,
    "raster_hash": "2d19ef78ad71db93"
   },
@@ -2947,6 +3074,7 @@
    "mvm_and_other_cycles": 7996,
    "group_reads_allcols": 7744,
    "group_reads_issued": 7744,
+   "zero_groups": 4124,
    "rows_gated_total": 105,
    "raster_hash": "bcab03046cce0167"
   },
@@ -2970,6 +3098,7 @@
    "mvm_and_other_cycles": 2010,
    "group_reads_allcols": 1920,
    "group_reads_issued": 1920,
+   "zero_groups": 1216,
    "rows_gated_total": 18,
    "raster_hash": "3607958aa5f84ad2"
   },
@@ -2993,6 +3122,7 @@
    "mvm_and_other_cycles": 29114,
    "group_reads_allcols": 28160,
    "group_reads_issued": 28160,
+   "zero_groups": 14596,
    "rows_gated_total": 427,
    "raster_hash": "6ec1c8f745c763bf"
   },
@@ -3016,6 +3146,7 @@
    "mvm_and_other_cycles": 13168,
    "group_reads_allcols": 12736,
    "group_reads_issued": 12736,
+   "zero_groups": 6921,
    "rows_gated_total": 188,
    "raster_hash": "78e6db0365c992e1"
   },
@@ -3039,6 +3170,7 @@
    "mvm_and_other_cycles": 4706,
    "group_reads_allcols": 4544,
    "group_reads_issued": 4544,
+   "zero_groups": 2815,
    "rows_gated_total": 49,
    "raster_hash": "cddcf2e649b510b9"
   },
@@ -3062,6 +3194,7 @@
    "mvm_and_other_cycles": 9338,
    "group_reads_allcols": 8960,
    "group_reads_issued": 8960,
+   "zero_groups": 4847,
    "rows_gated_total": 140,
    "raster_hash": "5c1cc8dbc201b2da"
   },
@@ -3085,6 +3218,7 @@
    "mvm_and_other_cycles": 8662,
    "group_reads_allcols": 8320,
    "group_reads_issued": 8320,
+   "zero_groups": 4825,
    "rows_gated_total": 163,
    "raster_hash": "9423ba1ec644b00c"
   },
@@ -3108,6 +3242,7 @@
    "mvm_and_other_cycles": 9970,
    "group_reads_allcols": 9664,
    "group_reads_issued": 9664,
+   "zero_groups": 4500,
    "rows_gated_total": 149,
    "raster_hash": "49c39eb6880a2c64"
   },
@@ -3131,6 +3266,7 @@
    "mvm_and_other_cycles": 6844,
    "group_reads_allcols": 6592,
    "group_reads_issued": 6592,
+   "zero_groups": 3469,
    "rows_gated_total": 109,
    "raster_hash": "9bdcb11301ab2f16"
   },
@@ -3154,6 +3290,7 @@
    "mvm_and_other_cycles": 17306,
    "group_reads_allcols": 16640,
    "group_reads_issued": 16640,
+   "zero_groups": 9958,
    "rows_gated_total": 300,
    "raster_hash": "72233a4c6df30b56"
   },
@@ -3177,6 +3314,7 @@
    "mvm_and_other_cycles": 9522,
    "group_reads_allcols": 9216,
    "group_reads_issued": 9216,
+   "zero_groups": 5000,
    "rows_gated_total": 126,
    "raster_hash": "e994813bfaaf328d"
   },
@@ -3200,6 +3338,7 @@
    "mvm_and_other_cycles": 2156,
    "group_reads_allcols": 2048,
    "group_reads_issued": 2048,
+   "zero_groups": 1060,
    "rows_gated_total": 25,
    "raster_hash": "a8d5ab9463c722a1"
   },
@@ -3223,6 +3362,7 @@
    "mvm_and_other_cycles": 2842,
    "group_reads_allcols": 2752,
    "group_reads_issued": 2752,
+   "zero_groups": 1506,
    "rows_gated_total": 64,
    "raster_hash": "bd7a388805d26550"
   },
@@ -3246,6 +3386,7 @@
    "mvm_and_other_cycles": 12656,
    "group_reads_allcols": 12224,
    "group_reads_issued": 12224,
+   "zero_groups": 6612,
    "rows_gated_total": 189,
    "raster_hash": "f56c2f78bec01342"
   },
@@ -3269,6 +3410,7 @@
    "mvm_and_other_cycles": 7530,
    "group_reads_allcols": 7296,
    "group_reads_issued": 7296,
+   "zero_groups": 5013,
    "rows_gated_total": 101,
    "raster_hash": "4690164ffe205ef5"
   },
@@ -3292,6 +3434,7 @@
    "mvm_and_other_cycles": 15022,
    "group_reads_allcols": 14464,
    "group_reads_issued": 14464,
+   "zero_groups": 9341,
    "rows_gated_total": 251,
    "raster_hash": "1bd313b032603f29"
   },
@@ -3315,6 +3458,7 @@
    "mvm_and_other_cycles": 4094,
    "group_reads_allcols": 3968,
    "group_reads_issued": 3968,
+   "zero_groups": 2591,
    "rows_gated_total": 67,
    "raster_hash": "132b01765c07b4bf"
   },
@@ -3338,6 +3482,7 @@
    "mvm_and_other_cycles": 9568,
    "group_reads_allcols": 9280,
    "group_reads_issued": 9280,
+   "zero_groups": 5473,
    "rows_gated_total": 119,
    "raster_hash": "332c55d0c386eb66"
   },
@@ -3361,6 +3506,7 @@
    "mvm_and_other_cycles": 12720,
    "group_reads_allcols": 12288,
    "group_reads_issued": 12288,
+   "zero_groups": 7794,
    "rows_gated_total": 181,
    "raster_hash": "d2f2570323960111"
   },
@@ -3384,6 +3530,7 @@
    "mvm_and_other_cycles": 6826,
    "group_reads_allcols": 6592,
    "group_reads_issued": 6592,
+   "zero_groups": 4345,
    "rows_gated_total": 79,
    "raster_hash": "1addca1fe8eb0619"
   },
@@ -3407,6 +3554,7 @@
    "mvm_and_other_cycles": 17290,
    "group_reads_allcols": 16768,
    "group_reads_issued": 16768,
+   "zero_groups": 10061,
    "rows_gated_total": 171,
    "raster_hash": "bb4985aa167f9590"
   },
@@ -3430,6 +3578,7 @@
    "mvm_and_other_cycles": 9256,
    "group_reads_allcols": 8896,
    "group_reads_issued": 8896,
+   "zero_groups": 6224,
    "rows_gated_total": 103,
    "raster_hash": "7f10851b92619e9d"
   },
@@ -3453,6 +3602,7 @@
    "mvm_and_other_cycles": 17116,
    "group_reads_allcols": 16576,
    "group_reads_issued": 16576,
+   "zero_groups": 9754,
    "rows_gated_total": 263,
    "raster_hash": "af993ce367c7c2b7"
   },
@@ -3476,6 +3626,7 @@
    "mvm_and_other_cycles": 12684,
    "group_reads_allcols": 12288,
    "group_reads_issued": 12288,
+   "zero_groups": 7051,
    "rows_gated_total": 175,
    "raster_hash": "a9f853a090d12950"
   },
@@ -3499,6 +3650,7 @@
    "mvm_and_other_cycles": 5812,
    "group_reads_allcols": 5632,
    "group_reads_issued": 5632,
+   "zero_groups": 3940,
    "rows_gated_total": 76,
    "raster_hash": "424a54026c5e9895"
   },
@@ -3522,6 +3674,7 @@
    "mvm_and_other_cycles": 5382,
    "group_reads_allcols": 5184,
    "group_reads_issued": 5184,
+   "zero_groups": 3325,
    "rows_gated_total": 89,
    "raster_hash": "ac35601fe0a32ff1"
   },
@@ -3545,6 +3698,7 @@
    "mvm_and_other_cycles": 2842,
    "group_reads_allcols": 2752,
    "group_reads_issued": 2752,
+   "zero_groups": 1880,
    "rows_gated_total": 45,
    "raster_hash": "30d150ef97572045"
   },
@@ -3568,6 +3722,7 @@
    "mvm_and_other_cycles": 17034,
    "group_reads_allcols": 16512,
    "group_reads_issued": 16512,
+   "zero_groups": 9897,
    "rows_gated_total": 192,
    "raster_hash": "5f92470e1f101441"
   },
@@ -3591,6 +3746,7 @@
    "mvm_and_other_cycles": 12720,
    "group_reads_allcols": 12288,
    "group_reads_issued": 12288,
+   "zero_groups": 7487,
    "rows_gated_total": 185,
    "raster_hash": "fddacc43fb97d6f3"
   },
@@ -3614,6 +3770,7 @@
    "mvm_and_other_cycles": 3984,
    "group_reads_allcols": 3840,
    "group_reads_issued": 3840,
+   "zero_groups": 2561,
    "rows_gated_total": 47,
    "raster_hash": "6d9bd97629d0de5f"
   },
@@ -3637,6 +3794,7 @@
    "mvm_and_other_cycles": 13068,
    "group_reads_allcols": 12672,
    "group_reads_issued": 12672,
+   "zero_groups": 7850,
    "rows_gated_total": 137,
    "raster_hash": "2b08904cfe39abd0"
   },
@@ -3660,6 +3818,7 @@
    "mvm_and_other_cycles": 7054,
    "group_reads_allcols": 6784,
    "group_reads_issued": 6784,
+   "zero_groups": 4783,
    "rows_gated_total": 81,
    "raster_hash": "4a729a69c4c48c7b"
   },
@@ -3683,6 +3842,7 @@
    "mvm_and_other_cycles": 10710,
    "group_reads_allcols": 10368,
    "group_reads_issued": 10368,
+   "zero_groups": 6291,
    "rows_gated_total": 180,
    "raster_hash": "cdb704ec31dafc83"
   },
@@ -3706,6 +3866,7 @@
    "mvm_and_other_cycles": 4496,
    "group_reads_allcols": 4352,
    "group_reads_issued": 4352,
+   "zero_groups": 2659,
    "rows_gated_total": 68,
    "raster_hash": "e3aaf03a7c591305"
   },
@@ -3729,6 +3890,7 @@
    "mvm_and_other_cycles": 5346,
    "group_reads_allcols": 5184,
    "group_reads_issued": 5184,
+   "zero_groups": 3356,
    "rows_gated_total": 66,
    "raster_hash": "4a90632c89cf70f7"
   },
@@ -3752,6 +3914,7 @@
    "mvm_and_other_cycles": 23248,
    "group_reads_allcols": 22528,
    "group_reads_issued": 22528,
+   "zero_groups": 13637,
    "rows_gated_total": 292,
    "raster_hash": "00eefac6aa494622"
   },
@@ -3775,6 +3938,7 @@
    "mvm_and_other_cycles": 7128,
    "group_reads_allcols": 6912,
    "group_reads_issued": 6912,
+   "zero_groups": 4382,
    "rows_gated_total": 112,
    "raster_hash": "0e14e866ab5e45cc"
   },
@@ -3798,6 +3962,7 @@
    "mvm_and_other_cycles": 17610,
    "group_reads_allcols": 17088,
    "group_reads_issued": 17088,
+   "zero_groups": 9405,
    "rows_gated_total": 186,
    "raster_hash": "434a76b1b8d65f82"
   },
@@ -3821,6 +3986,7 @@
    "mvm_and_other_cycles": 14932,
    "group_reads_allcols": 14464,
    "group_reads_issued": 14464,
+   "zero_groups": 8966,
    "rows_gated_total": 211,
    "raster_hash": "b39808b02883b025"
   },
@@ -3844,6 +4010,7 @@
    "mvm_and_other_cycles": 10500,
    "group_reads_allcols": 10176,
    "group_reads_issued": 10176,
+   "zero_groups": 6416,
    "rows_gated_total": 118,
    "raster_hash": "873a7557e87ce18a"
   },
@@ -3867,6 +4034,7 @@
    "mvm_and_other_cycles": 11140,
    "group_reads_allcols": 10816,
    "group_reads_issued": 10816,
+   "zero_groups": 6098,
    "rows_gated_total": 127,
    "raster_hash": "bd1b037d62d97230"
   },
@@ -3890,6 +4058,7 @@
    "mvm_and_other_cycles": 3792,
    "group_reads_allcols": 3648,
    "group_reads_issued": 3648,
+   "zero_groups": 2503,
    "rows_gated_total": 44,
    "raster_hash": "1360a4cda3953225"
   },
@@ -3913,6 +4082,7 @@
    "mvm_and_other_cycles": 13498,
    "group_reads_allcols": 13120,
    "group_reads_issued": 13120,
+   "zero_groups": 6473,
    "rows_gated_total": 192,
    "raster_hash": "c114ccae0e9bc36b"
   },
@@ -3936,6 +4106,7 @@
    "mvm_and_other_cycles": 6726,
    "group_reads_allcols": 6528,
    "group_reads_issued": 6528,
+   "zero_groups": 3323,
    "rows_gated_total": 100,
    "raster_hash": "746e3a7efa0724d5"
   },
@@ -3959,6 +4130,7 @@
    "mvm_and_other_cycles": 9056,
    "group_reads_allcols": 8768,
    "group_reads_issued": 8768,
+   "zero_groups": 5905,
    "rows_gated_total": 129,
    "raster_hash": "49af5eddc6bcb1d3"
   },
@@ -3982,6 +4154,7 @@
    "mvm_and_other_cycles": 5172,
    "group_reads_allcols": 4992,
    "group_reads_issued": 4992,
+   "zero_groups": 3071,
    "rows_gated_total": 69,
    "raster_hash": "a3043f293f9b4eaa"
   },
@@ -4005,6 +4178,7 @@
    "mvm_and_other_cycles": 3308,
    "group_reads_allcols": 3200,
    "group_reads_issued": 3200,
+   "zero_groups": 1853,
    "rows_gated_total": 63,
    "raster_hash": "85a53a7a3d63efd9"
   },
@@ -4028,6 +4202,7 @@
    "mvm_and_other_cycles": 6406,
    "group_reads_allcols": 6208,
    "group_reads_issued": 6208,
+   "zero_groups": 3432,
    "rows_gated_total": 93,
    "raster_hash": "af2ae90639948eac"
   },
@@ -4051,6 +4226,7 @@
    "mvm_and_other_cycles": 12528,
    "group_reads_allcols": 12096,
    "group_reads_issued": 12096,
+   "zero_groups": 7582,
    "rows_gated_total": 173,
    "raster_hash": "6a6fa64c6dce773c"
   },
@@ -4074,6 +4250,7 @@
    "mvm_and_other_cycles": 7886,
    "group_reads_allcols": 7616,
    "group_reads_issued": 7616,
+   "zero_groups": 4820,
    "rows_gated_total": 92,
    "raster_hash": "66aa40019979e858"
   },
@@ -4097,6 +4274,7 @@
    "mvm_and_other_cycles": 20004,
    "group_reads_allcols": 19392,
    "group_reads_issued": 19392,
+   "zero_groups": 11460,
    "rows_gated_total": 209,
    "raster_hash": "3796601e55b8cf04"
   },
@@ -4120,6 +4298,7 @@
    "mvm_and_other_cycles": 5126,
    "group_reads_allcols": 4928,
    "group_reads_issued": 4928,
+   "zero_groups": 3357,
    "rows_gated_total": 47,
    "raster_hash": "ba124f471c437f23"
   },
@@ -4143,6 +4322,7 @@
    "mvm_and_other_cycles": 3838,
    "group_reads_allcols": 3712,
    "group_reads_issued": 3712,
+   "zero_groups": 1879,
    "rows_gated_total": 73,
    "raster_hash": "6f9ea4dbaeae5efb"
   },
@@ -4166,6 +4346,7 @@
    "mvm_and_other_cycles": 8672,
    "group_reads_allcols": 8384,
    "group_reads_issued": 8384,
+   "zero_groups": 4499,
    "rows_gated_total": 143,
    "raster_hash": "b980bbc2133ecb27"
   },
@@ -4189,6 +4370,7 @@
    "mvm_and_other_cycles": 15078,
    "group_reads_allcols": 14592,
    "group_reads_issued": 14592,
+   "zero_groups": 9833,
    "rows_gated_total": 253,
    "raster_hash": "a1dbd094cdc0ffaf"
   },
@@ -4212,6 +4394,7 @@
    "mvm_and_other_cycles": 14218,
    "group_reads_allcols": 13696,
    "group_reads_issued": 13696,
+   "zero_groups": 8316,
    "rows_gated_total": 207,
    "raster_hash": "e794607ebcb4482a"
   },
@@ -4235,6 +4418,7 @@
    "mvm_and_other_cycles": 1992,
    "group_reads_allcols": 1920,
    "group_reads_issued": 1920,
+   "zero_groups": 1175,
    "rows_gated_total": 32,
    "raster_hash": "2447cc86623d3b75"
   },
@@ -4258,6 +4442,7 @@
    "mvm_and_other_cycles": 10034,
    "group_reads_allcols": 9728,
    "group_reads_issued": 9728,
+   "zero_groups": 5514,
    "rows_gated_total": 135,
    "raster_hash": "a25c34accc2c232d"
   },
@@ -4281,6 +4466,7 @@
    "mvm_and_other_cycles": 9092,
    "group_reads_allcols": 8768,
    "group_reads_issued": 8768,
+   "zero_groups": 5191,
    "rows_gated_total": 136,
    "raster_hash": "7223a9894dc41c64"
   },
@@ -4304,6 +4490,7 @@
    "mvm_and_other_cycles": 8416,
    "group_reads_allcols": 8128,
    "group_reads_issued": 8128,
+   "zero_groups": 5025,
    "rows_gated_total": 122,
    "raster_hash": "a798bb24e48c2bcb"
   },
@@ -4327,6 +4514,7 @@
    "mvm_and_other_cycles": 10902,
    "group_reads_allcols": 10560,
    "group_reads_issued": 10560,
+   "zero_groups": 6168,
    "rows_gated_total": 138,
    "raster_hash": "e74bcd43284badf2"
   },
@@ -4350,6 +4538,7 @@
    "mvm_and_other_cycles": 15488,
    "group_reads_allcols": 14912,
    "group_reads_issued": 14912,
+   "zero_groups": 9732,
    "rows_gated_total": 200,
    "raster_hash": "7c548ca1d5bd8dce"
   },
@@ -4373,6 +4562,7 @@
    "mvm_and_other_cycles": 20022,
    "group_reads_allcols": 19392,
    "group_reads_issued": 19392,
+   "zero_groups": 10300,
    "rows_gated_total": 320,
    "raster_hash": "a3087cae1b138175"
   },
@@ -4396,6 +4586,7 @@
    "mvm_and_other_cycles": 12830,
    "group_reads_allcols": 12416,
    "group_reads_issued": 12416,
+   "zero_groups": 6693,
    "rows_gated_total": 203,
    "raster_hash": "f5c9e27234d889f6"
   },
@@ -4419,6 +4610,7 @@
    "mvm_and_other_cycles": 4304,
    "group_reads_allcols": 4160,
    "group_reads_issued": 4160,
+   "zero_groups": 2953,
    "rows_gated_total": 63,
    "raster_hash": "faf07395d5a9280d"
   },
@@ -4442,6 +4634,7 @@
    "mvm_and_other_cycles": 7338,
    "group_reads_allcols": 7104,
    "group_reads_issued": 7104,
+   "zero_groups": 5044,
    "rows_gated_total": 119,
    "raster_hash": "32285f74794c11a6"
   },
@@ -4465,6 +4658,7 @@
    "mvm_and_other_cycles": 21500,
    "group_reads_allcols": 20672,
    "group_reads_issued": 20672,
+   "zero_groups": 15040,
    "rows_gated_total": 350,
    "raster_hash": "6cb0ac7e43b07300"
   },
@@ -4488,6 +4682,7 @@
    "mvm_and_other_cycles": 10948,
    "group_reads_allcols": 10624,
    "group_reads_issued": 10624,
+   "zero_groups": 6149,
    "rows_gated_total": 149,
    "raster_hash": "905360734d557f2c"
   },
@@ -4511,6 +4706,7 @@
    "mvm_and_other_cycles": 13232,
    "group_reads_allcols": 12800,
    "group_reads_issued": 12800,
+   "zero_groups": 8621,
    "rows_gated_total": 210,
    "raster_hash": "630afb0e86832c62"
   },
@@ -4534,6 +4730,7 @@
    "mvm_and_other_cycles": 15142,
    "group_reads_allcols": 14656,
    "group_reads_issued": 14656,
+   "zero_groups": 9865,
    "rows_gated_total": 236,
    "raster_hash": "9e252265989f31cc"
   },
@@ -4557,6 +4754,7 @@
    "mvm_and_other_cycles": 20324,
    "group_reads_allcols": 19712,
    "group_reads_issued": 19712,
+   "zero_groups": 12383,
    "rows_gated_total": 198,
    "raster_hash": "816e9f029c2ed05f"
   },
@@ -4580,6 +4778,7 @@
    "mvm_and_other_cycles": 11660,
    "group_reads_allcols": 11264,
    "group_reads_issued": 11264,
+   "zero_groups": 7238,
    "rows_gated_total": 142,
    "raster_hash": "53b83fbdc6712a59"
   },
@@ -4603,6 +4802,7 @@
    "mvm_and_other_cycles": 3372,
    "group_reads_allcols": 3264,
    "group_reads_issued": 3264,
+   "zero_groups": 2131,
    "rows_gated_total": 76,
    "raster_hash": "0f5f4570a7e4042d"
   },
@@ -4626,6 +4826,7 @@
    "mvm_and_other_cycles": 9906,
    "group_reads_allcols": 9600,
    "group_reads_issued": 9600,
+   "zero_groups": 6302,
    "rows_gated_total": 116,
    "raster_hash": "f274ffb781d33d23"
   },
@@ -4649,6 +4850,7 @@
    "mvm_and_other_cycles": 8124,
    "group_reads_allcols": 7872,
    "group_reads_issued": 7872,
+   "zero_groups": 5680,
    "rows_gated_total": 98,
    "raster_hash": "8c92d0c3be2e41e3"
   },
@@ -4672,6 +4874,7 @@
    "mvm_and_other_cycles": 8124,
    "group_reads_allcols": 7872,
    "group_reads_issued": 7872,
+   "zero_groups": 5722,
    "rows_gated_total": 115,
    "raster_hash": "0fe93c7d7657b27a"
   },
@@ -4695,6 +4898,7 @@
    "mvm_and_other_cycles": 28044,
    "group_reads_allcols": 27072,
    "group_reads_issued": 27072,
+   "zero_groups": 17539,
    "rows_gated_total": 574,
    "raster_hash": "750c59fbb2787d77"
   },
@@ -4718,6 +4922,7 @@
    "mvm_and_other_cycles": 25670,
    "group_reads_allcols": 24896,
    "group_reads_issued": 24896,
+   "zero_groups": 14915,
    "rows_gated_total": 307,
    "raster_hash": "665bf3c20801d7e2"
   },
@@ -4741,6 +4946,7 @@
    "mvm_and_other_cycles": 13022,
    "group_reads_allcols": 12608,
    "group_reads_issued": 12608,
+   "zero_groups": 8499,
    "rows_gated_total": 230,
    "raster_hash": "778d73d714ef8e8c"
   },
@@ -4764,6 +4970,7 @@
    "mvm_and_other_cycles": 12748,
    "group_reads_allcols": 12352,
    "group_reads_issued": 12352,
+   "zero_groups": 8109,
    "rows_gated_total": 197,
    "raster_hash": "d97bfd4113bc3dd8"
   },
@@ -4787,6 +4994,7 @@
    "mvm_and_other_cycles": 19602,
    "group_reads_allcols": 19008,
    "group_reads_issued": 19008,
+   "zero_groups": 12161,
    "rows_gated_total": 206,
    "raster_hash": "ea5ce788462eab9d"
   },
@@ -4810,6 +5018,7 @@
    "mvm_and_other_cycles": 6634,
    "group_reads_allcols": 6400,
    "group_reads_issued": 6400,
+   "zero_groups": 4458,
    "rows_gated_total": 80,
    "raster_hash": "4bce6696dea95c07"
   },
@@ -4833,6 +5042,7 @@
    "mvm_and_other_cycles": 6872,
    "group_reads_allcols": 6656,
    "group_reads_issued": 6656,
+   "zero_groups": 4204,
    "rows_gated_total": 134,
    "raster_hash": "d59a184a9c81da40"
   },
@@ -4856,6 +5066,7 @@
    "mvm_and_other_cycles": 21000,
    "group_reads_allcols": 20352,
    "group_reads_issued": 20352,
+   "zero_groups": 12877,
    "rows_gated_total": 237,
    "raster_hash": "6c5b0db3edc820f5"
   },
@@ -4879,6 +5090,7 @@
    "mvm_and_other_cycles": 4496,
    "group_reads_allcols": 4352,
    "group_reads_issued": 4352,
+   "zero_groups": 2803,
    "rows_gated_total": 62,
    "raster_hash": "d4511aadff1202d7"
   },
@@ -4902,6 +5114,7 @@
    "mvm_and_other_cycles": 26932,
    "group_reads_allcols": 26176,
    "group_reads_issued": 26176,
+   "zero_groups": 17205,
    "rows_gated_total": 365,
    "raster_hash": "9b398818cad5e439"
   },
@@ -4925,6 +5138,7 @@
    "mvm_and_other_cycles": 3116,
    "group_reads_allcols": 3008,
    "group_reads_issued": 3008,
+   "zero_groups": 1906,
    "rows_gated_total": 68,
    "raster_hash": "dfc5dd600443abfa"
   },
@@ -4948,6 +5162,7 @@
    "mvm_and_other_cycles": 21522,
    "group_reads_allcols": 20928,
    "group_reads_issued": 20928,
+   "zero_groups": 11438,
    "rows_gated_total": 250,
    "raster_hash": "d3c3705c8ae08402"
   },
@@ -4971,6 +5186,7 @@
    "mvm_and_other_cycles": 9376,
    "group_reads_allcols": 9088,
    "group_reads_issued": 9088,
+   "zero_groups": 5484,
    "rows_gated_total": 125,
    "raster_hash": "8f69a7c90ba20036"
   },
@@ -4994,6 +5210,7 @@
    "mvm_and_other_cycles": 28348,
    "group_reads_allcols": 27520,
    "group_reads_issued": 27520,
+   "zero_groups": 16935,
    "rows_gated_total": 305,
    "raster_hash": "4f755c9ec8605257"
   },
@@ -5017,6 +5234,7 @@
    "mvm_and_other_cycles": 26658,
    "group_reads_allcols": 25920,
    "group_reads_issued": 25920,
+   "zero_groups": 15120,
    "rows_gated_total": 247,
    "raster_hash": "4258ff2575870151"
   },
@@ -5040,6 +5258,7 @@
    "mvm_and_other_cycles": 5574,
    "group_reads_allcols": 5376,
    "group_reads_issued": 5376,
+   "zero_groups": 3543,
    "rows_gated_total": 63,
    "raster_hash": "589e186e7ae010fb"
   },
@@ -5063,6 +5282,7 @@
    "mvm_and_other_cycles": 7914,
    "group_reads_allcols": 7680,
    "group_reads_issued": 7680,
+   "zero_groups": 3995,
    "rows_gated_total": 129,
    "raster_hash": "d89999bed2111998"
   },
@@ -5086,6 +5306,7 @@
    "mvm_and_other_cycles": 5136,
    "group_reads_allcols": 4992,
    "group_reads_issued": 4992,
+   "zero_groups": 2951,
    "rows_gated_total": 76,
    "raster_hash": "97934b06953eaf48"
   },
@@ -5109,6 +5330,7 @@
    "mvm_and_other_cycles": 5382,
    "group_reads_allcols": 5184,
    "group_reads_issued": 5184,
+   "zero_groups": 3670,
    "rows_gated_total": 80,
    "raster_hash": "020773a8478f35dd"
   },
@@ -5132,6 +5354,7 @@
    "mvm_and_other_cycles": 9942,
    "group_reads_allcols": 9600,
    "group_reads_issued": 9600,
+   "zero_groups": 6548,
    "rows_gated_total": 140,
    "raster_hash": "3685c3a6e0844f61"
   },
@@ -5155,6 +5378,7 @@
    "mvm_and_other_cycles": 40072,
    "group_reads_allcols": 38272,
    "group_reads_issued": 38272,
+   "zero_groups": 24404,
    "rows_gated_total": 697,
    "raster_hash": "073aebbae093438e"
   },
@@ -5178,6 +5402,7 @@
    "mvm_and_other_cycles": 7466,
    "group_reads_allcols": 7232,
    "group_reads_issued": 7232,
+   "zero_groups": 3999,
    "rows_gated_total": 109,
    "raster_hash": "3524b74847550710"
   },
@@ -5201,6 +5426,7 @@
    "mvm_and_other_cycles": 6552,
    "group_reads_allcols": 6336,
    "group_reads_issued": 6336,
+   "zero_groups": 3947,
    "rows_gated_total": 137,
    "raster_hash": "d20c6ba1be3264d2"
   },
@@ -5224,6 +5450,7 @@
    "mvm_and_other_cycles": 15160,
    "group_reads_allcols": 14656,
    "group_reads_issued": 14656,
+   "zero_groups": 9555,
    "rows_gated_total": 256,
    "raster_hash": "14f1e41598b07d4c"
   },
@@ -5247,6 +5474,7 @@
    "mvm_and_other_cycles": 8316,
    "group_reads_allcols": 8064,
    "group_reads_issued": 8064,
+   "zero_groups": 4976,
    "rows_gated_total": 103,
    "raster_hash": "e0e6945e32e3494b"
   },
@@ -5270,6 +5498,7 @@
    "mvm_and_other_cycles": 3180,
    "group_reads_allcols": 3072,
    "group_reads_issued": 3072,
+   "zero_groups": 2014,
    "rows_gated_total": 42,
    "raster_hash": "63415e25a9e41d41"
   },
@@ -5293,6 +5522,7 @@
    "mvm_and_other_cycles": 3902,
    "group_reads_allcols": 3776,
    "group_reads_issued": 3776,
+   "zero_groups": 2377,
    "rows_gated_total": 85,
    "raster_hash": "c562d63afe73146a"
   },
@@ -5316,6 +5546,7 @@
    "mvm_and_other_cycles": 11980,
    "group_reads_allcols": 11584,
    "group_reads_issued": 11584,
+   "zero_groups": 7298,
    "rows_gated_total": 200,
    "raster_hash": "57e80444ba2cd9f6"
   },
@@ -5339,6 +5570,7 @@
    "mvm_and_other_cycles": 12510,
    "group_reads_allcols": 12096,
    "group_reads_issued": 12096,
+   "zero_groups": 8447,
    "rows_gated_total": 157,
    "raster_hash": "dab59acc8881eae9"
   },
@@ -5362,6 +5594,7 @@
    "mvm_and_other_cycles": 9284,
    "group_reads_allcols": 8960,
    "group_reads_issued": 8960,
+   "zero_groups": 5810,
    "rows_gated_total": 171,
    "raster_hash": "19f6656b234c406c"
   },
@@ -5385,6 +5618,7 @@
    "mvm_and_other_cycles": 3554,
    "group_reads_allcols": 3392,
    "group_reads_issued": 3392,
+   "zero_groups": 2126,
    "rows_gated_total": 39,
    "raster_hash": "a27ddd47e8e23da2"
   },
@@ -5408,6 +5642,7 @@
    "mvm_and_other_cycles": 16632,
    "group_reads_allcols": 16128,
    "group_reads_issued": 16128,
+   "zero_groups": 8908,
    "rows_gated_total": 219,
    "raster_hash": "51c3b43685f535db"
   },
@@ -5431,6 +5666,7 @@
    "mvm_and_other_cycles": 10198,
    "group_reads_allcols": 9856,
    "group_reads_issued": 9856,
+   "zero_groups": 6007,
    "rows_gated_total": 199,
    "raster_hash": "b69a5d763d5a1bfb"
   },
@@ -5454,6 +5690,7 @@
    "mvm_and_other_cycles": 10536,
    "group_reads_allcols": 10176,
    "group_reads_issued": 10176,
+   "zero_groups": 6383,
    "rows_gated_total": 198,
    "raster_hash": "ff048531dcdc1e8f"
   },
@@ -5477,6 +5714,7 @@
    "mvm_and_other_cycles": 18350,
    "group_reads_allcols": 17792,
    "group_reads_issued": 17792,
+   "zero_groups": 10285,
    "rows_gated_total": 225,
    "raster_hash": "25faa2b4781d0e3c"
   },
@@ -5500,6 +5738,7 @@
    "mvm_and_other_cycles": 3856,
    "group_reads_allcols": 3712,
    "group_reads_issued": 3712,
+   "zero_groups": 2608,
    "rows_gated_total": 48,
    "raster_hash": "b43a2d78fee217b6"
   },
@@ -5523,6 +5762,7 @@
    "mvm_and_other_cycles": 3500,
    "group_reads_allcols": 3392,
    "group_reads_issued": 3392,
+   "zero_groups": 2225,
    "rows_gated_total": 73,
    "raster_hash": "a7a7bac9eb9336a1"
   },
@@ -5546,6 +5786,7 @@
    "mvm_and_other_cycles": 11624,
    "group_reads_allcols": 11264,
    "group_reads_issued": 11264,
+   "zero_groups": 6607,
    "rows_gated_total": 168,
    "raster_hash": "accb93b500da3221"
   }

@@ -64,6 +64,7 @@ module snn_regress_tb;
       .wl_ready_o(wl_ready),
       .start_i(start),
       .ingest_en_i(ingest_en),
+      .abort_i(1'b0),
       .ev_valid_i(ev_valid),
       .ev_aer_i(ev_aer),
       .ev_ready_o(ev_ready),

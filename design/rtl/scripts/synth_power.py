@@ -34,6 +34,7 @@ from tb.common import hdc_golden as H  # noqa: E402
 MODEL = {"full": "r1", "ee_off": "r1", "fact_off": "base", "both_off": "base"}
 PKGS = [ROOT / "rtl/pkg/cim_neurohdc_pkg.sv", ROOT / "rtl/pkg/hdc_pkg.sv"]
 BEHAV = [ROOT / "rtl/phase1_snn/cim_macro.sv", ROOT / "rtl/phase2_hdc/hdc_class_array.sv"]
+ICG_MODEL = ROOT / "tb/gl/icg_models.v"       # the library clock-gating cell, which Yosys' read_liberty cannot convert; only needed when the netlist was gated
 TB_RTL = ROOT / "tb/sv/hdc_regress_tb.sv"
 
 
@@ -67,7 +68,7 @@ def gate_sim(build: str, work: Path, net_raw: Path, cells: Path, row: int, start
     H.write_job(job, mdl, bool(f), [(words, counts_row)], [mdl["thresh_int"][row]], [theta], [1], gap_mode=0)
     tb = gate_tb(work)
     vvp = work / "gate.vvp"
-    cmd = ["iverilog", "-g2012", "-DVCD_DUMP", "-s", "hdc_gate_tb", "-P", f"hdc_gate_tb.FACTORIZED_P={f}", "-o", str(vvp), *map(str, PKGS), str(cells), str(net_raw), *map(str, BEHAV), str(tb)]
+    cmd = ["iverilog", "-g2012", "-DVCD_DUMP", "-s", "hdc_gate_tb", "-P", f"hdc_gate_tb.FACTORIZED_P={f}", "-o", str(vvp), *map(str, PKGS), str(cells), *([str(ICG_MODEL)] if "TLATNCAX" in net_raw.read_text() else []), str(net_raw), *map(str, BEHAV), str(tb)]
     r = S.run(cmd, log=work / "iverilog_gate.log")
     if r.returncode != 0:
         raise SystemExit("gate-level build failed:\n" + (r.stdout + r.stderr)[-1500:])
@@ -174,6 +175,72 @@ def flop_activity(vcd: Path, net_raw: Path, cycles: int) -> dict:
                 alpha_q_per_flop_cycle=tot_tog / max(1, n_matched) / cycles, by_module=by_mod)
 
 
+def _module_of(qname: str) -> str:
+    base = re.sub(r"\s*\[\d+\]$", "", qname.replace(" ", ""))
+    return ".".join(base.split(".")[:2]) if base.startswith("u_snn.") else base.split(".")[0]
+
+
+def icg_activity(vcd: Path, net_raw: Path, cycles: int) -> dict:
+    """What the clock gates actually do over the window: per gate, the rising edges of its gated clock and the flip-flops it drives (module = the instance prefix of the Q nets it feeds).
+    flop_clock_events = sum over gates of edges x flip-flops: the number of flop clock edges the gated design really delivers; the ungated design delivers flops x cycles."""
+    txt = net_raw.read_text()
+    icgs: dict[str, dict] = {}
+    for m in re.finditer(r"\bTLATNCAX\w+\s+(\S+)\s*\((.*?)\);", txt, re.S):
+        pins = {k: v.strip() for k, v in re.findall(r"\.(\w+)\(\s*(.*?)\s*\)", m.group(2), re.S)}
+        icgs[pins["ECK"].lstrip("\\").replace(" ", "")] = dict(flops=[], enable=pins["E"])
+    n_ungated = 0
+    for m in FF_RE.finditer(txt):
+        ck = re.search(r"\.CK\(\s*(.*?)\s*\)", m.group(3), re.S)
+        q = re.search(r"\.Q\(\s*(.*?)\s*\)\s*,?\s*(?:\.|$)", m.group(3), re.S)
+        if not ck or not q:
+            continue
+        g = ck.group(1).strip().lstrip("\\").replace(" ", "")
+        if g in icgs:
+            icgs[g]["flops"].append(q.group(1).strip().lstrip("\\").strip())
+        else:
+            n_ungated += 1
+    ids: dict[str, str] = {}
+    edges = {g: 0 for g in icgs}
+    last: dict[str, str] = {}
+    in_defs = True
+    with open(vcd) as fh:
+        for line in fh:
+            if in_defs:
+                if line.startswith("$var"):
+                    f = line.split()
+                    nm = " ".join(f[4:-1]).lstrip("\\").replace(" ", "")
+                    if f[2] == "1" and nm in icgs:
+                        ids[f[3]] = nm
+                elif line.startswith("$enddefinitions"):
+                    in_defs = False
+                continue
+            c = line[0]
+            if c in "01xzXZ":
+                vid = line[1:].strip()
+                if vid in ids:
+                    if c == "1" and last.get(vid) == "0":
+                        edges[ids[vid]] += 1
+                    last[vid] = c
+    by_mod: dict[str, dict] = {}
+    tot_ev = tot_fl = 0
+    for g, d in icgs.items():
+        n = len(d["flops"])
+        mods: dict[str, int] = {}
+        for q in d["flops"]:
+            mods[_module_of(q)] = mods.get(_module_of(q), 0) + 1
+        mod = max(mods, key=mods.get) if mods else "(none)"
+        b = by_mod.setdefault(mod, dict(icgs=0, flops=0, gate_edges=0, flop_clock_events=0))
+        b["icgs"] += 1
+        b["flops"] += n
+        b["gate_edges"] += edges[g]
+        b["flop_clock_events"] += edges[g] * n
+        tot_ev += edges[g] * n
+        tot_fl += n
+    return dict(icgs=len(icgs), gated_flops=tot_fl, ungated_flops=n_ungated, window_cycles=cycles, gated_flop_clock_events=tot_ev,
+                gated_clock_duty_per_flop=tot_ev / max(1, tot_fl) / cycles, ungated_flop_clock_events=n_ungated * cycles, by_module=by_mod,
+                gates_never_enabled=sum(1 for g in icgs if edges[g] == 0))
+
+
 def sta_power(work: Path, net_sta: Path, libs: list[Path], period: float, vcd: Path, scope: str) -> dict:
     rpt, ann = work / "power.rpt", work / "annotation.rpt"
     tcl = "\n".join([*(f"read_liberty {l}" for l in libs), f"read_verilog {net_sta}", f"link_design {S.TOP}", f"create_clock -name clk -period {period} [get_ports {S.CLK}]",
@@ -196,17 +263,21 @@ def main() -> int:
     ap.add_argument("--row", type=int, default=46, help="golden row of the sample simulated (46: a real AER stream with 319,130 events, near the median 334,643)")
     ap.add_argument("--start", type=int, default=12000, help="first cycle of the activity window, counted from start_i (timestep ~3 of the sample)")
     ap.add_argument("--len", type=int, default=8000)
+    ap.add_argument("--keep-vcd", action="store_true", help="keep the activity VCD (hundreds of MB) for further OpenSTA queries")
+    ap.add_argument("--tag", default="", help="suffix of the power directory (a second window of the same netlist)")
     ap.add_argument("--theta", type=int, default=4095)
     ap.add_argument("--period", type=float, default=10.0)
     ap.add_argument("--lib-dir", default=str(S.DEFAULT_LIB_DIR))
+    S.add_flow_args(ap)
     a = ap.parse_args()
+    S.apply_flow_args(a)
     lib = Path(a.lib_dir) / S.LIBS["fast"]
     gl = S.OUT / "gl"
     gl.mkdir(parents=True, exist_ok=True)
     cells = liberty_models(lib, gl / "cells_fast.v")
     for b in a.builds:
         f, e = S.BUILDS[b]
-        work = S.OUT / b / "power"
+        work = S.OUT / b / ("power" + a.tag)
         work.mkdir(parents=True, exist_ok=True)
         stub = S.stub_liberty(work, f, e)
         t0 = time.time()
@@ -218,9 +289,15 @@ def main() -> int:
             r["flop_activity"] = flop_activity(g["vcd"], net_raw, a.len)
         except Exception as exc:  # noqa: BLE001
             r["flop_activity"] = dict(error=f"{type(exc).__name__}: {exc}")
-        r.update(build=b, model=MODEL[b], row=a.row, window_start=a.start, window_cycles=a.len, area_um2=area, **{k: v for k, v in g.items() if k != "vcd"}, wall_s=round(time.time() - t0))
+        if S.CFG["gate"] or S.CFG["rtl_gating"]:
+            try:
+                r["icg_activity"] = icg_activity(g["vcd"], net_raw, a.len)
+            except Exception as exc:  # noqa: BLE001
+                r["icg_activity"] = dict(error=f"{type(exc).__name__}: {exc}")
+        r.update(build=b, model=MODEL[b], gate=S.CFG["gate"], instr=S.CFG["instr"], rtl_gating=S.CFG["rtl_gating"], isolate=S.CFG["isolate"], row=a.row, window_start=a.start, window_cycles=a.len, area_um2=area, **{k: v for k, v in g.items() if k != "vcd"}, wall_s=round(time.time() - t0))
         (work / "power_summary.json").write_text(json.dumps(r, indent=1))
-        g["vcd"].unlink()                      # hundreds of MB; regenerable
+        if not a.keep_vcd:
+            g["vcd"].unlink()                  # hundreds of MB; regenerable
         print(f"[{b}] power {None if r['total_w'] is None else round(r['total_w'] * 1e3, 3)} mW (internal {r['internal_w']}, switching {r['switching_w']}, leakage {r['leakage_w']}), "
               f"annotation {r['annotation']}, gate-level matches golden over {g['timesteps_checked']} timesteps: {g['gate_level_matches_golden']}", flush=True)
     return 0

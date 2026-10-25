@@ -1,137 +1,89 @@
-// shift_accum.sv - block G. Turns crossbar match counts into the MVM output X.
-//   1. group counts of one bit-row are added into a full-array count      P[j][k] = sum over groups of m[j][k]
-//   2. when the bit-row's last read arrives the row is folded:           X[j] += sum_k  sigma(k) * 2^(b+k) * P[j][k]
-//      sigma(k) = +1 for k = 0..6 and **-1 for k = 7**: weight bit-plane 7 is the SIGN bit of an int8, so its contribution is
-//      NEGATIVE. (Getting this backwards gives plausible wrong answers; tests/test_shift_accum.py checks -128,-1,0,+1,+127.)
-// It also computes `a`, the active-row count: one 512-bit popcount of the bit-row (a_row_o) shared by all columns, plus the
-// per-group count used to check m <= a (the analog side recovers m from 2m - a).
-//
-// Issue side (same cycle as the read goes to cim_macro): tags and `a` are registered for MACRO_LAT cycles so they line up with the
-// result side (m_valid_i). All arithmetic is exact two's-complement; X is W_X bits and an overflow is an assertion failure.
-
-
-
-
-
-
-import cim_neurohdc_pkg::N_INPUTS;
+// shift_accum.sv - block G. Turns crossbar match counts into the MVM output X (optimisation item 4).
+//   Every read returns, for each neuron j and weight bit-plane k, the match count m[j][k] (0..g) of ONE count bit-plane b over ONE group of rows. Its contribution to X[j] is
+//        sum_k sigma(k) * 2^k * m[j][k]  * 2^b          sigma(k) = +1 for k = 0..6 and -1 for k = 7 (the int8 SIGN plane: its contribution is NEGATIVE; tests check -128, -1, 0, +1, +127)
+//   evaluated as a tree: the 8 columns of a neuron are combined first (constant shifts only, an 8-operand adder of W_M-bit values), the result is shifted ONCE by b, and added to X[j].
+//   (The earlier structure shifted every one of the 160 partial counts by the variable b into 29 bits and kept 1,600 partial-count flip-flops; this one has 20 trees, 20 shifters and the 20 X registers.)
+//   X is the same integer sum, so it is bit-identical; it wraps modulo 2^W_X in the middle and is exact at the end (the final value fits W_X by construction).
+// The issue-side tag (the plane b) is delayed MACRO_LAT cycles to line up with the result. X is cleared by clr_i (start of an MVM) and changes only on a valid result.
 import cim_neurohdc_pkg::N_NEURONS;
+import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
+import cim_neurohdc_pkg::N_WCOLS;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
 import cim_neurohdc_pkg::SIGN_PLANE;
-import cim_neurohdc_pkg::W_ADDR;
 import cim_neurohdc_pkg::W_BIT_IDX;
-import cim_neurohdc_pkg::W_FOLD;
-import cim_neurohdc_pkg::W_GRP;
-import cim_neurohdc_pkg::W_MATCH;
-import cim_neurohdc_pkg::W_M_FLAT;
-import cim_neurohdc_pkg::W_PCOUNT;
-import cim_neurohdc_pkg::W_STAT;
 import cim_neurohdc_pkg::W_WEIGHT;
 import cim_neurohdc_pkg::W_X;
 
 module shift_accum #(
-    parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT
+    parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT,
+    parameter int N_PARALLEL_COLS = N_PARALLEL_COLS_DEFAULT,
+    localparam int W_M = $clog2(ROWS_PER_GROUP + 1),
+    localparam int W_PASS = (N_WCOLS / N_PARALLEL_COLS > 1) ? $clog2(N_WCOLS / N_PARALLEL_COLS) : 1
 ) (
-    input  logic                     clk_i,
-    input  logic                     rst_n_i,
-    input  logic                     clr_i,          // zero X and the partial counts (start of an MVM)
+    input  logic                         clk_i,
+    input  logic                         rst_n_i,
+    input  logic                         clr_i,          // zero X (start of an MVM)
     // issue side
-    input  logic                     iss_valid_i,
-    input  logic [     N_INPUTS-1:0] iss_bitrow_i,
-    input  logic [        W_GRP-1:0] iss_grp_i,
-    input  logic [    W_BIT_IDX-1:0] iss_b_i,
-    input  logic                     iss_last_i,
-    input  logic                     iss_plane0_i,   // this read senses weight plane 0 (once per (bit-row, group))
+    input  logic                         iss_valid_i,
+    input  logic [      W_BIT_IDX-1:0]   iss_b_i,
+    input  logic [   W_PASS-1:0]         iss_pass_i,
+    input  logic [ROWS_PER_GROUP-1:0]    iss_bits_i,     // the rows driven (assertions only)
     // result side (cim_macro)
-    input  logic                     m_valid_i,
-    input  logic [     W_M_FLAT-1:0] m_i,
+    input  logic                         m_valid_i,
+    input  logic [N_PARALLEL_COLS*W_M-1:0] m_i,
     // outputs
-    output logic [     W_PCOUNT-1:0] a_row_o,        // active rows of the current bit-row
-    output logic [N_NEURONS*W_X-1:0] x_o,            // signed X[j], flattened
-    output logic [       W_STAT-1:0] zero_groups_o,  // groups with a = 0 (could be skipped); this timestep
-    output logic                     assert_fail_o
+    output logic [  N_NEURONS*W_X-1:0]   x_o,            // signed X[j], flattened
+    output logic                         assert_fail_o
 );
-  // ---------------------------------------------------------------- issue side
-  logic [ROWS_PER_GROUP-1:0] grp_bits;
-  logic [W_PCOUNT-1:0] a_grp;
-
-  for (genvar r = 0; r < ROWS_PER_GROUP; r++) begin : g_grp_bits
-    logic [W_GRP+W_ADDR:0] idx;
-    assign idx = (iss_grp_i * (W_GRP + W_ADDR + 1)'(ROWS_PER_GROUP)) + (W_GRP + W_ADDR + 1)'(r);
-    assign grp_bits[r] = (idx < (W_GRP + W_ADDR + 1)'(N_INPUTS)) ? iss_bitrow_i[idx[W_ADDR-1:0]] : 1'b0;
-  end
-
-  popcount #(
-      .N(N_INPUTS)
-  ) u_a_row (
-      .bits_i (iss_bitrow_i),
-      .count_o(a_row_o)
-  );
-  popcount #(
-      .N(ROWS_PER_GROUP),
-      .W(W_PCOUNT)
-  ) u_a_grp (
-      .bits_i (grp_bits),
-      .count_o(a_grp)
-  );
+  localparam int PL = N_PARALLEL_COLS / N_NEURONS;  // weight bit-planes per pass
+  localparam int W_INNER = W_M + PL;  // sum_k +-2^k m lies in [-128 g, 127 g]: signed width 8 + log2(g) = W_M + 7 for g a power of two
 
   logic                 t_valid_q;
   logic [W_BIT_IDX-1:0] t_b_q;
-  logic                 t_last_q;
-  logic [ W_PCOUNT-1:0] t_a_grp_q;
-  logic [ W_PCOUNT-1:0] t_a_row_q;
-  logic [   W_STAT-1:0] zero_q;
+  logic [W_PASS-1:0] t_pass_q;
+  logic [ROWS_PER_GROUP-1:0] t_bits_q;
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) begin
       t_valid_q <= 1'b0;
       t_b_q     <= '0;
-      t_last_q  <= 1'b0;
-      t_a_grp_q <= '0;
-      t_a_row_q <= '0;
-      zero_q    <= '0;
+      t_pass_q  <= '0;
+      t_bits_q  <= '0;
     end else begin
       t_valid_q <= iss_valid_i;
-      t_b_q     <= iss_b_i;
-      t_last_q  <= iss_last_i;
-      t_a_grp_q <= a_grp;
-      t_a_row_q <= a_row_o;
-      if (clr_i) zero_q <= '0;
-      else if (iss_valid_i && iss_plane0_i && a_grp == '0) zero_q <= zero_q + W_STAT'(1);
+      if (iss_valid_i) begin
+        t_b_q    <= iss_b_i;
+        t_pass_q <= iss_pass_i;
+        t_bits_q <= iss_bits_i;
+      end
     end
   end
-  assign zero_groups_o = zero_q;
 
-  // ---------------------------------------------------------------- result side: accumulate + fold
-  logic [W_PCOUNT-1:0] p_q[N_NEURONS][W_WEIGHT];
-  logic [W_PCOUNT-1:0] p_next[N_NEURONS][W_WEIGHT];
+  // The result holds PL weight bit-planes per neuron (columns j*PL + q = plane pass*PL + q). Their weighted sum is formed first (constant shifts), then shifted once by b + pass*PL and added to X[j].
+  // Plane 7, the int8 sign plane, is the top plane of the LAST pass and counts negatively.
+  // (A variant that summed the passes of a read into a 11-bit Y and committed X += Y << b once per read, with operand isolation, was built and measured: it added 220 flip-flops and
+  // did not lower the layout power of the scan phase - the switching is in the number of neuron datapaths, not in how often the wide adder fires. Reverted.)
   logic signed [W_X-1:0] x_q[N_NEURONS];
-  logic signed [W_FOLD-1:0] fold[N_NEURONS];
-  logic signed [W_FOLD-1:0] x_wide[N_NEURONS];
-
+  logic signed [W_INNER-1:0] inner[N_NEURONS];
+  logic signed [W_X-1:0] x_next[N_NEURONS];
+  logic is_last_pass;
+  assign is_last_pass = (int'(t_pass_q) == N_WCOLS / N_PARALLEL_COLS - 1);
   always_comb begin
     for (int j = 0; j < N_NEURONS; j++) begin
-      fold[j] = '0;
-      for (int k = 0; k < W_WEIGHT; k++) begin
-        p_next[j][k] = p_q[j][k] + (m_valid_i ? m_i[(j*W_WEIGHT+k)*W_MATCH+:W_PCOUNT] : '0);
-        if (k == SIGN_PLANE) fold[j] = fold[j] - (W_FOLD'(p_next[j][k]) << (int'(t_b_q) + k));
-        else fold[j] = fold[j] + (W_FOLD'(p_next[j][k]) << (int'(t_b_q) + k));
+      inner[j] = '0;
+      for (int q = 0; q < PL; q++) begin
+        if (q == PL - 1 && is_last_pass) inner[j] = inner[j] - (W_INNER'(m_i[(j*PL+q)*W_M+:W_M]) << q);
+        else inner[j] = inner[j] + (W_INNER'(m_i[(j*PL+q)*W_M+:W_M]) << q);
       end
-      x_wide[j] = W_FOLD'(x_q[j]) + fold[j];  // W_FOLD'() of a signed value sign-extends
+      x_next[j] = x_q[j] + (W_X'(inner[j]) << (int'(t_b_q) + int'(t_pass_q) * PL));  // W_X'() of a signed value sign-extends
     end
   end
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i || clr_i) begin
-      for (int j = 0; j < N_NEURONS; j++) begin
-        x_q[j] <= '0;
-        for (int k = 0; k < W_WEIGHT; k++) p_q[j][k] <= '0;
-      end
+      for (int j = 0; j < N_NEURONS; j++) x_q[j] <= '0;
     end else if (m_valid_i) begin
-      for (int j = 0; j < N_NEURONS; j++) begin
-        for (int k = 0; k < W_WEIGHT; k++) p_q[j][k] <= t_last_q ? '0 : p_next[j][k];
-        if (t_last_q) x_q[j] <= x_wide[j][W_X-1:0];
-      end
+      for (int j = 0; j < N_NEURONS; j++) x_q[j] <= x_next[j];
     end
   end
 
@@ -143,45 +95,24 @@ module shift_accum #(
   logic fail_q;
   assign assert_fail_o = fail_q;
 `ifndef SYNTHESIS
-  logic [W_PCOUNT-1:0] a_sum_q;  // sum of per-group `a` over the groups issued so far in the current bit-row
+  function automatic int popc(input logic [ROWS_PER_GROUP-1:0] v);
+    int n;
+    n = 0;
+    for (int i = 0; i < ROWS_PER_GROUP; i++) n += int'(v[i]);
+    return n;
+  endfunction
   always_ff @(posedge clk_i) begin
-    if (!rst_n_i || clr_i) begin
-      fail_q  <= fail_q && rst_n_i;
-      a_sum_q <= '0;
-    end else begin
-      // group counts of a row add up to the row's popcount (checked at the row's last issue)
-      if (iss_valid_i && iss_plane0_i) begin
-        if (iss_last_i) begin
-          if (a_sum_q + a_grp != a_row_o) begin
-            $display("[ASSERT FAIL] %m: sum of group active-counts %0d != row popcount %0d", a_sum_q + a_grp, a_row_o);
-            fail_q <= 1'b1;
-          end
-          a_sum_q <= '0;
-        end else a_sum_q <= a_sum_q + a_grp;
-      end else if (iss_valid_i && iss_last_i) begin
-        // serial-plane mode: the last read belongs to the last plane pass; the row sum was closed on its plane-0 pass
-        a_sum_q <= '0;
-      end
+    if (!rst_n_i || clr_i) fail_q <= fail_q && rst_n_i;
+    else begin
       if (m_valid_i != t_valid_q) begin
         $display("[ASSERT FAIL] %m: result valid %0b does not line up with the issue tag %0b", m_valid_i, t_valid_q);
         fail_q <= 1'b1;
       end
       if (m_valid_i) begin
         for (int j = 0; j < N_NEURONS; j++)
-        for (int k = 0; k < W_WEIGHT; k++) begin
-          if (m_i[(j*W_WEIGHT+k)*W_MATCH+:W_MATCH] > W_MATCH'(ROWS_PER_GROUP) || m_i[(j*W_WEIGHT+k)*W_MATCH+:W_MATCH] > W_MATCH'(t_a_grp_q)) begin
-            $display("[ASSERT FAIL] %m: match count m[%0d][%0d]=%0d outside 0..min(g=%0d, a=%0d)", j, k, m_i[(j*W_WEIGHT+k)*W_MATCH+:W_MATCH], ROWS_PER_GROUP, t_a_grp_q);
-            fail_q <= 1'b1;
-          end
-          if (p_next[j][k] > t_a_row_q) begin
-            $display("[ASSERT FAIL] %m: full-array count %0d exceeds active rows %0d", p_next[j][k], t_a_row_q);
-            fail_q <= 1'b1;
-          end
-        end
-        if (t_last_q)
-          for (int j = 0; j < N_NEURONS; j++)
-          if (x_wide[j][W_FOLD-1:W_X-1] != {(W_FOLD - W_X + 1) {x_wide[j][W_X-1]}}) begin
-            $display("[ASSERT FAIL] %m: X[%0d] overflows %0d bits", j, W_X);
+        for (int k = 0; k < PL; k++)
+          if (int'(m_i[(j*PL+k)*W_M+:W_M]) > popc(t_bits_q)) begin
+            $display("[ASSERT FAIL] %m: match count m[%0d][%0d]=%0d outside 0..a=%0d", j, k, m_i[(j*PL+k)*W_M+:W_M], popc(t_bits_q));
             fail_q <= 1'b1;
           end
       end

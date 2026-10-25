@@ -1,0 +1,39 @@
+OpenROAD 2e76e4a91f202d6ba051814e6300235a77cb7e90 
+Features included (+) or not (-): -GPU -GUI -Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer PWdummy :"SPACING 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer PWdummy :"WIDTH 0.3 ;"
+[INFO ODB-0388] unsupported LEF58_SPACING property for layer Nwell :"SPACING 0.6 ;"
+[INFO ODB-0388] unsupported LEF58_WIDTH property for layer Nwell :"WIDTH 0.3 ;"
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/tech_openroad.lef, created 36 layers, 119 vias
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/45_nm_PDK/cadence/cadence_45nm/lef/gsclib045_macro.lef, created 574 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/cim_macro.lef, created 1 library cells
+[INFO ODB-0227] LEF file: /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lef, created 1 library cells
+[WARNING STA-1140] /Users/rohankamath/Desktop/IIIT-Bangalore/Projects/Research-Projects/CiM-Based-Neuromorphic-Hyperdimensional-Computing/design/rtl/synth/work/full/hdc_class_array.lib line 1, library analog_blackboxes already exists.
+[WARNING IFP-0028] Core area lower left (30.000, 30.000) snapped to (30.000, 30.780).
+[INFO IFP-0001] Added 830 rows of 3816 site CoreSite.
+[INFO IFP-0001] Added 415 rows of 3816 site CoreSiteDouble.
+[INFO IFP-0100] Die BBox:  (  0.000  0.000 ) ( 823.200 1480.180 ) um
+[INFO IFP-0101] Core BBox: ( 30.000 30.780 ) ( 793.200 1450.080 ) um
+[INFO IFP-0102] Core area:                      1083209.760 um^2
+[INFO IFP-0103] Total instances area:            797307.336 um^2
+[INFO IFP-0104] Effective utilization:                0.736
+[INFO IFP-0105] Number of instances:                  78001
+macro u_query.u_array (hdc_class_array) placed at (703.60, 35.78)
+macro u_snn.u_cim_macro (cim_macro) placed at (30.00, 685.71)
+[INFO PDN-0001] Inserting grid: core_grid
+[INFO PDN-0001] Inserting grid: macro_grid - u_snn.u_cim_macro
+[INFO PDN-0001] Inserting grid: macro_grid - u_query.u_array
+[INFO PDN-0500] Runtime: 1.04s
+[WARNING PPL-0113] -random and -random_seed are obsolete. Skipping random pin placement.
+Design area 797307 um^2 74% utilization.
+Cell type report:                       Count        Area
+  Macro                                     2   590745.15
+  Buffer                                 4941     8449.11
+  Inverter                               1760     1203.84
+  Clock gate cell                         738     4038.34
+  Sequential cell                        9930    54383.13
+  Multi-Input combinational cell        60630   138487.77
+  Total                                 78001   797307.34
+STAGES DONE: floorplan

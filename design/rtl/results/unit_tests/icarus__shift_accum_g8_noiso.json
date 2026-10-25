@@ -1,0 +1,15 @@
+{
+ "sim": "icarus",
+ "case": "shift_accum_g8_noiso",
+ "toplevel": "shift_accum",
+ "module": "test_shift_accum",
+ "parameters": {
+  "ROWS_PER_GROUP": 8,
+  "OPERAND_ISOLATION": 0
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 2.8
+}

@@ -1,0 +1,42 @@
+{
+ "1.0": {
+  "accuracy": 0.8090277777777777,
+  "accuracy_std": 0.004446614053772796,
+  "baseline_accuracy": 0.8125,
+  "pred_changed_frac": 0.017361111111111112,
+  "mean_exit_shift": -0.14097222222222222,
+  "spike_flip_frac": 0.0077182657954229525
+ },
+ "0.3": {
+  "accuracy": 0.8097222222222222,
+  "accuracy_std": 0.003105649968749697,
+  "baseline_accuracy": 0.8125,
+  "pred_changed_frac": 0.011111111111111112,
+  "mean_exit_shift": -0.1527777777777778,
+  "spike_flip_frac": 0.004006576050865979
+ },
+ "0.1": {
+  "accuracy": 0.8104166666666668,
+  "accuracy_std": 0.002083333333333326,
+  "baseline_accuracy": 0.8125,
+  "pred_changed_frac": 0.009027777777777777,
+  "mean_exit_shift": -0.03333333333333333,
+  "spike_flip_frac": 0.002056089265349588
+ },
+ "0.03": {
+  "accuracy": 0.8125,
+  "accuracy_std": 0.0024056261216234324,
+  "baseline_accuracy": 0.8125,
+  "pred_changed_frac": 0.003472222222222222,
+  "mean_exit_shift": 0.08472222222222223,
+  "spike_flip_frac": 0.0009664390501527219
+ },
+ "0.01": {
+  "accuracy": 0.8118055555555556,
+  "accuracy_std": 0.0015528249843748485,
+  "baseline_accuracy": 0.8125,
+  "pred_changed_frac": 0.0020833333333333333,
+  "mean_exit_shift": 0.0375,
+  "spike_flip_frac": 0.00035215367917198413
+ }
+}

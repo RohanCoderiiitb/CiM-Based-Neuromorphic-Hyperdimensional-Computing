@@ -22,13 +22,12 @@ from cocotb_tools.runner import get_results, get_runner  # noqa: E402
 RTL = ROOT / "rtl"
 PKG = RTL / "pkg" / "cim_neurohdc_pkg.sv"
 HDC_PKG = RTL / "pkg" / "hdc_pkg.sv"
-SNN = sorted((RTL / "phase1_snn").glob("*.sv"))
+SNN = sorted((RTL / "common").glob("*.sv")) + sorted((RTL / "phase1_snn").glob("*.sv"))
 HDC = sorted((RTL / "phase2_hdc").glob("*.sv")) + sorted((RTL / "phase4_exit").glob("*.sv"))
 MVM = ROOT / "tb" / "sv" / "mvm_unit.sv"
 T2W = ROOT / "tb" / "sv" / "top2_wrap.sv"
 OUT = ROOT / "results" / "unit_tests"
 BUILD = ROOT / "build" / "cocotb"
-G_SWEEP = (1, 4, 8, 16, 32, 48, 64, 512)          # 48 does not divide 512; 1 and 512 are the extremes
 CASES = [
     # (name, toplevel, test module, parameters, env)
     ("addr_gen", "addr_gen", "test_addr_gen", {}, {}),
@@ -38,22 +37,28 @@ CASES = [
     ("spike_reg", "spike_reg", "test_spike_reg", {}, {}),
     ("if_neuron_array", "if_neuron_array", "test_if_neuron", {}, {}),
 ]
-for g, cols, skip in ((8, 160, 1), (48, 160, 1), (1, 160, 1), (512, 160, 1), (8, 20, 1), (8, 160, 0), (64, 20, 1)):
-    p = dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols, PLANE_SKIP_EN=skip)
-    e = dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols), PLANE_SKIP_EN=str(skip))
-    CASES.append((f"plane_seq_g{g}_c{cols}_s{skip}", "plane_seq", "test_plane_seq", p, e))
-for g in (8, 48, 512):
-    CASES.append((f"cim_macro_g{g}", "cim_macro", "test_cim_macro", dict(ROWS_PER_GROUP=g), dict(ROWS_PER_GROUP=str(g))))
-    CASES.append((f"shift_accum_g{g}", "shift_accum", "test_shift_accum", dict(ROWS_PER_GROUP=g), dict(ROWS_PER_GROUP=str(g))))
+for g, cols in ((4, 40), (4, 160), (4, 20), (8, 40), (8, 160), (1, 40), (16, 20), (64, 40), (512, 160)):
+    p = dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols)
+    e = dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols))
+    CASES.append((f"plane_seq_g{g}_c{cols}", "plane_seq", "test_plane_seq", p, e))
+    CASES.append((f"cim_macro_g{g}_c{cols}", "cim_macro", "test_cim_macro", p, e))
+    CASES.append((f"shift_accum_g{g}_c{cols}", "shift_accum", "test_shift_accum", p, e))
+G_SWEEP = (1, 2, 4, 8, 16, 32, 64, 128, 512)                       # g must divide 512
 for g in G_SWEEP:
-    CASES.append((f"mvm_unit_g{g}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=160, PLANE_SKIP_EN=1),
-                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS="160", PLANE_SKIP_EN="1", MVM_OUT=str(OUT / f"mvm_x_g{g}_c160.json"))))
-for g, cols, skip in ((8, 20, 1), (64, 20, 1), (8, 160, 0)):
-    CASES.append((f"mvm_unit_g{g}_c{cols}_s{skip}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols, PLANE_SKIP_EN=skip),
-                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols), PLANE_SKIP_EN=str(skip), MVM_OUT=str(OUT / f"mvm_x_g{g}_c{cols}_s{skip}.json"))))
+    CASES.append((f"mvm_unit_g{g}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=40),
+                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS="40", MVM_OUT=str(OUT / f"mvm_x_g{g}_c40.json"))))
+for g, cols in ((4, 160), (4, 20), (8, 20), (64, 160)):
+    CASES.append((f"mvm_unit_g{g}_c{cols}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols),
+                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols), MVM_OUT=str(OUT / f"mvm_x_g{g}_c{cols}.json"))))
 
 
 HDC_TOPS = ("top2_wrap", "exit_ctrl", "hdc_query")
+CLKT = ROOT / "tb" / "sv" / "clk_tree_wrap.sv"
+
+# digital-energy pass: the clock-gate tree itself (three shapes: count_mem's 8 x 8 x 8, the 100-row sign table's two levels, a non-power-of-two single level) and the non-default
+# parameter settings of the blocks whose structure the pass changed (enabled flip-flops instead of clock gates, no operand isolation)
+for n, lv in ((512, 3), (100, 2), (20, 1)):
+    CASES.append((f"clk_gate_tree_n{n}_l{lv}", "clk_tree_wrap", "test_clk_gate_tree", dict(N=n, LEVELS=lv), dict(N=str(n))))
 
 # Phase 2-4 blocks (the references are Phase 0 / hdc_query.py, imported by the tests)
 for n in (7, 10, 16, 24):
@@ -62,13 +67,17 @@ for ee in (1, 0):
     CASES.append((f"exit_ctrl_ee{ee}", "exit_ctrl", "test_exit_ctrl", dict(EARLY_EXIT_EN=ee), dict(EARLY_EXIT_EN=str(ee))))
 for f in (0, 1):
     CASES.append((f"hdc_query_f{f}", "hdc_query", "test_hdc_query", dict(FACTORIZED=f), dict(FACTORIZED=str(f))))
+    if f:
+        CASES.append((f"hdc_query_f{f}_cg0", "hdc_query", "test_hdc_query", dict(FACTORIZED=f, CLOCK_GATING=0), dict(FACTORIZED=str(f))))
+    if f:
+        CASES.append((f"hdc_query_f{f}_flopsign", "hdc_query", "test_hdc_query", dict(FACTORIZED=f, SIGN_SRAM=0), dict(FACTORIZED=str(f))))
     CASES.append((f"hdc_query_f{f}_n24", "hdc_query", "test_hdc_query", dict(FACTORIZED=f, N_CLASSES=24), dict(FACTORIZED=str(f), N_CLASSES="24")))     # README Phase 4: N is 10-24
 
 
 def run_case(sim: str, name: str, top: str, module: str, params: dict, env: dict) -> dict:
     t0 = time.time()
     runner = get_runner(sim)
-    sources = [PKG] + SNN + ([MVM] if top == "mvm_unit" else [])
+    sources = [PKG] + SNN + ([MVM] if top == "mvm_unit" else []) + ([CLKT] if top == "clk_tree_wrap" else [])
     if top in HDC_TOPS:
         sources = [PKG, HDC_PKG] + SNN + HDC + ([T2W] if top == "top2_wrap" else [])
     bdir = BUILD / f"{sim}__{name}"

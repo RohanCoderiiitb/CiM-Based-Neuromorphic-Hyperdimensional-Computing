@@ -1,0 +1,7 @@
+Clock clk
+  0.000 source latency _132830_/CK ^
+ -2.124 target latency _133370_/CK ^
+  0.000 CRPR
+--------------
+ -2.124 hold skew
+

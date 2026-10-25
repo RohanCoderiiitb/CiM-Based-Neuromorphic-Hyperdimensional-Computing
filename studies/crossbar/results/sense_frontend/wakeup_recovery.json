@@ -1,0 +1,32 @@
+{
+ "far_m1": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 0.8454310322940001,
+  "peak_dev_mV": 92.73720888836448
+ },
+ "far_m4": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 0.784700897238,
+  "peak_dev_mV": 90.498728334716
+ },
+ "far_m8": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 7.999999999999999,
+  "peak_dev_mV": 93.062215142452
+ },
+ "near_m1": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 1.2129177947489997,
+  "peak_dev_mV": 96.14523602335997
+ },
+ "near_m4": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 0.96779648945,
+  "peak_dev_mV": 94.8883454053307
+ },
+ "near_m8": {
+  "t_recover_1mV_ns": 7.999999999999999,
+  "t_recover_3mV_ns": 7.999999999999999,
+  "peak_dev_mV": 174.26195217340089
+ }
+}
