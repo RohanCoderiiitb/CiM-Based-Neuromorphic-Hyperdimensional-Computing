@@ -43,3 +43,6 @@ design/rtl/results/scratch/
 /design/rtl/synth/results/openroad/*/route.guide
 /design/rtl/synth/results/layout/*/*/power_*/
 /design/rtl/synth/results/ports/
+# Generated simulation binaries and waveforms
+*.vvp
+*.vcd
