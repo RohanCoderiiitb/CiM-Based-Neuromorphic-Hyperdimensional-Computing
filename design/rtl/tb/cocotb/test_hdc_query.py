@@ -1,4 +1,4 @@
-"""Phase 2 block: hdc_query - both class-HV mappings, bit-exact against the reference (hdc_query.py) at EVERY timestep prefix, and the pipeline contract (decision valid exactly four
+"""Phase 2 block: hdc_query - both class-HV mappings, bit-exact against the reference (hdc_query.py) at EVERY timestep prefix, and the pipeline contract (decision valid exactly five
 cycles after the spike strobe, busy covers it, a premature spike trips the assertion).
 
 FACTORIZED = 0 loads a 2000 x N class memory and scores by XNOR-popcount; FACTORIZED = 1 loads a 20 x N array + T x N sign table + N bias registers and scores by AND-popcount.
@@ -54,7 +54,7 @@ async def load_image(dut, class_hv, a_bits=None, b_bits=None):
 
 
 async def run_sample(dut, S, prefix, gaps=(0,)):
-    """Drive one sample's spike vectors; at every decision compare scores, leader, second score. Returns the cycles between strobe and decision (must be 4)."""
+    """Drive one sample's spike vectors; at every decision compare scores, leader, second score. Returns the cycles between strobe and decision (must be 5)."""
     HQ = H().HQ
     dut.clr_i.value = 1
     await ticks(dut)
@@ -74,7 +74,7 @@ async def run_sample(dut, S, prefix, gaps=(0,)):
             await ticks(dut)
             n += 1
             assert n < 20
-        assert n == 3, f"decision {n + 1} cycles after the strobe, expected 4"
+        assert n == 4, f"decision {n + 1} cycles after the strobe, expected 5"
         assert int(dut.busy_o.value) == 1, "busy must cover the decision cycle"
         sc = [(int(dut.scores_o.value) >> (W * i)) & ((1 << W) - 1) for i in range(N)]
         assert sc == prefix[t].tolist(), f"t={t}: scores {sc} != reference {prefix[t].tolist()}"

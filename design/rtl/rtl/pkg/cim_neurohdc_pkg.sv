@@ -42,9 +42,27 @@ package cim_neurohdc_pkg;
   localparam bit INSTRUMENT_EN_DEFAULT = 1'b1;  // [1E] activity / skip counters (Phase 5 handoff)
   localparam bit GEOM_NMNIST_DEFAULT = 1'b0;  // [1E] reset value of the sensor geometry: 0 = DVS-Gesture 128x128, 1 = N-MNIST 34x34 (runtime-writable)
 
+  // ------------------------------------------------------------------ event ingest: N_LANES lanes, banked counter memory with a short request queue per bank [D]
+  localparam int N_COUNT_BANKS = 4;  // [D] the 512 counters live in N_COUNT_BANKS single-port SRAM macros selected by the low address bits
+  localparam int LB_COUNT = $clog2(N_COUNT_BANKS);  // low address bits that select the bank
+  localparam int W_BANK_ADDR = W_ADDR - LB_COUNT;  // address bits inside a bank
+  localparam int N_BANK_WORDS = N_INPUTS / N_COUNT_BANKS;  // words per bank macro
+  localparam int N_LANES = 3;  // [D] events accepted per cycle (parallel AER input: lane 0 is the ordinary valid/ready port, lanes 1.. are the extra lanes)
+  localparam int N_XL = N_LANES - 1;  // extra lanes
+  localparam int W_LANES = $clog2(N_LANES + 1);  // bits of a lane count 0..N_LANES
+  localparam int N_DIRTY_GS = 2;  // [D] counter groups per dirty flag (the scan fetches every group of a flagged block; a fetch of a clean group costs one cycle that the crossbar reads hide)
+  // packed-row crossbar reads [D]: a read drives S_ROWS arbitrary ACTIVE rows of one count bit-plane, all inside one position band (the macro's row gain varies smoothly along the bit-line, so rows of one band
+  // differ by under ~2 %); the scan packs the active rows of a plane into reads instead of reading fixed groups of adjacent rows
+  localparam int N_BANDS = 4;  // [D] position bands of the row array
+  localparam int W_BAND = $clog2(N_BANDS);
+  localparam int W_RB = $clog2(N_INPUTS / N_BANDS);  // row index inside a band
+  localparam int S_ROWS = 5;  // [D] rows driven by one read (the sense chain resolves 0..S_ROWS matches); >= ROWS_PER_GROUP, and 0..S_ROWS fits the W_M-bit match count
+  localparam int N_PK = 3;  // [D] count bit-planes packed side by side in one pass over the dirty groups
+  localparam int N_BQ = 4;  // [D] entries of the request queue in front of every counter bank (an event merges into the last entry when it is the same counter; model: 2.80 events/cycle on DVS streams with 3 lanes)
+
   // ------------------------------------------------------------------ pipeline latencies [D]
   localparam int MACRO_LAT = 1;  // cim_macro registers its result
-  localparam int ACC_LAT = 1;  // shift_accum registers its accumulators
+  localparam int ACC_LAT = 1;  // the neurons register V
   localparam int DRAIN_CYCLES = MACRO_LAT + ACC_LAT;  // cycles after the last read before X is final
 
   // ------------------------------------------------------------------ address generator [S] eq.19

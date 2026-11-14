@@ -74,6 +74,7 @@ def synth(build: str, out: Path, g: int, lib_corner: str, period: float, dont_us
     constr.write_text("set_driving_cell BUFX2\nset_load 0.02\n")
     du = " ".join(f"-dont_use {c}" for c in dont_use)
     flat = "" if hier else "flatten -noscopeinfo"
+    post_flat = "rename -enumerate\n        flatten" if hier == "names" else ""      # hier == "names": every module is mapped on its own, then flattened, so each cell keeps its module path in its name (power attribution)
     script = textwrap.dedent(f"""\
         {S.read_cmds()}
         {S.params_cmd(f, e).replace(S.TOP, f"-set ROWS_PER_GROUP {g} {extra_params} " + S.TOP)}
@@ -90,6 +91,7 @@ def synth(build: str, out: Path, g: int, lib_corner: str, period: float, dont_us
         clockgate -liberty {lib} -min_net_size {gate_min}
         dfflibmap -liberty {lib}
         abc -liberty {lib} -g cmos -D {int(period * 1000)} -constr {constr} {du} {abc_extra}
+        {post_flat}
         opt_clean -purge
         setundef -zero -undriven
         tee -o {out}/stat.txt stat -liberty {lib}

@@ -37,11 +37,30 @@ if hh > 150:      # a tall class array (the unfactorised ablation) would otherwi
 W = cw + 2 * m
 cim_y = math.ceil((core_y0 + dig_h) / ROW) * ROW
 H = cim_y + ch + m
-lines = [f"set IO_W {min(cwid, 450.0):.1f}", f"set CORE_W {cwid + 0:.2f}", f"set DIE_W {W:.2f}", f"set DIE_H {H:.2f}", f"set MARGIN {m:.1f}", f"set CIM_X {m:.2f}", f"set CIM_Y {cim_y:.2f}", f"set HDC_X {m + 5 + sum(w + 10 for _, w, _ in extra):.2f}", f"set HDC_Y {core_y0 + 5:.2f}", f"set UTIL_TARGET {a.util}"]
+lines = [f"set IO_W {min(cwid, 450.0):.1f}", f"set CORE_W {cwid + 0:.2f}", f"set DIE_W {W:.2f}", f"set DIE_H {H:.2f}", f"set MARGIN {m:.1f}", f"set CIM_X {m:.2f}", f"set CIM_Y {cim_y:.2f}", f"set UTIL_TARGET {a.util}"]
+# bottom of the digital region: the counter-bank block, then the stretch of the bottom edge that holds the event (AER) pins (the ingest stage sits between its pins and its memories),
+# then ONE COLUMN with the other small macros and the class array stacked (a row of them does not fit under a narrow crossbar; a macro off the core leaves its pins unreachable)
 x = m + 5
+EV_W = 150.0
+col = []
 for n, w, h in extra:
-    lines.append(f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {core_y0 + 5:.2f}")
-    x += w + 10
+    if n == "count_sram":
+        lines.append(f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {core_y0 + 5:.2f}")
+        x += w + 10
+        lines.append(f"set EV_X0 {x:.2f}\nset EV_X1 {x + EV_W:.2f}")
+        x += EV_W + 10
+    else:
+        col.append((n, w, h))
+col.append(("HDC", hw, hh))
+colw = max(w for _, w, _ in col)
+if x + colw > m + cw:
+    x = m + cw - colw - 5
+y = core_y0 + 5
+for n, w, h in col:
+    lines.append(f"set HDC_X {x:.2f}\nset HDC_Y {y:.2f}" if n == "HDC" else f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {y:.2f}")
+    y += h + 10
+if y > cim_y:
+    raise SystemExit(f"fp: the macro column ({y:.0f} um) does not fit under the crossbar ({cim_y:.0f} um)")
 Path(a.out).mkdir(parents=True, exist_ok=True)
 Path(a.out, "fp.tcl").write_text("\n".join(lines) + "\n")
 print(f"die {W:.0f} x {H:.0f} um = {W * H * 1e-6:.4f} mm^2; digital region {cwid:.0f} x {dig_h:.0f} for {a.cells:,.0f} um^2 of cells + macros at util {a.util}")

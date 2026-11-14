@@ -62,15 +62,16 @@ def make_tb(work: Path, const_ports: dict) -> Path:
     return p
 
 
-def run(build: str, work: Path, net: Path, const_ports: dict, row: int, start: int, length: int, theta: int = 50, seed: int = 0, cols: int = 40, vcd_name: str = "activity.vcd", no_vcd: bool = False) -> dict:
+def run(build: str, work: Path, net: Path, const_ports: dict, row: int, start: int, length: int, theta: int = 50, seed: int = 0, cols: int = 40, vcd_name: str = "activity.vcd", no_vcd: bool = False, mdl: dict | None = None) -> dict:
     work.mkdir(parents=True, exist_ok=True)
     f, e = S.BUILDS[build]
-    mdl = H.load_model(P.MODEL[build], seed)
+    mdl = mdl if mdl is not None else H.load_model(P.MODEL[build], seed)
+    dataset = mdl.get("dataset", "dvsgesture")
     counts_row = mdl["counts"][row].astype(int)
-    real, _ = G.real_streams("dvsgesture")
+    real, _ = G.real_streams(dataset)
     words = next((w for r, w, _ in real if r == row), None)
     if words is None:
-        words = G.synth_events("dvsgesture", counts_row, np.random.default_rng(1), "shuffle")
+        words = G.synth_events(dataset, counts_row, np.random.default_rng(1), "shuffle")
     job = work / "job"
     H.write_job(job, mdl, bool(f), [(words, counts_row)], [mdl["thresh_int"][row]], [theta], [1], gap_mode=0)
     tb = make_tb(work, const_ports)

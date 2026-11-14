@@ -29,7 +29,7 @@ import synth_power as P  # noqa: E402
 import synth_ppa as S  # noqa: E402
 
 PDK = REPO / "45_nm_PDK" / "cadence" / "cadence_45nm"
-OPENROAD = os.environ.get("OPENROAD", "/private/tmp/claude-501/openroad_src/build/bin/openroad")
+OPENROAD = os.environ.get("OPENROAD", os.path.expanduser("~/.cache/cim_neurohdc/openroad_src/build/bin/openroad"))
 
 
 def prelude(run: Path, stage: str) -> str:

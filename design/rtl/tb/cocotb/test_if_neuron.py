@@ -1,11 +1,16 @@
 """Block H: if_neuron_array. Reference = int_model.snn_forward. X sequences are built by feeding snn_forward counts/weights where
 X_j(t) = 127*(counts[t, j] - counts[t, 20 + j]) so any signed sequence is expressible, and the golden trace supplies X, V and spikes."""
+import os
+
 import cocotb
 import numpy as np
 
 from common import G, reset, start_clock, ticks, to_signed, unpack_signed
 
 WX, WV, WT = 21, 26, 15
+COLS = int(os.environ.get("N_PARALLEL_COLS", "40"))
+PN = COLS // 8                      # neurons accumulated per pass (neuron-major columns)
+NP = -(-20 // PN)                   # passes = update cycles
 
 
 def make_case(deltas, thresh):
@@ -21,7 +26,7 @@ def make_case(deltas, thresh):
 
 
 async def init(dut):
-    for s in ("clr_i", "upd_i", "x_i", "thresh_i", "thresh_shared_i"):
+    for s in ("clr_i", "acc_i", "acc_pass_i", "d_i", "upd_i", "thresh_i", "thresh_shared_i"):
         getattr(dut, s).value = 0
     await start_clock(dut); await reset(dut)
 
@@ -31,19 +36,27 @@ def pack(vals, w):
 
 
 async def play(dut, X, thresh, shared=False):
+    """one timestep = accumulate X[t] pass by pass (lane l of pass p adds neuron p*PN+l), then the update held for NP cycles; V, the spikes and the simulation-only X are read after it"""
     dut.clr_i.value = 1
     await ticks(dut)
     dut.clr_i.value = 0
     dut.thresh_i.value = pack(thresh, WT)
     dut.thresh_shared_i.value = int(shared)
-    S, V = [], []
+    S, V, XD = [], [], []
     for t in range(X.shape[0]):
-        dut.x_i.value, dut.upd_i.value = pack(X[t], WX), 1
-        await ticks(dut)
+        for p in range(NP):
+            lanes = [int(X[t][p * PN + l]) if p * PN + l < 20 else 0 for l in range(PN)]
+            dut.acc_i.value, dut.acc_pass_i.value, dut.d_i.value = 1, p, pack(lanes, WV)
+            await ticks(dut)
+        dut.acc_i.value = 0
+        dut.upd_i.value = 1
+        await ticks(dut, NP)
         dut.upd_i.value = 0
         S.append([(int(dut.spike_o.value) >> j) & 1 for j in range(20)])
         V.append(unpack_signed(int(dut.v_o.value), 20, WV))
+        XD.append(unpack_signed(int(dut.x_o.value), 20, WX))
         await ticks(dut)
+    assert np.array_equal(np.array(XD), np.asarray(X, np.int64)), "the simulation-only X shadow differs from the accumulated X"
     return np.array(S, np.uint8), np.array(V, np.int64)
 
 

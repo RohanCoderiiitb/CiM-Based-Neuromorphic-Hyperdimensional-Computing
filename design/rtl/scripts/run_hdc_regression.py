@@ -32,6 +32,9 @@ RESULTS = ROOT / "results" / os.environ.get("CIM_RESULTS_SUBDIR", "hdc")
 REAL_ROWS: list[int] = []
 
 
+QUERY_BUSY = 6
+
+
 def git_commit() -> str:
     try:
         return subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, cwd=ROOT).stdout.strip()
@@ -91,8 +94,10 @@ def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8
     if e["pred_tstep"] != ref["t_exit"]:
         bad("pred_tstep", e["pred_tstep"], ref["t_exit"])
     ev_ref = int(np.sum(G.EV.bin_sizes(n_events, G.T)[:n_exp]))
-    if check_instr and e["events_ingested"] != ev_ref:
-        bad("events_ingested", e["events_ingested"], ev_ref)
+    # ping-pong ingest runs one timestep ahead of the scan: when the exit fires at timestep t the events of timestep t+1 may already have been taken in (never more)
+    ev_hi = int(np.sum(G.EV.bin_sizes(n_events, G.T)[:min(n_exp + 1, G.T)]))
+    if check_instr and not (ev_ref <= e["events_ingested"] <= ev_hi):
+        bad("events_ingested", e["events_ingested"], (ev_ref, ev_hi))
     # 1E's criterion 7 for the timesteps that ran: the SNN access counters equal an independent estimate from the count vectors alone
     est = G.independent_access_estimate(counts_row, g)[:n_exp]
     st = got["stats"]
@@ -103,14 +108,15 @@ def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8
         bad("reads_issued", 6)
     if e["assert_cycles"] or e["hdc_assert_cycles"]:
         bad("assertions", e["assert_cycles"], e["hdc_assert_cycles"])
-    if check_instr and e["cycles_query"] != 5 * n_exp:
-        bad("query_cycles", e["cycles_query"], 5 * n_exp)
+    if check_instr and e["cycles_query"] != QUERY_BUSY * n_exp:        # hdc_query busy per timestep: strobe + 5 cycles (two-stage top-2 tournament)
+        bad("query_cycles", e["cycles_query"], QUERY_BUSY * n_exp)
     return rec
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default="r1", choices=["base", "r1"])
+    ap.add_argument("--dataset", default="dvsgesture", choices=["dvsgesture", "nmnist"])
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--factorized", type=int, default=1)
     ap.add_argument("--early-exit", type=int, default=1, help="EARLY_EXIT_EN: 1 builds the comparator + exit FSM, 0 does not (Phase 3)")
@@ -131,11 +137,11 @@ def main() -> int:
 
     t_all = time.time()
     tag = args.tag or f"{args.model}{args.seed}_f{args.factorized}_e{args.early_exit}_t{args.theta}_{args.sim}"
-    mdl = H.load_model(args.model, args.seed)
+    mdl = H.load_model(args.model, args.seed, args.dataset)
     if args.factorized and mdl["a_bits"] is None:
         sys.exit("the factorized build needs the factorized (r1) model")
     rng = np.random.default_rng([args.sim_seed, args.seed, args.g])
-    real, _ = G.real_streams("dvsgesture")
+    real, _ = G.real_streams(args.dataset)
     real_by_row = {r: w for r, w, _ in real}
     REAL_ROWS[:] = list(real_by_row)
     rows = pick_rows(args.rows, len(mdl["labels"]), mdl["labels"], rng)
@@ -145,8 +151,8 @@ def main() -> int:
         if r in real_by_row and args.order == "auto":
             words = real_by_row[r]
         else:
-            words = G.synth_events("dvsgesture", counts_row, rng, "sorted" if args.order == "sorted" else "shuffle")
-        assert G.check_stream_reproduces_counts("dvsgesture", words, counts_row), f"stimulus for row {r} does not reproduce the golden counts"
+            words = G.synth_events(args.dataset, counts_row, rng, "sorted" if args.order == "sorted" else "shuffle")
+        assert G.check_stream_reproduces_counts(args.dataset, words, counts_row), f"stimulus for row {r} does not reproduce the golden counts"
         samples.append((words, counts_row))
         thr.append(mdl["thresh_int"][r])
     exe = SIM.build(args.sim, args.factorized, args.early_exit, args.g, args.cols)
@@ -197,7 +203,8 @@ def main() -> int:
         rec = dict(row=int(rrow), label=int(mdl["labels"][rrow]), ok=bool(cmp_["ok"]), first_mismatch=cmp_["first"], pred=e["pred"], correct=bool(e["pred"] == mdl["labels"][rrow]),
                    early=e["early"], exit_tstep=e["pred_tstep"], n_timesteps=n, n_events=len(samples[i][0]), events_ingested=e["events_ingested"], cycles_inf=e["cycles_inf"],
                    cycles_query=e["cycles_query"], stall_cycles=e["stall_cycles"], idle_cycles=e["idle_cycles"], reload_cycles=e["reload_cycles"],
-                   mvm_and_other_cycles=e["cycles_inf"] - e["events_ingested"] - e["cycles_query"] - e["idle_cycles"],
+                   cycles_ingest=int(gi["stats"][:, 10].sum()),      # cycles spent in the INGEST state (up to two events per cycle)
+                   mvm_and_other_cycles=e["cycles_inf"] - int(gi["stats"][:, 10].sum()) - e["cycles_query"] - e["idle_cycles"],
                    group_reads_allcols=int(gi["stats"][:, 4].sum()), group_reads_issued=int(gi["stats"][:, 6].sum()), zero_groups=int(gi["stats"][:, 7].sum()), rows_gated_total=int(gi["rows_gated"].sum()),
                    raster_hash=hashlib.sha256(np.packbits(gi["S"].astype(np.uint8)).tobytes()).hexdigest()[:16])
         mism += (not rec["ok"])

@@ -1,0 +1,22 @@
+{
+ "ok": true,
+ "runs": [
+  "mvm_x_g4_c160.json",
+  "mvm_x_g4_c40.json",
+  "mvm_x_g4_c80.json"
+ ],
+ "reference": "mvm_x_g4_c160.json",
+ "vectors": 9,
+ "x_differences": [],
+ "reads_allcols_real_row0": {
+  "mvm_x_g4_c160.json": {
+   "real row 0 t 0": 125
+  },
+  "mvm_x_g4_c40.json": {
+   "real row 0 t 0": 125
+  },
+  "mvm_x_g4_c80.json": {
+   "real row 0 t 0": 125
+  }
+ }
+}

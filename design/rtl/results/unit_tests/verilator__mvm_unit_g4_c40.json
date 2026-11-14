@@ -1,0 +1,15 @@
+{
+ "sim": "verilator",
+ "case": "mvm_unit_g4_c40",
+ "toplevel": "mvm_unit",
+ "module": "test_mvm_unit",
+ "parameters": {
+  "ROWS_PER_GROUP": 4,
+  "N_PARALLEL_COLS": 40
+ },
+ "tests": 2,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 1.2
+}

@@ -34,6 +34,15 @@ import cim_neurohdc_pkg::W_CFG_ADDR;
 import cim_neurohdc_pkg::W_CFG_DATA;
 import cim_neurohdc_pkg::W_COORD;
 import cim_neurohdc_pkg::W_COORD_MUL;
+import cim_neurohdc_pkg::N_DIRTY_GS;
+import cim_neurohdc_pkg::N_LANES;
+import cim_neurohdc_pkg::N_XL;
+import cim_neurohdc_pkg::ST_RUN;
+import cim_neurohdc_pkg::S_ROWS;
+import cim_neurohdc_pkg::W_BAND;
+import cim_neurohdc_pkg::W_RB;
+import cim_neurohdc_pkg::W_BANK_ADDR;
+import cim_neurohdc_pkg::W_LANES;
 import cim_neurohdc_pkg::W_GRP;
 import cim_neurohdc_pkg::W_MACRO_IDX;
 import cim_neurohdc_pkg::N_WCOLS;
@@ -75,6 +84,10 @@ module snn_top #(
     input  logic                     ev_valid_i,
     input  logic [        W_AER-1:0] ev_aer_i,
     output logic                     ev_ready_o,
+    // extra lanes: the next events of the stream, consumed in the same cycle as lane 0 (a prefix: lane k only if lanes below it are) or not at all
+    input  logic [          N_XL-1:0] evx_valid_i,
+    input  logic [   N_XL*W_AER-1:0] evx_aer_i,
+    output logic [          N_XL-1:0] evx_ready_o,
     // result
     output logic [    N_NEURONS-1:0] spike_o,
     output logic                     spike_valid_o,
@@ -104,6 +117,24 @@ module snn_top #(
     output logic [       W_STAT-1:0] cyc_total_o,
     output logic [              7:0] assert_fail_o        // one sticky bit per block that carries assertions + top
 );
+  // ------------------------------------------------------------------ clock domains (module-level gating: the always-on trunk only feeds the ingest logic and the controller)
+  logic clk_scan, clk_cfg, scan_clk_en, cfg_clk_en;
+  if (CLOCK_GATING) begin : g_cg
+    clk_gate u_cg_scan (
+        .clk_i (clk_i),
+        .en_i  (scan_clk_en),
+        .gclk_o(clk_scan)
+    );
+    clk_gate u_cg_cfg (
+        .clk_i (clk_i),
+        .en_i  (cfg_clk_en),
+        .gclk_o(clk_cfg)
+    );
+  end else begin : g_no_cg
+    assign clk_scan = clk_i;
+    assign clk_cfg  = clk_i;
+  end
+
   // ------------------------------------------------------------------ configuration registers
   logic signed [W_THRESH-1:0] thresh_q[N_NEURONS];
   logic [W_COORD_MUL-1:0] coord_mul_q;
@@ -117,7 +148,7 @@ module snn_top #(
   assign thr_idx  = cfg_addr_i - W_CFG_ADDR'(CFG_THRESH_BASE);
   assign cfg_n_we = cfg_we_i && (cfg_addr_i == W_CFG_ADDR'(CFG_N_EVENTS));
 
-  always_ff @(posedge clk_i) begin
+  always_ff @(posedge clk_cfg) begin
     if (!rst_n_i) begin
       for (int j = 0; j < N_NEURONS; j++) thresh_q[j] <= '0;
       coord_mul_q     <= GEOM_NMNIST ? W_COORD_MUL'(COORD_MUL_NMNIST) : W_COORD_MUL'(COORD_MUL_DVS);
@@ -135,34 +166,43 @@ module snn_top #(
   end
 
   // ------------------------------------------------------------------ [A] address generator
-  logic [W_AER-1:0] ev_xmask;
-  logic [W_BIT_IDX-1:0] ev_p_pos;
-  logic [W_COORD-1:0] ev_x, ev_y;
-  logic ev_p;
+  logic geom_dvs;  // the configured AER field width selects the geometry (128x128 or 34x34)
   logic [W_ADDR-1:0] ev_addr;
-
-  assign ev_xmask = (W_AER'(1) << aer_shift_q) - W_AER'(1);
-  assign ev_x     = W_COORD'(ev_aer_i & ev_xmask);
-  assign ev_y     = W_COORD'((ev_aer_i >> aer_shift_q) & ev_xmask);
-  assign ev_p_pos = aer_shift_q << 1;
-  assign ev_p     = ev_aer_i[ev_p_pos];
+  assign geom_dvs = (aer_shift_q == W_BIT_IDX'(AER_SHIFT_DVS));
 
   addr_gen u_addr_gen (
-      .x_i        (ev_x),
-      .y_i        (ev_y),
-      .p_i        (ev_p),
-      .coord_mul_i(coord_mul_q),
-      .addr_o     (ev_addr)
+      .aer_i     (ev_aer_i),
+      .geom_dvs_i(geom_dvs),
+      .addr_o    (ev_addr)
   );
 
+  // extra lanes: one address generator each
+  logic [N_LANES*W_ADDR-1:0] lane_addr;
+  assign lane_addr[0+:W_ADDR] = ev_addr;
+  for (genvar k = 0; k < N_XL; k++) begin : g_xl
+    addr_gen u_addr_gen (
+        .aer_i     (evx_aer_i[k*W_AER+:W_AER]),
+        .geom_dvs_i(geom_dvs),
+        .addr_o    (lane_addr[(k+1)*W_ADDR+:W_ADDR])
+    );
+  end
+
   // ------------------------------------------------------------------ control
-  logic ev_accept, boundary, sample_clr, wl_start, wl_done;
+  logic ev_accept, sample_clr, wl_start, wl_done;
+  logic [N_LANES-1:0] acc_vec, bnd_pre;
+  logic cm_in_ready, dirty_clr, dirty_clr_set;
+  assign cm_in_ready = 1'b1;  // count_mem takes N_LANES events every cycle (lane-private counters)
+  logic [2*(N_INPUTS/ROWS_PER_GROUP/N_DIRTY_GS)-1:0] dirty;
+  logic [W_LANES-1:0] n_acc;
+  logic bnd_acc;
   logic [W_NEVENTS-1:0] ev_n, ev_total;
   logic [W_TSTEP-1:0] ev_tstep;
   logic sample_done;
   logic ctrl_done, spikes_done, seq_busy_unused, wl_busy_unused;
   localparam int W_M = $clog2(ROWS_PER_GROUP + 1);  // bits of one match count: 0..g
   logic cm_busy, cm_fwd, cm_wipe;
+  logic ing_sel, scan_set;
+  logic ctr_ready;
   logic cm_ready;                       // declared before the controller instance that reads it (Icarus does not accept use before declaration)
   logic [W_STAT-1:0] sq_active;
   logic [W_NEVENTS-1:0] cm_chk_expected;
@@ -171,7 +211,8 @@ module snn_top #(
   logic [W_STAT-1:0] sq_skipped, sq_rows, sq_allcols, sq_plane, sq_issued, zero_groups;
 
   snn_ctrl #(
-      .INSTRUMENT_EN(INSTRUMENT_EN)
+      .INSTRUMENT_EN(INSTRUMENT_EN),
+      .N_PARALLEL_COLS(N_PARALLEL_COLS)
   ) u_ctrl (
       .clk_i              (clk_i),
       .rst_n_i            (rst_n_i),
@@ -182,7 +223,8 @@ module snn_top #(
       .ev_valid_i         (ev_valid_i),
       .ev_ready_o         (ev_ready_o),
       .ev_accept_o        (ev_accept),
-      .boundary_i         (boundary),
+      .n_acc_i            (n_acc),
+      .bnd_acc_i          (bnd_acc),
       .ev_n_i             (ev_n),
       .ev_tstep_i         (ev_tstep),
       .ev_total_i         (ev_total),
@@ -192,9 +234,12 @@ module snn_top #(
       .sample_clr_o       (sample_clr),
       .cm_busy_i          (cm_busy),
       .cm_fwd_i           (cm_fwd),
+      .scan_clk_en_o      (scan_clk_en),
+      .cfg_clk_en_o       (cfg_clk_en),
       .cm_wipe_o          (cm_wipe),
+      .ing_sel_o          (ing_sel),
       .cm_chk_expected_o  (cm_chk_expected),
-      .cm_ready_i         (cm_ready),
+      .cm_ready_i         (cm_ready && cm_in_ready && ctr_ready),
       .seq_active_i       (sq_active),
       .seq_start_o        (seq_start),
       .seq_done_i         (seq_done),
@@ -227,6 +272,15 @@ module snn_top #(
       .assert_fail_o      (assert_fail_o[0])
   );
 
+  // lane k > 0 is consumed together with the lanes below it, never behind a timestep boundary, and only if the count memory has room for it
+  always_comb begin
+    acc_vec[0] = ev_accept;
+    for (int k = 1; k < N_LANES; k++) acc_vec[k] = acc_vec[k-1] && evx_valid_i[k-1] && !bnd_pre[k-1];
+    n_acc = '0;
+    for (int k = 0; k < N_LANES; k++) n_acc = n_acc + W_LANES'(acc_vec[k]);
+  end
+  assign evx_ready_o = acc_vec[N_LANES-1:1];
+
   // ------------------------------------------------------------------ [C] event counter
   event_ctr u_event_ctr (
       .clk_i        (clk_i),
@@ -234,8 +288,10 @@ module snn_top #(
       .clr_i        (sample_clr),
       .cfg_n_we_i   (cfg_n_we),
       .cfg_n_i      (cfg_data_i),
-      .ev_valid_i   (ev_accept),
-      .boundary_o   (boundary),
+      .n_acc_i      (n_acc),
+      .bnd_pre_o    (bnd_pre),
+      .bnd_acc_o    (bnd_acc),
+      .ready_o      (ctr_ready),
       .tstep_o      (ev_tstep),
       .n_o          (ev_n),
       .ev_total_o   (ev_total),
@@ -244,32 +300,39 @@ module snn_top #(
   );
 
   // ------------------------------------------------------------------ [B] counters (SRAM macro), [D] scan sequencer
-  logic [W_COUNT-1:0] scan_q;
+  logic [ROWS_PER_GROUP*W_COUNT-1:0] scan_q;
   logic scan_qv, scan_re;
-  logic [W_ADDR-1:0] scan_addr;
+  logic [W_GRP-1:0] scan_grp;
 
   count_mem u_count_mem (
       .clk_i         (clk_i),
       .rst_n_i       (rst_n_i),
-      .ev_valid_i    (ev_accept),
-      .ev_addr_i     (ev_addr),
+      .ev_valid_i    (acc_vec),
+      .ev_addr_i     (lane_addr),
       .wipe_i        (cm_wipe),
       .flush_i       (abort_i),
+      .ing_sel_i     (ing_sel),
+      .scan_set_i    (scan_set),
       .scan_re_i     (scan_re),
-      .scan_addr_i   (scan_addr),
+      .scan_clr_i    (scan_clr),
+      .scan_grp_i    (scan_grp[W_BANK_ADDR-1:0]),
       .q_o           (scan_q),
       .scan_qv_o     (scan_qv),
       .busy_o        (cm_busy),
       .ready_o       (cm_ready),
+      .dirty_o       (dirty),
+      .dirty_clr_i   (dirty_clr),
+      .dirty_clr_set_i(dirty_clr_set),
       .fwd_o         (cm_fwd),
       .chk_i         (seq_done),
       .chk_expected_i(cm_chk_expected),
       .assert_fail_o (assert_fail_o[2])
   );
 
-  logic rd_valid;
-  logic [ROWS_PER_GROUP-1:0] rd_bits;
-  logic [W_GRP-1:0] group_idx;
+  logic rd_valid, scan_clr;
+  logic [S_ROWS-1:0] rd_rv;
+  logic [S_ROWS*W_RB-1:0] rd_rows;
+  logic [W_BAND-1:0] rd_band;
   logic [$clog2(N_WCOLS / N_PARALLEL_COLS > 1 ? N_WCOLS / N_PARALLEL_COLS : 2)-1:0] rd_pass;
   logic [W_BIT_IDX-1:0] row_sel;
 
@@ -278,17 +341,24 @@ module snn_top #(
       .N_PARALLEL_COLS(N_PARALLEL_COLS),
       .INSTRUMENT_EN  (INSTRUMENT_EN)
   ) u_plane_seq (
-      .clk_i          (clk_i),
+      .clk_i          (clk_scan),
       .rst_n_i        (rst_n_i),
       .start_i        (seq_start),
       .abort_i        (abort_i),
+      .ing_sel_i      (ing_sel),
+      .scan_set_o     (scan_set),
+      .dirty_i        (dirty),
+      .dirty_clr_o    (dirty_clr),
+      .dirty_clr_set_o(dirty_clr_set),
       .scan_re_o      (scan_re),
-      .scan_addr_o    (scan_addr),
+      .scan_clr_o     (scan_clr),
+      .scan_grp_o     (scan_grp),
       .scan_q_i       (scan_q),
       .scan_qv_i      (scan_qv),
       .rd_valid_o     (rd_valid),
-      .rd_bits_o      (rd_bits),
-      .group_idx_o    (group_idx),
+      .rd_rv_o        (rd_rv),
+      .rd_rows_o      (rd_rows),
+      .rd_band_o      (rd_band),
       .row_sel_o      (row_sel),
       .pass_o         (rd_pass),
       .done_o         (seq_done),
@@ -303,7 +373,7 @@ module snn_top #(
       .assert_fail_o  (assert_fail_o[3])
   );
   assign rd_valid_o   = rd_valid;
-  assign group_idx_o  = group_idx;
+  assign group_idx_o  = W_GRP'(rd_band);
   assign bitrow_idx_o = row_sel;
 
   // ------------------------------------------------------------------ [F] weight load + [E] behavioural crossbar
@@ -312,10 +382,13 @@ module snn_top #(
   logic [W_ADDR-1:0] wr_addr;
   logic [W_WL_WORD-1:0] wr_data;
   logic m_valid;
+  logic acc_valid;
+  logic [(N_PARALLEL_COLS/W_WEIGHT)*W_V-1:0] acc_d;
+  logic [$clog2(N_WCOLS / N_PARALLEL_COLS > 1 ? N_WCOLS / N_PARALLEL_COLS : 2)-1:0] acc_pass;
   logic [N_PARALLEL_COLS*W_M-1:0] m_data;
 
   weight_load u_weight_load (
-      .clk_i        (clk_i),
+      .clk_i        (clk_cfg),
       .rst_n_i      (rst_n_i),
       .start_i      (wl_start),
       .wl_valid_i   (wl_valid_i),
@@ -334,15 +407,16 @@ module snn_top #(
       .ROWS_PER_GROUP (ROWS_PER_GROUP),
       .N_PARALLEL_COLS(N_PARALLEL_COLS)
   ) u_cim_macro (
-      .clk_i          (clk_i),
+      .clk_i          (clk_scan),
       .rst_n_i        (rst_n_i),
       .wr_en_i        (wr_en),
       .wr_macro_i     (wr_macro),
       .wr_addr_i      (wr_addr),
       .wr_data_i      (wr_data),
       .rd_valid_i     (rd_valid),
-      .rd_bits_i      (rd_bits),
-      .rd_grp_i       (group_idx[$clog2(N_INPUTS / ROWS_PER_GROUP)-1:0]),
+      .rd_rv_i        (rd_rv),
+      .rd_rows_i      (rd_rows),
+      .rd_band_i      (rd_band),
       .rd_pass_i      (rd_pass),
       .m_valid_o      (m_valid),
       .m_o            (m_data)
@@ -353,16 +427,17 @@ module snn_top #(
       .ROWS_PER_GROUP (ROWS_PER_GROUP),
       .N_PARALLEL_COLS(N_PARALLEL_COLS)
   ) u_shift_accum (
-      .clk_i        (clk_i),
+      .clk_i        (clk_scan),
       .rst_n_i      (rst_n_i),
-      .clr_i        (acc_clr || abort_i),
       .iss_valid_i  (rd_valid),
       .iss_b_i      (row_sel),
       .iss_pass_i   (rd_pass),
-      .iss_bits_i   (rd_bits),
+      .iss_bits_i   (rd_rv),
       .m_valid_i    (m_valid),
       .m_i          (m_data),
-      .x_o          (x_o),
+      .d_valid_o    (acc_valid),
+      .d_pass_o     (acc_pass),
+      .d_o          (acc_d),
       .assert_fail_o(assert_fail_o[5])
   );
 
@@ -370,22 +445,27 @@ module snn_top #(
   logic [N_NEURONS-1:0] neuron_spike;
   logic upd_done;
 
-  if_neuron_array u_neurons (
-      .clk_i          (clk_i),
+  if_neuron_array #(
+      .N_PARALLEL_COLS(N_PARALLEL_COLS)
+  ) u_neurons (
+      .clk_i          (clk_scan),
       .rst_n_i        (rst_n_i),
       .clr_i          (sample_clr),
+      .acc_i          (acc_valid),
+      .acc_pass_i     (acc_pass),
+      .d_i            (acc_d),
       .upd_i          (neuron_upd),
-      .x_i            (x_o),
       .thresh_i       (thresh_flat),
       .thresh_shared_i(thresh_shared_q),
       .spike_o        (neuron_spike),
       .upd_done_o     (upd_done),
       .v_o            (v_o),
+      .x_o            (x_o),
       .assert_fail_o  (assert_fail_o[6])
   );
 
   spike_reg u_spike_reg (
-      .clk_i        (clk_i),
+      .clk_i        (clk_scan),
       .rst_n_i      (rst_n_i),
       .clr_i        (sample_clr),
       .load_i       (spike_load),
@@ -402,6 +482,12 @@ module snn_top #(
   assign done_o = ctrl_done && spikes_done;
 
   logic unused_ok;
-  assign unused_ok = &{1'b0, upd_done, top_cfg_fail_q, seq_busy_unused, wl_busy_unused, PLANE_SKIP_EN, CLOCK_GATING, OPERAND_ISOLATION};
+  assign unused_ok = &{1'b0, coord_mul_q, upd_done, top_cfg_fail_q, seq_busy_unused, wl_busy_unused, PLANE_SKIP_EN, OPERAND_ISOLATION};
+`ifndef SYNTHESIS
+  always_ff @(posedge clk_i) begin
+    if (rst_n_i && state_o == ST_RUN && !((aer_shift_q == W_BIT_IDX'(AER_SHIFT_DVS) && coord_mul_q == W_COORD_MUL'(COORD_MUL_DVS)) || (aer_shift_q == W_BIT_IDX'(AER_SHIFT_NMNIST) && coord_mul_q == W_COORD_MUL'(COORD_MUL_NMNIST))))
+      $display("[ASSERT FAIL] %m: geometry (field width %0d, multiplier %0d) is not one of the two supported ones (7 / 128, 6 / 482)", aer_shift_q, coord_mul_q);
+  end
+`endif
   assign top_cfg_fail_q = 1'b0;
 endmodule

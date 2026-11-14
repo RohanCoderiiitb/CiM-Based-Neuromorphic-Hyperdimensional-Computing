@@ -1,4 +1,6 @@
-// shift_accum.sv - block G. Turns crossbar match counts into the MVM output X (optimisation item 4).
+// shift_accum.sv - block G. Turns crossbar match counts into the contribution of ONE read to the MVM output X (optimisation item 4). The X registers are gone: the neurons (if_neuron_array) add
+// each contribution straight into their membrane potential (V + X is formed by accumulation, the same integer), so this block holds only the issue-tag pipeline and the adder trees.
+// (Earlier text:)
 //   Every read returns, for each neuron j and weight bit-plane k, the match count m[j][k] (0..g) of ONE count bit-plane b over ONE group of rows. Its contribution to X[j] is
 //        sum_k sigma(k) * 2^k * m[j][k]  * 2^b          sigma(k) = +1 for k = 0..6 and -1 for k = 7 (the int8 SIGN plane: its contribution is NEGATIVE; tests check -128, -1, 0, +1, +127)
 //   evaluated as a tree: the 8 columns of a neuron are combined first (constant shifts only, an 8-operand adder of W_M-bit values), the result is shifted ONCE by b, and added to X[j].
@@ -10,9 +12,10 @@ import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
 import cim_neurohdc_pkg::N_WCOLS;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
 import cim_neurohdc_pkg::SIGN_PLANE;
+import cim_neurohdc_pkg::S_ROWS;
 import cim_neurohdc_pkg::W_BIT_IDX;
 import cim_neurohdc_pkg::W_WEIGHT;
-import cim_neurohdc_pkg::W_X;
+import cim_neurohdc_pkg::W_V;
 
 module shift_accum #(
     parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT,
@@ -22,26 +25,27 @@ module shift_accum #(
 ) (
     input  logic                         clk_i,
     input  logic                         rst_n_i,
-    input  logic                         clr_i,          // zero X (start of an MVM)
     // issue side
     input  logic                         iss_valid_i,
     input  logic [      W_BIT_IDX-1:0]   iss_b_i,
     input  logic [   W_PASS-1:0]         iss_pass_i,
-    input  logic [ROWS_PER_GROUP-1:0]    iss_bits_i,     // the rows driven (assertions only)
+    input  logic [S_ROWS-1:0]            iss_bits_i,     // the row slots driven (assertions only)
     // result side (cim_macro)
     input  logic                         m_valid_i,
     input  logic [N_PARALLEL_COLS*W_M-1:0] m_i,
     // outputs
-    output logic [  N_NEURONS*W_X-1:0]   x_o,            // signed X[j], flattened
+    output logic                         d_valid_o,      // d_o holds the contribution of a read
+    output logic [   W_PASS-1:0]         d_pass_o,       // pass of that read: lane l works on neuron pass*PN + l
+    output logic [(N_PARALLEL_COLS/W_WEIGHT)*W_V-1:0] d_o, // signed contribution to X[pass*PN + l] (weighted over the weight bit-planes, shifted by the count bit-plane), flattened
     output logic                         assert_fail_o
 );
-  localparam int PL = N_PARALLEL_COLS / N_NEURONS;  // weight bit-planes per pass
-  localparam int W_INNER = W_M + PL;  // sum_k +-2^k m lies in [-128 g, 127 g]: signed width 8 + log2(g) = W_M + 7 for g a power of two
+  localparam int PN = N_PARALLEL_COLS / W_WEIGHT;  // neurons per pass: one lane each (neuron-major columns: a pass senses all 8 weight bit-planes of PN neurons)
+  localparam int W_INNER = W_M + W_WEIGHT;  // sum_k +-2^k m lies in [-128 g, 127 g]
 
   logic                 t_valid_q;
   logic [W_BIT_IDX-1:0] t_b_q;
   logic [W_PASS-1:0] t_pass_q;
-  logic [ROWS_PER_GROUP-1:0] t_bits_q;
+  logic [S_ROWS-1:0] t_bits_q;
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) begin
@@ -63,56 +67,46 @@ module shift_accum #(
   // Plane 7, the int8 sign plane, is the top plane of the LAST pass and counts negatively.
   // (A variant that summed the passes of a read into a 11-bit Y and committed X += Y << b once per read, with operand isolation, was built and measured: it added 220 flip-flops and
   // did not lower the layout power of the scan phase - the switching is in the number of neuron datapaths, not in how often the wide adder fires. Reverted.)
-  logic signed [W_X-1:0] x_q[N_NEURONS];
-  logic signed [W_INNER-1:0] inner[N_NEURONS];
-  logic signed [W_X-1:0] x_next[N_NEURONS];
-  logic is_last_pass;
-  assign is_last_pass = (int'(t_pass_q) == N_WCOLS / N_PARALLEL_COLS - 1);
+  logic signed [W_INNER-1:0] inner[PN];
+  logic signed [W_V-1:0] d[PN];
   always_comb begin
-    for (int j = 0; j < N_NEURONS; j++) begin
-      inner[j] = '0;
-      for (int q = 0; q < PL; q++) begin
-        if (q == PL - 1 && is_last_pass) inner[j] = inner[j] - (W_INNER'(m_i[(j*PL+q)*W_M+:W_M]) << q);
-        else inner[j] = inner[j] + (W_INNER'(m_i[(j*PL+q)*W_M+:W_M]) << q);
+    for (int l = 0; l < PN; l++) begin
+      inner[l] = '0;
+      for (int q = 0; q < W_WEIGHT; q++) begin
+        if (q == W_WEIGHT - 1) inner[l] = inner[l] - (W_INNER'(m_i[(l*W_WEIGHT+q)*W_M+:W_M]) << q);  // plane 7, the int8 sign plane, counts negatively
+        else inner[l] = inner[l] + (W_INNER'(m_i[(l*W_WEIGHT+q)*W_M+:W_M]) << q);
       end
-      x_next[j] = x_q[j] + (W_X'(inner[j]) << (int'(t_b_q) + int'(t_pass_q) * PL));  // W_X'() of a signed value sign-extends
+      d[l] = W_V'(inner[l]) <<< int'(t_b_q);  // W_V'() of a signed value sign-extends
     end
   end
-
-  always_ff @(posedge clk_i) begin
-    if (!rst_n_i || clr_i) begin
-      for (int j = 0; j < N_NEURONS; j++) x_q[j] <= '0;
-    end else if (m_valid_i) begin
-      for (int j = 0; j < N_NEURONS; j++) x_q[j] <= x_next[j];
-    end
-  end
-
-  for (genvar j = 0; j < N_NEURONS; j++) begin : g_x
-    assign x_o[j*W_X+:W_X] = x_q[j];
+  assign d_valid_o = m_valid_i;
+  assign d_pass_o  = t_pass_q;
+  for (genvar l = 0; l < PN; l++) begin : g_d
+    assign d_o[l*W_V+:W_V] = d[l];
   end
 
   // ---------------------------------------------------------------- assertions (simulation only; never disabled)
   logic fail_q;
   assign assert_fail_o = fail_q;
 `ifndef SYNTHESIS
-  function automatic int popc(input logic [ROWS_PER_GROUP-1:0] v);
+  function automatic int popc(input logic [S_ROWS-1:0] v);
     int n;
     n = 0;
-    for (int i = 0; i < ROWS_PER_GROUP; i++) n += int'(v[i]);
+    for (int i = 0; i < S_ROWS; i++) n += int'(v[i]);
     return n;
   endfunction
   always_ff @(posedge clk_i) begin
-    if (!rst_n_i || clr_i) fail_q <= fail_q && rst_n_i;
+    if (!rst_n_i) fail_q <= 1'b0;
     else begin
       if (m_valid_i != t_valid_q) begin
         $display("[ASSERT FAIL] %m: result valid %0b does not line up with the issue tag %0b", m_valid_i, t_valid_q);
         fail_q <= 1'b1;
       end
       if (m_valid_i) begin
-        for (int j = 0; j < N_NEURONS; j++)
-        for (int k = 0; k < PL; k++)
-          if (int'(m_i[(j*PL+k)*W_M+:W_M]) > popc(t_bits_q)) begin
-            $display("[ASSERT FAIL] %m: match count m[%0d][%0d]=%0d outside 0..a=%0d", j, k, m_i[(j*PL+k)*W_M+:W_M], popc(t_bits_q));
+        for (int l = 0; l < PN; l++)
+        for (int k = 0; k < W_WEIGHT; k++)
+          if (int'(m_i[(l*W_WEIGHT+k)*W_M+:W_M]) > popc(t_bits_q)) begin
+            $display("[ASSERT FAIL] %m: match count m[%0d][%0d]=%0d outside 0..a=%0d", l, k, m_i[(l*W_WEIGHT+k)*W_M+:W_M], popc(t_bits_q));
             fail_q <= 1'b1;
           end
       end

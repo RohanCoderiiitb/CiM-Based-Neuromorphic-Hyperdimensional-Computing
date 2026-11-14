@@ -1,4 +1,6 @@
-// snn_ctrl.sv - block I (control). Top-level FSM  IDLE -> LOAD -> RUN -> DONE, and inside RUN the per-timestep loop:
+// snn_ctrl.sv - block I (control). Top-level FSM  IDLE -> LOAD -> RUN -> DONE. Inside RUN two FSMs run CONCURRENTLY (ping-pong count memory): the INGEST side takes the events of timestep t+1 into
+// one set of counters while the SCAN side (crossbar reads, neuron update, spike strobe) works through timestep t from the other set. A timestep is handed over (HAND) when its last event has
+// drained out of the count memory AND the scan side is idle; the ingest side then flips to the other counter set and goes on at once. The per-timestep sequence is unchanged:
 //
 //   INGEST  accept events until the event counter flags the last event of the timestep
 //   DRAIN   let the count_mem read-modify-write pipeline empty
@@ -26,18 +28,22 @@
 
 import cim_neurohdc_pkg::DRAIN_CYCLES;
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
+import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
 import cim_neurohdc_pkg::N_TIMESTEPS;
+import cim_neurohdc_pkg::N_WCOLS;
 import cim_neurohdc_pkg::ST_DONE;
 import cim_neurohdc_pkg::ST_IDLE;
 import cim_neurohdc_pkg::ST_LOAD;
 import cim_neurohdc_pkg::ST_RUN;
+import cim_neurohdc_pkg::W_LANES;
 import cim_neurohdc_pkg::W_NEVENTS;
 import cim_neurohdc_pkg::W_STAT;
 import cim_neurohdc_pkg::W_TOP_STATE;
 import cim_neurohdc_pkg::W_TSTEP;
 
 module snn_ctrl #(
-    parameter bit INSTRUMENT_EN = INSTRUMENT_EN_DEFAULT
+    parameter bit INSTRUMENT_EN = INSTRUMENT_EN_DEFAULT,
+    parameter int N_PARALLEL_COLS = N_PARALLEL_COLS_DEFAULT
 ) (
     input  logic                 clk_i,
     input  logic                 rst_n_i,
@@ -50,8 +56,9 @@ module snn_ctrl #(
     input  logic                 ev_valid_i,
     output logic                 ev_ready_o,
     output logic                 ev_accept_o,
+    input  logic [W_LANES-1:0]   n_acc_i,        // lanes accepted this cycle (lane 0 is ev_accept_o; the others are decided in snn_top, a prefix, never behind a boundary)
     // event_ctr
-    input  logic                 boundary_i,
+    input  logic                 bnd_acc_i,      // the last accepted lane ends its timestep
     input  logic [W_NEVENTS-1:0] ev_n_i,
     input  logic [  W_TSTEP-1:0] ev_tstep_i,
     input  logic [W_NEVENTS-1:0] ev_total_i,
@@ -65,6 +72,10 @@ module snn_ctrl #(
     input  logic                 cm_busy_i,
     input  logic                 cm_fwd_i,
     output logic                 cm_wipe_o,
+    output logic                 scan_clk_en_o,  // clock enable of the SCAN domain (sequencer, crossbar interface, accumulate, neurons, spike register): a scan, an update or a strobe is in
+                                                 // progress (plus one cycle), or the chip is not in RUN. An extra enabled cycle is always safe; every register keeps its own enable.
+    output logic                 cfg_clk_en_o,   // clock enable of the CONFIGURATION domain (thresholds, geometry, weight loader): everything except RUN
+    output logic                 ing_sel_o,      // the counter set the ingest side writes (flips at every hand-over)
     output logic [W_NEVENTS-1:0] cm_chk_expected_o,
     input  logic                 cm_ready_i,    // the count memory is not sweeping (after reset / abort)
     input  logic [   W_STAT-1:0] seq_active_i,   // counters != 0 this timestep (scan)
@@ -104,30 +115,40 @@ module snn_ctrl #(
 );
   localparam int POST_DONE_WAIT = DRAIN_CYCLES - 2;  // cycles between plane_seq's done pulse and X being final (0 for the 1+1 pipeline)
   localparam logic [W_STAT-1:0] ONE = W_STAT'(1);
+  localparam int N_UPD = (N_WCOLS / N_PARALLEL_COLS > 1) ? N_WCOLS / N_PARALLEL_COLS : 1;  // update cycles = passes (PN neurons per cycle)
 
-  typedef enum logic [3:0] {
-    R_INGEST,
-    R_DRAIN,
-    R_CHECK,
-    R_MVM,
-    R_MVM_WAIT,
-    R_UPDATE,
-    R_EMIT,
-    R_WIPE
-  } run_state_e;
+  typedef enum logic [1:0] {
+    I_INGEST,
+    I_DRAIN,
+    I_HAND,
+    I_FIN
+  } ing_state_e;
+  typedef enum logic [2:0] {
+    S_IDLE,
+    S_MVM,
+    S_MVM_WAIT,
+    S_UPDATE,
+    S_EMIT
+  } scn_state_e;
 
   logic       [W_TOP_STATE-1:0] top_q;
-  run_state_e                   run_q;
+  ing_state_e                   ing_q;
+  scn_state_e                   scn_q;
+  logic                         ing_sel_q;
+  logic       [    W_TSTEP-1:0] ing_idx_q;  // timestep being ingested
+  logic       [     W_STAT-1:0] ev_scan_q;  // events of the timestep being scanned
   logic                         loaded_q;
-  logic       [    W_TSTEP-1:0] ts_idx_q;
+  logic       [    W_TSTEP-1:0] ts_idx_q;  // timestep being scanned
   logic       [     W_STAT-1:0] ev_in_ts_q;  // events of this timestep: the assertions' reference count (only the instrumentation outputs make it visible in a netlist)
   logic       [     W_STAT-1:0] wait_q;
+  logic       [     W_STAT-1:0] upd_cnt_q;  // cycles of the serialised neuron update still to go (the neuron array compares PN neurons per cycle)
 
   logic in_run;
   logic can_start;
   logic boundary_acc;
   logic abort_run;
   logic run_start;
+  logic handoff;
 
   assign in_run            = (top_q == ST_RUN);
   assign can_start         = (top_q == ST_IDLE || top_q == ST_DONE);
@@ -135,16 +156,23 @@ module snn_ctrl #(
   assign sample_clr_o      = start_i && can_start && loaded_q;
   assign run_start         = can_start && !load_start_i && start_i && loaded_q;
   assign wl_start_o        = load_start_i && can_start;
-  assign ev_ready_o        = in_run && (run_q == R_INGEST) && ingest_en_i && !abort_i && cm_ready_i;
+  assign ev_ready_o        = in_run && (ing_q == I_INGEST) && ingest_en_i && !abort_i && cm_ready_i;
   assign ev_accept_o       = ev_valid_i && ev_ready_o;
-  assign boundary_acc      = ev_accept_o && boundary_i;
+  assign boundary_acc      = bnd_acc_i;
+  assign handoff           = in_run && (ing_q == I_HAND) && (scn_q == S_IDLE) && !abort_i;
 
-  assign cm_wipe_o         = in_run && (run_q == R_WIPE);
-  assign cm_chk_expected_o = W_NEVENTS'(ev_in_ts_q);
-  assign seq_start_o       = in_run && (run_q == R_CHECK);
-  assign acc_clr_o         = in_run && (run_q == R_CHECK);
-  assign neuron_upd_o      = in_run && (run_q == R_UPDATE) && !abort_i;
-  assign spike_load_o      = in_run && (run_q == R_EMIT) && !abort_i;
+  logic scan_tail_q;
+  always_ff @(posedge clk_i) scan_tail_q <= rst_n_i && (scn_q != S_IDLE);
+  assign scan_clk_en_o     = !rst_n_i || !in_run || (scn_q != S_IDLE) || handoff || scan_tail_q || abort_i;
+  assign cfg_clk_en_o      = !rst_n_i || !in_run;
+
+  assign cm_wipe_o         = 1'b0;
+  assign ing_sel_o         = ing_sel_q;
+  assign cm_chk_expected_o = W_NEVENTS'(ev_scan_q);
+  assign seq_start_o       = handoff;
+  assign acc_clr_o         = handoff;
+  assign neuron_upd_o      = in_run && (scn_q == S_UPDATE) && !abort_i;
+  assign spike_load_o      = in_run && (scn_q == S_EMIT) && !abort_i;
   assign ts_idx_o          = ts_idx_q;
   assign state_o           = top_q;
   assign weights_loaded_o  = loaded_q;
@@ -154,14 +182,20 @@ module snn_ctrl #(
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) begin
       top_q      <= ST_IDLE;
-      run_q      <= R_INGEST;
+      ing_q      <= I_INGEST;
+      scn_q      <= S_IDLE;
+      ing_sel_q  <= 1'b0;
       loaded_q   <= 1'b0;
       ts_idx_q   <= '0;
+      ing_idx_q  <= '0;
       ev_in_ts_q <= '0;
+      ev_scan_q  <= '0;
       wait_q     <= '0;
+      upd_cnt_q  <= '0;
     end else if (abort_run) begin
       top_q <= ST_IDLE;
-      run_q <= R_INGEST;
+      ing_q <= I_INGEST;
+      scn_q <= S_IDLE;
     end else begin
       // ------------------------------------------------ top-level state
       unique case (top_q)
@@ -169,9 +203,12 @@ module snn_ctrl #(
           if (load_start_i) top_q <= ST_LOAD;
           else if (start_i && loaded_q) begin
             top_q      <= ST_RUN;
-            run_q      <= R_INGEST;
+            ing_q      <= I_INGEST;
+            scn_q      <= S_IDLE;
             ts_idx_q   <= '0;
+            ing_idx_q  <= '0;
             ev_in_ts_q <= '0;
+            ev_scan_q  <= '0;
           end
         end
         ST_LOAD: begin
@@ -181,33 +218,57 @@ module snn_ctrl #(
           end
         end
         ST_RUN: begin
-          if (ev_accept_o) ev_in_ts_q <= ev_in_ts_q + ONE;
-          unique case (run_q)
-            R_INGEST: if (boundary_acc) run_q <= R_DRAIN;
-            R_DRAIN:  if (!cm_busy_i) run_q <= R_CHECK;
-            R_CHECK:  run_q <= R_MVM;
-            R_MVM: begin
-              if (seq_done_i) begin
-                if (POST_DONE_WAIT <= 0) run_q <= R_UPDATE;
+          if (n_acc_i != '0) ev_in_ts_q <= ev_in_ts_q + W_STAT'(n_acc_i);
+          // ---------------- ingest side
+          unique case (ing_q)
+            I_INGEST: if (boundary_acc) ing_q <= I_DRAIN;
+            I_DRAIN:  if (!cm_busy_i) ing_q <= I_HAND;
+            I_HAND: begin
+              if (scn_q == S_IDLE) begin
+                ing_sel_q  <= ~ing_sel_q;
+                ev_scan_q  <= ev_in_ts_q;
+                ev_in_ts_q <= '0;
+                ts_idx_q   <= ing_idx_q;
+                if (ing_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) ing_q <= I_FIN;
                 else begin
-                  run_q  <= R_MVM_WAIT;
+                  ing_idx_q <= ing_idx_q + W_TSTEP'(1);
+                  ing_q     <= I_INGEST;
+                end
+              end
+            end
+            default: ;
+          endcase
+          // ---------------- scan side
+          unique case (scn_q)
+            S_IDLE: if (handoff) scn_q <= S_MVM;
+            S_MVM: begin
+              if (seq_done_i) begin
+                if (POST_DONE_WAIT <= 0) begin
+                  scn_q     <= S_UPDATE;
+                  upd_cnt_q <= W_STAT'(N_UPD - 1);
+                end
+                else begin
+                  scn_q  <= S_MVM_WAIT;
                   wait_q <= W_STAT'(POST_DONE_WAIT);
                 end
               end
             end
-            R_MVM_WAIT: begin
+            S_MVM_WAIT: begin
               wait_q <= wait_q - ONE;
-              if (wait_q == ONE) run_q <= R_UPDATE;
+              if (wait_q == ONE) begin
+                scn_q     <= S_UPDATE;
+                upd_cnt_q <= W_STAT'(N_UPD - 1);
+              end
             end
-            R_UPDATE: run_q <= R_EMIT;
-            R_EMIT:   run_q <= R_WIPE;
-            R_WIPE: begin
-              ts_idx_q   <= ts_idx_q + W_TSTEP'(1);
-              ev_in_ts_q <= '0;
+            S_UPDATE: begin
+              if (upd_cnt_q == '0) scn_q <= S_EMIT;
+              else upd_cnt_q <= upd_cnt_q - W_STAT'(1);
+            end
+            S_EMIT: begin
+              scn_q <= S_IDLE;
               if (ts_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) top_q <= ST_DONE;
-              run_q <= R_INGEST;
             end
-            default:  run_q <= R_INGEST;
+            default: scn_q <= S_IDLE;
           endcase
         end
         default: top_q <= ST_IDLE;
@@ -247,10 +308,10 @@ module snn_ctrl #(
         if (in_run) begin
           cyc_ts_q    <= cyc_ts_q + ONE;
           cyc_total_q <= cyc_total_q + ONE;
-          if (run_q == R_INGEST) cyc_ing_q <= cyc_ing_q + ONE;
+          if (ing_q == I_INGEST) cyc_ing_q <= cyc_ing_q + ONE;
           if (cm_fwd_i) fwd_q <= fwd_q + ONE;
-          if (run_q == R_EMIT) begin
-            l_events_q  <= ev_in_ts_q;
+          if (scn_q == S_EMIT) begin
+            l_events_q  <= ev_scan_q;
             l_active_q  <= seq_active_i;
             l_skipped_q <= seq_rows_skipped_i;
             l_rows_q    <= seq_rows_read_i;
@@ -262,7 +323,7 @@ module snn_ctrl #(
             l_cyc_q     <= cyc_ts_q + ONE;
             l_cyc_ing_q <= cyc_ing_q;
           end
-          if (run_q == R_WIPE) begin
+          if (scn_q == S_EMIT) begin
             fwd_q     <= '0;
             cyc_ts_q  <= '0;
             cyc_ing_q <= '0;
@@ -335,22 +396,22 @@ module snn_ctrl #(
         $display("[ASSERT FAIL] %m: event accepted while ingest_en is low");
         fail_q <= 1'b1;
       end
-      if (ev_accept_o) accepted_q <= accepted_q + ONE;
-      if (in_run && accepted_q != W_STAT'(ev_total_i) && run_q != R_INGEST) begin
+      if (n_acc_i != '0) accepted_q <= accepted_q + W_STAT'(n_acc_i);
+      if (in_run && accepted_q != W_STAT'(ev_total_i) && ing_q != I_INGEST) begin
         $display("[ASSERT FAIL] %m: %0d events accepted but the event counter saw %0d (an event was lost)", accepted_q, ev_total_i);
         fail_q <= 1'b1;
       end
-      if (in_run && run_q == R_CHECK) begin
-        if (longint'(ev_in_ts_q) != longint'(bin_size(longint'(ev_n_i), longint'(ts_idx_q)))) begin
-          $display("[ASSERT FAIL] %m: timestep %0d holds %0d events, floor(k*T/n) rule requires %0d", ts_idx_q, ev_in_ts_q, bin_size(longint'(ev_n_i), longint'(ts_idx_q)));
+      if (handoff) begin
+        if (longint'(ev_in_ts_q) != longint'(bin_size(longint'(ev_n_i), longint'(ing_idx_q)))) begin
+          $display("[ASSERT FAIL] %m: timestep %0d holds %0d events, floor(k*T/n) rule requires %0d", ing_idx_q, ev_in_ts_q, bin_size(longint'(ev_n_i), longint'(ing_idx_q)));
           fail_q <= 1'b1;
         end
         if (longint'(ev_in_ts_q) != longint'(ev_n_i) / longint'(N_TIMESTEPS) && longint'(ev_in_ts_q) != longint'(ev_n_i) / longint'(N_TIMESTEPS) + 1) begin
-          $display("[ASSERT FAIL] %m: timestep %0d event count %0d is neither N_e nor N_e+1", ts_idx_q, ev_in_ts_q);
+          $display("[ASSERT FAIL] %m: timestep %0d event count %0d is neither N_e nor N_e+1", ing_idx_q, ev_in_ts_q);
           fail_q <= 1'b1;
         end
-        if (ev_tstep_i != ts_idx_q + W_TSTEP'(1)) begin
-          $display("[ASSERT FAIL] %m: event counter timestep %0d inconsistent with controller timestep %0d", ev_tstep_i, ts_idx_q);
+        if (ev_tstep_i != ing_idx_q + W_TSTEP'(1)) begin
+          $display("[ASSERT FAIL] %m: event counter timestep %0d inconsistent with controller timestep %0d", ev_tstep_i, ing_idx_q);
           fail_q <= 1'b1;
         end
       end
@@ -359,9 +420,9 @@ module snn_ctrl #(
         $display("[ASSERT FAIL] %m: spike valid strobe is not a single cycle");
         fail_q <= 1'b1;
       end
-      if (in_run && run_q == R_WIPE && ts_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) begin
-        if (!sample_done_i || ev_total_i != ev_n_i || strobes_q != W_STAT'(N_TIMESTEPS)) begin
-          $display("[ASSERT FAIL] %m: sample ended with %0d/%0d events, %0d strobes (T = %0d), done=%0b", ev_total_i, ev_n_i, strobes_q, N_TIMESTEPS, sample_done_i);
+      if (in_run && scn_q == S_EMIT && ts_idx_q == W_TSTEP'(N_TIMESTEPS - 1)) begin
+        if (!sample_done_i || ev_total_i != ev_n_i || strobes_q + ONE != W_STAT'(N_TIMESTEPS)) begin
+          $display("[ASSERT FAIL] %m: sample ended with %0d/%0d events, %0d strobes (T = %0d), done=%0b", ev_total_i, ev_n_i, strobes_q + ONE, N_TIMESTEPS, sample_done_i);
           fail_q <= 1'b1;
         end
       end

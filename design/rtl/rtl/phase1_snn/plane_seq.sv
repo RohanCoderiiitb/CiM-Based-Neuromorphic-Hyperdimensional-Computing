@@ -1,25 +1,31 @@
-// plane_seq.sv - block D. Scan sequencer of one timestep (optimisation items 1 and 3): reads the 512 event counters out of the count-memory SRAM, group by group, and issues one crossbar read for
-// every (count bit-plane b, group) that has an active row - the all-zero (b, group) reads are never issued (the a = 0 skip).
+// plane_seq.sv - block D. PACKED-ROW scan sequencer: turns the event counters of one timestep into crossbar reads.
 //
-//   FETCH   reads the counters of group j (ROWS_PER_GROUP consecutive addresses) one per cycle, through the SRAM's read port, into one of two group buffers (ping-pong). The words arrive a cycle
-//           after their read (count_mem registers them and clears them in place: the scan IS the timestep wipe). When the last word of a group has arrived the bit-plane mask is formed:
-//           mask[b] = OR over the group's counters of bit b. A group whose mask is zero (all its counters are zero) is dropped on the spot and its buffer stays free.
-//   ISSUE   takes the oldest full buffer and issues one crossbar read per set mask bit (lowest plane first): row bits = bit b of each of the group's counters, the group index, the plane b
-//           (shift_accum shifts by it); the buffer is freed with its last read. N_PARALLEL_COLS < 160 repeats each read N_WCOLS / N_PARALLEL_COLS times (4 passes of 40 columns = 2 weight bit-planes each, the supply-limited design of 1F; 8 passes of 20).
-//   The two run concurrently: while group j's planes are issued, group j+1's counters are fetched. Fetching a group's first word needs a free buffer (credit counter `occ_q`: full buffers +
-//   the group in flight), so the pipeline never overwrites a buffer that still holds reads to issue.
+// A read drives up to S_ROWS (4) ACTIVE rows of ONE count bit-plane that lie in ONE position band of the array. The crossbar is random access, so the rows need not be neighbours: instead of reading a
+// fixed group of 4 adjacent rows whenever any of them has the bit (1.6 active rows per read on average) the active rows of a plane are PACKED, 4 per read, in every band (reads: DVS -56 %, N-MNIST -57 %).
+// The sum is the same integer (rows commute), so X is bit-identical. Position bands keep the rows of a read within ~2 % of each other in row gain (the gain varies smoothly along the bit-line).
 //
-// The plane order differs from the earlier plane-major walk (all groups of plane 0, then plane 1 ...); X is the same sum, shift_accum adds each read's contribution as it arrives.
-// `done_o` (one-cycle pulse) comes when all 512 counters have been read and cleared and every read has been issued.
+//   FETCH   the dirty counter blocks (groups that received an event; two ping-pong sets) are fetched in address order = band by band, one group (4 counters) per cycle.
+//   EXTRACT for each of N_PK (4) count bit-planes of the current PASS, the active rows of the arriving group (bit set in the counter) are appended to that plane's packer (7 row slots).
+//   ISSUE   when the previous group is done, every packer holding >= S_ROWS rows (or any rows, while being flushed) loads one read into the group (row indices + valid mask; band and plane);
+//           the group runs PASS-MAJOR: analog pass 0 of each of its reads, then pass 1, ... (N_PASSES passes per read).
+//   FLUSH   at the end of a band (the next group is in another band) and at the end of a pass every packer is drained, partial reads included: reads = sum over bands, planes of ceil(n_active / 4).
+//   PASSES  the counters have up to W_COUNT (11) bit-planes; N_PK of them are handled per pass over the dirty groups. The number of passes comes from the OR of every value written to the counter set
+//           as the scan goes: a pass is followed by another while some group had a count bit above its planes. A group is cleared (count_mem) when it arrives with no bit left.
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
+import cim_neurohdc_pkg::N_BANDS;
+import cim_neurohdc_pkg::N_DIRTY_GS;
 import cim_neurohdc_pkg::N_INPUTS;
 import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
+import cim_neurohdc_pkg::N_PK;
 import cim_neurohdc_pkg::N_WCOLS;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
-import cim_neurohdc_pkg::W_ADDR;
+import cim_neurohdc_pkg::S_ROWS;
+import cim_neurohdc_pkg::W_BAND;
+import cim_neurohdc_pkg::W_BANK_ADDR;
 import cim_neurohdc_pkg::W_BIT_IDX;
 import cim_neurohdc_pkg::W_COUNT;
 import cim_neurohdc_pkg::W_GRP;
+import cim_neurohdc_pkg::W_RB;
 import cim_neurohdc_pkg::W_STAT;
 import cim_neurohdc_pkg::W_WEIGHT;
 
@@ -31,196 +37,353 @@ module plane_seq #(
 ) (
     input  logic                       clk_i,
     input  logic                       rst_n_i,
-    input  logic                       start_i,          // begin the scan of one timestep (sequencer idle, count memory quiet)
+    input  logic                       start_i,          // begin the scan of one timestep (sequencer idle)
     input  logic                       abort_i,          // drop the scan in progress (no done pulse)
+    // event stream (sparse scan: the groups that received an event are remembered)
+    input  logic                       ing_sel_i,        // counter set the events of the timestep being ingested go to
+    output logic                       scan_set_o,       // counter set this scan reads
+    input  logic [2*(N_INPUTS/ROWS_PER_GROUP/N_DIRTY_GS)-1:0] dirty_i,  // per counter set: the counter blocks that hold events (kept by count_mem, next to the counters)
+    output logic                       dirty_clr_o,      // the scan of set dirty_clr_set_o is complete: clear its flags
+    output logic                       dirty_clr_set_o,
     // count memory scan port
-    output logic                       scan_re_o,
-    output logic [       W_ADDR-1:0]   scan_addr_o,
-    input  logic [     W_COUNT-1:0]    scan_q_i,
+    output logic                       scan_re_o,        // read one whole group of counters (its ROWS_PER_GROUP words come back together, one cycle later)
+    output logic                       scan_clr_o,       // with scan_qv_i: the arriving group has no count bit above this pass's planes - count_mem clears it
+    output logic [        W_GRP-1:0]   scan_grp_o,
+    input  logic [ROWS_PER_GROUP*W_COUNT-1:0] scan_q_i,
     input  logic                       scan_qv_i,
     // crossbar read
     output logic                       rd_valid_o,
-    output logic [ROWS_PER_GROUP-1:0]  rd_bits_o,        // bit b of each counter of the group
-    output logic [        W_GRP-1:0]   group_idx_o,
-    output logic [    W_BIT_IDX-1:0]   row_sel_o,        // count bit-plane b of this read
+    output logic [S_ROWS-1:0]          rd_rv_o,          // which row slots are driven
+    output logic [S_ROWS*W_RB-1:0]     rd_rows_o,        // row index of every slot inside the band
+    output logic [      W_BAND-1:0]    rd_band_o,
+    output logic [    W_BIT_IDX-1:0]   row_sel_o,        // count bit-plane of this read
     output logic [  W_PASS-1:0]        pass_o,           // sensing pass of this read (which PL = W_WEIGHT / N_PASSES weight bit-planes are sensed)
     output logic                       done_o,
     output logic                       busy_o,
     output logic [       W_STAT-1:0]   active_o,           // counters != 0 (this timestep)
     output logic [       W_STAT-1:0]   rows_skipped_o,     // count bit-planes with no bit set in any counter (this timestep)
     output logic [       W_STAT-1:0]   rows_read_o,
-    output logic [       W_STAT-1:0]   reads_allcols_o,    // (bit-plane, group) reads with an active row: 11 x 512/g form minus the empty groups
+    output logic [       W_STAT-1:0]   reads_allcols_o,    // packed reads issued (all passes of one read count once)
     output logic [       W_STAT-1:0]   reads_plane_o,
-    output logic [       W_STAT-1:0]   reads_issued_o,
-    output logic [       W_STAT-1:0]   zero_groups_o,      // empty groups of the non-empty bit-planes (jumped over)
+    output logic [       W_STAT-1:0]   reads_issued_o,     // analog passes issued
+    output logic [       W_STAT-1:0]   zero_groups_o,
     output logic                       assert_fail_o
 );
   localparam int N_GROUPS = N_INPUTS / ROWS_PER_GROUP;
   localparam int N_PASSES = N_WCOLS / N_PARALLEL_COLS;
-  localparam int W_FW = (ROWS_PER_GROUP > 1) ? $clog2(ROWS_PER_GROUP) : 1;
-  localparam logic [W_BIT_IDX-1:0] LAST_PASS = W_BIT_IDX'(N_PASSES - 1);
+  localparam int LGD = $clog2(N_DIRTY_GS);  // group-index bits below a dirty flag
+  localparam int N_SG = N_GROUPS / N_DIRTY_GS;  // dirty flags per counter set
+  localparam int W_GI = (N_SG > 1) ? $clog2(N_SG) : 1;  // bits of a flag index
+  localparam int CAP = S_ROWS + ROWS_PER_GROUP;  // row slots of a packer: up to S_ROWS held + S_ROWS arriving (the accept rule assumes every row of a group is active)
+  localparam int W_CN = $clog2(CAP + 1);
+  localparam int W_GB = W_BANK_ADDR;  // bits of a group index (7)
+  localparam int N_QP = (W_COUNT + N_PK - 1) / N_PK;  // passes over the groups for all count bit-planes
+  localparam int W_QP = $clog2(N_QP + 1);
+  localparam logic [W_PASS-1:0] LAST_PASS = W_PASS'(N_PASSES - 1);
   localparam logic [W_STAT-1:0] STAT_ONE = W_STAT'(1);
 
   // ---------------------------------------------------------------- state
   logic                  scan_q;  // a scan is in progress
-  logic                  fetch_done_q;  // every read of the scan has been issued
-  logic [    W_ADDR-1:0] faddr_q;
-  logic [       W_FW-1:0] fw_q;  // word index within the group being fetched
-  logic [     W_GRP-1:0] fgrp_q;
-  logic                  fb_q;  // buffer the next group to arrive fills
-  logic                  ib_q;  // buffer the issue side serves
-  logic [           1:0] full_q;
-  logic [  W_COUNT-1:0]  mask_q[2];
-  logic [     W_GRP-1:0] gidx_q[2];
-  logic [  W_COUNT-1:0]  buf_q[2][ROWS_PER_GROUP];
-  logic [           1:0] occ_q;  // buffers reserved: full + the group in flight
-  logic [W_BIT_IDX-1:0]  pass_q;
+  logic                  fetch_done_q;  // every dirty group of this pass has been fetched
+  logic                  fin_q;  // the last pass is complete and flushed: wait for the last read
+  logic [W_GRP-1:0]      fgrp_q;
+  logic [W_GI:0]         ptr_q;  // flags below ptr are behind the fetch of this pass
+  logic [W_QP-1:0]       qpass_q;  // pass over the groups (count bit-planes N_PK*qpass .. N_PK*qpass + N_PK - 1)
+  logic                  more_q;  // a group of this pass has count bits above the pass's planes: another pass is needed
   logic                  done_q;
-  // arrival pipeline (the word read in the previous cycle)
   logic                  arr_v_q;
-  logic [       W_FW-1:0] arr_w_q;
-  logic                  arr_last_q;
-  logic [     W_GRP-1:0] arr_grp_q;
+  logic [W_GRP-1:0]      arr_grp_q;
+  logic                  sset_q;  // counter set of the scan in progress (taken at start_i: the set the ingest side is handing over)
+  logic                  sset;
+  logic                  prime_q;  // the cycle after start_i: the first dirty block is found (timing: start_i does not reach the find-first)
+  logic [W_RB-1:0]       pk_row_q[N_PK][CAP];
+  logic [W_CN-1:0]       pk_cnt_q[N_PK];
+  logic [W_BAND-1:0]     cur_band_q;  // band of the rows in the packers
+  // read GROUP: up to N_PK reads (one per packer, loaded together), issued PASS-MAJOR (pass 0 of every read of the group, then pass 1, ...): the neuron lanes keep the same
+  // neurons for up to N_PK consecutive cycles (low activity); the sum is the same integer in any order
+  localparam int W_SL = (N_PK > 1) ? $clog2(N_PK) : 1;
+  logic [N_PK-1:0]       g_v_q;
+  logic [S_ROWS-1:0]     g_rv_q[N_PK];
+  logic [W_RB-1:0]       g_row_q[N_PK][S_ROWS];
+  logic [W_BAND-1:0]     g_band_q;
+  logic [W_QP-1:0]       g_qp_q;  // the pass over the groups the reads come from (plane = N_PK * g_qp + slot)
+  logic [W_SL-1:0]       j_q;  // slot being issued
+  logic [W_PASS-1:0]     pass_q;
 
-  // ---------------------------------------------------------------- issue side
-  logic            iss_full;
-  logic [W_COUNT-1:0] iss_mask;
-  logic [W_BIT_IDX-1:0] iss_plane;
-  logic            iss_last_plane;  // after this read the buffer is empty
-  logic            iss_last;  // this read frees the buffer
-  logic            issue;
+  assign sset = sset_q;
+  assign scan_set_o = sset_q;
 
+  // ---------------------------------------------------------------- dirty flags: find-first at or above the pointer, in two levels (timing)
+  logic restart;  // a pass starts this cycle (the fetch begins at flag 0)
+  logic [W_GI:0] ptr_eff;
+  logic [N_SG-1:0] dmask;
+  localparam int DB = 8;
+  localparam int NBLK = (N_SG + DB - 1) / DB;
+  logic [NBLK*DB-1:0] dpad;
+  logic [NBLK-1:0] blk_any;
+  logic [DB-1:0] blk_bits;
+  int blk_first, in_first;
+  logic [W_GRP-1:0] dirty_first;
+  logic dirty_any;
+  assign ptr_eff = restart ? '0 : ptr_q;
   always_comb begin
-    iss_full = full_q[ib_q];
-    iss_mask = mask_q[ib_q];
-    iss_plane = '0;
-    for (int p = W_COUNT - 1; p >= 0; p--) if (iss_mask[p]) iss_plane = W_BIT_IDX'(p);
+    for (int j = 0; j < N_SG; j++) dmask[j] = dirty_i[int'(sset)*N_SG+j] && (j >= int'(ptr_eff));
+    dpad = '0;
+    dpad[N_SG-1:0] = dmask;
+    for (int b = 0; b < NBLK; b++) blk_any[b] = |dpad[b*DB+:DB];
+    blk_first = 0;
+    for (int b = NBLK - 1; b >= 0; b--) if (blk_any[b]) blk_first = b;
+    blk_bits = dpad[blk_first*DB+:DB];
+    in_first = 0;
+    for (int j = DB - 1; j >= 0; j--) if (blk_bits[j]) in_first = j;
+    dirty_first = W_GRP'(blk_first * DB + in_first);
   end
-  assign iss_last_plane = ((iss_mask & (iss_mask - W_COUNT'(1))) == '0);
-  assign issue          = iss_full;
-  assign iss_last       = issue && iss_last_plane && (pass_q == LAST_PASS);
+  assign dirty_any = |blk_any;
 
-  assign rd_valid_o     = issue;
-  assign group_idx_o    = gidx_q[ib_q];
-  assign row_sel_o      = iss_plane;
-  assign pass_o         = W_PASS'(pass_q);
-  always_comb begin
-    for (int r = 0; r < ROWS_PER_GROUP; r++) rd_bits_o[r] = buf_q[ib_q][r][iss_plane];
-  end
-
-  // ---------------------------------------------------------------- fetch side
-  logic            word0;
-  logic            can_fetch;
-  logic            fetch;
-  assign word0     = (fw_q == W_FW'(0));
-  // a new group needs a free buffer; a buffer freed by this cycle's last read counts as free (the group's first word arrives a cycle later)
-  assign can_fetch = scan_q && !fetch_done_q && (!word0 || occ_q != 2'd2 || iss_last);
-  assign fetch     = can_fetch;
-  assign scan_re_o   = fetch;
-  assign scan_addr_o = faddr_q;
-  assign busy_o      = scan_q;
-  assign done_o      = done_q;
-
-  // group completion (comb, in the cycle the last word arrives)
+  // ---------------------------------------------------------------- arrival: the group read in the previous cycle
   logic [W_COUNT-1:0] words[ROWS_PER_GROUP];
   logic [W_COUNT-1:0] m_true;
+  logic [W_BAND-1:0]  arr_band;
+  logic [W_GB-W_BAND-1:0] arr_gib;  // group index inside its band
   always_comb begin
-    for (int w = 0; w < ROWS_PER_GROUP; w++) words[w] = (w == ROWS_PER_GROUP - 1) ? scan_q_i : buf_q[fb_q][w];
     m_true = '0;
-    for (int w = 0; w < ROWS_PER_GROUP; w++) m_true = m_true | words[w];
+    for (int w = 0; w < ROWS_PER_GROUP; w++) begin
+      words[w] = scan_q_i[w*W_COUNT+:W_COUNT];
+      m_true   = m_true | words[w];
+    end
   end
-  logic complete, keep;
-  assign complete = arr_v_q && arr_last_q;
-  assign keep     = complete && (m_true != '0);
+  assign arr_band = arr_grp_q[W_GB-1-:W_BAND];
+  assign arr_gib  = arr_grp_q[W_GB-W_BAND-1:0];
 
-  // will the buffers be empty at the end of this cycle?
-  logic [1:0] full_next;
+  // active rows of the arriving group per packed plane
+  logic [ROWS_PER_GROUP-1:0] act[N_PK];
+  logic [W_CN-1:0]           n_new[N_PK];
   always_comb begin
-    full_next = full_q;
-    if (iss_last) full_next[ib_q] = 1'b0;
-    if (keep) full_next[fb_q] = 1'b1;
+    for (int p = 0; p < N_PK; p++) begin
+      n_new[p] = '0;
+      for (int w = 0; w < ROWS_PER_GROUP; w++) begin
+        act[p][w] = (int'(N_PK) * int'(qpass_q) + p < W_COUNT) ? words[w][(int'(N_PK)*int'(qpass_q)+p)%W_COUNT] : 1'b0;
+        n_new[p]  = n_new[p] + W_CN'(act[p][w]);
+      end
+    end
   end
-  logic quiet_next;
-  assign quiet_next = scan_q && fetch_done_q && !(arr_v_q && !arr_last_q) && !complete && (full_next == 2'b00) && !(fetch);
+
+  logic all_empty, fits, arr_accept, band_ok, flush_need;
+  always_comb begin
+    all_empty = 1'b1;
+    fits      = 1'b1;
+    for (int p = 0; p < N_PK; p++) begin
+      if (pk_cnt_q[p] != '0) all_empty = 1'b0;
+      if (int'(pk_cnt_q[p]) + ROWS_PER_GROUP > CAP) fits = 1'b0;  // worst case (every row of the group active): the accept, and with it the next fetch, does not wait for the data
+    end
+  end
+  assign band_ok    = all_empty || (arr_band == cur_band_q);
+  assign arr_accept = arr_v_q && band_ok && fits;
+  // flush: the next group is in another band, or the pass has fetched everything
+  assign flush_need = (arr_v_q && !band_ok) || (fetch_done_q && !arr_v_q);
+
+  // ---------------------------------------------------------------- issue: load the read buffer from a packer
+  logic iss_last, rb_free, any_cand, load_rb, grp_busy, last_in_round;
+  logic [N_PK-1:0] cand;
+  logic [W_SL-1:0] j_next, j_first_v, j_first_c;
+  always_comb begin
+    any_cand = 1'b0;
+    for (int p = 0; p < N_PK; p++) begin
+      cand[p] = (int'(pk_cnt_q[p]) >= S_ROWS) || (flush_need && pk_cnt_q[p] != '0);
+      if (cand[p]) any_cand = 1'b1;
+    end
+    // slot walk: the next valid slot after j, the first valid slot (of the group and of the candidates)
+    last_in_round = 1'b1;
+    j_next        = j_q;
+    for (int p = N_PK - 1; p >= 0; p--) if (p > int'(j_q) && g_v_q[p]) begin
+      j_next        = W_SL'(p);
+      last_in_round = 1'b0;
+    end
+    j_first_v = '0;
+    j_first_c = '0;
+    for (int p = N_PK - 1; p >= 0; p--) begin
+      if (g_v_q[p]) j_first_v = W_SL'(p);
+      if (cand[p]) j_first_c = W_SL'(p);
+    end
+  end
+  assign grp_busy = |g_v_q;
+  assign iss_last = grp_busy && (pass_q == LAST_PASS) && last_in_round;
+  assign rb_free  = !grp_busy || iss_last;
+  assign load_rb  = rb_free && any_cand && scan_q;
+
+  // next packer state: remove the rows moved to the read buffer, append the arriving rows
+  logic [W_RB-1:0] pk_row_n[N_PK][CAP];
+  logic [W_CN-1:0] pk_cnt_n[N_PK];
+  always_comb begin
+    for (int p = 0; p < N_PK; p++) begin
+      int rem, base, k;
+      rem = (load_rb && cand[p]) ? ((int'(pk_cnt_q[p]) >= S_ROWS) ? S_ROWS : int'(pk_cnt_q[p])) : 0;
+      for (int i = 0; i < CAP; i++) pk_row_n[p][i] = (i + rem < CAP) ? pk_row_q[p][i+rem] : '0;
+      base = int'(pk_cnt_q[p]) - rem;
+      k    = 0;
+      if (arr_accept) begin
+        for (int w = 0; w < ROWS_PER_GROUP; w++) begin
+          if (act[p][w]) begin
+            if (base + k < CAP) pk_row_n[p][base+k] = {arr_gib, 2'(w)};
+            k = k + 1;
+          end
+        end
+      end
+      pk_cnt_n[p] = W_CN'(base + k);
+    end
+  end
+
+  logic [N_PK-1:0] pk_en;
+  always_comb for (int p = 0; p < N_PK; p++) pk_en[p] = (load_rb && cand[p]) || (arr_accept && n_new[p] != '0);
+
+  // ---------------------------------------------------------------- fetch control
+  logic arr_free, can_fetch, fetch, blk_last, pass_idle, last_pass;
+  assign blk_last  = (fgrp_q[LGD-1:0] == {LGD{1'b1}});
+  assign arr_free  = !arr_v_q || arr_accept;
+  assign can_fetch = scan_q && !fetch_done_q && !fin_q && arr_free;
+  assign fetch     = can_fetch;
+  // the pass needs a successor when an arriving group has a bit above its planes; such a group is kept, every other group is cleared as it arrives
+  logic hi_bits;
+  always_comb begin
+    hi_bits = 1'b0;
+    for (int b = 0; b < W_COUNT; b++) if (b >= N_PK * (int'(qpass_q) + 1) && m_true[b]) hi_bits = 1'b1;
+  end
+  assign last_pass = !more_q;
+  assign scan_re_o = fetch;
+  assign scan_clr_o = scan_qv_i && !hi_bits;
+  assign scan_grp_o = fgrp_q;
+  assign pass_idle  = scan_q && fetch_done_q && !arr_v_q && all_empty && !fin_q;
+  assign busy_o     = scan_q || prime_q;
+  assign done_o     = done_q;
+  assign restart    = prime_q || (pass_idle && !last_pass);
 
   always_ff @(posedge clk_i) begin
     if (!rst_n_i || abort_i) begin
       scan_q       <= 1'b0;
       fetch_done_q <= 1'b0;
-      faddr_q      <= '0;
-      fw_q         <= '0;
+      fin_q        <= 1'b0;
       fgrp_q       <= '0;
-      fb_q         <= 1'b0;
-      ib_q         <= 1'b0;
-      full_q       <= '0;
-      occ_q        <= '0;
-      pass_q       <= '0;
+      ptr_q        <= '0;
+      qpass_q      <= '0;
+      more_q       <= 1'b0;
       done_q       <= 1'b0;
       arr_v_q      <= 1'b0;
-      arr_w_q      <= '0;
-      arr_last_q   <= 1'b0;
       arr_grp_q    <= '0;
+      cur_band_q   <= '0;
+      g_v_q        <= '0;
+      g_band_q     <= '0;
+      g_qp_q       <= '0;
+      j_q          <= '0;
+      for (int p = 0; p < N_PK; p++) g_rv_q[p] <= '0;
+      pass_q       <= '0;
+      sset_q       <= 1'b0;
+      prime_q      <= 1'b0;
+      for (int p = 0; p < N_PK; p++) pk_cnt_q[p] <= '0;
     end else begin
-      done_q <= 1'b0;
-      if (start_i && !scan_q) begin
-        scan_q       <= 1'b1;
-        fetch_done_q <= 1'b0;
-        faddr_q      <= '0;
-        fw_q         <= '0;
-        fgrp_q       <= '0;
-        occ_q        <= '0;
+      done_q  <= 1'b0;
+      prime_q <= 1'b0;
+      if (start_i && !scan_q && !prime_q) begin
+        sset_q  <= ing_sel_i;
+        prime_q <= 1'b1;
+      end else if (prime_q) begin
+        if (dirty_any) begin
+          scan_q       <= 1'b1;
+          fetch_done_q <= 1'b0;
+          fin_q        <= 1'b0;
+          qpass_q      <= '0;
+          more_q       <= 1'b0;
+          fgrp_q       <= W_GRP'(dirty_first) << LGD;
+          ptr_q        <= (W_GI + 1)'(dirty_first) + (W_GI + 1)'(1);
+        end else done_q <= 1'b1;  // no event this timestep: nothing to scan
       end else if (scan_q) begin
-        // fetch
+        // ------------------------------------------------ fetch
         if (fetch) begin
-          faddr_q <= faddr_q + W_ADDR'(1);
-          if (fw_q == W_FW'(ROWS_PER_GROUP - 1)) begin
-            fw_q   <= '0;
-            fgrp_q <= fgrp_q + W_GRP'(1);
-          end else fw_q <= fw_q + W_FW'(1);
-          if (faddr_q == W_ADDR'(N_INPUTS - 1)) fetch_done_q <= 1'b1;
+          arr_v_q   <= 1'b1;
+          arr_grp_q <= fgrp_q;
+          if (!blk_last) fgrp_q <= fgrp_q + W_GRP'(1);
+          else if (dirty_any) begin
+            fgrp_q <= W_GRP'(dirty_first) << LGD;
+            ptr_q  <= (W_GI + 1)'(dirty_first) + (W_GI + 1)'(1);
+          end else fetch_done_q <= 1'b1;
+        end else if (arr_accept) arr_v_q <= 1'b0;
+        if (fetch && arr_accept) arr_v_q <= 1'b1;
+        // ------------------------------------------------ packers
+        for (int p = 0; p < N_PK; p++) begin
+          if (pk_en[p]) begin  // a packer is clocked only when rows arrive for its plane or a read leaves it
+            pk_cnt_q[p] <= pk_cnt_n[p];
+            for (int i = 0; i < CAP; i++) pk_row_q[p][i] <= pk_row_n[p][i];
+          end
         end
-        arr_v_q    <= fetch;
-        arr_w_q    <= fw_q;
-        arr_last_q <= fetch && (fw_q == W_FW'(ROWS_PER_GROUP - 1));
-        arr_grp_q  <= fgrp_q;
-        // arrival: words go into the buffer; the last word completes the group
-        if (keep) begin
-          full_q[fb_q] <= 1'b1;
-          mask_q[fb_q] <= m_true;
-          gidx_q[fb_q] <= arr_grp_q;
-          fb_q              <= ~fb_q;
-        end
-        // issue
-        if (issue) begin
-          if (pass_q != LAST_PASS) pass_q <= pass_q + W_BIT_IDX'(1);
+        if (arr_accept) cur_band_q <= arr_band;
+        if (scan_qv_i && hi_bits) more_q <= 1'b1;
+        // ------------------------------------------------ read buffer and the analog passes
+        if (grp_busy) begin
+          if (!last_in_round) j_q <= j_next;
           else begin
-            pass_q <= '0;
-            mask_q[ib_q] <= iss_mask & (iss_mask - W_COUNT'(1));
-            if (iss_last_plane) begin
-              full_q[ib_q] <= (keep && (fb_q == ib_q)) ? 1'b1 : 1'b0;
-              ib_q         <= ~ib_q;
+            j_q <= j_first_v;
+            if (pass_q != LAST_PASS) pass_q <= pass_q + W_PASS'(1);
+            else begin
+              pass_q <= '0;
+              g_v_q  <= '0;
             end
           end
         end
-        // reservation counter: +1 when a new group's first word is read, -1 when a group is dropped or a buffer is freed
-        occ_q <= occ_q + ((fetch && word0) ? 2'd1 : 2'd0) - ((complete && !keep) ? 2'd1 : 2'd0) - (iss_last ? 2'd1 : 2'd0);
-        if (quiet_next) begin
+        if (load_rb) begin
+          g_v_q    <= cand;
+          j_q      <= j_first_c;
+          pass_q   <= '0;
+          g_band_q <= cur_band_q;
+          g_qp_q   <= qpass_q;
+          for (int p = 0; p < N_PK; p++) begin
+            if (cand[p]) begin
+              for (int i = 0; i < S_ROWS; i++) begin
+                g_row_q[p][i] <= (i < int'(pk_cnt_q[p])) ? pk_row_q[p][i] : '0;  // unused slots read as zero
+                g_rv_q[p][i]  <= (i < int'(pk_cnt_q[p]));
+              end
+            end
+          end
+        end
+        // ------------------------------------------------ pass / scan completion
+        if (pass_idle) begin
+          if (!last_pass) begin
+            qpass_q      <= qpass_q + W_QP'(1);
+            more_q       <= 1'b0;
+            fetch_done_q <= 1'b0;
+            fgrp_q       <= W_GRP'(dirty_first) << LGD;
+            ptr_q        <= (W_GI + 1)'(dirty_first) + (W_GI + 1)'(1);
+          end else begin
+            fin_q <= 1'b1;
+          end
+        end
+        if (fin_q && (!grp_busy || iss_last)) begin
           scan_q <= 1'b0;
+          fin_q  <= 1'b0;
           done_q <= 1'b1;
         end
       end
     end
   end
 
-  // word capture (no reset: a buffer's contents only matter between its arrival and its last read)
-  always_ff @(posedge clk_i) begin
-    if (arr_v_q) buf_q[fb_q][arr_w_q] <= scan_q_i;
+  assign dirty_clr_o     = pass_idle && last_pass;
+  assign dirty_clr_set_o = sset_q;
+  assign rd_valid_o = grp_busy;
+  assign rd_band_o  = g_band_q;
+  assign row_sel_o  = W_BIT_IDX'(N_PK * int'(g_qp_q) + int'(j_q));
+  assign pass_o     = W_PASS'(pass_q);
+  assign rd_rv_o    = g_rv_q[j_q];
+  always_comb begin
+    for (int i = 0; i < S_ROWS; i++) rd_rows_o[i*W_RB+:W_RB] = g_row_q[j_q][i];
   end
 
   // ------------------------------------------------------------------ access counters (instrumentation: INSTRUMENT_EN = 0 builds none of them)
   if (INSTRUMENT_EN) begin : g_instr
     logic [W_STAT-1:0] active_q, allcols_q, plane_q, issued_q;
     logic [W_COUNT-1:0] seen_q;
+    logic [W_STAT-1:0] n_nz;  // non-zero counters of the group that arrives
+    always_comb begin
+      n_nz = '0;
+      for (int w = 0; w < ROWS_PER_GROUP; w++) if (words[w] != '0) n_nz = n_nz + STAT_ONE;
+    end
     always_ff @(posedge clk_i) begin
       if (!rst_n_i || (start_i && !scan_q)) begin
         active_q  <= '0;
@@ -229,15 +392,15 @@ module plane_seq #(
         issued_q  <= '0;
         seen_q    <= '0;
       end else begin
-        if (arr_v_q && (scan_q_i != '0)) active_q <= active_q + STAT_ONE;
-        if (complete) seen_q <= seen_q | m_true;
-        if (issue) begin
-          issued_q <= issued_q + STAT_ONE;
-          if (pass_q == '0) begin
-            allcols_q <= allcols_q + STAT_ONE;
-            plane_q   <= plane_q + W_STAT'(W_WEIGHT);
-          end
+        if (arr_accept && qpass_q == '0) begin
+          active_q <= active_q + n_nz;
+          seen_q   <= seen_q | m_true;
         end
+        if (load_rb) begin
+          allcols_q <= allcols_q + W_STAT'($countones(cand));
+          plane_q   <= plane_q + W_STAT'(W_WEIGHT) * W_STAT'($countones(cand));
+        end
+        if (grp_busy) issued_q <= issued_q + STAT_ONE;
       end
     end
     logic [W_STAT-1:0] n_seen;
@@ -251,7 +414,7 @@ module plane_seq #(
     assign reads_allcols_o = allcols_q;
     assign reads_plane_o   = plane_q;
     assign reads_issued_o  = issued_q;
-    assign zero_groups_o   = n_seen * W_STAT'(N_GROUPS) - allcols_q;
+    assign zero_groups_o   = '0;
   end else begin : g_no_instr
     assign active_o        = '0;
     assign rows_read_o     = '0;
@@ -263,32 +426,31 @@ module plane_seq #(
   end
 
   logic unused_ok;
-  assign unused_ok = &{1'b0, scan_qv_i};
+  assign unused_ok = 1'b0;
 
   // ------------------------------------------------------------------ assertions (simulation only)
   logic fail_q;
   assign assert_fail_o = fail_q;
 `ifndef SYNTHESIS
   initial begin
-    if (N_INPUTS % ROWS_PER_GROUP != 0) $fatal(1, "plane_seq: ROWS_PER_GROUP %0d does not divide %0d", ROWS_PER_GROUP, N_INPUTS);
+    if (S_ROWS < ROWS_PER_GROUP || $clog2(S_ROWS + 1) > $clog2(ROWS_PER_GROUP + 1)) $fatal(1, "plane_seq: the packed-row scan needs ROWS_PER_GROUP <= S_ROWS < 2^W_M (the 4 counters of a group are the 4 banks)");
+    if (N_INPUTS / N_BANDS != 128) $fatal(1, "plane_seq: band size assumed 128 rows");
   end
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) fail_q <= 1'b0;
     else begin
-      if (start_i && scan_q) begin
+      if (start_i && (scan_q || prime_q)) begin
         $display("[ASSERT FAIL] %m: start while the scan is busy");
         fail_q <= 1'b1;
       end
-      if (arr_v_q && arr_last_q && (fb_q == ib_q) && full_q[fb_q] && !iss_last) begin
-        $display("[ASSERT FAIL] %m: a group completed into a buffer that still holds reads");
-        fail_q <= 1'b1;
+      for (int p = 0; p < N_PK; p++) begin
+        if (int'(pk_cnt_n[p]) > CAP) begin
+          $display("[ASSERT FAIL] %m: packer %0d overflow", p);
+          fail_q <= 1'b1;
+        end
       end
-      if (arr_v_q && !scan_qv_i) begin
-        $display("[ASSERT FAIL] %m: arrival without a scan word");
-        fail_q <= 1'b1;
-      end
-      if (occ_q > 2'd2) begin
-        $display("[ASSERT FAIL] %m: buffer reservation counter overflow");
+      if (scan_q && fin_q && (!all_empty || arr_v_q)) begin
+        $display("[ASSERT FAIL] %m: pass finished with rows left in the packers");
         fail_q <= 1'b1;
       end
     end

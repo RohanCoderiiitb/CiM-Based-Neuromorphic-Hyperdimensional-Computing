@@ -4,7 +4,7 @@
 //                  ^ ingest_en_i = external enable AND NOT (query busy) AND NOT (exited)         <------------- the handshake
 //
 // Handshake (no FIFO). snn_top presents each timestep's spike vector with a one-cycle strobe and has no "ready" input; what it has is the event-intake gate ingest_en_i. The
-// integration drives it low from the strobe cycle until the query stage has scored the timestep and the exit decision is taken (busy_o: strobe + 4 cycles), and for good after
+// integration drives it low from the strobe cycle until the query stage has scored the timestep and the exit decision is taken (busy_o: strobe + 5 cycles), and for good after
 // an exit. So (a) the query consumes timestep t's spikes before any event of timestep t+1 is accepted (the spike register could not change anyway before the next EMIT, which
 // needs >= N_e accepted events), (b) after the exit decision NO further event is accepted - the saving is real - and (c) nothing is ever buffered: back-pressure reaches the
 // event source through ev_ready_o exactly as in 1E. A FIFO would only be needed if the source could not be stalled (a live sensor); that is a system decision, not a handshake need.
@@ -18,9 +18,11 @@ import cim_neurohdc_pkg::N_TIMESTEPS;
 import cim_neurohdc_pkg::PLANE_SKIP_EN_DEFAULT;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
 import cim_neurohdc_pkg::CLOCK_GATING_DEFAULT;
+import cim_neurohdc_pkg::ST_RUN;
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
 import cim_neurohdc_pkg::OPERAND_ISOLATION_DEFAULT;
 import cim_neurohdc_pkg::GEOM_NMNIST_DEFAULT;
+import cim_neurohdc_pkg::N_XL;
 import cim_neurohdc_pkg::W_AER;
 import cim_neurohdc_pkg::W_BIT_IDX;
 import cim_neurohdc_pkg::W_CFG_ADDR;
@@ -69,6 +71,9 @@ module cim_neurohdc_top #(
     input  logic                         ev_valid_i,
     input  logic [          W_AER-1:0]   ev_aer_i,
     output logic                         ev_ready_o,
+    input  logic [          N_XL-1:0]    evx_valid_i,          // extra lanes: the next events of the stream, consumed together with lane 0 (a prefix of the lanes) or not at all
+    input  logic [   N_XL*W_AER-1:0]     evx_aer_i,
+    output logic [          N_XL-1:0]    evx_ready_o,
     // result
     output logic                         pred_valid_o,
     output logic [        W_CLASS-1:0]   pred_o,
@@ -134,7 +139,32 @@ module cim_neurohdc_top #(
   // ------------------------------------------------------------------ the handshake
   logic q_busy, exited;
   logic ingest_en_snn;
-  assign ingest_en_snn = ingest_en_i && !q_busy && !exited;
+  // abort is REGISTERED at the chip boundary (timing: a request arriving late in the cycle must not fan out into every reset/enable); the intake closes and the reset follows one cycle later (anything accepted in the request cycle itself is flushed by that reset; no combinational path from abort_i to the handshake outputs)
+  logic abort_q;
+  always_ff @(posedge clk_i) abort_q <= rst_n_i && abort_i;
+  // the host's intake enable is registered at the chip boundary as well (a quasi-static control: one cycle of latency, no input-to-handshake path)
+  logic ingest_en_q;
+  always_ff @(posedge clk_i) ingest_en_q <= rst_n_i && ingest_en_i;
+  assign ingest_en_snn = ingest_en_q && !q_busy && !exited && !abort_q;
+
+  // clock of the HDC query stage and the exit controller: only around a spike strobe (5-cycle scoring pipeline plus a two-cycle tail), on clears and class-image writes, and whenever the
+  // SNN is not in RUN. An extra enabled cycle is always safe (every register keeps its own enable).
+  logic clk_hdc, hdc_clk_en, sp_valid_w;
+  logic [1:0] hdc_tail_q;
+  always_ff @(posedge clk_i) begin
+    if (!rst_n_i) hdc_tail_q <= '1;
+    else hdc_tail_q <= {hdc_tail_q[0], sp_valid_w || q_busy || start_i || abort_q};
+  end
+  assign hdc_clk_en = !rst_n_i || (state_o != ST_RUN) || sp_valid_w || q_busy || (|hdc_tail_q) || abort_q || start_i || cm_we_i || cfg_we_i;
+  if (CLOCK_GATING) begin : g_cg_hdc
+    clk_gate u_cg_hdc (
+        .clk_i (clk_i),
+        .en_i  (hdc_clk_en),
+        .gclk_o(clk_hdc)
+    );
+  end else begin : g_no_cg_hdc
+    assign clk_hdc = clk_i;
+  end
 
   // ------------------------------------------------------------------ [Phase 1E] SNN, unchanged
   logic [N_NEURONS-1:0] sp;
@@ -160,10 +190,13 @@ module cim_neurohdc_top #(
       .wl_ready_o        (wl_ready_o),
       .start_i           (start_i),
       .ingest_en_i       (ingest_en_snn),
-      .abort_i           (abort_i),
+      .abort_i           (abort_q),
       .ev_valid_i        (ev_valid_i),
       .ev_aer_i          (ev_aer_i),
       .ev_ready_o        (snn_ev_ready),
+      .evx_valid_i       (evx_valid_i),
+      .evx_aer_i         (evx_aer_i),
+      .evx_ready_o       (evx_ready_o),
       .spike_o           (sp),
       .spike_valid_o     (sp_valid),
       .spike_tstep_o     (sp_t),
@@ -192,12 +225,13 @@ module cim_neurohdc_top #(
   assign ev_ready_o    = snn_ev_ready;
   assign spike_o       = sp;
   assign spike_valid_o = sp_valid;
+  assign sp_valid_w    = sp_valid;
   assign spike_tstep_o = sp_t;
 
   // ------------------------------------------------------------------ [Phase 2] HDC query
   logic [W_TADDR-1:0] dec_t;
   logic q_clr;
-  assign q_clr = start_i || abort_i;
+  assign q_clr = start_i || abort_q;
   hdc_query #(
       .N_CLASSES     (N_CLASSES),
       .FACTORIZED    (FACTORIZED),
@@ -205,7 +239,7 @@ module cim_neurohdc_top #(
       .INSTRUMENT_EN (INSTRUMENT_EN),
       .CLOCK_GATING  (CLOCK_GATING)
   ) u_query (
-      .clk_i        (clk_i),
+      .clk_i        (clk_hdc),
       .rst_n_i      (rst_n_i),
       .clr_i        (q_clr),
       .cm_we_i      (cm_we_i),
@@ -233,7 +267,7 @@ module cim_neurohdc_top #(
       .EARLY_EXIT_EN(EARLY_EXIT_EN),
       .N_TS         (N_TIMESTEPS)
   ) u_exit (
-      .clk_i       (clk_i),
+      .clk_i       (clk_hdc),
       .rst_n_i     (rst_n_i),
       .clr_i       (q_clr),
       .dec_valid_i (dec_valid_o),
@@ -271,12 +305,12 @@ module cim_neurohdc_top #(
           ci_q    <= '0;
           ev_q    <= '0;
           running <= 1'b1;
-        end else if (abort_i) begin
+        end else if (abort_q) begin
           running <= 1'b0;
         end else if (running) begin
           if (!fin) ci_q <= ci_q + W_STAT'(1);
           if (q_busy && !fin) cq_q <= cq_q + W_STAT'(1);
-          if (ev_valid_i && snn_ev_ready) ev_q <= ev_q + W_STAT'(1);
+          if (ev_valid_i && snn_ev_ready) ev_q <= ev_q + W_STAT'(1) + W_STAT'($countones(evx_ready_o));
           if (pred_valid_o) running <= 1'b0;
         end
       end

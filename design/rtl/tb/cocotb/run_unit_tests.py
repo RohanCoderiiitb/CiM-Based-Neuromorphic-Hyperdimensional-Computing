@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run every Level 2 / Level 3 cocotb test on Verilator and Icarus, then the g-sweep check (X identical at every g).
+"""Run every Level 2 / Level 3 cocotb test on Verilator and Icarus, then the cols-sweep check (X identical at every g).
 
   python tb/cocotb/run_unit_tests.py [--sims verilator icarus] [--only addr_gen ...]
 
@@ -35,21 +35,16 @@ CASES = [
     ("count_mem", "count_mem", "test_count_mem", {}, {}),
     ("weight_load", "weight_load", "test_weight_load", {}, {}),
     ("spike_reg", "spike_reg", "test_spike_reg", {}, {}),
-    ("if_neuron_array", "if_neuron_array", "test_if_neuron", {}, {}),
 ]
-for g, cols in ((4, 40), (4, 160), (4, 20), (8, 40), (8, 160), (1, 40), (16, 20), (64, 40), (512, 160)):
-    p = dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols)
-    e = dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols))
-    CASES.append((f"plane_seq_g{g}_c{cols}", "plane_seq", "test_plane_seq", p, e))
-    CASES.append((f"cim_macro_g{g}_c{cols}", "cim_macro", "test_cim_macro", p, e))
-    CASES.append((f"shift_accum_g{g}_c{cols}", "shift_accum", "test_shift_accum", p, e))
-G_SWEEP = (1, 2, 4, 8, 16, 32, 64, 128, 512)                       # g must divide 512
-for g in G_SWEEP:
-    CASES.append((f"mvm_unit_g{g}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=40),
-                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS="40", MVM_OUT=str(OUT / f"mvm_x_g{g}_c40.json"))))
-for g, cols in ((4, 160), (4, 20), (8, 20), (64, 160)):
-    CASES.append((f"mvm_unit_g{g}_c{cols}", "mvm_unit", "test_mvm_unit", dict(ROWS_PER_GROUP=g, N_PARALLEL_COLS=cols),
-                  dict(ROWS_PER_GROUP=str(g), N_PARALLEL_COLS=str(cols), MVM_OUT=str(OUT / f"mvm_x_g{g}_c{cols}.json"))))
+# packed-row scan: the group of 4 counters is the 4 banks of the count memory, so g is 4; the column mode (columns sensed per pass = 8 weight bit-planes of COLS/8 neurons) is swept
+for cols in (40, 80, 160):
+    p = dict(ROWS_PER_GROUP=4, N_PARALLEL_COLS=cols)
+    e = dict(ROWS_PER_GROUP="4", N_PARALLEL_COLS=str(cols))
+    CASES.append((f"plane_seq_g4_c{cols}", "plane_seq", "test_plane_seq", p, e))
+    CASES.append((f"cim_macro_g4_c{cols}", "cim_macro", "test_cim_macro", p, e))
+    CASES.append((f"mvm_unit_g4_c{cols}", "mvm_unit", "test_mvm_unit", p, dict(e, MVM_OUT=str(OUT / f"mvm_x_g4_c{cols}.json"))))
+CASES.append(("if_neuron_array_c40", "if_neuron_array", "test_if_neuron", dict(N_PARALLEL_COLS=40), dict(N_PARALLEL_COLS="40")))
+CASES.append(("if_neuron_array_c160", "if_neuron_array", "test_if_neuron", dict(N_PARALLEL_COLS=160), dict(N_PARALLEL_COLS="160")))
 
 
 HDC_TOPS = ("top2_wrap", "exit_ctrl", "hdc_query")
@@ -97,8 +92,8 @@ def run_case(sim: str, name: str, top: str, module: str, params: dict, env: dict
     return dict(sim=sim, case=name, toplevel=top, module=module, parameters=params, tests=n, failed=nfail, ok=bool(ok), error=err, wall_s=round(time.time() - t0, 1))
 
 
-def g_sweep_check() -> dict:
-    """X must be identical at every g (and column mode / skip setting): grouping changes the number of reads, never the answer."""
+def cols_sweep_check() -> dict:
+    """X must be identical at every column mode: how many columns are sensed per pass changes the number of cycles, never the answer."""
     runs = {}
     for f in sorted(OUT.glob("mvm_x_g*.json")):
         runs[f.name] = json.loads(f.read_text())
@@ -129,10 +124,10 @@ def main() -> int:
             results.append(r)
             (OUT / f"{sim}__{name}.json").write_text(json.dumps(r, indent=1))
             print(f"[{'PASS' if r['ok'] else 'FAIL'}] {sim:9s} {name:28s} {r['tests']} tests, {r['wall_s']}s {r['error']}", flush=True)
-        sweep = g_sweep_check()
-        (OUT / f"g_sweep_{sim}.json").write_text(json.dumps(sweep, indent=1))
-        print(f"[{'PASS' if sweep['ok'] else 'FAIL'}] {sim}: g-sweep X identical across {len(sweep.get('runs', []))} runs / {sweep.get('vectors')} vectors")
-        results.append(dict(sim=sim, case="g_sweep_identical_X", ok=sweep["ok"]))
+        sweep = cols_sweep_check()
+        (OUT / f"cols_sweep_{sim}.json").write_text(json.dumps(sweep, indent=1))
+        print(f"[{'PASS' if sweep['ok'] else 'FAIL'}] {sim}: cols-sweep X identical across {len(sweep.get('runs', []))} runs / {sweep.get('vectors')} vectors")
+        results.append(dict(sim=sim, case="cols_sweep_identical_X", ok=sweep["ok"]))
     (OUT / "summary.json").write_text(json.dumps(results, indent=1))
     return 0 if all(r["ok"] for r in results) else 1
 

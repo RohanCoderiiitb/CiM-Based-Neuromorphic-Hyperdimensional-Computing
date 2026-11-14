@@ -27,8 +27,11 @@ GRID = 0.005
 ROW = 1.71
 CACTI = dict(area_um2=3745.0, read_pj=0.632, write_pj=0.635, leak_uw=15.5, access_ns=0.479, cycle_ns=0.396)
 CACTI_SIGN = dict(area_um2=1130.0, read_pj=0.284, write_pj=0.340, leak_uw=4.64, access_ns=0.394)      # 256 B (128 x 16 b), same CACTI settings
-DECODER_UM2 = 3000.0           # [ASSUM] 7-bit group decode + 512 AND2 row-enable gates inside the crossbar macro (item 6)
+DECODER_UM2 = 9000.0           # [ASSUM] four independent 9-bit row decoders (packed-row reads, one per row slot, with a band select) + 512 OR4 row-enable gates inside the crossbar macro; the single group decoder of the earlier design was 3000
 TIMING = {"cim_macro": dict(clk_to_q=0.3, setup=0.5, hold=0.1), "hdc_class_array": dict(clk_to_q=0.3, setup=0.5, hold=0.1), "count_sram": dict(clk_to_q=0.6, setup=0.2, hold=0.05), "sign_sram": dict(clk_to_q=0.6, setup=0.2, hold=0.05)}
+
+
+SRAM_OBS_TOP = 4       # [ASSUM] the SRAM macros (count_sram, sign_sram) block Metal1-4 only, as compiler SRAMs do; signals may route over them on Metal5+ (the analog arrays block every layer)
 
 
 def lef(name: str, ports: dict, w: float, h: float, pitch: float, y1: float = 1.0) -> str:
@@ -69,7 +72,7 @@ def lef(name: str, ports: dict, w: float, h: float, pitch: float, y1: float = 1.
             x += 16.0
         L += ["    END", f"  END {nm}"]
     L += ["  OBS"]
-    for i in range(1, 11):
+    for i in range(1, (SRAM_OBS_TOP if name in ("count_sram", "sign_sram") else 10) + 1):
         L += [f"    LAYER Metal{i} ;", f"      RECT 0 {y1 + 0.2:.3f} {w} {h} ;"]
     L += ["  END", f"END {name}", "", "END LIBRARY"]
     return "\n".join(L) + "\n"
@@ -114,6 +117,30 @@ def dims(area: float, aspect: float = 1.0) -> tuple[float, float]:
     return w, h
 
 
+def count_banks() -> int:
+    """N_COUNT_BANKS of the package: the 512 counters live in that many identical single-port macros."""
+    t = (SYNTH.parent / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
+    m = re.search(r"localparam int N_COUNT_BANKS\s*=\s*(\d+)", t)
+    return int(m.group(1)) if m else 1       # a package without the parameter: one 512-word counter macro
+
+
+def count_lanes() -> int:
+    """N_LANES of the package: every input lane has its own copy of the counter banks (lane-private counters)."""
+    t = (SYNTH.parent / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
+    m = re.search(r"localparam int N_LANES\s*=\s*(\d+)", t)
+    return int(m.group(1)) if m else 1
+
+
+def count_cacti(nb: int) -> dict:
+    """CACTI point of one counter bank: 1 kB (512 x 16 b) for one bank, 256 B (128 x 16 b: the sign table's size, same CACTI settings) for four banks."""
+    nbytes = 512 // nb * 16 // 8
+    if nbytes == 1024:
+        return CACTI
+    if nbytes == 256:
+        return CACTI_SIGN
+    raise SystemExit(f"no CACTI point for a {nbytes} B counter bank (have 1024 B and 256 B)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True)
@@ -150,18 +177,19 @@ def main() -> int:
             w, h = dims(area, aspect=1.4)
             w = max(w, round(((sum(len(p["bits"]) for p in ports.values()) + 2) * a.pitch + 6) / 0.2 + 0.5) * 0.2)
         else:
-            area = CACTI["area_um2"]
+            CC = count_cacti(count_banks())
+            area = CC["area_um2"]
             w, h = dims(area, aspect=1.4)
             w = max(w, round(((sum(len(p["bits"]) for p in ports.values()) + 2) * a.pitch + 6) / 0.2 + 0.5) * 0.2)
         (out / f"{m}.lef").write_text(lef(m, ports, w, h, a.pitch))
         if m == "count_sram":
-            txt = lib(m, ports, w * h, leak_pw=CACTI["leak_uw"] * 1e6, energy={"re_i": CACTI["read_pj"], "we_i": CACTI["write_pj"]})
+            txt = lib(m, ports, w * h, leak_pw=CC["leak_uw"] * 1e6, energy={"re_i": CC["read_pj"], "we_i": CC["write_pj"]})
         elif m == "sign_sram":
             txt = lib(m, ports, w * h, leak_pw=CACTI_SIGN["leak_uw"] * 1e6, energy={"re_i": CACTI_SIGN["read_pj"], "we_i": CACTI_SIGN["write_pj"]})
         else:
             txt = lib(m, ports, area)
         (out / f"{m}.lib").write_text(txt)
-        summary[m] = dict(area_um2=area, width_um=w, height_um=h, n_pin_bits=sum(len(p["bits"]) for p in ports.values()), pitch_um=a.pitch)
+        summary[m] = dict(area_um2=area, width_um=w, height_um=h, n_pin_bits=sum(len(p["bits"]) for p in ports.values()), pitch_um=a.pitch, n_instances=2 * count_banks() * count_lanes() if m == "count_sram" else 1)   # two counter sets (ping-pong)
         print(f"{m:16s} {w:8.1f} x {h:8.1f} um  {area * 1e-6:.5f} mm^2  {summary[m]['n_pin_bits']} pin bits")
     (out / "macros.json").write_text(json.dumps(summary, indent=1))
     return 0

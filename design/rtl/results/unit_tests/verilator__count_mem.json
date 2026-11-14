@@ -4,9 +4,9 @@
  "toplevel": "count_mem",
  "module": "test_count_mem",
  "parameters": {},
- "tests": 6,
+ "tests": 10,
  "failed": 0,
  "ok": true,
  "error": "",
- "wall_s": 8.3
+ "wall_s": 3.9
 }

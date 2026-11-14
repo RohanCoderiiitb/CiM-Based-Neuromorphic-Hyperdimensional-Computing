@@ -49,6 +49,9 @@ module hdc_regress_tb;
   logic ev_valid = 1'b0;
   logic [W_AER-1:0] ev_aer = '0;
   logic ev_ready;
+  logic [N_XL-1:0] evx_valid = '0;  // extra lanes: the NEXT events of the stream, consumed together with lane 0 (a prefix) or not at all
+  logic [N_XL*W_AER-1:0] evx_aer = '0;
+  logic [N_XL-1:0] evx_ready;
   logic pred_valid, pred_early, inf_done;
   logic [W_CLASS-1:0] pred;
   logic [W_TADDR-1:0] pred_tstep;
@@ -100,6 +103,9 @@ module hdc_regress_tb;
       .ev_valid_i(ev_valid),
       .ev_aer_i(ev_aer),
       .ev_ready_o(ev_ready),
+      .evx_valid_i(evx_valid),
+      .evx_aer_i(evx_aer),
+      .evx_ready_o(evx_ready),
       .pred_valid_o(pred_valid),
       .pred_o(pred),
       .pred_tstep_o(pred_tstep),
@@ -155,7 +161,7 @@ module hdc_regress_tb;
   integer geometry, n_samples, gap_mode, seed;
   integer n_events, thr[N_NEURONS], gap_seed, theta, exit_en;
   logic [31:0] lfsr;
-  integer k, s, j, m, a, rc;
+  integer k, kadv, s, j, m, a, rc;
   integer n_main_words;
   logic [N_CLASSES_P*20-1:0] cm_tmp;
 
@@ -209,10 +215,12 @@ module hdc_regress_tb;
 
   // one line per timestep, on the decision strobe (the spike vector, X, V and the per-timestep SNN counters are all still held at that point)
   logic log_en = 1'b1;
+  logic [N_NEURONS*W_X-1:0] x_snap;  // X as it was at the spike strobe: the next timestep's scan may start (and clear X) before the decision strobe
+  always @(posedge clk) if (spike_valid) x_snap <= x_flat;
   always @(posedge clk) begin
     if (dec_valid && log_en) begin
       $fwrite(fd_out, "TS %0d %0d %05x", s, spike_tstep, spike);
-      for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_x(x_flat[jj*W_X+:W_X]));
+      for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_x(x_snap[jj*W_X+:W_X]));
       for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_v(v_flat[jj*W_V+:W_V]));
       $fwrite(fd_out, " %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d", ts_events, ts_active, ts_skipped, ts_rows, ts_allcols, ts_plane, ts_issued, ts_zero, ts_fwd, ts_cyc, ts_cyc_ing);
       for (int cc = 0; cc < N_CLASSES_P; cc++) $fwrite(fd_out, " %0d", scores[cc*W_SCORE+:W_SCORE]);
@@ -303,10 +311,14 @@ module hdc_regress_tb;
       end
       decoy_c = 0;
       while (!(measure ? (c_spike >= 0) : (decoy_c >= target)) && decoy_c < 60000) begin
-        ev_valid = (decoy_k < n_events);
-        ev_aer   = ev_mem[decoy_k];
+        ev_valid  = (decoy_k < n_events);
+        ev_aer    = ev_mem[decoy_k];
+        for (int xl = 0; xl < N_XL; xl++) begin
+          evx_valid[xl] = (decoy_k + 1 + xl < n_events);
+          evx_aer[xl*W_AER+:W_AER] = ev_mem[decoy_k + 1 + xl];
+        end
         #4;
-        if (ev_valid && ev_ready) decoy_k = decoy_k + 1;
+        if (ev_valid && ev_ready) decoy_k = decoy_k + 1 + $countones(evx_ready);
         if (measure) begin
           if (c_drain < 0 && decoy_prev_ready && !ev_ready) c_drain = decoy_c;
           if (c_spike < 0 && spike_valid) c_spike = decoy_c;
@@ -316,7 +328,8 @@ module hdc_regress_tb;
         decoy_c = decoy_c + 1;
       end
       do_abort();
-      ev_valid = 1'b0;
+      ev_valid  = 1'b0;
+      evx_valid = '0;
     end
   endtask
 
@@ -443,19 +456,26 @@ module hdc_regress_tb;
       start = 1'b0;
 
       // event driver: present a word, hold it until ready (or until the inference is over), then idle for a pseudo-random gap
-      for (k = 0; k < n_events && !stop_stream; k++) begin
+      for (k = 0; k < n_events && !stop_stream; k = k + kadv) begin
+        kadv = 1;
         if (gap_mode != 0) begin
           lfsr = xorshift(lfsr);
           if (lfsr[1:0] != 2'b00) begin
             repeat (int'(lfsr[3:2])) begin
               ev_valid = 1'b0;
+              evx_valid = '0;
               idle_cycles = idle_cycles + 1;
               @(negedge clk);
             end
           end
         end
-        ev_valid = 1'b1;
-        ev_aer   = ev_mem[k];
+        ev_valid  = 1'b1;
+        ev_aer    = ev_mem[k];
+        // the second lane carries the next event, except in the gap runs (they exercise the single-lane arrival pattern)
+        for (int xl = 0; xl < N_XL; xl++) begin
+          evx_valid[xl] = (gap_mode == 0) && (k + 1 + xl < n_events);
+          evx_aer[xl*W_AER+:W_AER] = ev_mem[k + 1 + xl];
+        end
         #4;
         while (!ev_ready && !stop_stream) begin
           stall_cycles = stall_cycles + 1;
@@ -463,9 +483,13 @@ module hdc_regress_tb;
           @(negedge clk);
           #4;
         end
-        if (!stop_stream) @(negedge clk);
+        if (!stop_stream) begin
+          kadv = 1 + $countones(evx_ready);
+          @(negedge clk);
+        end
       end
-      ev_valid = 1'b0;
+      ev_valid  = 1'b0;
+      evx_valid = '0;
       while (!inf_done) @(negedge clk);
       // let the prediction strobe and (when the sample ran to the end) the SNN's DONE settle
       repeat (4) @(negedge clk);

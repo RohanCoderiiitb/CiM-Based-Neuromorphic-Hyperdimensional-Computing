@@ -4,9 +4,10 @@
 //   cycle 0  spike_valid_i      spike vector captured (s_q, t_q)
 //   cycle 1  v1_q               array read: row enables = the spikes (hdc_class_array), registered
 //   cycle 2  arr_valid          agree_i from the datapath of the chosen mapping; score_i += agree_i (registered)
-//   cycle 3  v3_q               top-2 tournament over the N scores (registered)
-//   cycle 4  dec_valid_o        top1_idx_o / top1_o / top2_o valid (one cycle); the exit controller compares the margin here
-// busy_o is high from cycle 0 to cycle 4 inclusive: the integration holds the SNN's event intake for exactly that long, so timestep t's spikes are consumed (and the exit
+//   cycle 3  v3_q               top-2 tournaments over each half of the N scores (registered)
+//   cycle 4  v35_q              the final merge of the two halves (registered)
+//   cycle 5  dec_valid_o        top1_idx_o / top1_o / top2_o valid (one cycle); the exit controller compares the margin here
+// busy_o is high from cycle 0 to cycle 5 inclusive: the integration holds the SNN's event intake for exactly that long, so timestep t's spikes are consumed (and the exit
 // decision taken) before any event of timestep t+1 is accepted.
 //
 // Mapping (FACTORIZED): 0 = unfactorized 2000 x N class memory + XNOR-popcount; 1 = R=1 factorized (20 x N stationary array + T x N sign table + N bias registers) + AND-popcount.
@@ -49,7 +50,7 @@ module hdc_query #(
   localparam int NTS = 100;
   logic [19:0] s_q;
   logic [W_TADDR-1:0] t_q;
-  logic v1_q, v3_q, v4_q;  // stage valids; stage 2 is arr_valid (the array's registered read-valid)
+  logic v1_q, v3_q, v35_q, v4_q;  // stage valids; stage 2 is arr_valid (the array's registered read-valid)
   logic [N_CLASSES*W_SCORE-1:0] score_q;
   logic [W_SCORE-1:0] top1_q, top2_q;
   logic [W_CLASS-1:0] idx_q;
@@ -175,18 +176,49 @@ module hdc_query #(
   );
 
   // ------------------------------------------------------------------ top-2 tournament over the registered scores
+  // two cycles (timing): the tournaments over the lower and the upper half of the classes are registered, the merge of the two winners follows (top2_tree's merge rule; ties keep the lower index)
+  localparam int NH = N_CLASSES / 2;
+  logic [W_SCORE-1:0] h_lv1, h_lv2, h_rv1, h_rv2, lv1_q, lv2_q, rv1_q, rv2_q;
+  logic [W_CLASS-1:0] h_li, h_ri, li_q, ri_q;
+  top2_tree #(
+      .N   (NH),
+      .W   (W_SCORE),
+      .WI  (W_CLASS),
+      .BASE(0)
+  ) u_top2 (
+      .scores_i(score_q[NH*W_SCORE-1:0]),
+      .v1_o    (h_lv1),
+      .i1_o    (h_li),
+      .v2_o    (h_lv2)
+  );
+  top2_tree #(
+      .N   (N_CLASSES - NH),
+      .W   (W_SCORE),
+      .WI  (W_CLASS),
+      .BASE(NH)
+  ) u_top2_r (
+      .scores_i(score_q[N_CLASSES*W_SCORE-1:NH*W_SCORE]),
+      .v1_o    (h_rv1),
+      .i1_o    (h_ri),
+      .v2_o    (h_rv2)
+  );
+  always_ff @(posedge clk_i) begin
+    if (v3_q) begin
+      lv1_q <= h_lv1;
+      lv2_q <= h_lv2;
+      li_q  <= h_li;
+      rv1_q <= h_rv1;
+      rv2_q <= h_rv2;
+      ri_q  <= h_ri;
+    end
+  end
   logic [W_SCORE-1:0] t_v1, t_v2;
   logic [W_CLASS-1:0] t_i1;
-  top2_tree #(
-      .N (N_CLASSES),
-      .W (W_SCORE),
-      .WI(W_CLASS)
-  ) u_top2 (
-      .scores_i(score_q),
-      .v1_o    (t_v1),
-      .i1_o    (t_i1),
-      .v2_o    (t_v2)
-  );
+  logic left_wins;
+  assign left_wins = (lv1_q >= rv1_q);
+  assign t_v1 = left_wins ? lv1_q : rv1_q;
+  assign t_i1 = left_wins ? li_q : ri_q;
+  assign t_v2 = left_wins ? ((lv2_q >= rv1_q) ? lv2_q : rv1_q) : ((rv2_q >= lv1_q) ? rv2_q : lv1_q);
 
   logic [31:0] reads_q;
   if (INSTRUMENT_EN) begin : g_instr
@@ -204,6 +236,7 @@ module hdc_query #(
       t_q     <= '0;
       v1_q    <= 1'b0;
       v3_q    <= 1'b0;
+      v35_q   <= 1'b0;
       v4_q    <= 1'b0;
       score_q <= '0;
       top1_q  <= '0;
@@ -212,7 +245,8 @@ module hdc_query #(
     end else begin
       v1_q <= spike_valid_i;
       v3_q <= arr_valid;
-      v4_q <= v3_q;
+      v35_q <= v3_q;
+      v4_q  <= v35_q;
       if (spike_valid_i) begin
         s_q <= spike_i;
         t_q <= tstep_i;
@@ -220,7 +254,7 @@ module hdc_query #(
       if (arr_valid) begin
         for (int i = 0; i < N_CLASSES; i++) score_q[i*W_SCORE+:W_SCORE] <= score_q[i*W_SCORE+:W_SCORE] + W_SCORE'(agree[i*5+:5]);
       end
-      if (v3_q) begin
+      if (v35_q) begin
         top1_q <= t_v1;
         top2_q <= t_v2;
         idx_q  <= t_i1;
@@ -228,7 +262,7 @@ module hdc_query #(
     end
   end
 
-  assign busy_o      = spike_valid_i | v1_q | arr_valid | v3_q | v4_q;
+  assign busy_o      = spike_valid_i | v1_q | arr_valid | v3_q | v35_q | v4_q;
   assign dec_valid_o = v4_q;
   assign dec_tstep_o = t_q;
   assign scores_o    = score_q;

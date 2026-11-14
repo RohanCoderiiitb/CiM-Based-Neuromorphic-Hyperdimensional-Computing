@@ -68,15 +68,31 @@ if {"floorplan" in $STAGES} {
     odb::dbBlockage_create $block $bx0 [expr {int($MARGIN * $dbu)}] [expr {int(($DIE_W - $MARGIN) * $dbu)}] [expr {int(($CIM_Y - 0.5) * $dbu)}]
   }
   set MACRO_CELLS {}
+  array set MN {}
   foreach inst [$block getInsts] {
     set mn [[$inst getMaster] getName]
     if {[[$inst getMaster] isBlock]} { lappend MACRO_CELLS $mn }
     if {$mn eq "cim_macro"} { set X $CIM_X; set Y $CIM_Y } elseif {$mn eq "hdc_class_array"} { set X $HDC_X; set Y $HDC_Y } elseif {[info exists ::MAC_${mn}_X]} {
       set X [set ::MAC_${mn}_X]; set Y [set ::MAC_${mn}_Y] } else { continue }
-    $inst setOrient R0
+    # several instances of one macro sit side by side, 5 um apart; the counter banks form a block: one column per bank, one row per ping-pong set
+    if {![info exists MN($mn)]} { set MN($mn) 0 } else { incr MN($mn) }
+    if {[regexp {g_set.*?(\d+).*?g_lane.*?(\d+).*?g_bank.*?(\d+)} [$inst getName] -> cset clane cbank]} {
+      set X [expr {$X + $cbank * ([[$inst getMaster] getWidth] / double($dbu) + 5.0)}]
+      # lane-private counters: one row per (lane, set), lane-major (a lane's 8 macros in two adjacent rows, next to its own ingest logic), 5 um apart (the SRAMs block Metal1-4 only)
+      set Y [expr {$Y + ($clane * 2 + $cset) * ([[$inst getMaster] getHeight] / double($dbu) + 5.0)}]
+    } elseif {[regexp {g_set.*?(\d+).*?g_bank.*?(\d+)} [$inst getName] -> cset cbank]} {
+      set X [expr {$X + $cbank * ([[$inst getMaster] getWidth] / double($dbu) + 5.0)}]
+      set Y [expr {$Y + $cset * ([[$inst getMaster] getHeight] / double($dbu) + 5.0)}]
+    } else {
+      set X [expr {$X + $MN($mn) * ([[$inst getMaster] getWidth] / double($dbu) + 5.0)}]
+    }
+    if {![info exists ORI]} { set ORI R0 }
+    $inst setOrient $ORI
+    unset ORI
     $inst setLocation [expr {int(round($X * $dbu))}] [expr {int(round($Y * $dbu))}]
     $inst setPlacementStatus FIRM
-    puts "macro [$inst getName] ($mn) placed at ($X, $Y)"
+    set bb [$inst getBBox]
+    puts "macro [$inst getName] ($mn) placed at ($X, $Y) [$inst getOrient] bbox [expr {[$bb xMin]/double($dbu)}] [expr {[$bb yMin]/double($dbu)}] [expr {[$bb xMax]/double($dbu)}] [expr {[$bb yMax]/double($dbu)}]"
   }
   add_global_connection -net VDD -pin_pattern {^VDD$} -power
   add_global_connection -net VSS -pin_pattern {^VSS$} -ground
@@ -98,6 +114,12 @@ if {"place" in $STAGES} {
   load_design floorplan slow
   buffer_ports
   global_placement -skip_io -density $PLACE_DENSITY
+  # the event (AER) pins go to the stretch of the bottom edge beside the counter-bank block (fp.tcl: EV_X0 .. EV_X1)
+  if {[info exists EV_X0]} {
+    set evpins {}
+    foreach bt [[ord::get_db_block] getBTerms] { if {[regexp {^(ev|evx)_(aer_i|valid_i|ready_o)} [$bt getName]]} { lappend evpins [$bt getName] } }
+    set_io_pin_constraint -region bottom:$EV_X0-$EV_X1 -pin_names $evpins
+  }
   place_pins -hor_layers Metal3 -ver_layers Metal4 -exclude top:* -exclude left:[expr {int($CIM_Y) - 2}]-$DIE_H -exclude right:* -exclude bottom:[expr {int($MARGIN + $IO_W) + 1}]-$DIE_W -min_distance 1 -min_distance_in_tracks
   global_placement -routability_driven -density $PLACE_DENSITY
   set PV [expr {[info exists ::env(PLACE_VARIANT)] ? $::env(PLACE_VARIANT) : 2}]
@@ -132,7 +154,7 @@ if {"place" in $STAGES} {
 if {"cts" in $STAGES} {
   load_design place
   estimate_parasitics -placement
-  clock_tree_synthesis -root_buf CLKBUFX12 -buf_list {CLKBUFX8 CLKBUFX12 CLKBUFX16} {*}[expr {[info exists ::env(CTS_OPTS)] ? $::env(CTS_OPTS) : "-sink_clustering_enable -sink_clustering_size 6 -sink_clustering_max_diameter 30 -distance_between_buffers 80 -no_insertion_delay"}]
+  clock_tree_synthesis -root_buf [expr {[info exists ::env(CTS_ROOT)] ? $::env(CTS_ROOT) : "CLKBUFX12"}] -buf_list [expr {[info exists ::env(CTS_BUFS)] ? $::env(CTS_BUFS) : {CLKBUFX8 CLKBUFX12 CLKBUFX16}}] {*}[expr {[info exists ::env(CTS_OPTS)] ? $::env(CTS_OPTS) : "-sink_clustering_enable -sink_clustering_size 6 -sink_clustering_max_diameter 30 -distance_between_buffers 80 -no_insertion_delay"}]
   set_propagated_clock [all_clocks]
   estimate_parasitics -placement
   repair_clock_nets
@@ -160,9 +182,11 @@ if {"groute" in $STAGES} {
   global_route -guide_file $RUN/route.guide -congestion_iterations 60 -allow_congestion -congestion_report_file $RUN/reports/congestion.rpt
   estimate_parasitics -global_routing
   repair_design -verbose
-  repair_timing -setup -setup_margin 0.4 -verbose
-  repair_timing -hold -hold_margin 0.15 -verbose
-  repair_timing -setup -setup_margin 0.4 -verbose
+  set GR_SETUP [expr {[info exists ::env(GR_SETUP_MARGIN)] ? $::env(GR_SETUP_MARGIN) : 0.4}]
+  set GR_HOLD  [expr {[info exists ::env(GR_HOLD_MARGIN)]  ? $::env(GR_HOLD_MARGIN)  : 0.15}]
+  repair_timing -setup -setup_margin $GR_SETUP -verbose
+  repair_timing -hold -hold_margin $GR_HOLD -verbose
+  repair_timing -setup -setup_margin $GR_SETUP -verbose
   detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
   check_placement -verbose
   global_route -guide_file $RUN/route.guide -start_incremental
@@ -178,7 +202,9 @@ if {"route" in $STAGES} {
     load_design groute
     set_propagated_clock [all_clocks]
   }
-  detailed_route -output_drc $RUN/reports/drc_route.rpt -droute_end_iter 20 -verbose 1
+  set DRT_ITERS [expr {[info exists ::env(DRT_ITERS)] ? $::env(DRT_ITERS) : 20}]
+  set DRT_OPTS [expr {[info exists ::env(DRT_OPTS)] ? $::env(DRT_OPTS) : ""}]       ;# e.g. "-or_seed 7 -or_k 2": a different (still deterministic) routing order
+  detailed_route -output_drc $RUN/reports/drc_route.rpt -droute_end_iter $DRT_ITERS -verbose 1 {*}$DRT_OPTS
   write_db $RUN/routed.odb
   write_verilog $RUN/routed.v
   write_def $RUN/routed.def

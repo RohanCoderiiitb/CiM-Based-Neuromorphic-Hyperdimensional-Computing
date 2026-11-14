@@ -1,0 +1,14 @@
+{
+ "sim": "verilator",
+ "case": "if_neuron_array_c40",
+ "toplevel": "if_neuron_array",
+ "module": "test_if_neuron",
+ "parameters": {
+  "N_PARALLEL_COLS": 40
+ },
+ "tests": 3,
+ "failed": 0,
+ "ok": true,
+ "error": "",
+ "wall_s": 4.1
+}

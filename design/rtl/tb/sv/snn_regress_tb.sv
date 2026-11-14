@@ -35,6 +35,9 @@ module snn_regress_tb;
   logic ev_valid = 1'b0;
   logic [W_AER-1:0] ev_aer = '0;
   logic ev_ready;
+  logic [N_XL-1:0] evx_valid = '0;  // extra lanes
+  logic [N_XL*W_AER-1:0] evx_aer = '0;
+  logic [N_XL-1:0] evx_ready;
   logic [N_NEURONS-1:0] spike;
   logic spike_valid, done, weights_loaded;
   logic [W_TSTEP-1:0] spike_tstep;
@@ -68,6 +71,9 @@ module snn_regress_tb;
       .ev_valid_i(ev_valid),
       .ev_aer_i(ev_aer),
       .ev_ready_o(ev_ready),
+      .evx_valid_i(evx_valid),
+      .evx_aer_i(evx_aer),
+      .evx_ready_o(evx_ready),
       .spike_o(spike),
       .spike_valid_o(spike_valid),
       .spike_tstep_o(spike_tstep),
@@ -102,7 +108,7 @@ module snn_regress_tb;
   integer geometry, n_samples, gap_mode, seed;
   integer n_events, thr[N_NEURONS], gap_seed;
   logic [31:0] lfsr;
-  integer k, s, j, m, a, rc;
+  integer k, kadv, s, j, m, a, rc;
 
   // a tiny xorshift32 for reproducible gaps
   function automatic logic [31:0] xorshift(input logic [31:0] v);
@@ -232,19 +238,25 @@ module snn_regress_tb;
       start = 1'b0;
 
       // event driver: present a word, hold it until ready, then idle for a pseudo-random gap
-      for (k = 0; k < n_events; k++) begin
+      for (k = 0; k < n_events; k = k + kadv) begin
+        kadv = 1;
         if (gap_mode != 0) begin
           lfsr = xorshift(lfsr);
           if (lfsr[1:0] != 2'b00) begin  // 3 of 4 events are preceded by 0..3 idle cycles
             repeat (int'(lfsr[3:2])) begin
               ev_valid = 1'b0;
+              evx_valid = '0;
               idle_cycles = idle_cycles + 1;
               @(negedge clk);
             end
           end
         end
-        ev_valid = 1'b1;
-        ev_aer   = ev_mem[k];
+        ev_valid  = 1'b1;
+        ev_aer    = ev_mem[k];
+        for (int xl = 0; xl < N_XL; xl++) begin
+          evx_valid[xl] = (gap_mode == 0) && (k + 1 + xl < n_events);
+          evx_aer[xl*W_AER+:W_AER] = ev_mem[k + 1 + xl];
+        end
         // ready is a registered-state function (it does not depend on valid): sample it 1 ns before the rising edge, which is
         // exactly what the DUT will see at that edge; race-free in both simulators.
         #4;
@@ -253,9 +265,11 @@ module snn_regress_tb;
           @(negedge clk);
           #4;
         end
+        kadv = 1 + $countones(evx_ready);
         @(negedge clk);
       end
-      ev_valid = 1'b0;
+      ev_valid  = 1'b0;
+      evx_valid = '0;
       while (!done) @(negedge clk);
       repeat (3) @(negedge clk);
       sampling = 1'b0;

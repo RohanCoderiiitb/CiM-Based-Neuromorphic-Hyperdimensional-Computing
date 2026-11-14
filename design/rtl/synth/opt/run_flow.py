@@ -16,7 +16,7 @@ REPO = SYNTH.parents[2]
 sys.path.insert(0, str(HERE))
 import synth_opt as SO  # noqa: E402
 
-OPENROAD = os.environ.get("OPENROAD", "/private/tmp/claude-501/openroad_src/build/bin/openroad")
+OPENROAD = os.environ.get("OPENROAD", os.path.expanduser("~/.cache/cim_neurohdc/openroad_src/build/bin/openroad"))
 ap = argparse.ArgumentParser()
 ap.add_argument("--tag", required=True)
 ap.add_argument("--build", default="full")
@@ -38,6 +38,7 @@ ap.add_argument("--core-w", type=float, default=None)
 ap.add_argument("--pitch", type=float, default=0.8, help="macro pin pitch, um")
 ap.add_argument("--rtl-root", default=None, help="RTL tree to synthesise (a snapshot); default the repository")
 ap.add_argument("--set", default="", help="extra chparam settings, e.g. '-set A0_SKIP_EN 0'")
+ap.add_argument("--hier-names", action="store_true", help="map every module on its own and flatten afterwards: cell names keep the module path (per-module power attribution)")
 a = ap.parse_args()
 run = SYNTH / "work" / "opt" / a.tag
 run.mkdir(parents=True, exist_ok=True)
@@ -49,7 +50,7 @@ if a.syn_from:
 if not a.skip_synth:
     if a.rtl_root:
         SO.set_rtl_root(Path(a.rtl_root))
-    d = SO.synth(a.build, run / "syn", a.g, "slow", 10.0, a.dont_use, (a.set + f" -set N_PARALLEL_COLS {a.cols}").strip(), gate_min=a.gate_min)
+    d = SO.synth(a.build, run / "syn", a.g, "slow", 10.0, a.dont_use, (a.set + f" -set N_PARALLEL_COLS {a.cols}").strip(), hier="names" if a.hier_names else False, gate_min=a.gate_min)
     print("synth:", {k: v for k, v in d.items() if k != "stub"}, flush=True)
 mac = run / "macro"
 if a.gen_macros:
@@ -61,7 +62,13 @@ if a.gen_macros:
     import json as _json
     mj = _json.loads((mac / "macros.json").read_text())
     if "count_sram" in mj and not a.extra_macros:
-        a.extra_macros = [f"{n}:{mj[n]['width_um']}:{mj[n]['height_um']}" for n in ("count_sram", "sign_sram") if n in mj]
+        def blk(n):          # the 8 counter banks (two ping-pong sets of 4) form a compact block: one column per bank, one row per set, 5 um apart; other macros are single
+            k = mj[n].get("n_instances", 1)
+            rows = 6 if k == 24 else (2 if k >= 8 else 1)      # lane-private counters: 2 sets x 3 lanes rows of 4 banks
+            cols = k // rows
+            h = mj[n]['height_um'] * rows + 5.0 * (rows - 1)
+            return f"{n}:{mj[n]['width_um'] * cols + 5.0 * (cols - 1)}:{h}"
+        a.extra_macros = [blk(n) for n in ("count_sram", "sign_sram") if n in mj]
 elif not mac.exists() or not a.skip_synth:
     shutil.rmtree(mac, ignore_errors=True)
     mac.mkdir()

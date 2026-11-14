@@ -24,27 +24,27 @@ N_CLASS = 10
 T = G.T
 
 
-def weight_files(model: str, seed: int) -> list[Path]:
-    tag = str(seed) if model == "base" else f"r1s{seed}"
+def weight_files(model: str, seed: int, dataset: str = "dvsgesture") -> list[Path]:
+    tag = G.weight_tag(dataset, seed) if model == "base" else f"r1s{seed}"
     return [G.VEC / "weights" / f"weights_seed{tag}_macro{m}_32b.mem" for m in range(5)]
 
 
-def load_model(model: str, seed: int) -> dict:
+def load_model(model: str, seed: int, dataset: str = "dvsgesture") -> dict:
     """counts, labels, per-sample thresholds, golden SNN trace, class hypervector and the reference prefix scores/predictions."""
-    c = np.load(G.VEC / "dvsgesture" / "counts.npz")
+    c = np.load(G.VEC / dataset / "counts.npz")
     if model == "base":
-        z = np.load(G.VEC / "dvsgesture" / f"seed{seed}.npz")
-        hv = np.load(G.P0 / "artifacts" / "phase0" / f"class_hv_seed{seed}.npy")
+        z = np.load(G.VEC / dataset / f"seed{seed}.npz")
+        hv = np.load(G.P0 / "artifacts" / "phase0" / (f"class_hv_nmnist{seed}.npy" if dataset == "nmnist" else f"class_hv_seed{seed}.npy"))
         a = b = None
     elif model == "r1":
         z = np.load(G.VEC / "dvsgesture" / f"r1_seed{seed}.npz")
         hv, a, b = z["class_hv"], z["a_bits"], z["b_bits"]
     else:
         raise ValueError(model)
-    W = G.load_dataset("dvsgesture", seed)[3] if model == "base" else _decode_weights(model, seed)
+    W = G.load_dataset(dataset, seed)[3] if model == "base" else _decode_weights(model, seed)
     prefix = np.stack([HQ.prefix_scores(HQ.agree_unfactorized(z["spikes"][i], hv)) for i in range(len(z["spikes"]))])
     assert np.array_equal(prefix, z["score_xnor_prefix"].astype(prefix.dtype)), "stored prefix scores disagree with the reference"
-    return dict(model=model, seed=seed, counts=c["counts"], labels=c["labels"].astype(int), thresh_int=z["thresh_int"], spikes=z["spikes"], X=z["X"], V=z["V"], W=W,
+    return dict(model=model, seed=seed, dataset=dataset, counts=c["counts"], labels=c["labels"].astype(int), thresh_int=z["thresh_int"], spikes=z["spikes"], X=z["X"], V=z["V"], W=W,
                 class_hv=hv, a_bits=a, b_bits=b, prefix=prefix, pred=prefix[:, -1].argmax(axis=1))
 
 
@@ -76,11 +76,11 @@ def write_job(job_dir: Path, mdl: dict, factorized: bool, samples: list, thresho
               gap_seeds: list | None = None) -> None:
     """samples: [(aer words, counts_row)]. Extends golden.write_job with the class image and the per-sample (theta, exit_en)."""
     job_dir.mkdir(parents=True, exist_ok=True)
-    for m, f in enumerate(weight_files(mdl["model"], mdl["seed"])):
+    for m, f in enumerate(weight_files(mdl["model"], mdl["seed"], mdl.get("dataset", "dvsgesture"))):
         shutil.copyfile(f, job_dir / f"weights_macro{m}.mem")
     write_class_image(job_dir, mdl, factorized)
     with open(job_dir / "job.txt", "w") as fh:
-        fh.write(f"0 {len(samples)} {gap_mode} {sim_seed}\n")
+        fh.write(f"{G.GEOM[mdl.get('dataset', 'dvsgesture')][2]} {len(samples)} {gap_mode} {sim_seed}\n")
         for i, ((words, _), th) in enumerate(zip(samples, thresholds)):
             gs = (gap_seeds[i] if gap_seeds else sim_seed * 7919 + i) & 0x7FFFFFFF
             fh.write(f"{len(words)} " + " ".join(str(int(v)) for v in th) + f" {gs} {int(thetas[i])} {int(exit_en[i])}\n")

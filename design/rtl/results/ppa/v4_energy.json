@@ -1,0 +1,139 @@
+{
+ "dvs": {
+  "mean": {
+   "accuracy": 0.8041666666666667,
+   "cycles": 138763.2375,
+   "events": 407123.875,
+   "reads": 12537.233333333332,
+   "digital_uJ": 3.0102073552505835,
+   "sram_share_uJ": 0.0,
+   "crossbar_uJ": 1.044100792,
+   "energy_uJ": 4.054308147250584,
+   "latency_us": 1387.632375,
+   "avg_power_mW": 2.9217451396307923
+  },
+  "per_tag": [
+   {
+    "tag": "w13_dvs_s0",
+    "cycles": 138763.2375,
+    "events": 407123.875,
+    "reads": 12537.233333333334,
+    "passes": 50148.933333333334,
+    "accuracy": 0.8083333333333333,
+    "n": 240.0,
+    "digital_uJ": 3.0102073552505835,
+    "digital_of_which_sram_uJ": 0.0,
+    "digital_split_uJ": {
+     "baseline": 0.29372271961307317,
+     "ingest": 1.3338572150640033,
+     "scan": 1.382627420573507
+    },
+    "sram_share_uJ": 0.0,
+    "crossbar_uJ": 1.044100792,
+    "energy_uJ": 4.054308147250584,
+    "latency_us": 1387.632375,
+    "avg_power_mW": 2.9217451396307927
+   },
+   {
+    "tag": "w13_dvs_s1",
+    "cycles": 138763.2375,
+    "events": 407123.875,
+    "reads": 12537.233333333334,
+    "passes": 50148.933333333334,
+    "accuracy": 0.8166666666666667,
+    "n": 240.0,
+    "digital_uJ": 3.0102073552505835,
+    "digital_of_which_sram_uJ": 0.0,
+    "digital_split_uJ": {
+     "baseline": 0.29372271961307317,
+     "ingest": 1.3338572150640033,
+     "scan": 1.382627420573507
+    },
+    "sram_share_uJ": 0.0,
+    "crossbar_uJ": 1.044100792,
+    "energy_uJ": 4.054308147250584,
+    "latency_us": 1387.632375,
+    "avg_power_mW": 2.9217451396307927
+   },
+   {
+    "tag": "w13_dvs_s2",
+    "cycles": 138763.2375,
+    "events": 407123.875,
+    "reads": 12537.233333333334,
+    "passes": 50148.933333333334,
+    "accuracy": 0.7875,
+    "n": 240.0,
+    "digital_uJ": 3.0102073552505835,
+    "digital_of_which_sram_uJ": 0.0,
+    "digital_split_uJ": {
+     "baseline": 0.29372271961307317,
+     "ingest": 1.3338572150640033,
+     "scan": 1.382627420573507
+    },
+    "sram_share_uJ": 0.0,
+    "crossbar_uJ": 1.044100792,
+    "energy_uJ": 4.054308147250584,
+    "latency_us": 1387.632375,
+    "avg_power_mW": 2.9217451396307927
+   }
+  ]
+ },
+ "nm": {
+  "mean": {
+   "accuracy": 0.95,
+   "cycles": 7537.935,
+   "events": 4209.864,
+   "reads": 1124.18,
+   "digital_uJ": 0.1537249188845651,
+   "sram_share_uJ": 0.0,
+   "crossbar_uJ": 0.0936217104,
+   "energy_uJ": 0.2473466292845651,
+   "latency_us": 75.37935,
+   "avg_power_mW": 3.281357948623397
+  },
+  "per_tag": [
+   {
+    "tag": "w13_nm",
+    "cycles": 7537.935,
+    "events": 4209.864,
+    "reads": 1124.18,
+    "passes": 4496.72,
+    "accuracy": 0.95,
+    "n": 1000.0,
+    "digital_uJ": 0.1537249188845651,
+    "digital_of_which_sram_uJ": 0.0,
+    "digital_split_uJ": {
+     "baseline": 0.015955686883325788,
+     "ingest": 0.01379274912540613,
+     "scan": 0.12397648287583318
+    },
+    "sram_share_uJ": 0.0,
+    "crossbar_uJ": 0.0936217104,
+    "energy_uJ": 0.2473466292845651,
+    "latency_us": 75.37935,
+    "avg_power_mW": 3.281357948623397
+   }
+  ]
+ },
+ "method": {
+  "stage": "global-route (provisional)",
+  "fit": {
+   "c0_J_per_cycle": 2.116718555323943e-12,
+   "e_event_J": 3.2762932782166197e-12,
+   "e_read_J": 2.7570425304629415e-11,
+   "residual_rel": [
+    0.0031661820589172977,
+    -0.003207228373101537,
+    0.00011076703887526095,
+    -0.008376850244989315,
+    0.00830434612245257
+   ],
+   "rank": 3
+  },
+  "sram_uw": [
+   0.0,
+   0.0
+  ],
+  "crossbar_pJ_per_read": 83.28
+ }
+}

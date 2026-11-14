@@ -21,7 +21,7 @@ sys.path.insert(0, str(HERE))
 import gatesim as GS  # noqa: E402
 
 PDK = ROOT.parents[1] / "45_nm_PDK" / "cadence" / "cadence_45nm"
-OPENROAD = os.environ.get("OPENROAD", "/private/tmp/claude-501/openroad_src/build/bin/openroad")
+OPENROAD = os.environ.get("OPENROAD", os.path.expanduser("~/.cache/cim_neurohdc/openroad_src/build/bin/openroad"))
 
 
 BUILD_ARGS = {"full": ("r1", 1, 1, 50), "ee_off": ("r1", 1, 0, 4095), "fact_off": ("base", 0, 1, 56), "both_off": ("base", 0, 0, 4095)}
@@ -36,7 +36,7 @@ def windows(row: int, ts: int, tag: str = "win", build: str = "full", cols: int 
     start = sum(int(r[53]) for r in tsr[:ts])
     cyc, ing = int(tsr[ts][53]), int(tsr[ts][54])
     return dict(row=row, timestep=ts, ts_start=start, ts_cycles=cyc, ts_ingest_cycles=ing,
-                ing=dict(start=start + 300, length=2400), mvm=dict(start=start + ing + 2, length=cyc - ing - 4))
+                ing=dict(start=start + 300, length=min(2400, ing - 400)), mvm=dict(start=start + ing + 2, length=cyc - ing - 4))
 
 
 BOUNDARY = ("u_snn.m_data", "u_snn.rd_bits", "u_snn.group_idx", "u_snn.rd_pass", "u_snn.rd_valid", "u_snn.m_valid")
@@ -80,7 +80,121 @@ def boundary_toggles(vcd: Path) -> dict:
     return dict(toggles=tog, bits=width)
 
 
+def vcd_to_saif(vcd: Path, saif: Path, netlist: Path | None = None) -> int:
+    """Convert the gate-level VCD window into a (backward) SAIF file: per net T0 / T1 / TX durations and TC toggle count, for the nets of scope `dut`. Returns the number of nets written."""
+    ts_ps, nets, scope = 1, {}, []
+    vars_ = {}                                    # vcd id -> list of net names (one per bit, MSB first)
+    with open(vcd) as f:
+        for line in f:
+            if line.startswith("$timescale"):
+                tok = (line.split()[1:] if len(line.split()) > 2 else next(f).split())
+                num = int("".join(ch for ch in tok[0] if ch.isdigit()) or 1) if not tok[0].isalpha() else 1
+                unit = tok[1] if len(tok) > 1 and not tok[0].isalpha() else "".join(ch for ch in tok[0] if ch.isalpha())
+                ts_ps = num * {"s": 10**12, "ms": 10**9, "us": 10**6, "ns": 1000, "ps": 1, "fs": 0.001}[unit]
+            elif line.startswith("$scope"):
+                scope.append(line.split()[2])
+            elif line.startswith("$upscope"):
+                scope.pop()
+            elif line.startswith("$var"):
+                p_ = line.split()
+                if scope and scope[-1] == "dut":
+                    w, nm = int(p_[2]), p_[4].lstrip("\\")
+                    names = [nm] if w == 1 and "[" in nm else ([nm] if w == 1 else [f"{nm}[{i}]" for i in range(w - 1, -1, -1)])
+                    if len(p_) > 6 and p_[5].startswith("[") and w == 1:
+                        names = [nm + p_[5]]
+                    vars_.setdefault(p_[3], names)
+            elif line.startswith("$enddefinitions"):
+                break
+        st = {}                                   # net -> [t0, t1, tx, tc, last_value, last_time]
+        t_first, t_end = None, 0
+        t = 0
+        for line in f:
+            c = line[0]
+            if c == "#":
+                t = int(line[1:])
+                if t_first is None:
+                    t_first = t
+                t_end = t
+                continue
+            if c in "01xzXZ":
+                i, vals = line[1:].strip(), c
+            elif c == "b":
+                vals, i = line[1:].split()
+            else:
+                continue
+            nm_list = vars_.get(i)
+            if nm_list is None:
+                continue
+            if len(vals) < len(nm_list):
+                vals = vals.rjust(len(nm_list), "0")
+            for nm, v in zip(nm_list, vals):
+                v = v.lower()
+                e = st.get(nm)
+                if e is None:
+                    st[nm] = [0, 0, 0, 0, v, t]
+                    continue
+                dt = t - e[5]
+                if e[4] == "0":
+                    e[0] += dt
+                elif e[4] == "1":
+                    e[1] += dt
+                else:
+                    e[2] += dt
+                if v != e[4] and v in "01" and e[4] in "01":
+                    e[3] += 1
+                e[4], e[5] = v, t
+    t0 = t_first or 0
+    dur = max(t_end - t0, 1)
+    out = ["(SAIFILE", '(SAIFVERSION "2.0")', '(DIRECTION "backward")', '(DESIGN "cim_neurohdc_top")', '(VENDOR "cim_neurohdc")', '(PROGRAM_NAME "vcd_to_saif")', '(VERSION "1.0")', "(DIVIDER /)",
+           f"(TIMESCALE 1 {'ps' if ts_ps == 1 else 'ns' if ts_ps == 1000 else 'ps'})", f"(DURATION {int(dur * (ts_ps if ts_ps in (1, 1000) else 1) / (1 if ts_ps in (1, 1000) else 1))})", "(INSTANCE hdc_gate_tb", "(INSTANCE dut", "(NET"]
+    for nm, e in st.items():
+        dt = t_end - e[5]
+        if e[4] == "0":
+            e[0] += dt
+        elif e[4] == "1":
+            e[1] += dt
+        else:
+            e[2] += dt
+        esc = nm.replace("[", "\\[").replace("]", "\\]")
+        out.append(f"({esc} (T0 {e[0]}) (T1 {e[1]}) (TX {e[2]}) (TC {e[3]}) (IG 0))")
+    def act(e):
+        return f"(T0 {e[0]}) (T1 {e[1]}) (TX {e[2]}) (TC {e[3]}) (IG 0)"
+
+    out.append(")")                                  # closes (NET of the top-level nets
+    n_pin = 0
+    if netlist is not None:
+        # OpenSTA's SAIF reader annotates PINS: a flat design needs one INSTANCE per cell, whose NETs are the cell's pins, carrying the activity of the net they connect to
+        txt = re.sub(r"/\*.*?\*/", "", Path(netlist).read_text(), flags=re.S)
+        body = txt[txt.index("module cim_neurohdc_top"):]
+        body = body[body.index(");") + 2:]
+        ref = re.compile(r"\.(\w+)\s*\(\s*((?:\\\S+\s*(?:\[\d+\])?)|(?:[\w$.]+\s*(?:\[\d+\])?))\s*\)")
+        for stmt in body.split(";"):
+            stmt = stmt.strip()
+            if not stmt or stmt.startswith(("wire", "input", "output", "inout", "assign", "endmodule", "supply")):
+                continue
+            m = re.match(r"(\w+)\s+(\\\S+|\w+)\s*\((.*)\)\s*$", stmt, re.S)
+            if not m:
+                continue
+            inst = m.group(2).lstrip("\\")
+            pins = []
+            for pn, net in ref.findall(m.group(3)):
+                key = re.sub(r"\s+", "", net.lstrip("\\"))
+                e = st.get(key)
+                if e is not None:
+                    pins.append(f"({pn} {act(e)})")
+            if pins:
+                n_pin += len(pins)
+                out.append("(INSTANCE " + inst.replace("[", "\\[").replace("]", "\\]") + " (NET " + " ".join(pins) + "))")
+    out.append("))")
+    out.append(")")
+    saif.write_text("\n".join(out) + "\n")
+    return n_pin or len(st)
+
+
 def sta_power(run: Path, stage: str, w: str, vcd: Path, lib: str, instances: bool = False) -> dict:
+    saif = run / "an" / f"{w}.saif"
+    (run / "an").mkdir(exist_ok=True)
+    n_saif = vcd_to_saif(vcd, saif, run / (stage + '.v'))
     inst = f"report_power -instances [get_cells *] > {run}/an/inst_{w}_{lib}.rpt\n" if instances else ""
     spef = run / f"{stage}_{'fast' if lib == 'fast' else 'slow'}.spef"
     tcl = f"""
@@ -91,9 +205,9 @@ link_design cim_neurohdc_top
 read_sdc {SYNTH / 'constraints' / 'cim_neurohdc_top.sdc'}
 set_propagated_clock [all_clocks]
 read_spef {spef}
-read_vcd -scope hdc_gate_tb/dut {vcd}
+read_saif -scope hdc_gate_tb/dut {saif}
 report_activity_annotation > {run}/an/ann_{w}_{lib}.rpt
-report_power > {run}/an/power_{w}_{lib}.rpt
+report_power -digits 7 > {run}/an/power_{w}_{lib}.rpt
 {inst}"""
     (run / "an").mkdir(exist_ok=True)
     f = run / "an" / f"pw_{w}_{lib}.tcl"

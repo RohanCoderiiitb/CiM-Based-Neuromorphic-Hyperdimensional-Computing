@@ -162,22 +162,28 @@ def parse_output(path: Path):
 STAT_NAMES = ["events", "active_addrs", "rows_skipped", "rows_read", "reads_allcols", "reads_plane", "reads_issued", "zero_groups", "fwd_events", "cycles", "cycles_ingest"]
 
 
-def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 11, a0_skip: bool = True):
-    """Access counts predicted from the count vectors alone (no RTL): per timestep active addresses, non-zero / skipped bit-rows, group
-    reads in both column assumptions, and the groups that carry no active row. Used by criterion 7."""
-    n_groups = -(-N_ADDR // g)
+def pkg_s_rows() -> int:
+    """S_ROWS of the RTL package (rows driven by one packed read)."""
+    import re as _re
+    t = (Path(__file__).resolve().parents[2] / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
+    return int(_re.search(r"localparam int S_ROWS\s*=\s*(\d+)", t).group(1))
+
+
+def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 11, a0_skip: bool = True, n_bands: int = 4, s_rows: int | None = None):
+    """Access counts predicted from the count vectors alone (no RTL): per timestep active addresses, non-zero / skipped bit-rows, and the PACKED crossbar reads: a read drives up to s_rows active rows of one
+    count bit-plane inside one position band (n_bands bands of consecutive rows), so a plane with n active rows in a band costs ceil(n / s_rows) reads. Used by criterion 7."""
+    s_rows = pkg_s_rows() if s_rows is None else s_rows
     est = np.zeros((counts_row.shape[0], 8), np.int64)
+    band = N_ADDR // n_bands
     for t in range(counts_row.shape[0]):
         c = counts_row[t].astype(np.int64)
         rows_nz = [b for b in range(w_count) if ((c >> b) & 1).any()]
-        zero_groups = 0
+        reads = 0
         for b in rows_nz:
-            bits = ((c >> b) & 1)
-            pad = np.zeros(n_groups * g, np.int64); pad[:N_ADDR] = bits
-            zero_groups += int((pad.reshape(n_groups, g).sum(axis=1) == 0).sum())
-        reads = len(rows_nz) * n_groups - (zero_groups if a0_skip else 0)        # the a = 0 skip: an empty group of a non-skipped bit-row is never read
-        est[t] = [int(c.sum()), int((c > 0).sum()), w_count - len(rows_nz), len(rows_nz), reads, reads * 8, 0, zero_groups]
-    return est      # columns: events, active_addrs, rows_skipped, rows_read, reads_allcols, reads_plane, (issued: mode dependent), zero_groups
+            bits = ((c >> b) & 1).reshape(n_bands, band)
+            reads += int(np.ceil(bits.sum(axis=1) / s_rows).sum())
+        est[t] = [int(c.sum()), int((c > 0).sum()), w_count - len(rows_nz), len(rows_nz), reads, reads * 8, 0, 0]
+    return est      # columns: events, active_addrs, rows_skipped, rows_read, reads_allcols (packed reads), reads_plane, (issued: mode dependent), zero_groups (none)
 
 
 def compare_sample(counts_row, W, thresh_int, got) -> dict:

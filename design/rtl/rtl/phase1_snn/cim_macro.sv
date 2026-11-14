@@ -12,6 +12,9 @@ import cim_neurohdc_pkg::N_INPUTS;
 import cim_neurohdc_pkg::N_NEURONS;
 import cim_neurohdc_pkg::N_WCOLS;
 import cim_neurohdc_pkg::N_PARALLEL_COLS_DEFAULT;
+import cim_neurohdc_pkg::S_ROWS;
+import cim_neurohdc_pkg::W_BAND;
+import cim_neurohdc_pkg::W_RB;
 import cim_neurohdc_pkg::ROWS_PER_GROUP_DEFAULT;
 import cim_neurohdc_pkg::W_ADDR;
 import cim_neurohdc_pkg::W_MACRO_IDX;
@@ -34,8 +37,9 @@ module cim_macro #(
     input  logic [     W_ADDR-1:0]     wr_addr_i,
     input  logic [  W_WL_WORD-1:0]     wr_data_i,
     input  logic                       rd_valid_i,
-    input  logic [ROWS_PER_GROUP-1:0]  rd_bits_i,
-    input  logic [        W_G-1:0]     rd_grp_i,
+    input  logic [S_ROWS-1:0]          rd_rv_i,          // which of the S_ROWS row slots are driven
+    input  logic [S_ROWS*W_RB-1:0]     rd_rows_i,        // row index of every slot inside the band
+    input  logic [W_BAND-1:0]          rd_band_i,        // position band of the rows
     input  logic [    W_PASS-1:0]      rd_pass_i,
     output logic                       m_valid_o,
     output logic [N_PARALLEL_COLS*W_M-1:0] m_o
@@ -58,14 +62,15 @@ module cim_macro #(
     input  logic [  W_WL_WORD-1:0]     wr_data_i,
     // read: one (bit-plane, group) of the count memory
     input  logic                       rd_valid_i,
-    input  logic [ROWS_PER_GROUP-1:0]  rd_bits_i,
-    input  logic [        W_G-1:0]     rd_grp_i,
+    input  logic [S_ROWS-1:0]          rd_rv_i,          // which of the S_ROWS row slots are driven
+    input  logic [S_ROWS*W_RB-1:0]     rd_rows_i,        // row index of every slot inside the band
+    input  logic [W_BAND-1:0]          rd_band_i,        // position band of the rows
     input  logic [    W_PASS-1:0]      rd_pass_i,        // sensing pass: result columns j*PL+q are weight plane pass*PL+q of neuron j, PL = N_PARALLEL_COLS / 20
     output logic                       m_valid_o,
     output logic [N_PARALLEL_COLS*W_M-1:0] m_o
 );
   logic [N_WCOLS-1:0] w_q[N_INPUTS];
-  localparam int PL = N_PARALLEL_COLS / N_NEURONS;  // weight bit-planes sensed per pass
+  localparam int PN = N_PARALLEL_COLS / W_WEIGHT;  // neurons sensed per pass (all W_WEIGHT weight bit-planes of each): pass p senses neurons p*PN .. p*PN+PN-1
   logic [N_PARALLEL_COLS*W_M-1:0] m_d;
 
   int idx_t;
@@ -75,14 +80,14 @@ module cim_macro #(
     m_d     = '0;
     row_w_t = '0;
     idx_t   = 0;
-    for (int r = 0; r < ROWS_PER_GROUP; r++) begin
-      idx_t   = int'(rd_grp_i) * ROWS_PER_GROUP + r;
+    for (int r = 0; r < S_ROWS; r++) begin
+      idx_t   = int'(rd_band_i) * (N_INPUTS >> W_BAND) + int'(rd_rows_i[r*W_RB+:W_RB]);
       row_w_t = '0;
-      if (idx_t < N_INPUTS && rd_valid_i && rd_bits_i[r]) begin
+      if (idx_t < N_INPUTS && rd_valid_i && rd_rv_i[r]) begin
         row_w_t = w_q[idx_t];
-        for (int j = 0; j < N_NEURONS; j++)
-        for (int q = 0; q < PL; q++)
-        if (row_w_t[j*W_WEIGHT+int'(rd_pass_i)*PL+q]) m_d[(j*PL+q)*W_M+:W_M] = m_d[(j*PL+q)*W_M+:W_M] + W_M'(1);
+        for (int l = 0; l < PN; l++)
+        for (int q = 0; q < W_WEIGHT; q++)
+        if (int'(rd_pass_i) * PN + l < N_NEURONS && row_w_t[(int'(rd_pass_i)*PN+l)*W_WEIGHT+q]) m_d[(l*W_WEIGHT+q)*W_M+:W_M] = m_d[(l*W_WEIGHT+q)*W_M+:W_M] + W_M'(1);
       end
     end
   end

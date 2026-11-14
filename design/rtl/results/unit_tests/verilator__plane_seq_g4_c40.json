@@ -7,9 +7,9 @@
   "ROWS_PER_GROUP": 4,
   "N_PARALLEL_COLS": 40
  },
- "tests": 2,
+ "tests": 3,
  "failed": 0,
  "ok": true,
  "error": "",
- "wall_s": 9.4
+ "wall_s": 1.5
 }
