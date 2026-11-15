@@ -1,6 +1,6 @@
 # Final design: theta-free, dataset-independent (v5)
 
-Open-source tools only (Yosys, OpenROAD, OpenSTA, ngspice, NeuroSim), 45 nm, 100 MHz. One chip, one configuration for both datasets: **no early exit, no theta**. The earlier early-exit design is kept in `final_design_early_exit.md`.
+Open-source tools only (Yosys, OpenROAD, OpenSTA, ngspice, NeuroSim), 45 nm, 100 MHz. Two chips from one RTL: the small chip (one configuration for DVS-Gesture and N-MNIST, against NeuroHDC-small) and the large chip (ASL-DVS, against NeuroHDC-large). **No early exit, no theta.** The earlier early-exit design is kept in `final_design_early_exit.md`.
 
 ## Result against NeuroHDC-small (layout `s7`)
 
@@ -21,6 +21,56 @@ Paper values from its Table III, scaled by its authors to 45 nm with Stillmaker 
 DVS-Gesture energy split at 0.9 V: crossbar 1.04 uJ (10.3k reads x 100.3 pJ), scan-side digital 0.79 uJ (41.3k passes x 19.1 pJ), ingest 0.87 uJ (407k events x 2.13 pJ), per-cycle baseline 0.32 uJ (138.0k cycles x 2.31 pJ: clock trunk and leakage, 111 uW of it the 24 count-SRAM macros).
 
 **Correction to the previous report:** the crossbar cost of 83.28 pJ per read assumed the read statistics of fixed row groups (1.6 active rows, 1.47 comparator decisions). Packed reads are mostly full: 3.65 active rows and 2.77 decisions at 4 rows per read, which cost 97.7 pJ. The previous design (`r14`) was therefore 4.24 uJ DVS, not 4.05.
+
+## Result against NeuroHDC-large (ASL-DVS, layout `L43`)
+
+| | ASL-DVS, ours (large chip) | ASL-DVS, NeuroHDC-large |
+|---|---|---|
+| accuracy | 88.02 % (88.29 / 87.92 / 87.84, 3 seeds, full 21,591-sample test split) | 89.38 % |
+| energy, digital at 0.9 V (timing sign-off corner) | **0.801 uJ** (-22.5 %) | 1.034 uJ |
+| energy, digital at 1.1 V (fast corner) | 0.958 uJ (-7.4 %) | |
+| die area | **0.7827 mm^2** (-33.8 %) | 1.182 mm^2 |
+| latency | **152.3 us** (-45.7 %) | 280.2 us |
+
+Paper values from its Table III, scaled by its authors to 45 nm (as above). Energy is **provisional**: global-route parasitics, no detail route. The crossbar (0.408 uJ) is costed at its 1.1 V analog supply in both rows.
+
+**Chip.** The same architecture and RTL as the small chip, generated with package overrides only (`design/rtl/scripts/make_large_rtl.py` -> `design/rtl_large`, never edited by hand):
+- 40 neurons: 320 crossbar columns, 10 weight macros, 80 shared sense channels.
+- 24 class slots, held in an unfactorized class store: a 12 kB SRAM macro [ASSUM: CACTI 1 kB point scaled by bits]. The R=1 factorized store reaches only about 64.5 % validation accuracy on 24 classes.
+- 12-bit event counters: ASL-DVS cell counts reach 3,913.
+- A 240 x 180 second sensor geometry (17-bit AER word).
+
+**Accuracy.** Unfactorized NeuroHDC-large model, trained with the frozen recipe. Data: DAVIS240C recordings cut into 100 ms windows, 107,955 samples, random 80/20 split (seed 0). Integer accuracy equals float accuracy on the whole test split. The RTL is bit-exact on 2,000 real event streams x 3 seeds (tags `H_asl_s0..2`, no assertion fires).
+
+**Energy split at 0.9 V.**
+- Crossbar: 0.408 uJ (2,138 packed reads x 190.9 pJ at 80 channels, `studies/crossbar/scaleup/packed_reads_large.py`).
+- Scan-side digital: 0.299 uJ.
+- Ingest: 0.022 uJ (21.5k events x 1.01 pJ).
+- Per-cycle baseline: 0.073 uJ (15.2k cycles x 4.77 pJ).
+
+The idle power is 0.477 mW at 0.9 V. About 182 uW of it (at 1.1 V) is the query block, mostly the class-store SRAM leakage.
+
+**Area.** Die 666 x 1175 um. Crossbar macro 0.418 mm^2 (NeuroSim 0.403 mm^2 + 15,000 um^2 decoders [ASSUM]). Class-store SRAM 0.044 mm^2. 24 count SRAMs 0.028 mm^2. Standard cells about 0.152 mm^2 at utilisation 0.41, placement density 0.60.
+
+**Timing (global route, both corners):** slow setup +0.266 ns, hold +0.058 ns; fast setup +3.687 ns, hold +0.050 ns. Zero violations at 100 MHz.
+
+**Timing fixes in the large chip.** All are package switches (0 on the small chip, which is unchanged: identical cycles and spike rasters). Every fix is bit-exact.
+- `AGREE_PIPE`: the per-class agree counts (24 x 40-bit XNOR-popcount) are registered before the accumulate. This adds one query cycle per timestep, but it is mostly hidden behind ingest: +4.3 cycles per sample on average.
+- `TOP2_QUARTERS`: the first top-2 tournament stage registers four quarters instead of two halves, and the second stage merges four winners. Same cycles, same result.
+- `EXIT_CLK_FREE`: the exit controller runs on the free clock instead of behind the HDC clock gate.
+- `LOCAL_QUERY_BUSY`, which brings:
+  - a local replica of the query-busy flags in the top;
+  - a free-clock copy of the spike-valid flop for the intake hold;
+  - one copy of the counter-set select per lane in `count_mem`.
+  Each is asserted equal to the original in simulation.
+
+The floorplan places the counter SRAMs at the bottom and the class store at the bottom right. Global-route repair margins are setup 0.3 ns and hold 0.05 ns.
+
+**Large-chip caveats.**
+- **Max-slew violations remain (STA design-rule check, slow corner).** There are 4,831 violating pins against the library's 0.28 ns limit; `s7` has 634, worst 0.4 ns over.
+  - The worst are 204 nets of the 960-bit class-image load port `cm_data_i`, up to 6.75 ns slew. They are modelled with a BUFX2 driver at the die edge. They are static during inference, so they don't enter the power windows.
+  - The worst internal net is 1.13 ns over the limit.
+- **Energy fit.** The per-cycle term is anchored to the measured idle power, as on the small chip. The five ASL-DVS windows fit within 4.2 % (slow) and 4.1 % (fast). Reproduce with `~/.cache/cim_neurohdc/eval_large.sh L43 H`.
 
 ## What changed since v4 (all bit-exact against the golden model)
 

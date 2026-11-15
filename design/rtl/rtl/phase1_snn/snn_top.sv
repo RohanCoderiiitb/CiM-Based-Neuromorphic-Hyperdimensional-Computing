@@ -19,6 +19,7 @@ import cim_neurohdc_pkg::CFG_THRESH_SHARED;
 import cim_neurohdc_pkg::COORD_MUL_DVS;
 import cim_neurohdc_pkg::COORD_MUL_NMNIST;
 import cim_neurohdc_pkg::GEOM_NMNIST_DEFAULT;
+import cim_neurohdc_pkg::LOCAL_QUERY_BUSY;
 import cim_neurohdc_pkg::CLOCK_GATING_DEFAULT;
 import cim_neurohdc_pkg::INSTRUMENT_EN_DEFAULT;
 import cim_neurohdc_pkg::OPERAND_ISOLATION_DEFAULT;
@@ -91,6 +92,7 @@ module snn_top #(
     // result
     output logic [    N_NEURONS-1:0] spike_o,
     output logic                     spike_valid_o,
+    output logic                     spike_valid_fast_o,  // = spike_valid_o every cycle; LOCAL_QUERY_BUSY: a copy on the free clock (enable = the scan clock's enable), placed by the intake control
     output logic [      W_TSTEP-1:0] spike_tstep_o,
     output logic                     done_o,
     output logic [              1:0] state_o,
@@ -304,6 +306,7 @@ module snn_top #(
   logic scan_qv, scan_re;
   logic [W_GRP-1:0] scan_grp;
 
+  logic scan_clr;  // declared before count_mem, which reads it (Icarus does not accept use before declaration)
   count_mem u_count_mem (
       .clk_i         (clk_i),
       .rst_n_i       (rst_n_i),
@@ -329,7 +332,7 @@ module snn_top #(
       .assert_fail_o (assert_fail_o[2])
   );
 
-  logic rd_valid, scan_clr;
+  logic rd_valid;
   logic [S_ROWS-1:0] rd_rv;
   logic [S_ROWS*W_RB-1:0] rd_rows;
   logic [W_BAND-1:0] rd_band;
@@ -477,6 +480,24 @@ module snn_top #(
       .done_o       (spikes_done),
       .assert_fail_o(assert_fail_o[7])
   );
+
+  // LOCAL_QUERY_BUSY (the large chip): a copy of spike_reg's valid flop for the intake hold in the top. spike_reg runs on clk_scan, i.e. clk_i enabled by scan_clk_en, so the copy
+  // on clk_i with that enable, the same clear and the same D is equal to spike_valid_o in every cycle (asserted below); it avoids the late gated clock and the long wire
+  if (LOCAL_QUERY_BUSY && CLOCK_GATING) begin : g_sv_fast
+    logic sv_q;
+    always_ff @(posedge clk_i) begin
+      if (scan_clk_en) begin
+        if (!rst_n_i || sample_clr) sv_q <= 1'b0;
+        else sv_q <= spike_load;
+      end
+    end
+    assign spike_valid_fast_o = sv_q;
+`ifndef SYNTHESIS
+    always_ff @(posedge clk_i) if (rst_n_i && sv_q !== spike_valid_o) $display("[ASSERT FAIL] %m: fast spike-valid copy %0b != spike_reg valid %0b", sv_q, spike_valid_o);
+`endif
+  end else begin : g_sv_wired
+    assign spike_valid_fast_o = spike_valid_o;
+  end
 
   // the sample is finished only when the controller is back in DONE (ready for a new start) AND all T spike strobes were produced
   assign done_o = ctrl_done && spikes_done;

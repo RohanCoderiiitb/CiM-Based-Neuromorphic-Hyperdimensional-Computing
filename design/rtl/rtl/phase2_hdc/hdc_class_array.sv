@@ -6,46 +6,50 @@
 //                   XNOR-popcount of hdc_score. The spike-gated row count is reported by hdc_query either way.
 // Write port: cm_we_i / cm_addr_i / cm_data_i (word = N x 20 bits, class i at [20 i +: 20]); the stationary array is address 0. One-cycle registered read.
 // Under SYNTHESIS this module is a BLACKBOX (analog array, like cim_macro); area and energy come from the analog models, not from synthesis.
+import hdc_pkg::N_SPK;
+import hdc_pkg::W_AGREE;
+import hdc_pkg::N_CLASSES_DEFAULT;
+
 `ifdef SYNTHESIS
 (* blackbox *)
 module hdc_class_array #(
-    parameter int N_CLASSES = 10,
+    parameter int N_CLASSES = N_CLASSES_DEFAULT,  // a black box in synthesis: its port widths come from this default
     parameter bit FACTORIZED = 1'b1
 ) (
     input  logic                       clk_i,
     input  logic                       rst_n_i,
     input  logic                       cm_we_i,
     input  logic [                6:0] cm_addr_i,
-    input  logic [N_CLASSES*20-1:0]    cm_data_i,
+    input  logic [N_CLASSES*N_SPK-1:0]    cm_data_i,
     input  logic                       rd_valid_i,
     input  logic [                6:0] rd_addr_i,
-    input  logic [               19:0] rd_rows_i,
+    input  logic [N_SPK-1:0]          rd_rows_i,
     output logic                       rd_valid_o,
-    output logic [N_CLASSES*5-1:0]     q_o,
-    output logic [N_CLASSES*20-1:0]    slice_o
+    output logic [N_CLASSES*W_AGREE-1:0]     q_o,
+    output logic [N_CLASSES*N_SPK-1:0]    slice_o
 );
 endmodule
 `else
 module hdc_class_array #(
-    parameter int N_CLASSES = 10,
+    parameter int N_CLASSES = N_CLASSES_DEFAULT,  // a black box in synthesis: its port widths come from this default
     parameter bit FACTORIZED = 1'b1
 ) (
     input  logic                       clk_i,
     input  logic                       rst_n_i,
     input  logic                       cm_we_i,
     input  logic [                6:0] cm_addr_i,
-    input  logic [N_CLASSES*20-1:0]    cm_data_i,
+    input  logic [N_CLASSES*N_SPK-1:0]    cm_data_i,
     input  logic                       rd_valid_i,
     input  logic [                6:0] rd_addr_i,
-    input  logic [               19:0] rd_rows_i,
+    input  logic [N_SPK-1:0]          rd_rows_i,
     output logic                       rd_valid_o,
-    output logic [N_CLASSES*5-1:0]     q_o,
-    output logic [N_CLASSES*20-1:0]    slice_o
+    output logic [N_CLASSES*W_AGREE-1:0]     q_o,
+    output logic [N_CLASSES*N_SPK-1:0]    slice_o
 );
-  logic [N_CLASSES*20-1:0] mem_q[128];  // [20 rows x N columns] per address; only address 0 is used when FACTORIZED
-  logic [N_CLASSES*5-1:0] q_d;
-  logic [N_CLASSES*20-1:0] slice_d;
-  logic [19:0] word_t;
+  logic [N_CLASSES*N_SPK-1:0] mem_q[128];  // [20 rows x N columns] per address; only address 0 is used when FACTORIZED
+  logic [N_CLASSES*W_AGREE-1:0] q_d;
+  logic [N_CLASSES*N_SPK-1:0] slice_d;
+  logic [N_SPK-1:0] word_t;
   int cnt_t;
 
   always_comb begin
@@ -56,10 +60,10 @@ module hdc_class_array #(
     if (rd_valid_i) begin
       if (FACTORIZED) begin
         for (int i = 0; i < N_CLASSES; i++) begin
-          word_t = mem_q[0][i*20+:20] & rd_rows_i;
+          word_t = mem_q[0][i*N_SPK+:N_SPK] & rd_rows_i;
           cnt_t  = 0;
-          for (int j = 0; j < 20; j++) cnt_t = cnt_t + int'(word_t[j]);
-          q_d[i*5+:5] = 5'(cnt_t);
+          for (int j = 0; j < N_SPK; j++) cnt_t = cnt_t + int'(word_t[j]);
+          q_d[i*W_AGREE+:W_AGREE] = W_AGREE'(cnt_t);
         end
       end else begin
         slice_d = mem_q[rd_addr_i];

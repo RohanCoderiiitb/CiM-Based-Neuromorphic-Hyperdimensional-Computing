@@ -32,7 +32,8 @@ RESULTS = ROOT / "results" / os.environ.get("CIM_RESULTS_SUBDIR", "hdc")
 REAL_ROWS: list[int] = []
 
 
-QUERY_BUSY = 6
+QUERY_BUSY = 6 + G.pkg_int("AGREE_PIPE", "hdc_pkg.sv")      # strobe + 5 cycles, + 1 with the registered agree counts (the large chip)
+N_WCOLS = 8 * G.pkg_int("N_NEURONS")      # crossbar columns: 160 (small chip), 320 (large)
 
 
 def git_commit() -> str:
@@ -102,9 +103,9 @@ def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8
     est = G.independent_access_estimate(counts_row, g)[:n_exp]
     st = got["stats"]
     for k, col in (((0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (7, 7)) if check_instr else ()):
-        if not np.array_equal(st[:, k], est[:, col]) and not (k == 5 and cols != 160):
+        if not np.array_equal(st[:, k], est[:, col]) and not (k == 5 and cols != N_WCOLS):
             bad("access_estimate", k, int(np.argwhere(st[:, k] != est[:, col])[0][0]))
-    if check_instr and not np.array_equal(st[:, 6], st[:, 4] * (160 // cols)):
+    if check_instr and not np.array_equal(st[:, 6], st[:, 4] * (N_WCOLS // cols)):
         bad("reads_issued", 6)
     if e["assert_cycles"] or e["hdc_assert_cycles"]:
         bad("assertions", e["assert_cycles"], e["hdc_assert_cycles"])
@@ -115,8 +116,8 @@ def compare_sample(mdl, row, counts_row, thr, got, theta, exit_en, n_events, g=8
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="r1", choices=["base", "r1"])
-    ap.add_argument("--dataset", default="dvsgesture", choices=["dvsgesture", "nmnist"])
+    ap.add_argument("--model", default="r1", choices=["base", "r1", "unf"])
+    ap.add_argument("--dataset", default="dvsgesture", choices=["dvsgesture", "nmnist", "cifar10dvs", "asldvs", "cifar10dvs_large"])
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--factorized", type=int, default=1)
     ap.add_argument("--early-exit", type=int, default=1, help="EARLY_EXIT_EN: 1 builds the comparator + exit FSM, 0 does not (Phase 3)")
@@ -171,7 +172,7 @@ def main() -> int:
              assert_fails=sum(x["assert_fails"] for x in rres), fatal=any(x["fatal"] for x in rres))
     got = [None] * len(rows)
     for idxs, (jd, ot) in zip(idx_chunks, runs):
-        part = H.parse_output(ot) if ot.exists() else []
+        part = H.parse_output(ot, mdl["class_hv"].shape[0], mdl["class_hv"].shape[2]) if ot.exists() else []
         for local, i in enumerate(idxs):
             got[i] = part[local] if local < len(part) else None
 

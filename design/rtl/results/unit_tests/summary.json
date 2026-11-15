@@ -9,7 +9,7 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 4.1
+  "wall_s": 2.1
  },
  {
   "sim": "verilator",
@@ -18,205 +18,6 @@
   "module": "test_event_ctr",
   "parameters": {},
   "tests": 4,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.8
- },
- {
-  "sim": "verilator",
-  "case": "count_mem",
-  "toplevel": "count_mem",
-  "module": "test_count_mem",
-  "parameters": {},
-  "tests": 10,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.9
- },
- {
-  "sim": "verilator",
-  "case": "weight_load",
-  "toplevel": "weight_load",
-  "module": "test_weight_load",
-  "parameters": {},
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.6
- },
- {
-  "sim": "verilator",
-  "case": "spike_reg",
-  "toplevel": "spike_reg",
-  "module": "test_spike_reg",
-  "parameters": {},
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.6
- },
- {
-  "sim": "verilator",
-  "case": "plane_seq_g4_c40",
-  "toplevel": "plane_seq",
-  "module": "test_plane_seq",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.5
- },
- {
-  "sim": "verilator",
-  "case": "cim_macro_g4_c40",
-  "toplevel": "cim_macro",
-  "module": "test_cim_macro",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.8
- },
- {
-  "sim": "verilator",
-  "case": "mvm_unit_g4_c40",
-  "toplevel": "mvm_unit",
-  "module": "test_mvm_unit",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.2
- },
- {
-  "sim": "verilator",
-  "case": "plane_seq_g4_c80",
-  "toplevel": "plane_seq",
-  "module": "test_plane_seq",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 80
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.3
- },
- {
-  "sim": "verilator",
-  "case": "cim_macro_g4_c80",
-  "toplevel": "cim_macro",
-  "module": "test_cim_macro",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 80
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.8
- },
- {
-  "sim": "verilator",
-  "case": "mvm_unit_g4_c80",
-  "toplevel": "mvm_unit",
-  "module": "test_mvm_unit",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 80
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 5.1
- },
- {
-  "sim": "verilator",
-  "case": "plane_seq_g4_c160",
-  "toplevel": "plane_seq",
-  "module": "test_plane_seq",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 160
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.1
- },
- {
-  "sim": "verilator",
-  "case": "cim_macro_g4_c160",
-  "toplevel": "cim_macro",
-  "module": "test_cim_macro",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 160
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.8
- },
- {
-  "sim": "verilator",
-  "case": "mvm_unit_g4_c160",
-  "toplevel": "mvm_unit",
-  "module": "test_mvm_unit",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 160
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.3
- },
- {
-  "sim": "verilator",
-  "case": "if_neuron_array_c40",
-  "toplevel": "if_neuron_array",
-  "module": "test_if_neuron",
-  "parameters": {
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.1
- },
- {
-  "sim": "verilator",
-  "case": "if_neuron_array_c160",
-  "toplevel": "if_neuron_array",
-  "module": "test_if_neuron",
-  "parameters": {
-   "N_PARALLEL_COLS": 160
-  },
-  "tests": 3,
   "failed": 0,
   "ok": true,
   "error": "",
@@ -224,260 +25,6 @@
  },
  {
   "sim": "verilator",
-  "case": "clk_gate_tree_n512_l3",
-  "toplevel": "clk_tree_wrap",
-  "module": "test_clk_gate_tree",
-  "parameters": {
-   "N": 512,
-   "LEVELS": 3
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 6.6
- },
- {
-  "sim": "verilator",
-  "case": "clk_gate_tree_n100_l2",
-  "toplevel": "clk_tree_wrap",
-  "module": "test_clk_gate_tree",
-  "parameters": {
-   "N": 100,
-   "LEVELS": 2
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.2
- },
- {
-  "sim": "verilator",
-  "case": "clk_gate_tree_n20_l1",
-  "toplevel": "clk_tree_wrap",
-  "module": "test_clk_gate_tree",
-  "parameters": {
-   "N": 20,
-   "LEVELS": 1
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.2
- },
- {
-  "sim": "verilator",
-  "case": "top2_tree_n7",
-  "toplevel": "top2_wrap",
-  "module": "test_top2_tree",
-  "parameters": {
-   "N": 7,
-   "W": 11,
-   "WI": 5
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.1
- },
- {
-  "sim": "verilator",
-  "case": "top2_tree_n10",
-  "toplevel": "top2_wrap",
-  "module": "test_top2_tree",
-  "parameters": {
-   "N": 10,
-   "W": 11,
-   "WI": 5
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.9
- },
- {
-  "sim": "verilator",
-  "case": "top2_tree_n16",
-  "toplevel": "top2_wrap",
-  "module": "test_top2_tree",
-  "parameters": {
-   "N": 16,
-   "W": 11,
-   "WI": 5
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.1
- },
- {
-  "sim": "verilator",
-  "case": "top2_tree_n24",
-  "toplevel": "top2_wrap",
-  "module": "test_top2_tree",
-  "parameters": {
-   "N": 24,
-   "W": 11,
-   "WI": 5
-  },
-  "tests": 1,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.1
- },
- {
-  "sim": "verilator",
-  "case": "exit_ctrl_ee1",
-  "toplevel": "exit_ctrl",
-  "module": "test_exit_ctrl",
-  "parameters": {
-   "EARLY_EXIT_EN": 1
-  },
-  "tests": 4,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.1
- },
- {
-  "sim": "verilator",
-  "case": "exit_ctrl_ee0",
-  "toplevel": "exit_ctrl",
-  "module": "test_exit_ctrl",
-  "parameters": {
-   "EARLY_EXIT_EN": 0
-  },
-  "tests": 4,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.7
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f0",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 0
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 6.4
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f0_n24",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 0,
-   "N_CLASSES": 24
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 8.1
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f1",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 1
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.2
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f1_cg0",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 1,
-   "CLOCK_GATING": 0
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.2
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f1_flopsign",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 1,
-   "SIGN_SRAM": 0
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 5.1
- },
- {
-  "sim": "verilator",
-  "case": "hdc_query_f1_n24",
-  "toplevel": "hdc_query",
-  "module": "test_hdc_query",
-  "parameters": {
-   "FACTORIZED": 1,
-   "N_CLASSES": 24
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.3
- },
- {
-  "sim": "verilator",
-  "case": "cols_sweep_identical_X",
-  "ok": true
- },
- {
-  "sim": "icarus",
-  "case": "addr_gen",
-  "toplevel": "addr_gen",
-  "module": "test_addr_gen",
-  "parameters": {},
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.5
- },
- {
-  "sim": "icarus",
-  "case": "event_ctr",
-  "toplevel": "event_ctr",
-  "module": "test_event_ctr",
-  "parameters": {},
-  "tests": 4,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.3
- },
- {
-  "sim": "icarus",
   "case": "count_mem",
   "toplevel": "count_mem",
   "module": "test_count_mem",
@@ -486,10 +33,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 2.4
+  "wall_s": 2.2
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "weight_load",
   "toplevel": "weight_load",
   "module": "test_weight_load",
@@ -498,10 +45,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "spike_reg",
   "toplevel": "spike_reg",
   "module": "test_spike_reg",
@@ -510,61 +57,16 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.8
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "plane_seq_g4_c40",
   "toplevel": "plane_seq",
   "module": "test_plane_seq",
   "parameters": {
    "ROWS_PER_GROUP": 4,
    "N_PARALLEL_COLS": 40
-  },
-  "tests": 3,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 3.5
- },
- {
-  "sim": "icarus",
-  "case": "cim_macro_g4_c40",
-  "toplevel": "cim_macro",
-  "module": "test_cim_macro",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 1.1
- },
- {
-  "sim": "icarus",
-  "case": "mvm_unit_g4_c40",
-  "toplevel": "mvm_unit",
-  "module": "test_mvm_unit",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 40
-  },
-  "tests": 2,
-  "failed": 0,
-  "ok": true,
-  "error": "",
-  "wall_s": 4.2
- },
- {
-  "sim": "icarus",
-  "case": "plane_seq_g4_c80",
-  "toplevel": "plane_seq",
-  "module": "test_plane_seq",
-  "parameters": {
-   "ROWS_PER_GROUP": 4,
-   "N_PARALLEL_COLS": 80
   },
   "tests": 3,
   "failed": 0,
@@ -573,7 +75,52 @@
   "wall_s": 3.0
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
+  "case": "cim_macro_g4_c40",
+  "toplevel": "cim_macro",
+  "module": "test_cim_macro",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 40
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.0
+ },
+ {
+  "sim": "verilator",
+  "case": "mvm_unit_g4_c40",
+  "toplevel": "mvm_unit",
+  "module": "test_mvm_unit",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 40
+  },
+  "tests": 2,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "verilator",
+  "case": "plane_seq_g4_c80",
+  "toplevel": "plane_seq",
+  "module": "test_plane_seq",
+  "parameters": {
+   "ROWS_PER_GROUP": 4,
+   "N_PARALLEL_COLS": 80
+  },
+  "tests": 3,
+  "failed": 0,
+  "ok": true,
+  "error": "",
+  "wall_s": 2.5
+ },
+ {
+  "sim": "verilator",
   "case": "cim_macro_g4_c80",
   "toplevel": "cim_macro",
   "module": "test_cim_macro",
@@ -585,10 +132,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.0
+  "wall_s": 2.0
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "mvm_unit_g4_c80",
   "toplevel": "mvm_unit",
   "module": "test_mvm_unit",
@@ -600,10 +147,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 4.3
+  "wall_s": 2.5
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "plane_seq_g4_c160",
   "toplevel": "plane_seq",
   "module": "test_plane_seq",
@@ -615,10 +162,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 2.7
+  "wall_s": 2.3
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "cim_macro_g4_c160",
   "toplevel": "cim_macro",
   "module": "test_cim_macro",
@@ -630,10 +177,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.0
+  "wall_s": 2.0
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "mvm_unit_g4_c160",
   "toplevel": "mvm_unit",
   "module": "test_mvm_unit",
@@ -645,10 +192,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 4.3
+  "wall_s": 2.6
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "if_neuron_array_c40",
   "toplevel": "if_neuron_array",
   "module": "test_if_neuron",
@@ -659,10 +206,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.1
+  "wall_s": 2.1
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "if_neuron_array_c160",
   "toplevel": "if_neuron_array",
   "module": "test_if_neuron",
@@ -673,10 +220,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.1
+  "wall_s": 2.2
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "clk_gate_tree_n512_l3",
   "toplevel": "clk_tree_wrap",
   "module": "test_clk_gate_tree",
@@ -688,10 +235,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.6
+  "wall_s": 2.3
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "clk_gate_tree_n100_l2",
   "toplevel": "clk_tree_wrap",
   "module": "test_clk_gate_tree",
@@ -703,10 +250,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.0
+  "wall_s": 2.0
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "clk_gate_tree_n20_l1",
   "toplevel": "clk_tree_wrap",
   "module": "test_clk_gate_tree",
@@ -718,10 +265,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.0
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "top2_tree_n7",
   "toplevel": "top2_wrap",
   "module": "test_top2_tree",
@@ -734,10 +281,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "top2_tree_n10",
   "toplevel": "top2_wrap",
   "module": "test_top2_tree",
@@ -750,10 +297,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "top2_tree_n16",
   "toplevel": "top2_wrap",
   "module": "test_top2_tree",
@@ -766,10 +313,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "top2_tree_n24",
   "toplevel": "top2_wrap",
   "module": "test_top2_tree",
@@ -782,10 +329,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.0
+  "wall_s": 1.9
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "exit_ctrl_ee1",
   "toplevel": "exit_ctrl",
   "module": "test_exit_ctrl",
@@ -796,10 +343,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.9
+  "wall_s": 1.8
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "exit_ctrl_ee0",
   "toplevel": "exit_ctrl",
   "module": "test_exit_ctrl",
@@ -810,10 +357,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 0.8
+  "wall_s": 1.8
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f0",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -824,10 +371,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.8
+  "wall_s": 2.5
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f0_n24",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -839,10 +386,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.7
+  "wall_s": 2.1
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f1",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -853,10 +400,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.7
+  "wall_s": 2.4
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f1_cg0",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -868,10 +415,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.7
+  "wall_s": 2.4
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f1_flopsign",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -883,10 +430,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.8
+  "wall_s": 2.4
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "hdc_query_f1_n24",
   "toplevel": "hdc_query",
   "module": "test_hdc_query",
@@ -898,10 +445,10 @@
   "failed": 0,
   "ok": true,
   "error": "",
-  "wall_s": 1.8
+  "wall_s": 2.0
  },
  {
-  "sim": "icarus",
+  "sim": "verilator",
   "case": "cols_sweep_identical_X",
   "ok": true
  }

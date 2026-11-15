@@ -46,3 +46,19 @@ design/rtl/results/scratch/
 # Generated simulation binaries and waveforms
 *.vvp
 *.vcd
+
+/datasets
+# CIFAR10-DVS (dropped from the report; the runs are kept locally only)
+/design/reference_model/tb/vectors/cifar10dvs/
+/design/reference_model/tb/vectors/cifar10dvs_large/
+/design/reference_model/tb/vectors/weights/*c10r1s*
+/design/reference_model/tb/vectors/weights/*c10Lunfs*
+/design/rtl/results/hdc/*c10*
+/studies/algorithm/phase4_more_datasets/artifacts/cifar10dvs/
+/studies/algorithm/phase4_more_datasets/artifacts/cifar10dvs_large/
+/studies/algorithm/phase4_more_datasets/src/prep_cifar10dvs.py
+/studies/algorithm/phase4_more_datasets/src/export_cifar10dvs.py
+/studies/algorithm/phase4_more_datasets/src/export_cifar10dvs_large.py
+
+# ASL-DVS golden traces, 50-65 MB each (studies/algorithm/phase4_more_datasets/src/export_asldvs.py --model unf rebuilds them)
+/design/reference_model/tb/vectors/asldvs/*_seed*.npz

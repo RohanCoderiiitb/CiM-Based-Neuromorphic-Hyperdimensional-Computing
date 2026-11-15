@@ -28,8 +28,8 @@ from export_weights import read_mem  # noqa: E402,F401  (Phase 0 .mem reader)
 
 T = IM.T_DEFAULT
 N_NEURON, N_ADDR = IM.N_NEURON, IM.N_ADDR
-GEOM = {"dvsgesture": (128, 128, 0), "nmnist": (34, 34, 1)}      # H, W, geometry flag used by the testbench
-AER_SHIFT = {"dvsgesture": 7, "nmnist": 6}
+GEOM = {"dvsgesture": (128, 128, 0), "nmnist": (34, 34, 1), "cifar10dvs": (128, 128, 0), "asldvs": (180, 240, 1), "cifar10dvs_large": (128, 128, 0)}      # CIFAR10-DVS: DVS128 sensor, same geometry as DVS-Gesture      # H, W, geometry flag used by the testbench
+AER_SHIFT = {"dvsgesture": 7, "nmnist": 6, "cifar10dvs": 7, "asldvs": 8, "cifar10dvs_large": 7}      # asldvs: the large chip's second geometry (240 x 180, 17-bit word)
 
 
 def weight_tag(dataset: str, seed: int) -> str:
@@ -112,7 +112,7 @@ def real_streams(dataset: str):
     out = []
     for i, row in enumerate(e["sample_row"]):
         lo, hi = int(e["offset"][i]), int(e["offset"][i + 1])
-        out.append((int(row), e["aer"][lo:hi].astype(np.uint16), int(e["label"][i])))
+        out.append((int(row), e["aer"][lo:hi].astype(np.uint32 if e["aer"].dtype.itemsize > 2 else np.uint16), int(e["label"][i])))
     return out, e
 
 
@@ -162,17 +162,24 @@ def parse_output(path: Path):
 STAT_NAMES = ["events", "active_addrs", "rows_skipped", "rows_read", "reads_allcols", "reads_plane", "reads_issued", "zero_groups", "fwd_events", "cycles", "cycles_ingest"]
 
 
+def pkg_int(name: str, pkg: str = "cim_neurohdc_pkg.sv") -> int:
+    """An integer localparam of an RTL package that is being simulated ($CIM_RTL_ROOT when set: e.g. the large chip's tree)."""
+    import os as _os, re as _re
+    root = Path(_os.environ["CIM_RTL_ROOT"]) if _os.environ.get("CIM_RTL_ROOT") else Path(__file__).resolve().parents[2]
+    return int(_re.search(rf"localparam int {name}\s*=\s*(\d+)", (root / "rtl" / "pkg" / pkg).read_text()).group(1))
+
+
 def pkg_s_rows() -> int:
     """S_ROWS of the RTL package (rows driven by one packed read)."""
     import re as _re
-    t = (Path(__file__).resolve().parents[2] / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
-    return int(_re.search(r"localparam int S_ROWS\s*=\s*(\d+)", t).group(1))
+    return pkg_int("S_ROWS")
 
 
-def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int = 11, a0_skip: bool = True, n_bands: int = 4, s_rows: int | None = None):
+def independent_access_estimate(counts_row: np.ndarray, g: int, w_count: int | None = None, a0_skip: bool = True, n_bands: int = 4, s_rows: int | None = None):
     """Access counts predicted from the count vectors alone (no RTL): per timestep active addresses, non-zero / skipped bit-rows, and the PACKED crossbar reads: a read drives up to s_rows active rows of one
     count bit-plane inside one position band (n_bands bands of consecutive rows), so a plane with n active rows in a band costs ceil(n / s_rows) reads. Used by criterion 7."""
     s_rows = pkg_s_rows() if s_rows is None else s_rows
+    w_count = pkg_int("W_COUNT") if w_count is None else w_count      # 11 (small chip), 12 (large)
     est = np.zeros((counts_row.shape[0], 8), np.int64)
     band = N_ADDR // n_bands
     for t in range(counts_row.shape[0]):

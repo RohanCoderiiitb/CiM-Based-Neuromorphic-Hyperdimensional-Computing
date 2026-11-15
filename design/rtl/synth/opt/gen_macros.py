@@ -117,16 +117,23 @@ def dims(area: float, aspect: float = 1.0) -> tuple[float, float]:
     return w, h
 
 
+RTL_ROOT = SYNTH.parent        # --rtl-root: the large chip's generated tree
+
+
+def pkg_int(name: str, pkg: str = "cim_neurohdc_pkg.sv") -> int:
+    return int(re.search(rf"localparam int {name}\s*=\s*(\d+)", (RTL_ROOT / "rtl" / "pkg" / pkg).read_text()).group(1))
+
+
 def count_banks() -> int:
     """N_COUNT_BANKS of the package: the 512 counters live in that many identical single-port macros."""
-    t = (SYNTH.parent / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
+    t = (RTL_ROOT / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
     m = re.search(r"localparam int N_COUNT_BANKS\s*=\s*(\d+)", t)
     return int(m.group(1)) if m else 1       # a package without the parameter: one 512-word counter macro
 
 
 def count_lanes() -> int:
     """N_LANES of the package: every input lane has its own copy of the counter banks (lane-private counters)."""
-    t = (SYNTH.parent / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
+    t = (RTL_ROOT / "rtl" / "pkg" / "cim_neurohdc_pkg.sv").read_text()
     m = re.search(r"localparam int N_LANES\s*=\s*(\d+)", t)
     return int(m.group(1)) if m else 1
 
@@ -149,7 +156,18 @@ def main() -> int:
     ap.add_argument("--cim-area-um2", type=float, default=None, help="crossbar macro area incl. the group decoder (default: NeuroSim 128 F + DECODER_UM2)")
     ap.add_argument("--g", type=int, default=4)
     ap.add_argument("--cols", type=int, default=40, help="N_PARALLEL_COLS of the digital design (width of the macro result bus)")
+    ap.add_argument("--rtl-root", default=None, help="RTL tree (the large chip: design/rtl_large)")
+    ap.add_argument("--hdc-store", choices=["analog", "sram"], default="analog", help="unfactorized class memory: sram = a plain SRAM macro read one N x n slice per timestep (the large chip; [ASSUM] CACTI 1 kB point scaled by bits)")
     a = ap.parse_args()
+    global RTL_ROOT
+    if a.rtl_root:
+        RTL_ROOT = Path(a.rtl_root)
+        sys.path.insert(0, str(HERE))
+        import synth_opt as SO
+        SO.set_rtl_root(RTL_ROOT)
+    # size factors of the large chip relative to the 20-neuron / 10-class small chip (1.0 on the small chip)
+    k_hdc = pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / (20 * 10)        # [ASSUM] class array area ~ cells (rows x columns)
+    k_sign = max(1.0, pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16)                            # [ASSUM] sign table 100 x N bits in a 128 x max(16, N) macro: CACTI 256 B point scaled by width
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     f, e = S.BUILDS[a.build]
@@ -170,10 +188,19 @@ def main() -> int:
             w, h = dims(area)
         elif m == "hdc_class_array":
             key = "hdc_class_array_fact" if f else "hdc_class_array_unfact"
-            area = hdc_json[key]["area_um2"]
+            area = hdc_json[key]["area_um2"] * k_hdc
+            if a.hdc_store == "sram" and not f:
+                kb = 100 * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 8192          # T x n x N bits, in kB
+                area = CACTI["area_um2"] * kb
+                hdc_sram = dict(kb=kb, read_pj=CACTI["read_pj"] * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16, leak_uw=CACTI["leak_uw"] * kb)
             w, h = dims(area)
+            nmax = max(sum(len(p["bits"]) for n_, p in ports.items() if p["direction"] == d_ and n_ != "clk_i") for d_ in ("input", "output"))
+            asp = 1.0
+            while nmax * 0.2 + 3.0 >= w:          # the large chip's 24 x 40 array has ~1,000 pin bits per side: same area, wider until they fit at the minimum pitch (no change on the small chip)
+                asp *= 1.05
+                w, h = dims(area, asp)
         elif m == "sign_sram":
-            area = CACTI_SIGN["area_um2"]
+            area = CACTI_SIGN["area_um2"] * k_sign
             w, h = dims(area, aspect=1.4)
             w = max(w, round(((sum(len(p["bits"]) for p in ports.values()) + 2) * a.pitch + 6) / 0.2 + 0.5) * 0.2)
         else:
@@ -185,7 +212,9 @@ def main() -> int:
         if m == "count_sram":
             txt = lib(m, ports, w * h, leak_pw=CC["leak_uw"] * 1e6, energy={"re_i": CC["read_pj"], "we_i": CC["write_pj"]})
         elif m == "sign_sram":
-            txt = lib(m, ports, w * h, leak_pw=CACTI_SIGN["leak_uw"] * 1e6, energy={"re_i": CACTI_SIGN["read_pj"], "we_i": CACTI_SIGN["write_pj"]})
+            txt = lib(m, ports, w * h, leak_pw=CACTI_SIGN["leak_uw"] * k_sign * 1e6, energy={"re_i": CACTI_SIGN["read_pj"] * k_sign, "we_i": CACTI_SIGN["write_pj"] * k_sign})
+        elif m == "hdc_class_array" and a.hdc_store == "sram" and not f:
+            txt = lib(m, ports, area, leak_pw=hdc_sram["leak_uw"] * 1e6, energy={"rd_valid_i": hdc_sram["read_pj"], "cm_we_i": hdc_sram["read_pj"]})
         else:
             txt = lib(m, ports, area)
         (out / f"{m}.lib").write_text(txt)

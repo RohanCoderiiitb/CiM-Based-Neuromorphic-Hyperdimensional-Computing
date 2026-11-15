@@ -30,10 +30,10 @@ module hdc_query #(
     input  logic                       cm_we_i,
     input  logic [      W_CM_SEL-1:0]  cm_sel_i,
     input  logic [       W_TADDR-1:0]  cm_addr_i,
-    input  logic [N_CLASSES*20-1:0]    cm_data_i,
+    input  logic [N_CLASSES*N_SPK-1:0] cm_data_i,
     // spike waist
     input  logic                       spike_valid_i,
-    input  logic [               19:0] spike_i,
+    input  logic [N_SPK-1:0]          spike_i,
     input  logic [   W_TADDR-1:0]      tstep_i,
     output logic                       busy_o,
     output logic                       dec_valid_o,
@@ -43,21 +43,22 @@ module hdc_query #(
     output logic [      W_SCORE-1:0]   top1_o,
     output logic [      W_SCORE-1:0]   top2_o,
     // instrumentation (valid with dec_valid_o)
-    output logic [                4:0] rows_gated_o,  // spike-gated row enables of this timestep = |S|
+    output logic [W_AGREE-1:0]        rows_gated_o,  // spike-gated row enables of this timestep = |S|
     output logic [               31:0] reads_o,       // array reads since clr_i
     output logic                       assert_fail_o
 );
-  localparam int NTS = 100;
-  logic [19:0] s_q;
+  localparam int NTS = N_TIMESTEPS;
+  logic [N_SPK-1:0] s_q;
   logic [W_TADDR-1:0] t_q;
-  logic v1_q, v3_q, v35_q, v4_q;  // stage valids; stage 2 is arr_valid (the array's registered read-valid)
+  logic v1_q, v3_q, v35_q, v4_q;
+  logic acc_v;  // accumulate strobe: arr_valid, or one cycle later with AGREE_PIPE  // stage valids; stage 2 is arr_valid (the array's registered read-valid)
   logic [N_CLASSES*W_SCORE-1:0] score_q;
   logic [W_SCORE-1:0] top1_q, top2_q;
   logic [W_CLASS-1:0] idx_q;
-  logic [4:0] spop;
+  logic [W_AGREE-1:0] spop;
 
   popcount #(
-      .N(20)
+      .N(N_SPK)
   ) u_spop (
       .bits_i (s_q),
       .count_o(spop)
@@ -65,8 +66,8 @@ module hdc_query #(
 
   // ------------------------------------------------------------------ class array (analog block: behavioural model / blackbox)
   logic arr_valid_raw, arr_valid, clr_q;
-  logic [N_CLASSES*5-1:0] arr_q;
-  logic [N_CLASSES*20-1:0] arr_slice;
+  logic [N_CLASSES*W_AGREE-1:0] arr_q;
+  logic [N_CLASSES*N_SPK-1:0] arr_slice;
   hdc_class_array #(
       .N_CLASSES (N_CLASSES),
       .FACTORIZED(FACTORIZED)
@@ -91,10 +92,10 @@ module hdc_query #(
 
   // ------------------------------------------------------------------ digital side tables of the factorized mapping: sign table (T x N) and bias registers (N x 5)
   logic [N_CLASSES-1:0] sign_row;
-  logic [N_CLASSES*5-1:0] bias_flat;
+  logic [N_CLASSES*W_AGREE-1:0] bias_flat;
   if (FACTORIZED) begin : g_fact_tables
     logic [N_CLASSES-1:0] sign_q[NTS];
-    logic [N_CLASSES*5-1:0] bias_q;
+    logic [N_CLASSES*W_AGREE-1:0] bias_q;
     logic sign_we, bias_we, bias_clk_s;
     assign sign_we = cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_SIGN);
     assign bias_we = cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_BIAS);
@@ -114,7 +115,7 @@ module hdc_query #(
           .en_i  (bias_we),
           .gclk_o(bias_clk_s)
       );
-      always_ff @(posedge bias_clk_s) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+      always_ff @(posedge bias_clk_s) bias_q <= cm_data_i[N_CLASSES*W_AGREE-1:0];
       for (genvar t = 0; t < NTS; t++) begin : g_unused
         assign sign_q[t] = '0;
       end
@@ -142,14 +143,14 @@ module hdc_query #(
           .en_i  (bias_we),
           .gclk_o(bias_clk)
       );
-      always_ff @(posedge bias_clk) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+      always_ff @(posedge bias_clk) bias_q <= cm_data_i[N_CLASSES*W_AGREE-1:0];
     end else begin : g_enabled
       for (genvar t = 0; t < NTS; t++) begin : g_row
         logic [N_CLASSES-1:0] q;
         always_ff @(posedge clk_i) if (sign_we && cm_addr_i == W_TADDR'(t)) q <= cm_data_i[N_CLASSES-1:0];
         assign sign_q[t] = q;
       end
-      always_ff @(posedge clk_i) if (bias_we) bias_q <= cm_data_i[N_CLASSES*5-1:0];
+      always_ff @(posedge clk_i) if (bias_we) bias_q <= cm_data_i[N_CLASSES*W_AGREE-1:0];
     end
     if (!SIGN_SRAM) begin : g_flop_read
       assign sign_row = sign_q[t_q];
@@ -161,7 +162,7 @@ module hdc_query #(
   end
 
   // ------------------------------------------------------------------ scoring datapath of the chosen mapping
-  logic [N_CLASSES*5-1:0] agree;
+  logic [N_CLASSES*W_AGREE-1:0] agree;
   hdc_score #(
       .N_CLASSES (N_CLASSES),
       .FACTORIZED(FACTORIZED)
@@ -175,11 +176,60 @@ module hdc_query #(
       .agree_o(agree)
   );
 
+  // AGREE_PIPE: the agree counts are registered (va_q) and accumulated one cycle later; the spike vector and timestep stay held (busy), so every result is unchanged
+  logic [N_CLASSES*W_AGREE-1:0] agree_acc;
+  logic va_q;
+  if (AGREE_PIPE) begin : g_agree_pipe
+    logic [N_CLASSES*W_AGREE-1:0] agree_q;
+    always_ff @(posedge clk_i) begin
+      if (!rst_n_i || clr_i) va_q <= 1'b0;
+      else va_q <= arr_valid;
+      if (arr_valid) agree_q <= agree;
+    end
+    assign acc_v     = va_q;
+    assign agree_acc = agree_q;
+  end else begin : g_agree_comb
+    assign va_q      = 1'b0;
+    assign acc_v     = arr_valid;
+    assign agree_acc = agree;
+  end
+
   // ------------------------------------------------------------------ top-2 tournament over the registered scores
   // two cycles (timing): the tournaments over the lower and the upper half of the classes are registered, the merge of the two winners follows (top2_tree's merge rule; ties keep the lower index)
+  // TOP2_QUARTERS: four quarter tournaments are registered instead, and the second cycle merges them pairwise (q0,q1) (q2,q3) and then the two halves; the merge is associative
+  // with the lower index kept on ties, so the result is identical
   localparam int NH = N_CLASSES / 2;
   logic [W_SCORE-1:0] h_lv1, h_lv2, h_rv1, h_rv2, lv1_q, lv2_q, rv1_q, rv2_q;
   logic [W_CLASS-1:0] h_li, h_ri, li_q, ri_q;
+if (TOP2_QUARTERS) begin : g_q4
+  localparam int NQ0 = NH / 2, NQ2 = (N_CLASSES - NH) / 2;
+  localparam int B1 = NQ0, B2 = NH, B3 = NH + NQ2;
+  logic [W_SCORE-1:0] qv1[4], qv2[4], qv1_q[4], qv2_q[4];
+  logic [W_CLASS-1:0] qi[4], qi_q[4];
+  top2_tree #(.N(NQ0), .W(W_SCORE), .WI(W_CLASS), .BASE(0)) u_q0 (.scores_i(score_q[B1*W_SCORE-1:0]), .v1_o(qv1[0]), .i1_o(qi[0]), .v2_o(qv2[0]));
+  top2_tree #(.N(NH - NQ0), .W(W_SCORE), .WI(W_CLASS), .BASE(B1)) u_q1 (.scores_i(score_q[B2*W_SCORE-1:B1*W_SCORE]), .v1_o(qv1[1]), .i1_o(qi[1]), .v2_o(qv2[1]));
+  top2_tree #(.N(NQ2), .W(W_SCORE), .WI(W_CLASS), .BASE(B2)) u_q2 (.scores_i(score_q[B3*W_SCORE-1:B2*W_SCORE]), .v1_o(qv1[2]), .i1_o(qi[2]), .v2_o(qv2[2]));
+  top2_tree #(.N(N_CLASSES - B3), .W(W_SCORE), .WI(W_CLASS), .BASE(B3)) u_q3 (.scores_i(score_q[N_CLASSES*W_SCORE-1:B3*W_SCORE]), .v1_o(qv1[3]), .i1_o(qi[3]), .v2_o(qv2[3]));
+  always_ff @(posedge clk_i) begin
+    if (v3_q) begin
+      for (int k = 0; k < 4; k++) begin
+        qv1_q[k] <= qv1[k];
+        qv2_q[k] <= qv2[k];
+        qi_q[k]  <= qi[k];
+      end
+    end
+  end
+  logic lw0, lw1;
+  assign lw0   = (qv1_q[0] >= qv1_q[1]);
+  assign lv1_q = lw0 ? qv1_q[0] : qv1_q[1];
+  assign li_q  = lw0 ? qi_q[0] : qi_q[1];
+  assign lv2_q = lw0 ? ((qv2_q[0] >= qv1_q[1]) ? qv2_q[0] : qv1_q[1]) : ((qv2_q[1] >= qv1_q[0]) ? qv2_q[1] : qv1_q[0]);
+  assign lw1   = (qv1_q[2] >= qv1_q[3]);
+  assign rv1_q = lw1 ? qv1_q[2] : qv1_q[3];
+  assign ri_q  = lw1 ? qi_q[2] : qi_q[3];
+  assign rv2_q = lw1 ? ((qv2_q[2] >= qv1_q[3]) ? qv2_q[2] : qv1_q[3]) : ((qv2_q[3] >= qv1_q[2]) ? qv2_q[3] : qv1_q[2]);
+  assign {h_lv1, h_lv2, h_rv1, h_rv2, h_li, h_ri} = '0;
+end else begin : g_h2
   top2_tree #(
       .N   (NH),
       .W   (W_SCORE),
@@ -212,6 +262,7 @@ module hdc_query #(
       ri_q  <= h_ri;
     end
   end
+end
   logic [W_SCORE-1:0] t_v1, t_v2;
   logic [W_CLASS-1:0] t_i1;
   logic left_wins;
@@ -244,15 +295,15 @@ module hdc_query #(
       idx_q   <= '0;
     end else begin
       v1_q <= spike_valid_i;
-      v3_q <= arr_valid;
+      v3_q <= acc_v;
       v35_q <= v3_q;
       v4_q  <= v35_q;
       if (spike_valid_i) begin
         s_q <= spike_i;
         t_q <= tstep_i;
       end
-      if (arr_valid) begin
-        for (int i = 0; i < N_CLASSES; i++) score_q[i*W_SCORE+:W_SCORE] <= score_q[i*W_SCORE+:W_SCORE] + W_SCORE'(agree[i*5+:5]);
+      if (acc_v) begin
+        for (int i = 0; i < N_CLASSES; i++) score_q[i*W_SCORE+:W_SCORE] <= score_q[i*W_SCORE+:W_SCORE] + W_SCORE'(agree_acc[i*W_AGREE+:W_AGREE]);
       end
       if (v35_q) begin
         top1_q <= t_v1;
@@ -262,7 +313,7 @@ module hdc_query #(
     end
   end
 
-  assign busy_o      = spike_valid_i | v1_q | arr_valid | v3_q | v35_q | v4_q;
+  assign busy_o      = spike_valid_i | v1_q | arr_valid | va_q | v3_q | v35_q | v4_q;
   assign dec_valid_o = v4_q;
   assign dec_tstep_o = t_q;
   assign scores_o    = score_q;
@@ -278,17 +329,17 @@ module hdc_query #(
 `ifndef SYNTHESIS
   // ------------------------------------------------------------------ simulation-only checks (never present in synthesis, never disabled in a run)
   logic fail_q;
-  logic [N_CLASSES*20-1:0] sh_main[128];  // shadow of the class image (the array is a blackbox in synthesis)
+  logic [N_CLASSES*N_SPK-1:0] sh_main[128];  // shadow of the class image (the array is a blackbox in synthesis)
   logic [N_CLASSES-1:0] sh_sign[NTS];
   always_ff @(posedge clk_i) begin
     if (cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_ARRAY)) sh_main[FACTORIZED ? 7'd0 : cm_addr_i] <= cm_data_i;
     if (cm_we_i && cm_sel_i == W_CM_SEL'(CM_SEL_SIGN)) sh_sign[cm_addr_i] <= cm_data_i[N_CLASSES-1:0];
   end
 
-  function automatic int pc20(input logic [19:0] v);
+  function automatic int pc20(input logic [N_SPK-1:0] v);
     int n;
     n = 0;
-    for (int j = 0; j < 20; j++) n = n + int'(v[j]);
+    for (int j = 0; j < N_SPK; j++) n = n + int'(v[j]);
     return n;
   endfunction
 
@@ -296,8 +347,8 @@ module hdc_query #(
   int uni_add[N_CLASSES];
   always_comb begin
     for (int i = 0; i < N_CLASSES; i++) begin
-      logic [19:0] cls;
-      cls        = FACTORIZED ? ~(sh_main[0][i*20+:20] ^ {20{sh_sign[t_q][i]}}) : sh_main[t_q][i*20+:20];
+      logic [N_SPK-1:0] cls;
+      cls        = FACTORIZED ? ~(sh_main[0][i*N_SPK+:N_SPK] ^ {N_SPK{sh_sign[t_q][i]}}) : sh_main[t_q][i*N_SPK+:N_SPK];
       uni_add[i] = 2 * pc20(cls & s_q) - pc20(cls);
     end
   end
@@ -325,13 +376,13 @@ module hdc_query #(
       off_q <= 0;
     end else if (arr_valid) begin
       for (int i = 0; i < N_CLASSES; i++) begin
-        if (int'(agree[i*5+:5]) > 20) begin
-          $display("[ASSERT FAIL] %m: agree_%0d = %0d outside 0..20 (class image or bias register inconsistent)", i, agree[i*5+:5]);
+        if (int'(agree[i*W_AGREE+:W_AGREE]) > N_SPK) begin
+          $display("[ASSERT FAIL] %m: agree_%0d = %0d outside 0..N_SPK (class image or bias register inconsistent)", i, agree[i*W_AGREE+:W_AGREE]);
           fail_q <= 1'b1;
         end
         if (CHECK_UNIPOLAR) uni_q[i] <= uni_q[i] + uni_add[i];
       end
-      if (CHECK_UNIPOLAR) off_q <= off_q + 20 - int'(spop);
+      if (CHECK_UNIPOLAR) off_q <= off_q + N_SPK - int'(spop);
     end
     // argmax of the unipolar prefix must equal the XNOR leader, and score_i == uni_i + offset EXACTLY, at every timestep
     if (v4_q && CHECK_UNIPOLAR) begin
@@ -346,7 +397,7 @@ module hdc_query #(
         end
       end
     end
-    if (spike_valid_i && (v1_q | arr_valid | v3_q | v4_q)) begin
+    if (spike_valid_i && (v1_q | arr_valid | va_q | v3_q | v4_q)) begin
       $display("[ASSERT FAIL] %m: a spike vector arrived while the previous timestep was still being scored (the integration must hold the SNN)");
       fail_q <= 1'b1;
     end

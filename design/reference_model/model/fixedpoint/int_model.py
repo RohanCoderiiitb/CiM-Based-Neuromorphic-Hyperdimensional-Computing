@@ -36,10 +36,11 @@ def snn_forward(counts: np.ndarray, W: np.ndarray, thresh_int: np.ndarray) -> Sn
     Wi = W.astype(np.int64)
     X = counts.astype(np.int64) @ Wi.T                      # exact: int64 matmul
     thr = np.asarray(thresh_int, dtype=np.int64)
-    Vp = np.empty((T, N_NEURON), np.int64)
-    V = np.empty((T, N_NEURON), np.int64)
-    S = np.empty((T, N_NEURON), np.uint8)
-    v = np.zeros(N_NEURON, np.int64)
+    n = Wi.shape[0]                                         # neurons: 20 (NeuroHDC-small), 40 (large)
+    Vp = np.empty((T, n), np.int64)
+    V = np.empty((T, n), np.int64)
+    S = np.empty((T, n), np.uint8)
+    v = np.zeros(n, np.int64)
     for t in range(T):
         vp = v + X[t]
         s = vp >= thr
@@ -53,10 +54,10 @@ def snn_forward_batch(counts: np.ndarray, W: np.ndarray, thresh_int: np.ndarray)
     B, T, _ = counts.shape
     thr = np.asarray(thresh_int, dtype=np.int64)
     if thr.ndim == 1:
-        thr = np.broadcast_to(thr, (B, N_NEURON))
+        thr = np.broadcast_to(thr, (B, W.shape[0]))
     X = counts.astype(np.int64) @ W.astype(np.int64).T      # [B,T,20]
     Vp = np.empty_like(X); V = np.empty_like(X); S = np.empty(X.shape, np.uint8)
-    v = np.zeros((B, N_NEURON), np.int64)
+    v = np.zeros((B, W.shape[0]), np.int64)
     for t in range(T):
         vp = v + X[:, t]
         s = vp >= thr

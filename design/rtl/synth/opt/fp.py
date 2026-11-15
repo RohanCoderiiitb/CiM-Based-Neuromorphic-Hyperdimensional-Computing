@@ -45,7 +45,10 @@ EV_W = 150.0
 col = []
 for n, w, h in extra:
     if n == "count_sram":
-        lines.append(f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {core_y0 + 5:.2f}")
+        # FP_CNT_YFRAC (the large chip, default 0 = bottom): the block is raised by this fraction of the free height, so the scan logic between it and the crossbar's
+        # bit-plane sequencer is not stretched over the whole (tall) digital region
+        yf = float(__import__("os").environ.get("FP_CNT_YFRAC", "0"))
+        lines.append(f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {core_y0 + 5 + yf * max(0.0, dig_h - h - 10):.2f}")
         x += w + 10
         lines.append(f"set EV_X0 {x:.2f}\nset EV_X1 {x + EV_W:.2f}")
         x += EV_W + 10
@@ -55,7 +58,17 @@ col.append(("HDC", hw, hh))
 colw = max(w for _, w, _ in col)
 if x + colw > m + cw:
     x = m + cw - colw - 5
-y = core_y0 + 5
+import os
+if os.environ.get("FP_COL_TOP") == "1":     # the large chip: the column hangs from the top of the digital region (under the crossbar), against the right edge; with HDC_ORI=MX (flow.tcl) the class memory's
+    x = m + cw - colw - 5                      # pin edge (the LEF top) is mirrored to face the logic, and its write port is near the right-edge class-image pins (flow.tcl CM_PINS_RIGHT)
+    y = cim_y - 10
+    for n, w, h in col:
+        y -= h
+        lines.append(f"set HDC_X {x:.2f}\nset HDC_Y {y:.2f}" if n == "HDC" else f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {y:.2f}")
+        y -= 10
+    col = []
+    y = core_y0
+y = core_y0 + 5 if col else y
 for n, w, h in col:
     lines.append(f"set HDC_X {x:.2f}\nset HDC_Y {y:.2f}" if n == "HDC" else f"set MAC_{n}_X {x:.2f}\nset MAC_{n}_Y {y:.2f}")
     y += h + 10

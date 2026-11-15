@@ -40,12 +40,17 @@ def module_of(name: str, depth: int) -> str:
     return ".".join(parts[:depth])
 
 
-def run_window(run: Path, stage: str, build: str, name: str, spec: str, mdls: dict) -> dict:
+def load_ds(ds: str) -> dict:
+    """the model a window spec's dataset runs: dvs / c10 (R=1, small chip), nm (rank-1 approximation), asl (unfactorized, the large chip)."""
+    return {"nm": NP.nm_model, "dvs": lambda: H.load_model("r1", 0, "dvsgesture"), "c10": lambda: H.load_model("r1", 0, "cifar10dvs"), "asl": lambda: H.load_model("unf", 0, "asldvs"), "c10L": lambda: H.load_model("unf", 0, "cifar10dvs_large")}[ds]()
+
+
+def run_window(run: Path, stage: str, build: str, name: str, spec: str, mdls: dict, cols: int = 40, idle_ds: str = "dvs") -> dict:
     const = json.loads((run / "syn" / "const_ports.json").read_text())
     idle = spec == "idle"
-    ds, row, start, length = ("dvs", 46, 300, 1500) if idle else (spec.split(":")[0], *map(int, spec.split(":")[1:]))
+    ds, row, start, length = ((idle_ds, 46, 300, 1500) if idle_ds == "dvs" else (idle_ds, 0, 300, 1500)) if idle else (spec.split(":")[0], *map(int, spec.split(":")[1:]))
     if ds not in mdls:
-        mdls[ds] = NP.nm_model() if ds == "nm" else H.load_model("r1", 0, "dvsgesture")
+        mdls[ds] = load_ds(ds)
     orig = GS.make_tb
     if idle:
         def patched(work, const_ports):
@@ -55,7 +60,7 @@ def run_window(run: Path, stage: str, build: str, name: str, spec: str, mdls: di
         GS.make_tb = patched
     vcd = run / f"gs_{name}" / f"{name}.vcd"
     try:
-        GS.run(build, run / f"gs_{name}", run / (stage + ".v"), const, row, start, length, theta=4095, cols=40, mdl=mdls[ds], vcd_name=f"{name}.vcd")
+        GS.run(build, run / f"gs_{name}", run / (stage + ".v"), const, row, start, length, theta=4095, cols=cols, mdl=mdls[ds], vcd_name=f"{name}.vcd")
     except IndexError:
         if not idle:           # the idle run logs no timestep, which the output parser does not expect; the VCD is complete
             raise
@@ -83,12 +88,14 @@ def main() -> int:
     ap.add_argument("--stage", default="groute")
     ap.add_argument("--depth", type=int, default=2, help="levels of the module path kept")
     ap.add_argument("--spec", nargs="+", required=True)
+    ap.add_argument("--cols", type=int, default=40)
+    ap.add_argument("--idle-ds", default="dvs", help="dataset of the idle window's sample (asl on the large chip)")
     a = ap.parse_args()
     run = SYNTH / "work" / "opt" / a.tag
     mdls, out = {}, {}
     for k, sp in enumerate(a.spec):
         name = f"prof{k}"
-        w = run_window(run, a.stage, a.build, name, sp, mdls)
+        w = run_window(run, a.stage, a.build, name, sp, mdls, a.cols, a.idle_ds)
         w["modules_uW"] = {m: v * 1e6 for m, v in sorted(aggregate(run, name, a.depth).items(), key=lambda kv: -kv[1])}
         out[sp] = w
         print(f"== {sp}: {w['power_w'] * 1e3:.3f} mW  cycles {w['cycles']} events {w['events']} passes {w['reads']}   clock group {w['groups'].get('Clock', [0, 0, 0, 0])[3] * 1e6:.0f} uW", flush=True)

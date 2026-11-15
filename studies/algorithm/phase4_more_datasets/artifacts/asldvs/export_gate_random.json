@@ -1,0 +1,19 @@
+{
+ "99": {
+  "integer_accuracy_full_test": 0.042378768931499236,
+  "n_test": 21591,
+  "float_test_acc": null,
+  "match": false,
+  "rtl_subset_accuracy": 0.053,
+  "factorized_equals_unfactorized": true,
+  "v_thresh": 0.8890752921104431,
+  "max_abs_X": 410889,
+  "max_abs_V": 25951161,
+  "widths_needed": {
+   "W_X": 20,
+   "W_V": 26,
+   "W_THRESH": 11
+  },
+  "spike_rate": 0.238485125
+ }
+}

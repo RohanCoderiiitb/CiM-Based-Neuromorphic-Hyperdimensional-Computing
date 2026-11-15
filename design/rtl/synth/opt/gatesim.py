@@ -86,7 +86,7 @@ def run(build: str, work: Path, net: Path, const_ports: dict, row: int, start: i
     t0 = time.time()
     args = [f"+job={job}", f"+out={out}"] + ([] if no_vcd else [f"+vcd={vcd}", f"+vcd_start={start}", f"+vcd_len={length}"])
     r = S.run(["vvp", "-n", str(vvp), *args], log=work / "run.log", timeout=8 * 3600)
-    got = H.parse_output(out)[0]
+    got = H.parse_output(out, mdl["class_hv"].shape[0], mdl["class_hv"].shape[2])[0]
     n = len(got["t"])
     tr = G.reference_trace(counts_row, mdl["W"], mdl["thresh_int"][row])
     ref_scores = mdl["prefix"][row]

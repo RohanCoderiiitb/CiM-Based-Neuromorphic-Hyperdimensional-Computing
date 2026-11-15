@@ -34,6 +34,8 @@ import cim_neurohdc_pkg::W_V;
 import cim_neurohdc_pkg::W_WL_WORD;
 import cim_neurohdc_pkg::W_X;
 import hdc_pkg::*;
+import cim_neurohdc_pkg::LOCAL_QUERY_BUSY;
+import cim_neurohdc_pkg::EXIT_CLK_FREE;
 
 module cim_neurohdc_top #(
     parameter int ROWS_PER_GROUP = ROWS_PER_GROUP_DEFAULT,
@@ -63,7 +65,7 @@ module cim_neurohdc_top #(
     input  logic                         cm_we_i,
     input  logic [        W_CM_SEL-1:0]  cm_sel_i,
     input  logic [         W_TADDR-1:0]  cm_addr_i,
-    input  logic [   N_CLASSES*20-1:0]   cm_data_i,
+    input  logic [N_CLASSES*N_SPK-1:0]   cm_data_i,
     // run control and the AER stream
     input  logic                         start_i,
     input  logic                         ingest_en_i,
@@ -113,7 +115,7 @@ module cim_neurohdc_top #(
     output logic [         W_STAT-1:0]   ts_cycles_o,
     output logic [         W_STAT-1:0]   ts_cycles_ingest_o,
     // HDC instrumentation
-    output logic [                  4:0] q_rows_gated_o,
+    output logic [          W_AGREE-1:0] q_rows_gated_o,
     output logic [         W_STAT-1:0]   q_reads_o,
     output logic [         W_STAT-1:0]   cyc_query_o,       // cycles the SNN intake was held by the query stage / the exit
     output logic [         W_STAT-1:0]   cyc_inf_o,         // cycles from start_i to the prediction strobe
@@ -121,6 +123,14 @@ module cim_neurohdc_top #(
     output logic [                  7:0] assert_fail_o,     // snn_top's 8 sticky bits (one per 1E block)
     output logic                         hdc_assert_fail_o   // the query stage's sticky bit
 );
+`ifndef SYNTHESIS
+  // the two packages must describe the same chip (hdc_pkg holds literals because Yosys cannot read one package from another)
+  initial begin
+    if (N_SPK != N_NEURONS || T_HDC != N_TIMESTEPS || CFG_THETA != (1 << W_CFG_ADDR))
+      $fatal(1, "hdc_pkg (N_SPK %0d, T_HDC %0d, CFG_THETA %0d) disagrees with cim_neurohdc_pkg (N_NEURONS %0d, N_TIMESTEPS %0d, 1 << W_CFG_ADDR = %0d)", N_SPK, T_HDC, CFG_THETA, N_NEURONS, N_TIMESTEPS, 1 << W_CFG_ADDR);
+  end
+`endif
+
   // ------------------------------------------------------------------ configuration
   logic [W_THETA-1:0] theta_q;
   logic exit_en_q;
@@ -138,6 +148,8 @@ module cim_neurohdc_top #(
 
   // ------------------------------------------------------------------ the handshake
   logic q_busy, exited;
+  logic sp_valid_w;  // declared before the busy replica that reads it
+  logic sp_valid_fast;  // = sp_valid_w (snn_top: a free-clock copy on the large chip)
   logic ingest_en_snn;
   // abort is REGISTERED at the chip boundary (timing: a request arriving late in the cycle must not fan out into every reset/enable); the intake closes and the reset follows one cycle later (anything accepted in the request cycle itself is flushed by that reset; no combinational path from abort_i to the handshake outputs)
   logic abort_q;
@@ -145,11 +157,37 @@ module cim_neurohdc_top #(
   // the host's intake enable is registered at the chip boundary as well (a quasi-static control: one cycle of latency, no input-to-handshake path)
   logic ingest_en_q;
   always_ff @(posedge clk_i) ingest_en_q <= rst_n_i && ingest_en_i;
-  assign ingest_en_snn = ingest_en_q && !q_busy && !exited && !abort_q;
+  // LOCAL_QUERY_BUSY (the large chip): the intake hold is computed here from a replica of the query stage's six valid flops instead of being wired from the query stage, whose logic
+  // sits beside the class memory, far from the SNN control on a large die. The replica follows the same strobe and clears, so it equals hdc_query.busy_o in every cycle (asserted below).
+  logic q_busy_hold;
+  if (LOCAL_QUERY_BUSY) begin : g_local_busy
+    logic r_v1, r_arr_raw, r_clr, r_va, r_v3, r_v35, r_v4, r_arr, r_clr_now;
+    assign r_clr_now = start_i || abort_q;
+    assign r_arr = r_arr_raw && !r_clr;
+    always_ff @(posedge clk_i) begin
+      r_arr_raw <= rst_n_i && r_v1;
+      r_clr     <= rst_n_i && r_clr_now;
+      if (!rst_n_i || r_clr_now) {r_v1, r_va, r_v3, r_v35, r_v4} <= '0;
+      else begin
+        r_v1  <= sp_valid_fast;
+        r_va  <= AGREE_PIPE ? r_arr : 1'b0;
+        r_v3  <= AGREE_PIPE ? r_va : r_arr;
+        r_v35 <= r_v3;
+        r_v4  <= r_v35;
+      end
+    end
+    assign q_busy_hold = sp_valid_fast | r_v1 | r_arr | r_va | r_v3 | r_v35 | r_v4;
+`ifndef SYNTHESIS
+    always_ff @(posedge clk_i) if (rst_n_i && q_busy_hold !== q_busy) $display("[ASSERT FAIL] %m: local query-busy replica %0b != hdc_query busy %0b", q_busy_hold, q_busy);
+`endif
+  end else begin : g_wired_busy
+    assign q_busy_hold = q_busy;
+  end
+  assign ingest_en_snn = ingest_en_q && !q_busy_hold && !exited && !abort_q;
 
   // clock of the HDC query stage and the exit controller: only around a spike strobe (5-cycle scoring pipeline plus a two-cycle tail), on clears and class-image writes, and whenever the
   // SNN is not in RUN. An extra enabled cycle is always safe (every register keeps its own enable).
-  logic clk_hdc, hdc_clk_en, sp_valid_w;
+  logic clk_hdc, hdc_clk_en;
   logic [1:0] hdc_tail_q;
   always_ff @(posedge clk_i) begin
     if (!rst_n_i) hdc_tail_q <= '1;
@@ -199,6 +237,7 @@ module cim_neurohdc_top #(
       .evx_ready_o       (evx_ready_o),
       .spike_o           (sp),
       .spike_valid_o     (sp_valid),
+      .spike_valid_fast_o(sp_valid_fast),
       .spike_tstep_o     (sp_t),
       .done_o            (snn_done_o),
       .state_o           (state_o),
@@ -267,7 +306,7 @@ module cim_neurohdc_top #(
       .EARLY_EXIT_EN(EARLY_EXIT_EN),
       .N_TS         (N_TIMESTEPS)
   ) u_exit (
-      .clk_i       (clk_hdc),
+      .clk_i       (EXIT_CLK_FREE ? clk_i : clk_hdc),
       .rst_n_i     (rst_n_i),
       .clr_i       (q_clr),
       .dec_valid_i (dec_valid_o),

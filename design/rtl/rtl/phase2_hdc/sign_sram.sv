@@ -7,7 +7,7 @@ import hdc_pkg::*;
 `ifdef SYNTHESIS
 (* blackbox *)
 module sign_sram #(
-    parameter int W = 10
+    parameter int W = N_CLASSES_DEFAULT  // a black box in synthesis: its port widths come from this default
 ) (
     input  logic         clk_i,
     input  logic         we_i,
@@ -19,7 +19,7 @@ module sign_sram #(
 endmodule
 `else
 module sign_sram #(
-    parameter int W = 10
+    parameter int W = N_CLASSES_DEFAULT  // a black box in synthesis: its port widths come from this default
 ) (
     input  logic         clk_i,
     input  logic         we_i,

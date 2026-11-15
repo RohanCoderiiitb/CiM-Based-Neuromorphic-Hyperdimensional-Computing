@@ -8,7 +8,7 @@
 //                    per sample: n_events  thresh[0..19]  gap_seed  theta  exit_en            (decimal, signed)
 //   weights_macro<m>.mem   five 32-bit-per-line hex files (Phase 0 export format)
 //   cmain.mem  csign.mem  cbias.mem   the class image (see hdc_pkg): hex words, address 0 first (csign / cbias only when FACTORIZED)
-//   events.bin       big-endian uint16 AER words, samples concatenated
+//   events.bin       big-endian uint16 AER words (uint32 when W_AER > 16), samples concatenated
 // Output (+out=<file>):  per timestep   TS <sample> <t> <spikes hex> <20 X> <20 V> <11 stats> <N scores> <top1_idx> <top1> <top2> <fire>
 //                        per sample     END <sample> <cycles_inf> <cycles_ingest> <cycles_query> <events_ingested> <stall> <idle> <events_total> <assert_bits> <hdc_assert> <ts_seen>
 //                                           <pred> <early> <pred_tstep> <reload_cycles>
@@ -29,7 +29,7 @@ module hdc_regress_tb;
   parameter bit INSTRUMENT_EN_P = 1'b1;
   parameter bit FACTORIZED_P = 1'b1;
   parameter bit EARLY_EXIT_EN_P = 1'b1;
-  parameter int N_CLASSES_P = 10;
+  parameter int N_CLASSES_P = N_CLASSES_DEFAULT;
   parameter int MAX_EVENTS = 1500000;  // largest DVS sample is 1,385,905 events
 
   logic clk = 1'b0;
@@ -45,7 +45,7 @@ module hdc_regress_tb;
   logic cm_we = 1'b0;
   logic [W_CM_SEL-1:0] cm_sel = '0;
   logic [W_TADDR-1:0] cm_addr = '0;
-  logic [N_CLASSES_P*20-1:0] cm_data = '0;
+  logic [N_CLASSES_P*N_SPK-1:0] cm_data = '0;
   logic ev_valid = 1'b0;
   logic [W_AER-1:0] ev_aer = '0;
   logic ev_ready;
@@ -70,7 +70,7 @@ module hdc_regress_tb;
   logic [N_NEURONS*W_X-1:0] x_flat;
   logic [N_NEURONS*W_V-1:0] v_flat;
   logic [W_STAT-1:0] ts_events, ts_active, ts_skipped, ts_rows, ts_allcols, ts_plane, ts_issued, ts_zero, ts_fwd, ts_cyc, ts_cyc_ing;
-  logic [4:0] q_rows_gated;
+  logic [W_AGREE-1:0] q_rows_gated;
   logic [W_STAT-1:0] q_reads, cyc_query, cyc_inf, events_ingested;
   logic [7:0] assert_fail;
   logic hdc_assert_fail;
@@ -151,11 +151,12 @@ module hdc_regress_tb;
   );
 
   // ------------------------------------------------------------------ stimulus storage
-  logic [15:0] ev_mem[MAX_EVENTS];
+  localparam int W_EVM = (W_AER > 16) ? 32 : 16;  // events.bin word: big-endian uint16, or uint32 when the AER word is wider than 16 bits (240 x 180 sensors)
+  logic [W_EVM-1:0] ev_mem[MAX_EVENTS];
   logic [31:0] wmem[N_MACROS*N_INPUTS];
-  logic [N_CLASSES_P*20-1:0] cmain[128];
+  logic [N_CLASSES_P*N_SPK-1:0] cmain[128];
   logic [N_CLASSES_P-1:0] csign[128];
-  logic [N_CLASSES_P*5-1:0] cbias[1];
+  logic [N_CLASSES_P*W_AGREE-1:0] cbias[1];
   integer fd_out, fd_job, fd_ev;
   string job_dir, out_name, path;
   integer geometry, n_samples, gap_mode, seed;
@@ -163,7 +164,7 @@ module hdc_regress_tb;
   logic [31:0] lfsr;
   integer k, kadv, s, j, m, a, rc;
   integer n_main_words;
-  logic [N_CLASSES_P*20-1:0] cm_tmp;
+  logic [N_CLASSES_P*N_SPK-1:0] cm_tmp;
 
   function automatic logic [31:0] xorshift(input logic [31:0] v);
     logic [31:0] t;
@@ -184,7 +185,7 @@ module hdc_regress_tb;
     end
   endtask
 
-  task automatic cm_write(input int sel, input int addr, input logic [N_CLASSES_P*20-1:0] data);
+  task automatic cm_write(input int sel, input int addr, input logic [N_CLASSES_P*N_SPK-1:0] data);
     begin
       @(negedge clk);
       cm_we   = 1'b1;
@@ -219,7 +220,7 @@ module hdc_regress_tb;
   always @(posedge clk) if (spike_valid) x_snap <= x_flat;
   always @(posedge clk) begin
     if (dec_valid && log_en) begin
-      $fwrite(fd_out, "TS %0d %0d %05x", s, spike_tstep, spike);
+      $fwrite(fd_out, "TS %0d %0d %0x", s, spike_tstep, spike);
       for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_x(x_snap[jj*W_X+:W_X]));
       for (int jj = 0; jj < N_NEURONS; jj++) $fwrite(fd_out, " %0d", sx_v(v_flat[jj*W_V+:W_V]));
       $fwrite(fd_out, " %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d %0d", ts_events, ts_active, ts_skipped, ts_rows, ts_allcols, ts_plane, ts_issued, ts_zero, ts_fwd, ts_cyc, ts_cyc_ing);
@@ -264,7 +265,7 @@ module hdc_regress_tb;
           cm_write(CM_SEL_SIGN, a, cm_tmp);
         end
         cm_tmp = '0;
-        cm_tmp[N_CLASSES_P*5-1:0] = cbias[0];
+        cm_tmp[N_CLASSES_P*W_AGREE-1:0] = cbias[0];
         cm_write(CM_SEL_BIAS, 0, cm_tmp);
       end
       reloading = 1'b0;

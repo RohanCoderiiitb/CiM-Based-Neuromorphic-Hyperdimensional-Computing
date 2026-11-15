@@ -22,7 +22,11 @@ ap.add_argument("--sram-uw", nargs=2, type=float, required=True, help="count-SRA
 ap.add_argument("--tags", nargs="+", required=True)
 ap.add_argument("--out", default=str(ROOT / "results/ppa/v2_energy.json"))
 ap.add_argument("--stage", default="global-route (provisional)")
+ap.add_argument("--n-spk", type=int, default=20, help="neurons of the chip (40: the large chip): offsets of the TS log fields")
+ap.add_argument("--xb-pj", nargs="*", default=[], help="ds=pJ per read overrides (the large chip: studies/crossbar/results/macro_512x32/packed_reads_large.json)")
 a = ap.parse_args()
+_XB = dict(_XB, **{k: float(v) for k, v in (x.split("=") for x in a.xb_pj)})
+_O = 4 + 2 * a.n_spk          # first stats field of a TS line (TS s t spikes X[n] V[n] stats...)
 fit = json.loads(Path(a.fit).read_text())["fit"]
 c0, e_ev, e_rd = fit["c0_J_per_cycle"], fit["e_event_J"], fit["e_read_J"]
 
@@ -32,7 +36,7 @@ def counts(tag):
     for l in gzip.open(ROOT / f"results/hdc/{tag}.out.txt.gz", "rt"):
         f = l.split()
         if f[0] == "TS":
-            reads[int(f[1])] += int(f[48]); passes[int(f[1])] += int(f[50])
+            reads[int(f[1])] += int(f[_O + 4]); passes[int(f[1])] += int(f[_O + 6])
         elif f[0] == "END":
             cyc[int(f[1])] = int(f[2]); ev[int(f[1])] = int(f[5])
     S = sorted(cyc)

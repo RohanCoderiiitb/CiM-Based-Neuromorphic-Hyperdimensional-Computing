@@ -86,6 +86,8 @@ if {"floorplan" in $STAGES} {
     } else {
       set X [expr {$X + $MN($mn) * ([[$inst getMaster] getWidth] / double($dbu) + 5.0)}]
     }
+    # HDC_ORI (e.g. MX): the large chip hangs the class memory from the top of the digital region, so its pin edge (the LEF top) is mirrored to face the logic below
+    if {$mn eq "hdc_class_array" && [info exists ::env(HDC_ORI)]} { set ORI $::env(HDC_ORI) }
     if {![info exists ORI]} { set ORI R0 }
     $inst setOrient $ORI
     unset ORI
@@ -120,7 +122,15 @@ if {"place" in $STAGES} {
     foreach bt [[ord::get_db_block] getBTerms] { if {[regexp {^(ev|evx)_(aer_i|valid_i|ready_o)} [$bt getName]]} { lappend evpins [$bt getName] } }
     set_io_pin_constraint -region bottom:$EV_X0-$EV_X1 -pin_names $evpins
   }
-  place_pins -hor_layers Metal3 -ver_layers Metal4 -exclude top:* -exclude left:[expr {int($CIM_Y) - 2}]-$DIE_H -exclude right:* -exclude bottom:[expr {int($MARGIN + $IO_W) + 1}]-$DIE_W -min_distance 1 -min_distance_in_tracks
+  # CM_PINS_RIGHT (the large chip): the wide class-image port goes to the right edge of the digital region, beside the class memory, instead of crowding the bottom edge
+  set rexcl "right:*"
+  if {[info exists ::env(CM_PINS_RIGHT)] && $::env(CM_PINS_RIGHT)} {
+    set cmpins {}
+    foreach bt [[ord::get_db_block] getBTerms] { if {[regexp {^cm_(data|addr|sel|we)_i} [$bt getName]]} { lappend cmpins [$bt getName] } }
+    set_io_pin_constraint -region right:[expr {int($MARGIN) + 1}]-[expr {int($CIM_Y) - 2}] -pin_names $cmpins
+    set rexcl "right:[expr {int($CIM_Y) - 2}]-$DIE_H"
+  }
+  place_pins -hor_layers Metal3 -ver_layers Metal4 -exclude top:* -exclude left:[expr {int($CIM_Y) - 2}]-$DIE_H -exclude $rexcl -exclude bottom:[expr {int($MARGIN + $IO_W) + 1}]-$DIE_W -min_distance 1 -min_distance_in_tracks
   global_placement -routability_driven -density $PLACE_DENSITY
   set PV [expr {[info exists ::env(PLACE_VARIANT)] ? $::env(PLACE_VARIANT) : 2}]
   estimate_parasitics -placement
@@ -167,6 +177,16 @@ if {"cts" in $STAGES} {
   repair_timing -hold -hold_margin 0.05 -verbose
   repair_timing -setup -setup_margin 0.1 -verbose
   detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+  # CTS_ITERS (the large chip): legalising the repair buffers displaces cells (up to ~200 um near the counter SRAMs) and undoes the repair; repeat repair + legalisation
+  for {set it 0} {$it < [expr {[info exists ::env(CTS_ITERS)] ? $::env(CTS_ITERS) : 0}]} {incr it} {
+    estimate_parasitics -placement
+    rpt cts_iter$it
+    repair_design -verbose
+    repair_timing -setup -setup_margin 0.1 -verbose
+    repair_timing -hold -hold_margin 0.05 -verbose
+    repair_timing -setup -setup_margin 0.1 -verbose
+    detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+  }
   check_placement -verbose
   estimate_parasitics -placement
   write_db $RUN/cts.odb
@@ -187,6 +207,41 @@ if {"groute" in $STAGES} {
   repair_timing -setup -setup_margin $GR_SETUP -verbose
   repair_timing -hold -hold_margin $GR_HOLD -verbose
   repair_timing -setup -setup_margin $GR_SETUP -verbose
+  detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+  check_placement -verbose
+  global_route -guide_file $RUN/route.guide -start_incremental
+  global_route -end_incremental -congestion_iterations 30 -allow_congestion
+  # GR_EXTRA (the large chip): further setup/hold repair rounds on the routed parasitics, each legalised and incrementally re-routed
+  # (placement parasitics: after an incremental route the global-route trees of moved cells can be incomplete; the sign-off below uses the global-route parasitics)
+  for {set it 0} {$it < [expr {[info exists ::env(GR_EXTRA)] ? $::env(GR_EXTRA) : 0}]} {incr it} {
+    estimate_parasitics -placement
+    repair_timing -setup -setup_margin $GR_SETUP -verbose
+    repair_timing -hold -hold_margin $GR_HOLD -verbose
+    repair_timing -setup -setup_margin $GR_SETUP -verbose
+    detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+    check_placement -verbose
+    global_route -guide_file $RUN/route.guide -start_incremental
+    global_route -end_incremental -congestion_iterations 30 -allow_congestion
+  }
+  estimate_parasitics -global_routing -spef_file $RUN/groute.spef
+  write_db $RUN/groute.odb
+  write_verilog $RUN/groute.v
+  rpt groute
+}
+
+# eco (on request only, STAGES=eco): a further setup/hold repair on the global-route parasitics of an existing groute.odb, legalised and incrementally re-routed; overwrites groute.*
+if {"eco" in $STAGES} {
+  load_design groute
+  set_propagated_clock [all_clocks]
+  set_global_routing_layer_adjustment Metal2-Metal9 0.2
+  global_route -guide_file $RUN/route.guide -congestion_iterations 60 -allow_congestion
+  estimate_parasitics -global_routing
+  rpt eco_pre
+  set ES [expr {[info exists ::env(ECO_SETUP_MARGIN)] ? $::env(ECO_SETUP_MARGIN) : 0.4}]
+  repair_design -verbose
+  repair_timing -setup -setup_margin $ES -verbose
+  repair_timing -hold -hold_margin 0.05 -verbose
+  repair_timing -setup -setup_margin $ES -verbose
   detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
   check_placement -verbose
   global_route -guide_file $RUN/route.guide -start_incremental

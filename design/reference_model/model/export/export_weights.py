@@ -34,8 +34,9 @@ def decode_planes(planes: np.ndarray) -> np.ndarray:
     return val.astype(np.int8)
 
 
-def pack_rows(planes: np.ndarray, neurons=range(N_NEURON)) -> list[int]:
-    """One integer per address; bit (i*8 + k) = plane k of the i-th listed neuron."""
+def pack_rows(planes: np.ndarray, neurons=None) -> list[int]:
+    """One integer per address; bit (i*8 + k) = plane k of the i-th listed neuron (default: all neurons of `planes`)."""
+    neurons = range(planes.shape[0]) if neurons is None else neurons
     rows = []
     for a in range(N_ADDR):
         w = 0
@@ -75,12 +76,13 @@ def export_weight_image(outdir: str, seed: int, W: np.ndarray, thresh_int: np.nd
     np.save(f"{outdir}/weights_seed{seed}_int8.npy", W)
     np.save(f"{outdir}/weights_seed{seed}_planes.npy", planes)
     rows = pack_rows(planes)
-    write_mem(f"{outdir}/weights_seed{seed}_160b.mem", rows, 160)
-    for m in range(5):
+    n = W.shape[0]                                              # 20 neurons: 160-bit rows, 5 macros of 4 neurons; 40 neurons (large): 320-bit rows, 10 macros
+    write_mem(f"{outdir}/weights_seed{seed}_{n * N_PLANE}b.mem", rows, n * N_PLANE)
+    for m in range(n // 4):
         write_mem(f"{outdir}/weights_seed{seed}_macro{m}_32b.mem",
                   pack_rows(planes, range(4 * m, 4 * m + 4)), 32)
     with open(f"{outdir}/thresh_seed{seed}.mem", "w") as f:
-        f.write(f"// 20 x {w_thresh_bits} b two's complement, neuron 0 first\n")
+        f.write(f"// {n} x {w_thresh_bits} b two's complement, neuron 0 first\n")
         for t in thresh_int:
             f.write(f"{int(t) & ((1 << w_thresh_bits) - 1):0{(w_thresh_bits + 3) // 4}x}\n")
     with open(f"{outdir}/thresh_seed{seed}.json", "w") as f:
@@ -90,9 +92,10 @@ def export_weight_image(outdir: str, seed: int, W: np.ndarray, thresh_int: np.nd
 
 def verify_image(outdir: str, seed: int, W: np.ndarray):
     """Reload every emitted file and prove it reconstructs W exactly."""
-    rows = read_mem(f"{outdir}/weights_seed{seed}_160b.mem")
-    assert len(rows) == N_ADDR and np.array_equal(decode_planes(unpack_rows(rows, 20)), W)
-    for m in range(5):
+    n = W.shape[0]
+    rows = read_mem(f"{outdir}/weights_seed{seed}_{n * N_PLANE}b.mem")
+    assert len(rows) == N_ADDR and np.array_equal(decode_planes(unpack_rows(rows, n)), W)
+    for m in range(n // 4):
         r = read_mem(f"{outdir}/weights_seed{seed}_macro{m}_32b.mem")
         assert np.array_equal(decode_planes(unpack_rows(r, 4)), W[4 * m:4 * m + 4])
     assert np.array_equal(decode_planes(np.load(f"{outdir}/weights_seed{seed}_planes.npy")), W)

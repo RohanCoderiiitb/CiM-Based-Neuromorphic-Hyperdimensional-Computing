@@ -31,18 +31,20 @@ sys.path.insert(0, str(REPO / "design" / "rtl"))
 sys.path.insert(0, str(REPO / "design" / "rtl" / "synth" / "opt"))
 
 
-def packed_population(s_rows: int) -> dict:
+def packed_population(s_rows: int, datasets=("dvs", "nm"), w_count: int = 11) -> dict:
     """reads per inference and the histogram of active rows per read, packed as plane_seq does."""
     from tb.common import hdc_golden as H
     import nm_power as NP
+    load = {"dvs": lambda: H.load_model("r1", 0, "dvsgesture"), "nm": NP.nm_model, "c10": lambda: H.load_model("r1", 0, "cifar10dvs"),
+            "asl": lambda: dict(counts=np.load(H.G.VEC / "asldvs" / "counts.npz")["counts"])}                    # the population depends on the counts only
     out = {}
-    for ds, mdl in (("dvs", H.load_model("r1", 0, "dvsgesture")), ("nm", NP.nm_model())):
+    for ds, mdl in ((d, load[d]()) for d in datasets):
         C = mdl["counts"].astype(np.int64)
         hist = np.zeros(s_rows + 1)
         for r in range(C.shape[0]):
             for t in range(C.shape[1]):
                 c = C[r, t]
-                for b in range(11):
+                for b in range(w_count):
                     bits = ((c >> b) & 1).reshape(4, 128).sum(axis=1)
                     for n in bits:
                         n = int(n)
@@ -67,30 +69,34 @@ def device_spread(r_lrs: float, g: int, sigmas) -> dict:
     return res
 
 
-def per_read(pt: dict, ref: dict, f: list, ramp: float, tcap: float | None, base: dict, pop: dict, s_rows: int, i_br20: float, ns: dict, key: str) -> dict:
+def per_read(pt: dict, ref: dict, f: list, ramp: float, tcap: float | None, base: dict, pop: dict, s_rows: int, i_br20: float, ns: dict, key: str, n_neur: int = 20, n_ch: int = 40) -> dict:
+    """n_neur neurons (8 columns each) and n_ch shared sense channels: 20 / 40 is the small chip; the large chip (40 / 80) scales every per-column term with the columns,
+    the channel terms with the channels, and the decoupling with the columns sensed at once [ASSUM: word-line energy scales with the word-line length = columns]."""
+    kc = n_neur / 20
     lv, rl, cell = pt["levels"], pt["rowline"], pt["cell"]
     i_sig = base["i_sig_uA"] * lv["i_lrs_branch_uA"] / i_br20 * pop["mean_active"] / base_mean_active()
     pc = R.plane_choices(pt, ref, f, i_sig, ramp, tcap)
     e_cols = [c["col_read_J"] for c in pc]
     i_idle_mean = sum(c["i_idle_uA"] for c in pc) / 8
-    gap = 3 * R.TAIL * R.V * i_idle_mean * 1e-6 * 40
-    sense = 20 * sum(e_cols) + gap
+    gap = 3 * R.TAIL * R.V * i_idle_mean * 1e-6 * n_ch
+    sense = n_neur * sum(e_cols) + gap
     Tw = sum(c["T_ns"] for c in pc) / 8
     Tmax = max(c["T_ns"] for c in pc)
     sc1 = 1.0 / base["reads_nonzero"]
-    arr = base["array_J"] * sc1 * (lv["i_lrs_branch_uA"] / i_br20) * Tw * pop["mean_active"] / base_mean_active()      # array energy ~ conducting branches x T
-    wl = base["wordline_J"] * sc1 * (cell["tx_w_um"] / 0.54) * pop["mean_active"] / base_mean_active()                    # word lines driven ~ active rows
+    arr = kc * base["array_J"] * sc1 * (lv["i_lrs_branch_uA"] / i_br20) * Tw * pop["mean_active"] / base_mean_active()      # array energy ~ conducting branches x T
+    wl = kc * base["wordline_J"] * sc1 * (cell["tx_w_um"] / 0.54) * pop["mean_active"] / base_mean_active()                    # word lines driven ~ active rows (x length)
     fs = lv["full_scale_uA"] * s_rows / 4                                                                                  # the levels span 0..S
     trim = 2 * (rl["resid_rank0"] * fs + R.CAL_RESIDUAL_UA)
     bits = [max(2, ceil(log2(trim / (c["sigma_uA"] / 2)))) for c in pc]
-    cmp = 20 * pop["n_cmp"] * sum((R.E_COMP_FJ["preamp"] + R.E_COMP_FJ["latch"] + R.E_COMP_FJ["dac"] * 2 ** (b - 10) + R.E_SELECT_FJ) * 1e-15 for b in bits)
+    cmp = n_neur * pop["n_cmp"] * sum((R.E_COMP_FJ["preamp"] + R.E_COMP_FJ["latch"] + R.E_COMP_FJ["dac"] * 2 ** (b - 10) + R.E_SELECT_FJ) * 1e-15 for b in bits)
     n = ns[key]
     pc_ = R.FE["per_col"]
     dac_f = 2 ** (sum(bits) / 8 - 10)
-    fe_shared = (40 * (pc_["channel"] + pc_["int_caps"] + pc_["decision"] + pc_["thr_cap"] * dac_f) + 160 * (pc_["trims"] + R.MUX_UM2_PER_COL) + R.FE["ladder_gain_um2"] + R.FE["calibration_um2"] + R.FE["straps_um2"]) * 1e-6
-    decap_arr = R.DECAP_1NF_MM2 * (lv["i_lrs_branch_uA"] * s_rows) / (i_br20 * 4)
+    fe_shared = (n_ch * (pc_["channel"] + pc_["int_caps"] + pc_["decision"] + pc_["thr_cap"] * dac_f) + 8 * n_neur * (pc_["trims"] + R.MUX_UM2_PER_COL) + R.FE["ladder_gain_um2"] + R.FE["calibration_um2"] + R.FE["straps_um2"]) * 1e-6
+    decap_arr = R.DECAP_1NF_MM2 * (lv["i_lrs_branch_uA"] * s_rows) / (i_br20 * 4) * (n_ch / 40)      # peak array current ~ rows x columns sensed at once
     decap = decap_arr * (Tmax + 0.3) / 1.3
-    macro = 1.2 * (5 * n["area_array_um2"] * 1e-6 + 5 * n["area_other_um2"] * 1e-6 + fe_shared + decap)
+    nm_ = n_neur // 4                                                                                                     # 512 x 32 NeuroSim macros (4 neurons each)
+    macro = 1.2 * (nm_ * n["area_array_um2"] * 1e-6 + nm_ * n["area_other_um2"] * 1e-6 + fe_shared + decap)
     return dict(pJ_per_read=dict(sense=sense * 1e12, array=arr * 1e12, wordline=wl * 1e12, comparators=cmp * 1e12, total=(sense + arr + wl + cmp) * 1e12),
                 T_ns=[c["T_ns"] for c in pc], vb=[c["vb"] for c in pc], dac_bits=bits, n_cmp=pop["n_cmp"], mean_active=pop["mean_active"], i_sig_uA=i_sig,
                 macro_mm2=macro, decap_mm2=decap, front_end_mm2=fe_shared)
@@ -112,6 +118,7 @@ def main() -> None:
     ap.add_argument("--ron", type=float, default=3500.0)
     ap.add_argument("--rows", type=int, nargs="+", default=[4, 5, 6, 8])
     ap.add_argument("--out", default="packed_reads.json")
+    ap.add_argument("--add-dataset", default=None, help="c10: add CIFAR10-DVS (its packed read population) to the existing --out file for --rows, leaving every other entry unchanged")
     a = ap.parse_args()
     sw = json.loads((RP.MACRO / "operating_point_sweep.json").read_text())["points"]
     sw.update(json.loads((RP.MACRO / "operating_point_sweep_fine.json").read_text())["points"])
@@ -122,6 +129,19 @@ def main() -> None:
     f = [p["variance_relaxation"] for p in opt["planes"]]
     base = E1.energy(0.5, 1e-9, R.TAIL, 4)
     out = dict(ron=a.ron, tcap=a.tcap, rows={})
+    if a.add_dataset:
+        ds = a.add_dataset
+        old = json.loads((RP.MACRO / a.out).read_text())
+        assert old["ron"] == a.ron and old["tcap"] == a.tcap
+        for s in a.rows:
+            pop = packed_population(s, (ds,))[ds]
+            pr = per_read(pt, ref, f, opt["ramp_ratio"], a.tcap, base, pop, s, 64.19035, ns, key)
+            r = old["rows"][str(s)]
+            r["population"][ds] = pop; r[f"crossbar_{ds}"] = pr
+            r["pJ_per_read"][ds] = pr["pJ_per_read"]["total"]; r["crossbar_uJ"][ds] = pr["pJ_per_read"]["total"] * pop["reads"] * 1e-6
+            print(f"S={s} {ds}: reads {pop['reads']:.0f} mean active {pop['mean_active']:.2f} n_cmp {pop['n_cmp']:.2f} pJ/read {r['pJ_per_read'][ds]:.2f} crossbar {r['crossbar_uJ'][ds]:.4f} uJ", flush=True)
+        (RP.MACRO / a.out).write_text(json.dumps(old, indent=1, default=float))
+        return
     for s in a.rows:
         pop = packed_population(s)
         pr = per_read(pt, ref, f, opt["ramp_ratio"], a.tcap, base, pop["dvs"], s, 64.19035, ns, key)

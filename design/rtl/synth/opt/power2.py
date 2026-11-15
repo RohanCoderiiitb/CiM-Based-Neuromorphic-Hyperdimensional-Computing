@@ -81,7 +81,7 @@ def main() -> int:
     ap.add_argument("--build", default="ee_off")
     ap.add_argument("--cols", type=int, default=40)
     ap.add_argument("--stage", default="routed", help="layout stage whose netlist (<stage>.v) and SPEF (<stage>_fast.spef) are used: routed, or groute (provisional)")
-    ap.add_argument("--spec", nargs="+", required=True, help="dataset:row:start:length (dataset dvs|nm)")
+    ap.add_argument("--spec", nargs="+", required=True, help="dataset:row:start:length (dataset dvs|nm|c10; the large chip: asl|c10L)")
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     run = SYNTH / "work" / "opt" / a.tag
@@ -92,7 +92,7 @@ def main() -> int:
         ds, row, start, length = sp.split(":")
         row, start, length = int(row), int(start), int(length)
         if ds not in mdls:
-            mdls[ds] = NP.nm_model() if ds == "nm" else H.load_model("r1", 0, "dvsgesture")
+            mdls[ds] = NP.nm_model() if ds == "nm" else (H.load_model("unf", 0, "asldvs") if ds == "asl" else H.load_model("unf", 0, "cifar10dvs_large") if ds == "c10L" else H.load_model("r1", 0, "cifar10dvs" if ds == "c10" else "dvsgesture"))
         name = f"w{k}_{ds}{row}"
         d = GS.run(a.build, run / f"gs_{name}", run / (a.stage + ".v"), const, row, start, length, theta=4095, cols=a.cols, mdl=mdls[ds], vcd_name=f"{name}.vcd")
         pw = PW.sta_power(run, a.stage, name, Path(d["vcd"]), "fast")

@@ -53,9 +53,10 @@ def agree_factorized(S: np.ndarray, a_bits: np.ndarray, b_bits: np.ndarray, bias
     """AND-popcount against the stationary array, bias from the register, sign from the table -> agree [T,N]. bias[i] = |a_i| unless given."""
     S = np.asarray(S, np.int64); a = np.asarray(a_bits, np.int64); b = np.asarray(b_bits, np.int64)
     bias = a.sum(axis=1) if bias is None else np.asarray(bias, np.int64)
-    p = N_NEURON - S.sum(axis=1)[:, None] - bias[None, :] + 2 * and_popcount(S, a)          # XNOR popcount of S against a_i
-    assert p.min() >= 0 and p.max() <= N_NEURON
-    return np.where(b.T == 1, p, N_NEURON - p)
+    n = S.shape[1]                                                                            # spike-vector width (20 small, 40 large)
+    p = n - S.sum(axis=1)[:, None] - bias[None, :] + 2 * and_popcount(S, a)                  # XNOR popcount of S against a_i
+    assert p.min() >= 0 and p.max() <= n
+    return np.where(b.T == 1, p, n - p)
 
 
 def prefix_scores(agree: np.ndarray) -> np.ndarray:
@@ -135,4 +136,4 @@ def unipolar_prefix(S: np.ndarray, class_hv: np.ndarray) -> np.ndarray:
 
 def class_independent_offset(S: np.ndarray) -> np.ndarray:
     """xnor_prefix(t) = unipolar_prefix(t) + this, for every class: sum_{t'<=t} (20 - |S[t']|)."""
-    return np.cumsum(N_NEURON - np.asarray(S, np.int64).sum(axis=1))
+    return np.cumsum(np.asarray(S).shape[1] - np.asarray(S, np.int64).sum(axis=1))

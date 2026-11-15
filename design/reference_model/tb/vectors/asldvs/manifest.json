@@ -1,0 +1,8 @@
+{
+ "dataset": "asldvs",
+ "n_samples": 2000,
+ "T": 100,
+ "n_neurons": 40,
+ "n_classes": 24,
+ "split": "random 80/20 (seed 0); RTL rows = the first n of the fixed random test order"
+}

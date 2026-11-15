@@ -38,6 +38,7 @@ ap.add_argument("--core-w", type=float, default=None)
 ap.add_argument("--pitch", type=float, default=0.8, help="macro pin pitch, um")
 ap.add_argument("--rtl-root", default=None, help="RTL tree to synthesise (a snapshot); default the repository")
 ap.add_argument("--set", default="", help="extra chparam settings, e.g. '-set A0_SKIP_EN 0'")
+ap.add_argument("--hdc-store", default=None, choices=["analog", "sram"], help="gen_macros --hdc-store")
 ap.add_argument("--hier-names", action="store_true", help="map every module on its own and flatten afterwards: cell names keep the module path (per-module power attribution)")
 a = ap.parse_args()
 run = SYNTH / "work" / "opt" / a.tag
@@ -55,7 +56,7 @@ if not a.skip_synth:
 mac = run / "macro"
 if a.gen_macros:
     shutil.rmtree(mac, ignore_errors=True)
-    r = subprocess.run([sys.executable, str(HERE / "gen_macros.py"), "--out", str(mac), "--g", str(a.g), "--cols", str(a.cols), "--build", a.build, "--pitch", str(a.pitch), *(["--cim-area-um2", str(a.cim_area)] if a.cim_area else [])], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(HERE / "gen_macros.py"), "--out", str(mac), "--g", str(a.g), "--cols", str(a.cols), "--build", a.build, "--pitch", str(a.pitch), *(["--cim-area-um2", str(a.cim_area)] if a.cim_area else []), *(["--rtl-root", a.rtl_root] if a.rtl_root else []), *(["--hdc-store", a.hdc_store] if a.hdc_store else [])], capture_output=True, text=True)
     print(r.stdout.strip(), r.stderr.strip()[-500:], flush=True)
     if r.returncode:
         sys.exit("gen_macros failed")

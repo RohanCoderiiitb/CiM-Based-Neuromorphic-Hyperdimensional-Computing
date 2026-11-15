@@ -14,6 +14,7 @@
 // SWEEP. After reset and after `flush_i` (abort) all macros are cleared by a sweep (one row per cycle); ready_o is low meanwhile and the controller accepts no event.
 // Address and data wires of a lane's macros are zero when that lane does not access them; the scan adders see zeros outside a scan.
 import cim_neurohdc_pkg::LB_COUNT;
+import cim_neurohdc_pkg::LOCAL_QUERY_BUSY;
 import cim_neurohdc_pkg::N_BANK_WORDS;
 import cim_neurohdc_pkg::N_COUNT_BANKS;
 import cim_neurohdc_pkg::N_DIRTY_GS;
@@ -149,6 +150,7 @@ module count_mem #(
   logic [W_BANK_ADDR-1:0] clr_grp_q;
   logic [NB-1:0]          nz_q[NL];  // lane counters of the group to clear that are not zero
   logic [W_COUNT-1:0]     rdata[2][NL][NB];
+  logic [NL-1:0]          ssl;   // per-lane scan set (= scan_set_q; see g_ssl)
   always_ff @(posedge clk_i) begin
     if (!rst_n_i || flush_i) begin
       scan_re_q  <= 1'b0;
@@ -172,7 +174,7 @@ module count_mem #(
       if (scan_re_q && scan_clr_i) begin
         clr_set_q <= scan_set_q;
         clr_grp_q <= scan_grp_q;
-        for (int k = 0; k < NL; k++) for (int b = 0; b < NB; b++) nz_q[k][b] <= lv_q[k] && (rdata[scan_set_q][k][b] != '0);
+        for (int k = 0; k < NL; k++) for (int b = 0; b < NB; b++) nz_q[k][b] <= lv_q[k] && (rdata[ssl[k]][k][b] != '0);
       end
     end
   end
@@ -229,12 +231,30 @@ module count_mem #(
     end
   end
 
+  // LOCAL_QUERY_BUSY (the large chip): one copy of scan_set_q per lane drives that lane's read-data select, instead of one flop fanning out to every lane's banks (timing).
+  // Lane k's copy loads only when the scan reads lane k (lsel[k], which becomes lv_q[k]); its select is used only under lv_q[k], where it equals scan_set_q (asserted)
+  if (LOCAL_QUERY_BUSY) begin : g_ssl
+    for (genvar k = 0; k < NL; k++) begin : g_l
+      logic s_q;
+      always_ff @(posedge clk_i) begin
+        if (!rst_n_i || flush_i) s_q <= 1'b0;
+        else if (scan_re_i && lsel[k]) s_q <= scan_set_i;
+      end
+      assign ssl[k] = s_q;
+    end
+`ifndef SYNTHESIS
+    always_ff @(posedge clk_i) if (rst_n_i && ((ssl ^ {NL{scan_set_q}}) & lv_q) != '0) $display("[ASSERT FAIL] %m: per-lane scan-set copies %b != scan_set_q %b on active lanes %b", ssl, scan_set_q, lv_q);
+`endif
+  end else begin : g_ssl1
+    assign ssl = {NL{scan_set_q}};
+  end
+
   // ------------------------------------------------------------------ scan data: the count of an address is the sum of its lane counters
   logic [W_COUNT+1:0] gsum[NB];
   always_comb begin
     for (int b = 0; b < NB; b++) begin
       gsum[b] = '0;
-      for (int k = 0; k < NL; k++) gsum[b] = gsum[b] + (W_COUNT + 2)'((scan_act_q && lv_q[k]) ? rdata[scan_set_q][k][b] : '0);
+      for (int k = 0; k < NL; k++) gsum[b] = gsum[b] + (W_COUNT + 2)'((scan_act_q && lv_q[k]) ? rdata[ssl[k]][k][b] : '0);
       q_o[b*W_COUNT+:W_COUNT] = gsum[b][W_COUNT-1:0];
     end
   end

@@ -40,6 +40,8 @@ package cim_neurohdc_pkg;
   localparam bit CLOCK_GATING_DEFAULT = 1'b1;  // [D] digital-energy pass: count_mem and the class-HV sign table use explicit hierarchical clock gates (clk_gate_tree); 0: plain enabled flip-flops
   localparam bit OPERAND_ISOLATION_DEFAULT = 1'b1;  // [D] digital-energy pass: shift_accum's fold network is fed zeros except when its result is consumed
   localparam bit INSTRUMENT_EN_DEFAULT = 1'b1;  // [1E] activity / skip counters (Phase 5 handoff)
+  localparam int LOCAL_QUERY_BUSY = 0;
+  localparam int EXIT_CLK_FREE = 0;  // [D] 1 (the large chip): the exit controller runs on the free clock, not behind the HDC clock gate (every register has its own enable; timing of the ready outputs)  // [D] 1: the intake hold comes from a replica of the query valids beside the SNN (the large chip; timing on a large die), 0: wired from the query stage
   localparam bit GEOM_NMNIST_DEFAULT = 1'b0;  // [1E] reset value of the sensor geometry: 0 = DVS-Gesture 128x128, 1 = N-MNIST 34x34 (runtime-writable)
 
   // ------------------------------------------------------------------ event ingest: N_LANES lanes, banked counter memory with a short request queue per bank [D]
@@ -73,21 +75,23 @@ package cim_neurohdc_pkg;
   localparam int COORD_MUL_NMNIST = 482;  // round(16 * 2^10 / 34); exhaustively == floor(16 x / 34) for x = 0..127 (scripts/derive_recip.py)
   localparam int W_AER = 16;  // AER event word
   localparam int AER_SHIFT_DVS = 7;  // word = p<<14 | y<<7 | x
-  localparam int AER_SHIFT_NMNIST = 6;  // word = p<<12 | y<<6 | x
+  localparam int AER_SHIFT_NMNIST = 6;  // word = p<<12 | y<<6 | x   (the SECOND geometry's field width: 34 x 34 on this chip)
+  localparam int GEO2_W = 34;  // [D] second geometry: sensor width and height (eq. 19 tables built from these)
+  localparam int GEO2_H = 34;
 
   // ------------------------------------------------------------------ weight load [D]
   localparam int W_WL_WORD = 32;  // shift-in word = one macro's slice (4 neurons x 8 planes) of one address
   localparam int N_MACROS = N_WCOLS / W_WL_WORD;  // 5 macros of 512 x 32 (NeuroHDC organisation)
-  localparam int W_MACRO_IDX = 3;
+  localparam int W_MACRO_IDX = $clog2(N_MACROS);  // 3 bits for 5 macros
   localparam int N_WL_WORDS = N_MACROS * N_INPUTS;  // 2560 words, macro-major, address 0 first
 
   // ------------------------------------------------------------------ config register map [D]
-  localparam int W_CFG_ADDR = 5;
+  localparam int W_CFG_ADDR = $clog2(N_NEURONS + 4);  // thresholds + 4 registers: 5 bits for 20 neurons
   localparam int CFG_THRESH_BASE = 0;  // 0..19: threshold of neuron j
-  localparam int CFG_N_EVENTS = 20;  // events in the sample (event_ctr n)
-  localparam int CFG_COORD_MUL = 21;  // addr_gen reciprocal multiplier
-  localparam int CFG_AER_SHIFT = 22;  // AER field width
-  localparam int CFG_THRESH_SHARED = 23;  // 1: every neuron uses threshold register 0 (N-MNIST per-tensor)
+  localparam int CFG_N_EVENTS = N_NEURONS;  // events in the sample (event_ctr n); 20 for 20 neurons
+  localparam int CFG_COORD_MUL = N_NEURONS + 1;  // addr_gen reciprocal multiplier
+  localparam int CFG_AER_SHIFT = N_NEURONS + 2;  // AER field width
+  localparam int CFG_THRESH_SHARED = N_NEURONS + 3;  // 1: every neuron uses threshold register 0 (N-MNIST per-tensor)
   localparam int W_CFG_DATA = W_NEVENTS;
 
   // ------------------------------------------------------------------ top-level FSM [D]

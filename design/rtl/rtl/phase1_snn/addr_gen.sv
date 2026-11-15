@@ -9,6 +9,8 @@ import cim_neurohdc_pkg::AER_SHIFT_DVS;
 import cim_neurohdc_pkg::AER_SHIFT_NMNIST;
 import cim_neurohdc_pkg::COORD_SHIFT;
 import cim_neurohdc_pkg::GRID_DIM;
+import cim_neurohdc_pkg::GEO2_W;
+import cim_neurohdc_pkg::GEO2_H;
 import cim_neurohdc_pkg::W_ADDR;
 import cim_neurohdc_pkg::W_AER;
 import cim_neurohdc_pkg::W_GRID;
@@ -31,15 +33,27 @@ module addr_gen (
     end
     mk_rom34 = r;
   endfunction
-  localparam logic [N_C*W_GRID-1:0] ROM34 = mk_rom34();
+  // a second geometry other than 34 x 34 (the large chip: 240 x 180, 8-bit fields): separate x and y tables, floor(16 c / D) clamped as events_to_frames clamps
+  function automatic logic [N_C*W_GRID-1:0] mk_rom(input int d);
+    logic [N_C*W_GRID-1:0] r;
+    int c;
+    for (int i = 0; i < N_C; i++) begin
+      c = (i < d) ? i : d - 1;
+      r[i*W_GRID+:W_GRID] = W_GRID'((c * GRID_DIM) / d);
+    end
+    mk_rom = r;
+  endfunction
+  localparam bit G34 = (GEO2_W == 34) && (GEO2_H == 34);
+  localparam logic [N_C*W_GRID-1:0] ROMX = G34 ? mk_rom34() : mk_rom(GEO2_W);
+  localparam logic [N_C*W_GRID-1:0] ROMY = G34 ? mk_rom34() : mk_rom(GEO2_H);
 
   logic [SN-1:0] xn, yn;  // the 34x34 fields, isolated
   logic [W_GRID-1:0] col, row;
   logic p;
   assign xn  = geom_dvs_i ? '0 : aer_i[SN-1:0];
   assign yn  = geom_dvs_i ? '0 : aer_i[2*SN-1:SN];
-  assign col = geom_dvs_i ? aer_i[SD-1-:W_GRID] : ROM34[int'(xn)*W_GRID+:W_GRID];      // field >> 3 = the top W_GRID bits of the 7-bit field
-  assign row = geom_dvs_i ? aer_i[2*SD-1-:W_GRID] : ROM34[int'(yn)*W_GRID+:W_GRID];
+  assign col = geom_dvs_i ? aer_i[SD-1-:W_GRID] : ROMX[int'(xn)*W_GRID+:W_GRID];      // field >> 3 = the top W_GRID bits of the 7-bit field
+  assign row = geom_dvs_i ? aer_i[2*SD-1-:W_GRID] : ROMY[int'(yn)*W_GRID+:W_GRID];
   assign p   = geom_dvs_i ? aer_i[2*SD] : aer_i[2*SN];
   assign addr_o = {p, row, col};
 endmodule
