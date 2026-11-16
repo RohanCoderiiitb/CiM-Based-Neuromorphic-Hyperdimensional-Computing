@@ -138,6 +138,17 @@ def count_lanes() -> int:
     return int(m.group(1)) if m else 1
 
 
+def cacti_out(name: str) -> dict:
+    """area / energy / leakage / access of a CACTI 7 run in opt/cacti/<name>.out (the user's CACTI build; configs and runner in opt/cacti/)."""
+    import re as _re
+    t = (HERE / "cacti" / f"{name}.out").read_text()
+    g = lambda pat: float(_re.search(pat, t).group(1))  # noqa: E731
+    h_mm, w_mm = (float(x) for x in _re.search(r"Cache height x width \(mm\): ([\d.]+) x ([\d.]+)", t).groups())
+    return dict(h_um=h_mm * 1e3, w_um=w_mm * 1e3, area_um2=h_mm * w_mm * 1e6, read_pj=g(r"Total dynamic read energy per access \(nJ\): ([\d.eE+-]+)") * 1e3,
+                write_pj=g(r"Total dynamic write energy per access \(nJ\): ([\d.eE+-]+)") * 1e3, leak_uw=g(r"Total leakage power of a bank \(mW\): ([\d.eE+-]+)") * 1e3,
+                access_ns=g(r"Access time \(ns\): ([\d.eE+-]+)"))
+
+
 def count_cacti(nb: int) -> dict:
     """CACTI point of one counter bank: 1 kB (512 x 16 b) for one bank, 256 B (128 x 16 b: the sign table's size, same CACTI settings) for four banks."""
     nbytes = 512 // nb * 16 // 8
@@ -157,7 +168,7 @@ def main() -> int:
     ap.add_argument("--g", type=int, default=4)
     ap.add_argument("--cols", type=int, default=40, help="N_PARALLEL_COLS of the digital design (width of the macro result bus)")
     ap.add_argument("--rtl-root", default=None, help="RTL tree (the large chip: design/rtl_large)")
-    ap.add_argument("--hdc-store", choices=["analog", "sram"], default="analog", help="unfactorized class memory: sram = a plain SRAM macro read one N x n slice per timestep (the large chip; [ASSUM] CACTI 1 kB point scaled by bits)")
+    ap.add_argument("--hdc-store", choices=["analog", "sram", "sram_banked", "cacti960"], default="analog", help="unfactorized class memory: sram = one SRAM read one N x n slice per timestep ([ASSUM] CACTI 1 kB point scaled by bits); sram_banked = ceil(N n / 16) parallel 128 x 16 b CACTI macros; cacti960 = one CACTI 7 macro of 128 x 960 b (opt/cacti/class_960b.out, the large chip)")
     a = ap.parse_args()
     global RTL_ROOT
     if a.rtl_root:
@@ -192,8 +203,26 @@ def main() -> int:
             if a.hdc_store == "sram" and not f:
                 kb = 100 * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 8192          # T x n x N bits, in kB
                 area = CACTI["area_um2"] * kb
-                hdc_sram = dict(kb=kb, read_pj=CACTI["read_pj"] * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16, leak_uw=CACTI["leak_uw"] * kb)
+                hdc_sram = dict(kb=kb, read_pj=CACTI["read_pj"] * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16, write_pj=CACTI["read_pj"] * pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16, leak_uw=CACTI["leak_uw"] * kb)
+            elif a.hdc_store == "cacti960" and not f:
+                # the T x (N x n) class store as ONE CACTI 7 macro read one N x n word per timestep (opt/cacti/class_960b.cfg: 128 rows x 960 b, 100 used, ITRS LOP, 350 K,
+                # minimum area): area, read / write energy, leakage and access time are the CACTI output. Outputs launch access + 0.12 ns after the clock (as the count SRAM: 0.48 -> 0.6)
+                assert pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") == 960, "class_960b.cfg is the 40 x 24 store"
+                cc = cacti_out("class_960b")
+                area = cc["area_um2"]
+                hdc_sram = dict(cacti="class_960b", read_pj=cc["read_pj"], write_pj=cc["write_pj"], leak_uw=cc["leak_uw"], access_ns=cc["access_ns"], w_um=cc["w_um"], h_um=cc["h_um"])
+                TIMING["hdc_class_array"] = dict(clk_to_q=round(cc["access_ns"] + 0.12, 3), setup=0.2, hold=0.05)
+            elif a.hdc_store == "sram_banked" and not f:
+                # the T x (N x n) class store as n_t = ceil(N n / 16) parallel 128 x 16 b SRAM macros (the CACTI 256 B point, CACTI_SIGN), all read in the same cycle: one 960-bit word per
+                # timestep on the large chip (60 macros, 100 of 128 rows used). Area, read / write energy and leakage are the sums of the macros' CACTI values (no extra periphery modelled)
+                n_t = math.ceil(pkg_int("N_NEURONS") * pkg_int("N_CLASSES_DEFAULT", "hdc_pkg.sv") / 16)
+                assert 100 <= 128, "rows per macro"
+                area = CACTI_SIGN["area_um2"] * n_t
+                hdc_sram = dict(n_macros=n_t, read_pj=CACTI_SIGN["read_pj"] * n_t, write_pj=CACTI_SIGN["write_pj"] * n_t, leak_uw=CACTI_SIGN["leak_uw"] * n_t)
             w, h = dims(area)
+            if a.hdc_store == "cacti960" and not f:                       # CACTI's own outline (wide and short), on the placement grid / row height
+                w = round(math.ceil(hdc_sram["w_um"] / 0.2) * 0.2, 3)
+                h = round(math.ceil(hdc_sram["h_um"] / ROW) * ROW, 3)
             nmax = max(sum(len(p["bits"]) for n_, p in ports.items() if p["direction"] == d_ and n_ != "clk_i") for d_ in ("input", "output"))
             asp = 1.0
             while nmax * 0.2 + 3.0 >= w:          # the large chip's 24 x 40 array has ~1,000 pin bits per side: same area, wider until they fit at the minimum pitch (no change on the small chip)
@@ -213,8 +242,8 @@ def main() -> int:
             txt = lib(m, ports, w * h, leak_pw=CC["leak_uw"] * 1e6, energy={"re_i": CC["read_pj"], "we_i": CC["write_pj"]})
         elif m == "sign_sram":
             txt = lib(m, ports, w * h, leak_pw=CACTI_SIGN["leak_uw"] * k_sign * 1e6, energy={"re_i": CACTI_SIGN["read_pj"] * k_sign, "we_i": CACTI_SIGN["write_pj"] * k_sign})
-        elif m == "hdc_class_array" and a.hdc_store == "sram" and not f:
-            txt = lib(m, ports, area, leak_pw=hdc_sram["leak_uw"] * 1e6, energy={"rd_valid_i": hdc_sram["read_pj"], "cm_we_i": hdc_sram["read_pj"]})
+        elif m == "hdc_class_array" and a.hdc_store in ("sram", "sram_banked", "cacti960") and not f:
+            txt = lib(m, ports, area, leak_pw=hdc_sram["leak_uw"] * 1e6, energy={"rd_valid_i": hdc_sram["read_pj"], "cm_we_i": hdc_sram["write_pj"]})
         else:
             txt = lib(m, ports, area)
         (out / f"{m}.lib").write_text(txt)

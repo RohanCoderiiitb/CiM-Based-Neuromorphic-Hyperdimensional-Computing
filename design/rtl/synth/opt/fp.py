@@ -25,6 +25,8 @@ def size(lef: Path) -> tuple[float, float]:
 md = Path(a.macro_dir)
 cw, ch = size(md / "cim_macro.lef")
 hw, hh = size(md / "hdc_class_array.lef")
+if __import__("os").environ.get("HDC_ORI", "R0") in ("R90", "R270", "MXR90", "MYR90"):     # a rotated class memory (flow.tcl HDC_ORI): its footprint is h x w
+    hw, hh = hh, hw
 extra = [(n, float(w), float(h)) for n, w, h in (s.split(":") for s in a.extra_macros)]
 ROW = 1.71
 m = a.margin
@@ -74,6 +76,15 @@ for n, w, h in col:
     y += h + 10
 if y > cim_y:
     raise SystemExit(f"fp: the macro column ({y:.0f} um) does not fit under the crossbar ({cim_y:.0f} um)")
+# the column must not overlap the counter-bank block (run_flow passes count_sram as the whole block: all banks and rows, from MAC_count_sram_X/Y): a too-wide column slides left into it
+for n_, w_, h_ in extra:
+    if n_ == "count_sram":
+        bx1 = m + 5 + w_; by1 = core_y0 + 5 + h_
+        for l in lines:
+            if l.startswith("set HDC_X"):
+                hx, hy = float(l.split("\n")[0].split()[-1]), float(l.split("\n")[1].split()[-1])
+                if hx < bx1 and hy < by1:
+                    raise SystemExit(f"fp: the class memory at x {hx:.1f} overlaps the counter block (x < {bx1:.1f}, y < {by1:.1f})")
 Path(a.out).mkdir(parents=True, exist_ok=True)
 Path(a.out, "fp.tcl").write_text("\n".join(lines) + "\n")
 print(f"die {W:.0f} x {H:.0f} um = {W * H * 1e-6:.4f} mm^2; digital region {cwid:.0f} x {dig_h:.0f} for {a.cells:,.0f} um^2 of cells + macros at util {a.util}")

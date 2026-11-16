@@ -1,0 +1,8 @@
+sigma 0.0453 gain spread 0.0000: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.707 half steps (10 s)
+sigma 0.0453 gain spread 0.0155: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.718 half steps (10 s)
+sigma 0.0453 gain spread 0.0200: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.706 half steps (10 s)
+sigma 0.0453 gain spread 0.0400: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.696 half steps (10 s)
+sigma 0.0660 gain spread 0.0000: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.872 half steps (10 s)
+sigma 0.0660 gain spread 0.0155: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.938 half steps (10 s)
+sigma 0.0660 gain spread 0.0200: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.861 half steps (11 s)
+sigma 0.0660 gain spread 0.0400: 0 errors / 10000000 reads (rate 0.00e+00, < 3.0e-07 at 95 %), worst deviation 0.918 half steps (15 s)

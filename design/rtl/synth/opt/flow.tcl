@@ -9,6 +9,10 @@ set MAC $RUN/macro
 set PLACE_DENSITY [expr {[info exists ::env(PLACE_DENSITY)] ? $::env(PLACE_DENSITY) : 0.6}]
 set STAGES [expr {[info exists ::env(STAGES)] ? $::env(STAGES) : "floorplan place cts groute route"}]
 set TOPL [expr {[info exists ::env(TOP_ROUTE_LAYER)] ? $::env(TOP_ROUTE_LAYER) : "Metal9"}]
+# RD_OPTS (the large chip, e.g. "-slew_margin 20 -cap_margin 20"): extra options of every repair_design (design-rule repair with margin below the library max slew / cap)
+set ::RD_OPTS [expr {[info exists ::env(RD_OPTS)] ? $::env(RD_OPTS) : ""}]
+# GPL_TD=1 (the large chip): timing-driven global placement (net weights from STA pull the critical count-memory -> plane-sequencer logic together)
+set ::GPL_TD [expr {[info exists ::env(GPL_TD)] && $::env(GPL_TD) ? "-timing_driven" : ""}]
 file mkdir $RUN/reports
 
 proc load_design {stage {corners "slow fast"}} {
@@ -131,25 +135,25 @@ if {"place" in $STAGES} {
     set rexcl "right:[expr {int($CIM_Y) - 2}]-$DIE_H"
   }
   place_pins -hor_layers Metal3 -ver_layers Metal4 -exclude top:* -exclude left:[expr {int($CIM_Y) - 2}]-$DIE_H -exclude $rexcl -exclude bottom:[expr {int($MARGIN + $IO_W) + 1}]-$DIE_W -min_distance 1 -min_distance_in_tracks
-  global_placement -routability_driven -density $PLACE_DENSITY
+  global_placement -routability_driven {*}$::GPL_TD -density $PLACE_DENSITY
   set PV [expr {[info exists ::env(PLACE_VARIANT)] ? $::env(PLACE_VARIANT) : 2}]
   estimate_parasitics -placement
   if {$PV == 1} {
-    repair_design -verbose
-    global_placement -skip_initial_place -routability_driven -density $PLACE_DENSITY
+    repair_design -verbose {*}$::RD_OPTS
+    global_placement -skip_initial_place -routability_driven {*}$::GPL_TD -density $PLACE_DENSITY
     estimate_parasitics -placement
-    repair_design -verbose
+    repair_design -verbose {*}$::RD_OPTS
   } elseif {$PV == 2} {
-    repair_design -verbose
-    global_placement -skip_initial_place -routability_driven -density $PLACE_DENSITY
+    repair_design -verbose {*}$::RD_OPTS
+    global_placement -skip_initial_place -routability_driven {*}$::GPL_TD -density $PLACE_DENSITY
     remove_buffers
     buffer_ports
     estimate_parasitics -placement
-    repair_design -verbose
+    repair_design -verbose {*}$::RD_OPTS
   } elseif {$PV == 3} {
-    global_placement -skip_initial_place -routability_driven -density $PLACE_DENSITY
+    global_placement -skip_initial_place -routability_driven {*}$::GPL_TD -density $PLACE_DENSITY
     estimate_parasitics -placement
-    repair_design -verbose
+    repair_design -verbose {*}$::RD_OPTS
   }
   if {[catch {detailed_placement -use_diamond_legalizer -max_displacement {3000 600}} msg]} {
     puts "legaliser (diamond) failed: $msg - retrying with the default legaliser"
@@ -172,7 +176,7 @@ if {"cts" in $STAGES} {
   detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
   estimate_parasitics -placement
   rpt cts_pre_repair
-  repair_design -verbose
+  repair_design -verbose {*}$::RD_OPTS
   repair_timing -setup -setup_margin 0.1 -verbose
   repair_timing -hold -hold_margin 0.05 -verbose
   repair_timing -setup -setup_margin 0.1 -verbose
@@ -181,7 +185,7 @@ if {"cts" in $STAGES} {
   for {set it 0} {$it < [expr {[info exists ::env(CTS_ITERS)] ? $::env(CTS_ITERS) : 0}]} {incr it} {
     estimate_parasitics -placement
     rpt cts_iter$it
-    repair_design -verbose
+    repair_design -verbose {*}$::RD_OPTS
     repair_timing -setup -setup_margin 0.1 -verbose
     repair_timing -hold -hold_margin 0.05 -verbose
     repair_timing -setup -setup_margin 0.1 -verbose
@@ -201,13 +205,19 @@ if {"groute" in $STAGES} {
   set_global_routing_layer_adjustment Metal2-Metal9 0.2
   global_route -guide_file $RUN/route.guide -congestion_iterations 60 -allow_congestion -congestion_report_file $RUN/reports/congestion.rpt
   estimate_parasitics -global_routing
-  repair_design -verbose
+  repair_design -verbose {*}$::RD_OPTS
   set GR_SETUP [expr {[info exists ::env(GR_SETUP_MARGIN)] ? $::env(GR_SETUP_MARGIN) : 0.4}]
   set GR_HOLD  [expr {[info exists ::env(GR_HOLD_MARGIN)]  ? $::env(GR_HOLD_MARGIN)  : 0.15}]
   repair_timing -setup -setup_margin $GR_SETUP -verbose
   repair_timing -hold -hold_margin $GR_HOLD -verbose
   repair_timing -setup -setup_margin $GR_SETUP -verbose
   detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+  # GR_FINAL_RD (the large chip): the timing repair above inserts buffers that no design-rule repair sees; repair slew / cap once more (placement parasitics) and re-legalise
+  if {[info exists ::env(GR_FINAL_RD)] && $::env(GR_FINAL_RD)} {
+    estimate_parasitics -placement
+    repair_design -verbose {*}$::RD_OPTS
+    detailed_placement -use_diamond_legalizer -max_displacement {3000 600}
+  }
   check_placement -verbose
   global_route -guide_file $RUN/route.guide -start_incremental
   global_route -end_incremental -congestion_iterations 30 -allow_congestion
@@ -238,7 +248,7 @@ if {"eco" in $STAGES} {
   estimate_parasitics -global_routing
   rpt eco_pre
   set ES [expr {[info exists ::env(ECO_SETUP_MARGIN)] ? $::env(ECO_SETUP_MARGIN) : 0.4}]
-  repair_design -verbose
+  repair_design -verbose {*}$::RD_OPTS
   repair_timing -setup -setup_margin $ES -verbose
   repair_timing -hold -hold_margin 0.05 -verbose
   repair_timing -setup -setup_margin $ES -verbose

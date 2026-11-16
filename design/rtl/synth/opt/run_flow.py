@@ -38,7 +38,7 @@ ap.add_argument("--core-w", type=float, default=None)
 ap.add_argument("--pitch", type=float, default=0.8, help="macro pin pitch, um")
 ap.add_argument("--rtl-root", default=None, help="RTL tree to synthesise (a snapshot); default the repository")
 ap.add_argument("--set", default="", help="extra chparam settings, e.g. '-set A0_SKIP_EN 0'")
-ap.add_argument("--hdc-store", default=None, choices=["analog", "sram"], help="gen_macros --hdc-store")
+ap.add_argument("--hdc-store", default=None, choices=["analog", "sram", "sram_banked", "cacti960"], help="gen_macros --hdc-store")
 ap.add_argument("--hier-names", action="store_true", help="map every module on its own and flatten afterwards: cell names keep the module path (per-module power attribution)")
 a = ap.parse_args()
 run = SYNTH / "work" / "opt" / a.tag
